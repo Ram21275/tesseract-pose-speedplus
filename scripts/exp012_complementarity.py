@@ -37,7 +37,7 @@ try:
         for d in sorted((REPO / "outputs/experiments" / exp).glob(f"RUN-*-seed{seed}")):
             cfg = yaml.safe_load((d / "config.yaml").read_text())
             if cfg["features"] == spec and cfg["epochs"] == 100 and (d / "predictions/predictions_greedy.csv").exists():
-                return pd.read_csv(d / "predictions/predictions_greedy.csv"), d.name
+                return pd.read_csv(d / "predictions/predictions_greedy.csv", dtype={"path_gt": str, "path_pred": str}), d.name
         raise FileNotFoundError(f"{exp} {spec} seed {seed}")
 
     df = pd.read_csv(REPO / f"outputs/data_manifests/subset_{args.subset}.csv")
