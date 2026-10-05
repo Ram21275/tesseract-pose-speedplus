@@ -87,7 +87,7 @@ def quat_multiply(a: np.ndarray, b: np.ndarray) -> np.ndarray:
 def axis_angle_to_quat(axis, angle) -> np.ndarray:
     axis = np.asarray(axis, dtype=np.float64)
     axis = axis / np.linalg.norm(axis, axis=-1, keepdims=True)
-    angle = np.asarray(angle, dtype=np.float64)[..., None]
+    angle = np.broadcast_to(np.asarray(angle, dtype=np.float64), axis.shape[:-1])[..., None]
     return np.concatenate([np.cos(angle / 2), np.sin(angle / 2) * axis], axis=-1)
 
 

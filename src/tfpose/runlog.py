@@ -32,7 +32,7 @@ def environment_text() -> str:
         f"python: {sys.version.split()[0]}",
         f"platform: {platform.platform()}",
         f"git_commit: {_git('rev-parse', 'HEAD')}",
-        f"git_dirty: {bool(_git('status', '--porcelain', '--untracked-files=no'))}",
+        f"git_dirty_code: {bool(_git('status', '--porcelain', '--', 'src', 'scripts', 'configs', 'tests'))}",
     ]
     for mod in ["numpy", "scipy", "torch", "timm", "cv2", "sklearn", "vggt"]:
         try:
