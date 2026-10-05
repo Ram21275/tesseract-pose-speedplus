@@ -31,6 +31,18 @@ Training-free (no learning)
 None; this is a validation experiment.
 
 ## Method
+**Relation to prior work.** The subdivision follows Kurz, Pfaff & Hanebeck, "Discretization of SO(3) using recursive tesseract subdivision" (IEEE MFI 2017, doi:10.1109/MFI.2017.8170406). Their reference code is libDirectional `lib/util/tesseractsubdivision.m`.
+
+| | Kurz et al. 2017 | This project |
+|---|---|---|
+| Geometry | cubic facets of the 4D hypercube, recursive 8-way halving, radial projection q = x/‖x‖ | same |
+| Grid points | cube **corners** | cube **centres** |
+| Facets | all 8 (±each axis); q and −q both present | 4 positive facets; q ~ −q canonicalized |
+| Points per level | (2ᵐ+1)⁴ − (2ᵐ−1)⁴ = 16, 80, 544, 3968, … | 4·8ᴸ = 32, 256, 2048, 16384, 131072 |
+| Structure | flat point set (used for grid filtering) | tree: 4 roots → 8 children per level, a unique path per rotation, encode/decode |
+
+Cell centres are used because a corner is shared by up to 16 neighbouring cubes and so has no unique parent. Centres give the unique root-to-leaf path and `path(q) == path(−q)` that the hierarchical predictor needs (ground rules §5).
+
 Encoding (`src/tfpose/tesseract.py`):
 1. Normalize q.
 2. Set chart c to the first index of max |qᵢ|, and multiply q by sign(q_c).

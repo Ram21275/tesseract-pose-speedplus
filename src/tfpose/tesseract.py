@@ -1,5 +1,19 @@
 """Hierarchical Tesseract discretisation of SO(3).
 
+Builds on the recursive tesseract subdivision of Kurz, Pfaff & Hanebeck,
+"Discretization of SO(3) using recursive tesseract subdivision", MFI 2017
+(reference code: libDirectional lib/util/tesseractsubdivision.m). Shared with
+that work: the cubic facets of the 4D hypercube, recursive 8-way halving of
+each cube, and radial projection q = x / ||x||. Differences (ours):
+- representatives are cell CENTRES, not cube corners, so every rotation
+  belongs to exactly one cell and has a unique root-to-leaf path (a corner is
+  shared by up to 16 cubes and has no unique parent);
+- only the 4 positive facets are kept (antipodal canonicalisation), so
+  q and -q map to the same path, giving 4 * 8**L cells instead of
+  (2**m+1)**4 - (2**m-1)**4 corner points with antipodal duplicates;
+- an explicit encoder/decoder, chart rule and tie rule (below), which the
+  flat point-set construction does not need.
+
 Encoding (ground rules sec. 5):
 1. normalise q (scalar-first ``[w, x, y, z]``);
 2. chart c = first index of max |q_i|; multiply q by sign(q_c) so q_c > 0.
