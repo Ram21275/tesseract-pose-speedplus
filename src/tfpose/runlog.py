@@ -67,11 +67,19 @@ def _vggt_commit():
 class Run:
     def __init__(self, exp_id: str, short: str, config: dict, seed: int = 0):
         self.exp = f"{exp_id}_{short}"
-        stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        self.dir = OUTPUTS / "experiments" / self.exp / f"RUN-{stamp}-seed{seed}"
-        if self.dir.exists():
+        # Claim the run directory atomically; concurrent sweeps can start in the
+        # same second, so retry with the next timestamp instead of colliding.
+        (OUTPUTS / "experiments" / self.exp).mkdir(parents=True, exist_ok=True)
+        for _ in range(30):
+            stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+            self.dir = OUTPUTS / "experiments" / self.exp / f"RUN-{stamp}-seed{seed}"
+            try:
+                self.dir.mkdir()
+                break
+            except FileExistsError:
+                time.sleep(1.0)
+        else:
             raise FileExistsError(self.dir)
-        self.dir.mkdir(parents=True)
         self.t0 = time.time()
         self.config = dict(config, seed=seed)
         (self.dir / "config.yaml").write_text(yaml.safe_dump(self.config, sort_keys=False))
