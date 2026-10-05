@@ -1,0 +1,6 @@
+# Read-only dataset locations. Nothing is ever written here.
+speedplus_root: /media/kavinder/hdd2/RFO/speed_pose_moe/speedplusv2
+# tangoPoints.mat is not in the hdd2 copy; identical SPEED+ copy on hdd.
+tango_points: /media/kavinder/hdd/Aayushi/speedplusv2/tangoPoints.mat
+# Derived bbox table from an earlier project, used ONLY as a cross-check in EXP-000.
+crosscheck_train_csv: /media/kavinder/hdd2/RFO/speed_pose_moe/speedplusv2/train.csv

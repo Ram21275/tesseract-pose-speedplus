@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# large / regenerable artifacts
+outputs/shared_cache/
+outputs/experiments/**/checkpoints/
+outputs/experiments/**/caches/
+outputs/experiments/**/predictions/*.npz
+outputs/experiments/**/predictions/*.npy
