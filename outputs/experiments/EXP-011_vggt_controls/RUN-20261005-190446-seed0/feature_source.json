@@ -1,0 +1,27 @@
+{
+  "cache": "outputs/shared_cache/vggt_1b__subset_v1__1c5c9587ed3b__bbdb3e2e3f5b70a1",
+  "cache_manifest": {
+    "spec": {
+      "model": "facebook/VGGT-1B",
+      "size": 518,
+      "layers": [
+        4,
+        11,
+        17,
+        23
+      ],
+      "frames": 1,
+      "map_res": 74,
+      "autocast": "bf16",
+      "crop": "gt_square",
+      "gray_to_rgb": "replicate"
+    },
+    "preprocess_hash": "1c5c9587ed3b",
+    "manifest_hash": "bbdb3e2e3f5b70a1",
+    "n": 9500,
+    "code_version": "89d251a676036611002bf598dc25627cfd3fa476",
+    "seconds": 2339.3,
+    "ms_per_image": 246.24,
+    "peak_gpu_mb": 7781.4
+  }
+}

@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_probe.py --exp EXP-011_vggt_controls --features vggt_1b:l17_cam+mean --seed 1
