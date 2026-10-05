@@ -1,0 +1,8 @@
+{
+  "state": "completed",
+  "start": "2026-10-05T17:35:45.985068",
+  "wall_clock_s": 182.81,
+  "peak_cpu_rss_mb": 1462.1,
+  "peak_gpu_mb": 4620.7,
+  "end": "2026-10-05T17:38:48.791611"
+}

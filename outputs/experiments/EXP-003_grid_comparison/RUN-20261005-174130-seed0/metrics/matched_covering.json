@@ -1,0 +1,42 @@
+[
+  {
+    "tesseract_level": "L1",
+    "tesseract_n": 32,
+    "tesseract_decoded_p95_deg": 59.624090077534646,
+    "sf_n_for_equal_p95": 28,
+    "sf_measured_p95_deg": 59.837915095477115,
+    "sf_n_over_tess_n": 0.875
+  },
+  {
+    "tesseract_level": "L2",
+    "tesseract_n": 256,
+    "tesseract_decoded_p95_deg": 31.42935254600744,
+    "sf_n_for_equal_p95": 184,
+    "sf_measured_p95_deg": 31.416755389085196,
+    "sf_n_over_tess_n": 0.71875
+  },
+  {
+    "tesseract_level": "L3",
+    "tesseract_n": 2048,
+    "tesseract_decoded_p95_deg": 15.833344766258232,
+    "sf_n_for_equal_p95": 1332,
+    "sf_measured_p95_deg": 15.341123685579655,
+    "sf_n_over_tess_n": 0.650390625
+  },
+  {
+    "tesseract_level": "L4",
+    "tesseract_n": 16384,
+    "tesseract_decoded_p95_deg": 7.921070591781147,
+    "sf_n_for_equal_p95": 10018,
+    "sf_measured_p95_deg": 7.9827377299109425,
+    "sf_n_over_tess_n": 0.6114501953125
+  },
+  {
+    "tesseract_level": "L5",
+    "tesseract_n": 131072,
+    "tesseract_decoded_p95_deg": 3.965666594068077,
+    "sf_n_for_equal_p95": 111852,
+    "sf_measured_p95_deg": 3.9366133183366046,
+    "sf_n_over_tess_n": 0.853363037109375
+  }
+]

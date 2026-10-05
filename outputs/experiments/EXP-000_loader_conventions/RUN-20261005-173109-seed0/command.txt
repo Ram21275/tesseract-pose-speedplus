@@ -1,0 +1,1 @@
+/home/kavinder/miniconda3/bin/python3 scripts/exp000_loader_conventions.py --n-per-domain 200

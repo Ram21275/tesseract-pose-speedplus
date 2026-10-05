@@ -1,0 +1,1 @@
+/home/kavinder/miniconda3/bin/python3 scripts/exp003_grid_comparison.py

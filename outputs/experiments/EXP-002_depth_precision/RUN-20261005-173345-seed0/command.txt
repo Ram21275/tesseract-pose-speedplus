@@ -1,0 +1,1 @@
+/home/kavinder/miniconda3/bin/python3 scripts/exp002_depth_precision.py

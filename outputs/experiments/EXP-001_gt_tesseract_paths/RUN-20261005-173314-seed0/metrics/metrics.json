@@ -1,0 +1,20 @@
+{
+  "path_q_eq_path_negq": true,
+  "encode_decode_roundtrip": true,
+  "all_finite": true,
+  "canonical_chart_positive": true,
+  "prefix_consistent_L1": true,
+  "prefix_consistent_L2": true,
+  "prefix_consistent_L3": true,
+  "prefix_consistent_L4": true,
+  "prefix_consistent_L5": true,
+  "n_exact_chart_ties": 0,
+  "min_chart_margin": 4.999997212484786e-06,
+  "seam_eps_deg": 0.001,
+  "n_leaf_changed": 21,
+  "n_chart_changed": 1,
+  "max_centre_jump_over_2x_bound": 0.5868732557874922,
+  "seam_probe_antipodal_consistent": true,
+  "seam_probe_chart_is_first_max": true,
+  "seam_probe_err_le_bound": true
+}

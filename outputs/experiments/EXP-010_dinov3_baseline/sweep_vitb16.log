@@ -1,0 +1,18 @@
+dinov3_vitb16:l3_cls+mean seed 0 synthetic_val: mean 79.8 med 64.8 root 0.61 | lightbox: mean 120.6 med 127.3 root 0.30 | sunlamp: mean 123.6 med 130.2 root 0.30
+dinov3_vitb16:l3_cls+mean seed 1 synthetic_val: mean 80.2 med 64.1 root 0.62 | lightbox: mean 119.7 med 123.5 root 0.30 | sunlamp: mean 121.9 med 128.1 root 0.29
+dinov3_vitb16:l3_cls+mean seed 2 synthetic_val: mean 79.9 med 63.7 root 0.62 | lightbox: mean 121.2 med 126.4 root 0.30 | sunlamp: mean 122.2 med 128.5 root 0.30
+dinov3_vitb16:l7_cls+mean seed 0 synthetic_val: mean 54.6 med 30.3 root 0.77 | lightbox: mean 107.1 med 111.0 root 0.37 | sunlamp: mean 114.4 med 120.8 root 0.33
+dinov3_vitb16:l7_cls+mean seed 1 synthetic_val: mean 55.7 med 30.6 root 0.77 | lightbox: mean 109.3 med 115.5 root 0.38 | sunlamp: mean 113.4 med 118.9 root 0.35
+dinov3_vitb16:l7_cls+mean seed 2 synthetic_val: mean 55.2 med 29.5 root 0.77 | lightbox: mean 107.7 med 111.7 root 0.39 | sunlamp: mean 116.3 med 123.0 root 0.31
+dinov3_vitb16:l11_cls seed 0 synthetic_val: mean 36.2 med 19.5 root 0.85 | lightbox: mean 99.7 med 101.7 root 0.42 | sunlamp: mean 106.9 med 112.4 root 0.40
+dinov3_vitb16:l11_cls seed 1 synthetic_val: mean 37.7 med 20.4 root 0.86 | lightbox: mean 94.9 med 93.8 root 0.43 | sunlamp: mean 103.5 med 107.4 root 0.45
+dinov3_vitb16:l11_cls seed 2 synthetic_val: mean 35.9 med 19.7 root 0.85 | lightbox: mean 96.2 med 93.5 root 0.44 | sunlamp: mean 100.1 med 99.7 root 0.47
+dinov3_vitb16:l11_mean seed 0 synthetic_val: mean 46.7 med 23.2 root 0.81 | lightbox: mean 100.4 med 102.8 root 0.43 | sunlamp: mean 107.3 med 113.3 root 0.39
+dinov3_vitb16:l11_mean seed 1 synthetic_val: mean 46.2 med 22.1 root 0.81 | lightbox: mean 100.3 med 104.4 root 0.42 | sunlamp: mean 103.8 med 108.7 root 0.44
+dinov3_vitb16:l11_mean seed 2 synthetic_val: mean 46.5 med 23.2 root 0.81 | lightbox: mean 97.4 med 99.4 root 0.46 | sunlamp: mean 104.0 med 107.2 root 0.41
+dinov3_vitb16:l11_cls+mean seed 0 synthetic_val: mean 37.9 med 19.5 root 0.85 | lightbox: mean 95.9 med 96.3 root 0.44 | sunlamp: mean 105.8 med 109.6 root 0.41
+Traceback (most recent call last):
+dinov3_vitb16:l11_cls+mean seed 2 synthetic_val: mean 37.2 med 19.6 root 0.84 | lightbox: mean 95.7 med 95.3 root 0.46 | sunlamp: mean 105.2 med 108.8 root 0.43
+dinov3_vitb16:grid4 seed 0 synthetic_val: mean 30.3 med 18.5 root 0.89 | lightbox: mean 83.7 med 79.4 root 0.56 | sunlamp: mean 83.2 med 77.2 root 0.57
+dinov3_vitb16:grid4 seed 1 synthetic_val: mean 29.5 med 17.6 root 0.89 | lightbox: mean 79.3 med 71.1 root 0.58 | sunlamp: mean 83.7 med 75.6 root 0.59
+dinov3_vitb16:grid4 seed 2 synthetic_val: mean 30.1 med 18.6 root 0.89 | lightbox: mean 80.8 med 72.1 root 0.58 | sunlamp: mean 80.9 med 73.3 root 0.61

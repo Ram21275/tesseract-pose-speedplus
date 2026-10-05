@@ -1,0 +1,1 @@
+bbdb3e2e3f5b70a1  rows=9500  args={'name': 'v1', 'n_train': 6000, 'n_val': 1500, 'n_lightbox': 1000, 'n_sunlamp': 1000, 'margin': 0.15, 'seed': 0}

@@ -1,0 +1,6 @@
+paths:
+  speedplus_root: /media/kavinder/hdd2/RFO/speed_pose_moe/speedplusv2
+  tango_points: /media/kavinder/hdd/Aayushi/speedplusv2/tangoPoints.mat
+  crosscheck_train_csv: /media/kavinder/hdd2/RFO/speed_pose_moe/speedplusv2/train.csv
+n_per_domain: 200
+seed: 0

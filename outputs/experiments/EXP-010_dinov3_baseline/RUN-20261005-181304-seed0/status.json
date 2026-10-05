@@ -1,0 +1,12 @@
+{
+  "state": "completed",
+  "start": "2026-10-05T18:13:04.401043",
+  "wall_clock_s": 57.2,
+  "peak_cpu_rss_mb": 1697.9,
+  "peak_gpu_mb": 143.3,
+  "end": "2026-10-05T18:14:01.596637",
+  "best_epoch": 100,
+  "n_params": 1394444,
+  "trainable_params": 1394444,
+  "feature_dim": 1536
+}

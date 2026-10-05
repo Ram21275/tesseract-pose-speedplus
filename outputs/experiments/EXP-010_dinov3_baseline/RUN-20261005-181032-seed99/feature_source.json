@@ -1,0 +1,26 @@
+{
+  "cache": "outputs/shared_cache/dinov3_vitb16__subset_v1__aac48a94d375__bbdb3e2e3f5b70a1",
+  "cache_manifest": {
+    "spec": {
+      "model": "vit_base_patch16_dinov3.lvd1689m",
+      "hf_hub_id": "timm/vit_base_patch16_dinov3.lvd1689m",
+      "size": 256,
+      "layers": [
+        3,
+        7,
+        11
+      ],
+      "norm": "imagenet",
+      "intermediate_norm": true,
+      "crop": "gt_square",
+      "gray_to_rgb": "replicate"
+    },
+    "preprocess_hash": "aac48a94d375",
+    "manifest_hash": "bbdb3e2e3f5b70a1",
+    "n": 9500,
+    "code_version": "0115c326204e3c4755ccb377e7228bd40b54cd2a",
+    "seconds": 140.0,
+    "ms_per_image": 14.74,
+    "peak_gpu_mb": 653.9
+  }
+}

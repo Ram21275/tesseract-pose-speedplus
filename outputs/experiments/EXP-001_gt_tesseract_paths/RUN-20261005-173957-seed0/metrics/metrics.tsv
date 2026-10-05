@@ -1,0 +1,2 @@
+path_q_eq_path_negq	encode_decode_roundtrip	all_finite	canonical_chart_positive	prefix_consistent_L1	prefix_consistent_L2	prefix_consistent_L3	prefix_consistent_L4	prefix_consistent_L5	n_exact_chart_ties	min_chart_margin	seam_eps_deg	n_leaf_changed	n_chart_changed	max_centre_jump_over_2x_bound	seam_probe_antipodal_consistent	seam_probe_chart_is_first_max	seam_probe_err_le_bound
+True	True	True	True	True	True	True	True	True	0	4.999997212484786e-06	0.001	21	1	0.5868732557874922	True	True	True

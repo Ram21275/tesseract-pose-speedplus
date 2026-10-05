@@ -1,0 +1,56 @@
+[
+  {
+    "domain": "synthetic",
+    "convention": "R",
+    "n_images": 200,
+    "kpt_inside_frac": 0.9590909090909091,
+    "kpt_on_bright_frac": 0.4819503968253968,
+    "bbox_iou_vs_crosscheck_mean": 0.970194763226642,
+    "bbox_iou_vs_crosscheck_min": 0.5463021108483437
+  },
+  {
+    "domain": "synthetic",
+    "convention": "RT",
+    "n_images": 200,
+    "kpt_inside_frac": 0.9554545454545454,
+    "kpt_on_bright_frac": 0.2606426767676768,
+    "bbox_iou_vs_crosscheck_mean": 0.5186302841039285,
+    "bbox_iou_vs_crosscheck_min": 0.19376698371695378
+  },
+  {
+    "domain": "lightbox",
+    "convention": "R",
+    "n_images": 200,
+    "kpt_inside_frac": 0.9813636363636364,
+    "kpt_on_bright_frac": 0.27074242424242423,
+    "bbox_iou_vs_crosscheck_mean": NaN,
+    "bbox_iou_vs_crosscheck_min": NaN
+  },
+  {
+    "domain": "lightbox",
+    "convention": "RT",
+    "n_images": 200,
+    "kpt_inside_frac": 0.9845454545454545,
+    "kpt_on_bright_frac": 0.17875,
+    "bbox_iou_vs_crosscheck_mean": NaN,
+    "bbox_iou_vs_crosscheck_min": NaN
+  },
+  {
+    "domain": "sunlamp",
+    "convention": "R",
+    "n_images": 200,
+    "kpt_inside_frac": 0.9777272727272728,
+    "kpt_on_bright_frac": 0.5602481962481962,
+    "bbox_iou_vs_crosscheck_mean": NaN,
+    "bbox_iou_vs_crosscheck_min": NaN
+  },
+  {
+    "domain": "sunlamp",
+    "convention": "RT",
+    "n_images": 200,
+    "kpt_inside_frac": 0.9686363636363637,
+    "kpt_on_bright_frac": 0.3305721500721501,
+    "bbox_iou_vs_crosscheck_mean": NaN,
+    "bbox_iou_vs_crosscheck_min": NaN
+  }
+]

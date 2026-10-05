@@ -1,0 +1,9 @@
+{
+  "state": "failed",
+  "start": "2026-10-05T17:33:05.318496",
+  "wall_clock_s": 2.58,
+  "peak_cpu_rss_mb": 1006.4,
+  "peak_gpu_mb": 0.0,
+  "error": "Traceback (most recent call last):\n  File \"/home/kavinder/RAM/pose-estimation/scripts/exp001_gt_tesseract_paths.py\", line 61, in <module>\n    dq = rot.axis_angle_to_quat(axes, eps)\n  File \"/home/kavinder/RAM/pose-estimation/src/tfpose/rotations.py\", line 91, in axis_angle_to_quat\n    return np.concatenate([np.cos(angle / 2), np.sin(angle / 2) * axis], axis=-1)\n           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: all the input arrays must have same number of dimensions, but the array at index 0 has 1 dimension(s) and the array at index 1 has 2 dimension(s)\n",
+  "end": "2026-10-05T17:33:07.894318"
+}

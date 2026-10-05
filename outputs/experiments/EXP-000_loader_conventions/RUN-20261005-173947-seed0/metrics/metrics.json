@@ -1,0 +1,5 @@
+{
+  "identity_ok": true,
+  "roundtrip_max_err_deg": 2.9575586669421963e-06,
+  "rodrigues_agree_max_abs": 1.6081226496766364e-16
+}

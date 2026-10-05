@@ -1,0 +1,13 @@
+exp: EXP-010_dinov3_baseline
+features: dinov3_vitl16:l23_cls+mean
+subset: v1
+depth: 5
+epochs: 100
+batch: 256
+lr: 0.001
+wd: 0.05
+hidden: 512
+dropout: 0.1
+eval_every: 5
+beams: 1,2,4,8
+seed: 2

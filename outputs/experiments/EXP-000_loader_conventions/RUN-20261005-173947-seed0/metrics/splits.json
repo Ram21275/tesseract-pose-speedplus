@@ -1,0 +1,46 @@
+[
+  {
+    "domain": "synthetic",
+    "split": "train",
+    "n": 47966,
+    "missing_images": 0,
+    "q_norm_min": 0.9999991258021178,
+    "q_norm_max": 1.000000835412151,
+    "frac_w_negative": 0.5005003544177126,
+    "tz_min_m": 2.236484,
+    "tz_max_m": 9.997073
+  },
+  {
+    "domain": "synthetic",
+    "split": "validation",
+    "n": 11994,
+    "missing_images": 0,
+    "q_norm_min": 0.9999991811371648,
+    "q_norm_max": 1.0000008134246692,
+    "frac_w_negative": 0.49716524929131234,
+    "tz_min_m": 2.230887,
+    "tz_max_m": 9.995253
+  },
+  {
+    "domain": "lightbox",
+    "split": "test",
+    "n": 6740,
+    "missing_images": 0,
+    "q_norm_min": 0.9999999999992232,
+    "q_norm_max": 1.0000000000008165,
+    "frac_w_negative": 0.3032640949554896,
+    "tz_min_m": 2.465220079623,
+    "tz_max_m": 9.545151292796
+  },
+  {
+    "domain": "sunlamp",
+    "split": "test",
+    "n": 2791,
+    "missing_images": 0,
+    "q_norm_min": 0.9999999999992565,
+    "q_norm_max": 1.0000000000008138,
+    "frac_w_negative": 0.31207452525976354,
+    "tz_min_m": 2.479838972883,
+    "tz_max_m": 9.530167974793
+  }
+]

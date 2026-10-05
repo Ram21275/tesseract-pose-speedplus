@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_probe.py --exp EXP-010_dinov3_baseline --features dinov3_vitb16:grid4 --seed 1

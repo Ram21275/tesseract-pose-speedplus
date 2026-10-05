@@ -1,0 +1,10 @@
+{
+  "state": "completed",
+  "start": "2026-10-05T17:39:57.034016",
+  "wall_clock_s": 4.14,
+  "peak_cpu_rss_mb": 1127.3,
+  "peak_gpu_mb": 0.0,
+  "end": "2026-10-05T17:40:01.173303",
+  "manifest": "outputs/data_manifests/speedplus_tesseract_L5.csv",
+  "manifest_hash": "981b1aef85bfaf69"
+}
