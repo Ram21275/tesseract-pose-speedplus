@@ -1,0 +1,11 @@
+run,features,seed,epochs,state,wall_clock_s,best_epoch,params,feature_dim
+RUN-20261009-000716-seed0,,0,,completed,187.38,,,
+RUN-20261009-001024-seed0,moge2_vitl_cassdino:grid4,0,100.0,completed,8.82,80.0,9026316.0,16384.0
+RUN-20261009-001035-seed1,moge2_vitl_cassdino:grid4,1,100.0,completed,8.94,100.0,9026316.0,16384.0
+RUN-20261009-001045-seed2,moge2_vitl_cassdino:grid4,2,100.0,completed,9.4,60.0,9026316.0,16384.0
+RUN-20261009-001056-seed0,moge2_vitl_cassdino:normals16,0,100.0,completed,6.75,75.0,1131276.0,1024.0
+RUN-20261009-001104-seed1,moge2_vitl_cassdino:normals16,1,100.0,completed,6.44,95.0,1131276.0,1024.0
+RUN-20261009-001112-seed2,moge2_vitl_cassdino:normals16,2,100.0,completed,6.82,100.0,1131276.0,1024.0
+RUN-20261009-001120-seed0,dinov3_vitl16_cassmoge:grid4,0,100.0,completed,11.74,95.0,9026316.0,16384.0
+RUN-20261009-001133-seed1,dinov3_vitl16_cassmoge:grid4,1,100.0,completed,11.85,70.0,9026316.0,16384.0
+RUN-20261009-001147-seed2,dinov3_vitl16_cassmoge:grid4,2,100.0,completed,11.83,75.0,9026316.0,16384.0

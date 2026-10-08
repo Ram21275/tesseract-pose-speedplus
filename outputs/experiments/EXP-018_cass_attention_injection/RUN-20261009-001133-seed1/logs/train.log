@@ -11,3 +11,10 @@ ep 50 train_loss 0.0388 val_mean_deg 35.97 val_median 22.40 val_root 0.887
 ep 55 train_loss 0.0313 val_mean_deg 35.07 val_median 22.60 val_root 0.887
 ep 60 train_loss 0.0280 val_mean_deg 35.71 val_median 22.69 val_root 0.891
 ep 65 train_loss 0.0217 val_mean_deg 35.10 val_median 22.28 val_root 0.889
+ep 70 train_loss 0.0173 val_mean_deg 34.60 val_median 21.85 val_root 0.885
+ep 75 train_loss 0.0159 val_mean_deg 34.68 val_median 22.15 val_root 0.888
+ep 80 train_loss 0.0130 val_mean_deg 35.12 val_median 22.14 val_root 0.884
+ep 85 train_loss 0.0125 val_mean_deg 34.96 val_median 21.88 val_root 0.885
+ep 90 train_loss 0.0133 val_mean_deg 35.30 val_median 22.02 val_root 0.885
+ep 95 train_loss 0.0120 val_mean_deg 35.12 val_median 21.90 val_root 0.885
+ep 100 train_loss 0.0119 val_mean_deg 35.23 val_median 21.96 val_root 0.886

@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_probe.py --exp EXP-019_spectral_part_pooling --features dinov3_vitl16:parts4 --seed 2

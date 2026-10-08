@@ -38,3 +38,37 @@ EXIT_CODE=0 moge2_vitl_cassdino:normals16 seed 2
 dinov3_vitl16_cassmoge:grid4 seed 0 synthetic_val: mean 33.0 med 22.0 root 0.90 | lightbox: mean 77.5 med 66.6 root 0.61 | sunlamp: mean 80.0 med 71.9 root 0.66
 RUN outputs/experiments/EXP-018_cass_attention_injection/RUN-20261009-001120-seed0
 EXIT_CODE=0 dinov3_vitl16_cassmoge:grid4 seed 0
+dinov3_vitl16_cassmoge:grid4 seed 1 synthetic_val: mean 34.6 med 21.8 root 0.89 | lightbox: mean 76.9 med 62.7 root 0.63 | sunlamp: mean 84.8 med 78.7 root 0.60
+RUN outputs/experiments/EXP-018_cass_attention_injection/RUN-20261009-001133-seed1
+EXIT_CODE=0 dinov3_vitl16_cassmoge:grid4 seed 1
+dinov3_vitl16_cassmoge:grid4 seed 2 synthetic_val: mean 34.8 med 21.5 root 0.89 | lightbox: mean 76.8 med 61.7 root 0.63 | sunlamp: mean 78.0 med 71.9 root 0.70
+RUN outputs/experiments/EXP-018_cass_attention_injection/RUN-20261009-001147-seed2
+EXIT_CODE=0 dinov3_vitl16_cassmoge:grid4 seed 2
+EXP018_DONE
+dinov3_vitl16:parts4 seed 0 synthetic_val: mean 53.1 med 32.5 root 0.79 | lightbox: mean 98.3 med 97.8 root 0.47 | sunlamp: mean 104.8 med 107.4 root 0.47
+RUN outputs/experiments/EXP-019_spectral_part_pooling/RUN-20261009-001200-seed0
+EXIT_CODE=0 dinov3_vitl16:parts4 seed 0
+dinov3_vitl16:parts4 seed 1 synthetic_val: mean 53.0 med 30.6 root 0.79 | lightbox: mean 95.4 med 90.8 root 0.49 | sunlamp: mean 104.7 med 107.0 root 0.46
+RUN outputs/experiments/EXP-019_spectral_part_pooling/RUN-20261009-001216-seed1
+EXIT_CODE=0 dinov3_vitl16:parts4 seed 1
+dinov3_vitl16:parts4 seed 2 synthetic_val: mean 52.9 med 32.4 root 0.78 | lightbox: mean 97.1 med 96.0 root 0.48 | sunlamp: mean 103.1 med 104.2 root 0.47
+RUN outputs/experiments/EXP-019_spectral_part_pooling/RUN-20261009-001231-seed2
+EXIT_CODE=0 dinov3_vitl16:parts4 seed 2
+dinov3_vitl16:grid2 seed 0 synthetic_val: mean 28.9 med 16.2 root 0.88 | lightbox: mean 79.1 med 65.7 root 0.55 | sunlamp: mean 83.3 med 78.1 root 0.60
+RUN outputs/experiments/EXP-019_spectral_part_pooling/RUN-20261009-001247-seed0
+EXIT_CODE=0 dinov3_vitl16:grid2 seed 0
+dinov3_vitl16:grid2 seed 1 synthetic_val: mean 29.3 med 16.4 root 0.89 | lightbox: mean 81.5 med 70.8 root 0.56 | sunlamp: mean 84.1 med 77.6 root 0.57
+RUN outputs/experiments/EXP-019_spectral_part_pooling/RUN-20261009-001258-seed1
+EXIT_CODE=0 dinov3_vitl16:grid2 seed 1
+dinov3_vitl16:grid2 seed 2 synthetic_val: mean 27.5 med 16.2 root 0.89 | lightbox: mean 79.1 med 69.7 root 0.54 | sunlamp: mean 90.0 med 88.5 root 0.49
+RUN outputs/experiments/EXP-019_spectral_part_pooling/RUN-20261009-001310-seed2
+EXIT_CODE=0 dinov3_vitl16:grid2 seed 2
+EXP019_DONE
+>>> EXP-020
+| domain | n | D_matched_mean | D_matched_std | spearman_D_matched_vs_disagree | spearman_D_matched_vs_dino_err | spearman_D_matched_vs_moge_err | auroc_D_matched_dino_err_gt20 | spearman_D_all_vs_disagree | spearman_D_all_vs_dino_err | spearman_D_all_vs_moge_err | auroc_D_all_dino_err_gt20 | auroc_disagree_dino_err_gt20 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| lightbox | 1000 | 0.320 | 0.048 | -0.222 | -0.266 | -0.232 | 0.337 | -0.226 | -0.260 | -0.228 | 0.345 | 0.698 |
+| sunlamp | 1000 | 0.346 | 0.050 | -0.235 | -0.270 | -0.298 | 0.320 | -0.232 | -0.272 | -0.296 | 0.320 | 0.678 |
+| synthetic_val | 1500 | 0.375 | 0.046 | -0.100 | -0.052 | -0.111 | 0.481 | -0.107 | -0.050 | -0.125 | 0.482 | 0.753 |
+RUN outputs/experiments/EXP-020_spectral_head_complementarity/RUN-20261009-001320-seed0
+CHAIN_DONE
