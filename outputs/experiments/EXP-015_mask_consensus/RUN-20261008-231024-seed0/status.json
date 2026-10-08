@@ -1,0 +1,12 @@
+{
+  "state": "failed",
+  "pid": 1607725,
+  "start": "2026-10-08T23:10:24.612046",
+  "wall_clock_s": 1.22,
+  "peak_cpu_rss_mb": 924.4,
+  "peak_gpu_mb": 0.0,
+  "max_rss_gb": 13.0,
+  "min_avail_gb": 16.0,
+  "end": "2026-10-08T23:40:31.777492",
+  "error": "Stopped deliberately (SIGTERM) after ~30 min: BLAS thread oversubscription (22 threads on tiny 256x1024 SVDs) made it ~10x slower than single-threaded (~27 ms/img). Rerun with 1 BLAS thread. No results were produced. process 1607725 died without writing a final status; guarded job exit code 143 (137 = SIGKILL, most likely the cgroup memory cap in scripts/guarded.sh)"
+}

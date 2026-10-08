@@ -11,6 +11,9 @@ MEM=40
 if [[ "${1:-}" != "--" ]]; then MEM=$1; shift; fi
 [[ "${1:-}" == "--" ]] && shift
 export TFPOSE_MAX_RSS_GB=${TFPOSE_MAX_RSS_GB:-$((MEM*85/100))}
+# Small per-image linear algebra is far faster single-threaded than with 24 BLAS
+# threads fighting each other (and it leaves cores for other users).
+export OMP_NUM_THREADS=${OMP_NUM_THREADS:-1} OPENBLAS_NUM_THREADS=${OPENBLAS_NUM_THREADS:-1} MKL_NUM_THREADS=${MKL_NUM_THREADS:-1}
 set +e
 systemd-run --user --scope --quiet -p MemoryMax=${MEM}G -p MemorySwapMax=0 -p TasksMax=4096 -- "$@"
 rc=$?
