@@ -1,6 +1,6 @@
 # Experiment index
 
-All Phase-1 numbers come from the **subset v1** sanity runs. The subset has 6,000 synthetic-train, 1,500 synthetic-val, 1,000 lightbox and 1,000 sunlamp images, all with GT crops.
+Phase-1/2 numbers (EXP-010–026, 101) come from the **subset v1** sanity runs; EXP-030 onward uses the **full** splits. The subset has 6,000 synthetic-train, 1,500 synthetic-val, 1,000 lightbox and 1,000 sunlamp images, all with GT crops.
 - **Train:** synthetic/train only.
 - **Model selection:** synthetic/validation only.
 - **Scored only:** lightbox and sunlamp, which are never used for selection or tuning.
@@ -27,6 +27,7 @@ All Phase-1 numbers come from the **subset v1** sanity runs. The subset has 6,00
 | EXP-101 | Tesseract vs SPACE-HOP Hopf in our frozen pipeline: discretization, prediction (DINOv3 + consensus), timing (user-requested) | Grid + trainable head | Completed | Tree head faster from 131k hypotheses (1.2 vs 3.3 ms GPU, 1.7 vs 12.2 ms CPU; 9M vs 76M params); flat faster at SPACE-HOP's 3,072. DINOv3: tree far more accurate (29.2° vs 50.7°). Consensus: mean tie (≈77°/87° real) but flat-3k higher acc@20. Hopf grid more precise per anchor | Tree for L5–L6; flat Hopf-3k kept as strong baseline | **3/5** Partial | [report](reports/EXP-101_tesseract_vs_spacehop_hopf.md) |
 | EXP-025 | Phase-2 basic controls: single branches vs training-free posterior fusion (plan EXP-020) | Training-free fusion | Completed | PoE(DINOv3 grid4, consensus normals): synth 25.9° vs 27.7° (DINO alone); lightbox 62.5° vs 76.1° (median 41.3 vs 62.2); sunlamp 71.4° vs 79.1° | Keep fusion (Phase-2 gate passed) | **5/5** Strong support | [report](reports/EXP-025_posterior_fusion_controls.md) |
 | EXP-026 | Phase-2 reliability signals one at a time (plan EXP-021): entropy, margin, agreement gate | Training-free fusion | Completed | None beats equal PoE (margin 25.8° vs 25.9°, entropy 26.1°, agreement gate 27.4°) | Keep equal PoE; EXP-027–029 skipped | **2/5** Weak | [report](reports/EXP-026_reliability_weighting.md) |
+| EXP-030 | Phase-3 MLP baseline on FULL data (frozen DEC-003 design) | Trainable predictor + training-free fusion | Completed | PoE synth 6.24° (median 5.00°) vs DINOv3 6.64°; lightbox 31.1° (median 10.4°) vs 41.8°; sunlamp 43.7° (median 17.0°) vs 53.4°; full data cuts error ~4× vs subset | Phase-3 control | **5/5** Strong support | [report](reports/EXP-030_full_data_mlp_baseline.md) |
 
 Branch and complementarity summaries: `comparisons/branch_summary.csv`, `comparisons/complementarity_summary.csv`.
 Decision log: `DECISIONS.md` (DEC-001: MoGe-2 replaces VGGT; DEC-002: experiment numbering; DEC-003: Phase-2 gate).

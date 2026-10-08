@@ -1,0 +1,6 @@
+a: EXP-030_full_data_mlp_baseline:dinov3_vitl16:grid4
+b: EXP-030_full_data_mlp_baseline:moge2_vitl:normals16~and
+subset: full
+seeds: 0,1,2
+run_exp: EXP-030_full_data_mlp_baseline
+seed: 0

@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_probe.py --exp EXP-030_full_data_mlp_baseline --subset full --features dinov3_vitl16:grid4 --gpu-dtype fp16 --beams 1 --seed 0

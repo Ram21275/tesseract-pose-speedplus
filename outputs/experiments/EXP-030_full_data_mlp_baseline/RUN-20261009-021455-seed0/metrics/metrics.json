@@ -1,0 +1,242 @@
+[
+  {
+    "beam": 1,
+    "method": "AVG(A,B)",
+    "domain": "lightbox",
+    "mean_deg": 32.76937320543258,
+    "median_deg": 11.048769202504142,
+    "acc@10": 0.44990108803165185,
+    "acc@20": 0.7063798219584569,
+    "mean_deg_std": 0.4961384641208395
+  },
+  {
+    "beam": 1,
+    "method": "AVG(A,B)",
+    "domain": "sunlamp",
+    "mean_deg": 45.60574450740996,
+    "median_deg": 18.078828643154242,
+    "acc@10": 0.27445360085990683,
+    "acc@20": 0.5317090648513078,
+    "mean_deg_std": 0.8905440399139799
+  },
+  {
+    "beam": 1,
+    "method": "AVG(A,B)",
+    "domain": "synthetic_val",
+    "mean_deg": 6.60949062590091,
+    "median_deg": 5.076251343850433,
+    "acc@10": 0.9218498137957868,
+    "acc@20": 0.9848257462064366,
+    "mean_deg_std": 0.0020076953719899322
+  },
+  {
+    "beam": 1,
+    "method": "A_dino",
+    "domain": "lightbox",
+    "mean_deg": 41.76430592247033,
+    "median_deg": 14.213363155123083,
+    "acc@10": 0.339515331355094,
+    "acc@20": 0.6171612265084075,
+    "mean_deg_std": 0.566468642713068
+  },
+  {
+    "beam": 1,
+    "method": "A_dino",
+    "domain": "sunlamp",
+    "mean_deg": 53.43025800582291,
+    "median_deg": 25.777840075063352,
+    "acc@10": 0.1778335124805924,
+    "acc@20": 0.4120386958079541,
+    "mean_deg_std": 0.759795480370708
+  },
+  {
+    "beam": 1,
+    "method": "A_dino",
+    "domain": "synthetic_val",
+    "mean_deg": 6.639071759930797,
+    "median_deg": 5.308673578239611,
+    "acc@10": 0.9133177699961091,
+    "acc@20": 0.9879939969984992,
+    "mean_deg_std": 0.15838010450188908
+  },
+  {
+    "beam": 1,
+    "method": "B_consensus_normals",
+    "domain": "lightbox",
+    "mean_deg": 44.71751056985929,
+    "median_deg": 11.987245932546534,
+    "acc@10": 0.4298219584569733,
+    "acc@20": 0.6265084075173096,
+    "mean_deg_std": 0.7730836767446342
+  },
+  {
+    "beam": 1,
+    "method": "B_consensus_normals",
+    "domain": "sunlamp",
+    "mean_deg": 61.96164984297536,
+    "median_deg": 22.96718455056373,
+    "acc@10": 0.2686014570643736,
+    "acc@20": 0.47426251045025675,
+    "mean_deg_std": 0.9586958526268643
+  },
+  {
+    "beam": 1,
+    "method": "B_consensus_normals",
+    "domain": "synthetic_val",
+    "mean_deg": 17.787952018316812,
+    "median_deg": 6.312506202949266,
+    "acc@10": 0.773803568450892,
+    "acc@20": 0.8832193874715135,
+    "mean_deg_std": 0.30436705371516626
+  },
+  {
+    "beam": 1,
+    "method": "PoE(A,B)",
+    "domain": "lightbox",
+    "mean_deg": 31.072662390222266,
+    "median_deg": 10.402537583446593,
+    "acc@10": 0.4788822947576657,
+    "acc@20": 0.7290306627101879,
+    "mean_deg_std": 0.2882770818132634
+  },
+  {
+    "beam": 1,
+    "method": "PoE(A,B)",
+    "domain": "sunlamp",
+    "mean_deg": 43.74451092510975,
+    "median_deg": 17.004158256080416,
+    "acc@10": 0.28997969664397466,
+    "acc@20": 0.5534455989490027,
+    "mean_deg_std": 0.817942154567921
+  },
+  {
+    "beam": 1,
+    "method": "PoE(A,B)",
+    "domain": "synthetic_val",
+    "mean_deg": 6.241926696978006,
+    "median_deg": 4.997478251486012,
+    "acc@10": 0.9321883163804124,
+    "acc@20": 0.9892446223111556,
+    "mean_deg_std": 0.07173815304094354
+  },
+  {
+    "beam": 4,
+    "method": "AVG(A,B)",
+    "domain": "lightbox",
+    "mean_deg": 35.94493624814533,
+    "median_deg": 11.800407948682567,
+    "acc@10": 0.4235905044510386,
+    "acc@20": 0.6733432245301681,
+    "mean_deg_std": 0.38102594412103297
+  },
+  {
+    "beam": 4,
+    "method": "AVG(A,B)",
+    "domain": "sunlamp",
+    "mean_deg": 49.005768658729714,
+    "median_deg": 20.370881833029777,
+    "acc@10": 0.24793980652096023,
+    "acc@20": 0.4937298459333572,
+    "mean_deg_std": 0.35070058261169035
+  },
+  {
+    "beam": 4,
+    "method": "AVG(A,B)",
+    "domain": "synthetic_val",
+    "mean_deg": 7.858449284577131,
+    "median_deg": 5.237001055253726,
+    "acc@10": 0.895642265577233,
+    "acc@20": 0.967789450280696,
+    "mean_deg_std": 0.07411329870104416
+  },
+  {
+    "beam": 4,
+    "method": "A_dino",
+    "domain": "lightbox",
+    "mean_deg": 41.70154222597068,
+    "median_deg": 14.268997955019742,
+    "acc@10": 0.338921859545005,
+    "acc@20": 0.616864490603363,
+    "mean_deg_std": 0.4533673729139082
+  },
+  {
+    "beam": 4,
+    "method": "A_dino",
+    "domain": "sunlamp",
+    "mean_deg": 53.15392066280757,
+    "median_deg": 25.77447773982166,
+    "acc@10": 0.17819180699868623,
+    "acc@20": 0.4129941478562045,
+    "mean_deg_std": 0.5793485761992572
+  },
+  {
+    "beam": 4,
+    "method": "A_dino",
+    "domain": "synthetic_val",
+    "mean_deg": 6.667083704518362,
+    "median_deg": 5.304094959904532,
+    "acc@10": 0.9131510199544216,
+    "acc@20": 0.9875771218942805,
+    "mean_deg_std": 0.13328081920333132
+  },
+  {
+    "beam": 4,
+    "method": "B_consensus_normals",
+    "domain": "lightbox",
+    "mean_deg": 44.7153348904464,
+    "median_deg": 12.009732446619097,
+    "acc@10": 0.42888229475766565,
+    "acc@20": 0.6280415430267062,
+    "mean_deg_std": 0.7668233311559061
+  },
+  {
+    "beam": 4,
+    "method": "B_consensus_normals",
+    "domain": "sunlamp",
+    "mean_deg": 61.90729214188894,
+    "median_deg": 22.747971105235774,
+    "acc@10": 0.2703929296548429,
+    "acc@20": 0.4746208049683507,
+    "mean_deg_std": 0.597111252078483
+  },
+  {
+    "beam": 4,
+    "method": "B_consensus_normals",
+    "domain": "synthetic_val",
+    "mean_deg": 17.81751226242449,
+    "median_deg": 6.311103375437585,
+    "acc@10": 0.7744427769440275,
+    "acc@20": 0.8827469290200657,
+    "mean_deg_std": 0.2507579117738743
+  },
+  {
+    "beam": 4,
+    "method": "PoE(A,B)",
+    "domain": "lightbox",
+    "mean_deg": 31.02580680289337,
+    "median_deg": 10.398251900554557,
+    "acc@10": 0.47957467853610286,
+    "acc@20": 0.7282888229475767,
+    "mean_deg_std": 0.23529404868827483
+  },
+  {
+    "beam": 4,
+    "method": "PoE(A,B)",
+    "domain": "sunlamp",
+    "mean_deg": 43.63113135950859,
+    "median_deg": 16.89769229395142,
+    "acc@10": 0.29033799116206854,
+    "acc@20": 0.5572674071420041,
+    "mean_deg_std": 0.7363714842272361
+  },
+  {
+    "beam": 4,
+    "method": "PoE(A,B)",
+    "domain": "synthetic_val",
+    "mean_deg": 6.248537160431655,
+    "median_deg": 5.001661008551067,
+    "acc@10": 0.9318270246234229,
+    "acc@20": 0.9891890389639264,
+    "mean_deg_std": 0.07713370261861512
+  }
+]

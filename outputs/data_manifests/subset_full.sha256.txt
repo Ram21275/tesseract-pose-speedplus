@@ -1,0 +1,1 @@
+c7c029785fb8458c  rows=69491  args={'name': 'full', 'n_train': 47966, 'n_val': 11994, 'n_lightbox': 6740, 'n_sunlamp': 2791, 'margin': 0.15, 'seed': 0}

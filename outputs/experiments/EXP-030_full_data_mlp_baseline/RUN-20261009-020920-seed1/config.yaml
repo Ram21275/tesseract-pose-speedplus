@@ -1,0 +1,14 @@
+exp: EXP-030_full_data_mlp_baseline
+features: dinov3_vitl16:grid4
+subset: full
+depth: 5
+epochs: 100
+batch: 256
+lr: 0.001
+wd: 0.05
+hidden: 512
+dropout: 0.1
+eval_every: 5
+beams: '1'
+gpu_dtype: fp16
+seed: 1
