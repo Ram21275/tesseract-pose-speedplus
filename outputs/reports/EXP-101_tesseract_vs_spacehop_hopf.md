@@ -46,5 +46,11 @@ Trainable predictor (the backbone is frozen and identical across arms)
 - "Tesseract is as accurate" at matched hypothesis count if its synthetic-val mean error is within the seed std of the flat head (or lower).
 - The answer is expected to depend on K, so the crossover K is reported, not a single verdict.
 
+## Protocol amendment B2 (2026-10-09, user request, before any B2 result)
+Part B is repeated on the consensus feature that worked in EXP-016: **`moge2_vitl:normals16~and`** (MoGe-2 normals with the EXP-015 DINO∧MoGe-2 consensus mask).
+- **Flat SPACE-HOP-style head:** K ∈ {3,072, 16,380, 131,076}, 3 seeds, the same trunk and budget.
+- **Tesseract arm:** the existing EXP-016 runs (same feature and seeds), decoded at L3 and L5.
+- The protocol and claims are otherwise unchanged. The B2 runs start only after the part-C timing finishes, so GPU contention from training cannot bias the timings.
+
 ## Results
 (to be filled)
