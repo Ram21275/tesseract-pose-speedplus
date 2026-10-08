@@ -34,6 +34,7 @@ ap.add_argument("--hidden", type=int, default=512)
 ap.add_argument("--dropout", type=float, default=0.1)
 ap.add_argument("--eval-every", type=int, default=5)
 ap.add_argument("--beams", default="1,2,4,8")
+ap.add_argument("--gpu-dtype", default="fp32", choices=["fp32", "fp16"], help="storage dtype of the feature matrix on GPU (fp16 halves memory for full-data runs)")
 ap.add_argument("--seed", type=int, default=0)
 args = ap.parse_args()
 
@@ -58,10 +59,11 @@ try:
               "lightbox": df.domain == "lightbox", "sunlamp": df.domain == "sunlamp"}
     tr = groups["synthetic_train"].to_numpy()
     mu, sd = X[tr].mean(0), X[tr].std(0) + 1e-6  # train-split statistics only
-    Xt = torch.tensor((X - mu) / sd, device=dev)
+    Xt = torch.tensor((X - mu) / sd, device=dev, dtype=torch.float16 if args.gpu_dtype == "fp16" else torch.float32)
+    del X
     Ct, Pt, PQt = (torch.tensor(a, device=dev) for a in (chart, path, pq.astype(np.float32)))
 
-    model = HierMLP(X.shape[1], args.depth, hidden=args.hidden, dropout=args.dropout).to(dev)
+    model = HierMLP(Xt.shape[1], args.depth, hidden=args.hidden, dropout=args.dropout).to(dev)
     n_params = sum(p.numel() for p in model.parameters())
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.wd)
     tr_idx = np.flatnonzero(tr)
@@ -75,7 +77,7 @@ try:
         t0 = time.time()
         for s in range(0, len(idx), 512):
             b = idx[s:s + 512]
-            c, p, _, nodes = model.beam_search(Xt[b], beam=beam)
+            c, p, _, nodes = model.beam_search(Xt[b].float(), beam=beam)
             c, p = c.cpu().numpy(), p.cpu().numpy()
             cs.append(c[:, 0]); ps.append(p[:, 0])
             gt_leaf = T.leaf_id(chart[b], path[b])
@@ -103,7 +105,7 @@ try:
         tot = 0.0
         for s in range(0, len(perm), args.batch):
             b = torch.as_tensor(perm[s:s + args.batch], device=dev)
-            loss, _ = model.loss(Xt[b], Ct[b], Pt[b], PQt[b])
+            loss, _ = model.loss(Xt[b].float(), Ct[b], Pt[b], PQt[b])
             opt.zero_grad(set_to_none=True)
             loss.backward()
             opt.step(); sched.step(); step += 1
@@ -135,7 +137,7 @@ try:
                                                "err_deg": err}))
     run.write_metrics(rows, "metrics")
     pd.concat(pred_rows).to_csv(run.sub("predictions") / "predictions_greedy.csv", index=False, float_format="%.6g")
-    run.done(best_epoch=best[2], n_params=n_params, trainable_params=n_params, feature_dim=int(X.shape[1]))
+    run.done(best_epoch=best[2], n_params=n_params, trainable_params=n_params, feature_dim=int(Xt.shape[1]))
     g1 = [r for r in rows if r["beam"] == 1]
     print(args.features, "seed", args.seed, " | ".join(f"{r['domain']}: mean {r['mean_deg']:.1f} med {r['median_deg']:.1f} root {r['root_acc']:.2f}" for r in g1))
     print("RUN", run.rel())
