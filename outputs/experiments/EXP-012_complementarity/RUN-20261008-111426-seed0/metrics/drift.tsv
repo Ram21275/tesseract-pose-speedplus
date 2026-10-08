@@ -1,0 +1,7 @@
+features	domain	mean_shift_over_spread
+dinov3_vitl16:grid4	synthetic_val	0.028639469295740128
+dinov3_vitl16:grid4	lightbox	0.47911155223846436
+dinov3_vitl16:grid4	sunlamp	0.9271789193153381
+vggt_1b:l11_cam+mean	synthetic_val	0.02966674044728279
+vggt_1b:l11_cam+mean	lightbox	0.5390387773513794
+vggt_1b:l11_cam+mean	sunlamp	0.9562958478927612

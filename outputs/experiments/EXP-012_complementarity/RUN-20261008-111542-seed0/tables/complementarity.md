@@ -1,0 +1,5 @@
+| domain | n | dino_mean_deg | vggt_mean_deg | spearman_err | both_lt10 | dino_only_lt10 | vggt_only_lt10 | neither_lt10 | oracle_of_two_acc@10 | root_agree | L2_prefix_agree | pred_pred_dist_median_deg | agree_frac(dist<20) | dino_acc_when_agree | dino_acc_when_disagree | vggt_acc_when_disagree |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| lightbox | 1000.000 | 76.102 | 86.659 | 0.298 | 0.003 | 0.034 | 0.025 | 0.939 | 0.061 | 0.544 | 0.108 | 90.831 | 0.062 | 0.159 | 0.028 | 0.022 |
+| sunlamp | 1000.000 | 79.126 | 92.499 | 0.144 | 0.001 | 0.014 | 0.012 | 0.973 | 0.027 | 0.472 | 0.072 | 106.516 | 0.037 | 0.063 | 0.013 | 0.011 |
+| synthetic_val | 1500.000 | 27.679 | 49.118 | 0.384 | 0.049 | 0.153 | 0.068 | 0.731 | 0.269 | 0.801 | 0.398 | 32.610 | 0.297 | 0.376 | 0.127 | 0.033 |

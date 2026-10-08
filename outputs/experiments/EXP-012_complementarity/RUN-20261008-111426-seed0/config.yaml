@@ -1,0 +1,6 @@
+dino: dinov3_vitl16:grid4
+vggt: vggt_1b:l11_cam+mean
+subset: v1
+seeds: 0,1,2
+thresh: 10.0
+seed: 0
