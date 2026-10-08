@@ -37,7 +37,7 @@ def _rss_gb(proc: psutil.Process) -> float:
 
 
 def start(max_rss_gb: float | None = None, min_avail_gb: float | None = None,
-          interval_s: float = 1.0, reason_file: Path | None = None, on_abort=None):
+          interval_s: float = 0.25, reason_file: Path | None = None, on_abort=None):
     """Start the watchdog once per process. Returns the limits in use."""
     global _started
     max_rss_gb = float(os.environ.get("TFPOSE_MAX_RSS_GB", max_rss_gb or DEFAULT_MAX_RSS_GB))

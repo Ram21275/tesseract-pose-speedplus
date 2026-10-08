@@ -95,7 +95,7 @@ class Run:
         return p
 
     def status(self, state: str, **extra):
-        d = {"state": state, "start": datetime.fromtimestamp(self.t0).isoformat(),
+        d = {"state": state, "pid": os.getpid(), "start": datetime.fromtimestamp(self.t0).isoformat(),
              "wall_clock_s": round(time.time() - self.t0, 2),
              "peak_cpu_rss_mb": round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024, 1)}
         try:
