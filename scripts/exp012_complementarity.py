@@ -92,20 +92,29 @@ try:
                                "mean_shift_over_spread": float(np.linalg.norm(Z[dom == d].mean(0)) / spread)})
     for backbone, key in [(args.dino.split(":")[0], "last_grid"), (args.vggt.split(":")[0], "depth")]:
         path = featsets.find_cache(backbone, args.subset)
+        # Streamed in chunks (float32 / complex64): the earlier whole-array
+        # version peaked at ~100 GB and most likely took the machine down.
         with h5py.File(path / "features.h5") as f:
-            G = f[key][:].astype(np.float32)  # (N,H,W,C)
-        G = G - G.mean((1, 2), keepdims=True)
-        P = np.abs(np.fft.fft2(G, axes=(1, 2))) ** 2
-        H, W = G.shape[1:3]
-        fy, fx = np.meshgrid(np.fft.fftfreq(H), np.fft.fftfreq(W), indexing="ij")
-        r = np.sqrt(fx ** 2 + fy ** 2) / 0.5  # 1 = Nyquist along an axis
-        bands = {"low(<0.25)": r < 0.25, "mid(0.25-0.5)": (r >= 0.25) & (r < 0.5), "high(>=0.5)": r >= 0.5}
-        tot = P.sum((1, 2, 3))
+            ds = f[key]
+            N, H, W, C = ds.shape
+            fy, fx = np.meshgrid(np.fft.fftfreq(H), np.fft.fftfreq(W), indexing="ij")
+            r = np.sqrt(fx ** 2 + fy ** 2) / 0.5  # 1 = Nyquist along an axis
+            bands = {"low(<0.25)": r < 0.25, "mid(0.25-0.5)": (r >= 0.25) & (r < 0.5), "high(>=0.5)": r >= 0.5}
+            frac = {bn: np.empty(N, dtype=np.float64) for bn in bands}
+            for s in range(0, N, 128):
+                g = np.asarray(ds[s:s + 128], dtype=np.float32)
+                g -= g.mean((1, 2), keepdims=True)
+                P = np.abs(np.fft.fft2(g, axes=(1, 2)).astype(np.complex64)) ** 2  # (n,H,W,C)
+                Pc = P.sum(-1)  # energy summed over channels, (n,H,W)
+                tot = Pc.sum((1, 2))
+                for bn, bm in bands.items():
+                    frac[bn][s:s + len(g)] = Pc[:, bm].sum(1) / tot
+                del g, P, Pc
         for d in ["synthetic_train", "synthetic_val", "lightbox", "sunlamp"]:
             mk = dom == d
             row = {"map": f"{backbone}:{key}", "grid": f"{H}x{W}", "domain": d}
-            for bn, bm in bands.items():
-                row[bn] = float((P[mk][:, bm].sum((1, 2)) / tot[mk]).mean())
+            for bn in bands:
+                row[bn] = float(frac[bn][mk].mean())
             band_rows.append(row)
     run.write_metrics(comp.to_dict("records"), "complementarity_per_seed")
     run.write_metrics(comp_mean.to_dict("records"), "metrics")

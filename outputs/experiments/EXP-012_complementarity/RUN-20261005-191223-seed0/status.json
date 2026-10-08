@@ -1,0 +1,9 @@
+{
+  "state": "failed",
+  "start": "2026-10-05T19:12:23.383648",
+  "wall_clock_s": 1.18,
+  "peak_cpu_rss_mb": 937.1,
+  "peak_gpu_mb": 0.0,
+  "error": "Traceback (most recent call last):\n  File \"/home/kavinder/RAM/pose-estimation/scripts/exp012_complementarity.py\", line 55, in <module>\n    same_l2 = same_root & (g.path_pred_d.str[:2] == g.path_pred_v.str[:2]).to_numpy()\n                           ^^^^^^^^^^^^^^^^^\n  File \"/home/kavinder/miniconda3/lib/python3.13/site-packages/pandas/core/generic.py\", line 6321, in __getattr__\n    return object.__getattribute__(self, name)\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\n  File \"/home/kavinder/miniconda3/lib/python3.13/site-packages/pandas/core/accessor.py\", line 224, in __get__\n    accessor_obj = self._accessor(obj)\n  File \"/home/kavinder/miniconda3/lib/python3.13/site-packages/pandas/core/strings/accessor.py\", line 194, in __init__\n    self._inferred_dtype = self._validate(data)\n                           ~~~~~~~~~~~~~~^^^^^^\n  File \"/home/kavinder/miniconda3/lib/python3.13/site-packages/pandas/core/strings/accessor.py\", line 248, in _validate\n    raise AttributeError(\"Can only use .str accessor with string values!\")\nAttributeError: Can only use .str accessor with string values!. Did you mean: 'std'?\n",
+  "end": "2026-10-05T19:12:24.559107"
+}

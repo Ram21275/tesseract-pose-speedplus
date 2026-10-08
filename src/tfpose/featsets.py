@@ -30,9 +30,13 @@ def find_cache(backbone: str, subset: str) -> Path:
     return hits[0]
 
 
-def _pool(a: np.ndarray, r: int) -> np.ndarray:  # (N,H,W,C) -> (N,r,r,C)
-    t = torch.from_numpy(a.astype(np.float32)).permute(0, 3, 1, 2)
-    return F.adaptive_avg_pool2d(t, r).permute(0, 2, 3, 1).numpy()
+def _pool(a, r: int, chunk: int = 256) -> np.ndarray:
+    """(N,H,W,C) array or HDF5 dataset -> (N,r,r,C) float32, processed in chunks to bound memory."""
+    out = []
+    for s in range(0, a.shape[0], chunk):
+        t = torch.from_numpy(np.asarray(a[s:s + chunk], dtype=np.float32)).permute(0, 3, 1, 2)
+        out.append(F.adaptive_avg_pool2d(t, r).permute(0, 2, 3, 1).numpy())
+    return np.concatenate(out)
 
 
 def load(spec: str, subset: str):
@@ -42,7 +46,7 @@ def load(spec: str, subset: str):
         names = [s.decode() for s in f["image_relpath"][:]]
         if fs == "grid4":
             key = "last_grid" if "last_grid" in f else "last_grid8"
-            X = _pool(f[key][:], 4).reshape(len(names), -1)
+            X = _pool(f[key], 4).reshape(len(names), -1)
         elif fs == "depthconf16":
             d = f["depth"][:].astype(np.float32)
             c = f["depth_conf"][:].astype(np.float32)

@@ -1,0 +1,9 @@
+{
+  "state": "failed",
+  "start": "2026-10-05T19:12:36.578634",
+  "wall_clock_s": 0.97,
+  "peak_cpu_rss_mb": 920.4,
+  "peak_gpu_mb": 0.0,
+  "error": "Process died with the machine (no traceback). Last system sample 19:10 normal; host went down shortly after this run started. Most likely cause: band-energy step loaded all 9,500 DINOv3-L grids as float32 (~10 GB) and FFT-ed them at once in complex128 (~40 GB) -> est. peak ~100 GB on a 123 GB shared machine. Fixed by chunked streaming + memguard + cgroup cap (scripts/guarded.sh).",
+  "status_corrected_on": "2026-10-08"
+}

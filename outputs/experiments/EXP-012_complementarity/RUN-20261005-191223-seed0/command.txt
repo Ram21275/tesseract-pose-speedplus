@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/exp012_complementarity.py --dino dinov3_vitl16:grid4 --vggt vggt_1b:l11_cam+mean

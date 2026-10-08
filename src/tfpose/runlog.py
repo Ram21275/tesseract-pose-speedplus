@@ -85,7 +85,9 @@ class Run:
         (self.dir / "config.yaml").write_text(yaml.safe_dump(self.config, sort_keys=False))
         (self.dir / "command.txt").write_text(" ".join([sys.executable, *sys.argv]) + "\n")
         (self.dir / "environment.txt").write_text(environment_text())
-        self.status("running")
+        from . import memguard
+        self.memlimits = memguard.start(reason_file=self.dir / "memguard_abort.txt", on_abort=self.fail)
+        self.status("running", **self.memlimits)
 
     def sub(self, name: str) -> Path:
         p = self.dir / name
