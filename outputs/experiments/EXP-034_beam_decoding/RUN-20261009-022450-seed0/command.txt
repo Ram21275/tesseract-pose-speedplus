@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/exp03x_fused_eval.py --exp EXP-030_full_data_mlp_baseline --beams 1,2,4,8 --run-exp EXP-034_beam_decoding

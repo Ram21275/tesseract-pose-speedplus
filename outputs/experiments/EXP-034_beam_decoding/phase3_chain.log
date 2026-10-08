@@ -1,0 +1,4 @@
+>>> 02:24:50 scripts/guarded.sh 32 -- .venv/bin/python scripts/exp03x_fused_eval.py --exp EXP-030_full_data_mlp_baseline --beams 1,2,4,8 --run-exp EXP-034_beam_decoding
+RUN outputs/experiments/EXP-034_beam_decoding/RUN-20261009-022450-seed0
+EXIT_CODE=0
+>>> 02:25:49 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-031_gru_path_decoder --features dinov3_vitl16:grid4 --decoder gru --seed 0

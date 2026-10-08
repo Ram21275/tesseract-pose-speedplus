@@ -1,0 +1,9 @@
+exp: EXP-030_full_data_mlp_baseline
+a: dinov3_vitl16:grid4
+b: moge2_vitl:normals16~and
+subset: full
+beams: 1,2,4,8
+seeds: 0,1,2
+run_exp: EXP-034_beam_decoding
+stage: fused_eval
+seed: 0
