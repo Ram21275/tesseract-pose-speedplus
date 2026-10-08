@@ -45,6 +45,32 @@ Training-free. No learned parameters, no fitted thresholds, no dataset statistic
    - "Two-way" only if both hold. Otherwise report one-way or none.
 9. **Feeding the pose test (EXP-016).** The AND mask is the only variant carried forward.
 
+## Protocol amendment A1 (2026-10-08, before any validation or test mask metric)
+**Why.** No exact Tango silhouette exists here: no aligned CAD model, and only 11 keypoints. The best-fitting keypoint outline (convex hull of the 8 body points, `hull8`, which beat `box+plate`, `two-quads` and `top-quad` against a bright-pixel proxy on 200 **synthetic-train** crops) failed the GT sanity check.
+- On 300 **synthetic-train** crops, MoGe-2 covers it almost entirely (recall 0.99), but its median IoU with it is only 0.51 (expected ≥ about 0.7).
+- Gamma-brightened overlays show `hull8` sometimes covers empty space.
+- Existing on-disk "masks" are pseudo-labels from the same kind of hull, and exist only for synthetic images.
+- IoU against `hull8` is therefore **not** a trustworthy primary metric.
+
+**Amended primary metric: background leakage.**
+- Envelope = convex hull of all 11 projected keypoints (8 body + 3 antenna tips), dilated by 3 cells on the 74×74 grid. Pixels outside the envelope are background beyond doubt.
+- **Leakage** = the fraction of predicted-foreground pixels that fall outside the envelope. This directly measures the failure under study: background labelled as spacecraft.
+
+**Amended retention metric: recall against `hull8`.** Its errors (over-covering) affect every method equally, so it is valid for comparing methods.
+
+**Secondary, approximate only:** IoU, precision and boundary-F against `hull8`; antenna-tip coverage.
+
+**Amended claim rule** (lightbox **and** sunlamp, paired bootstrap 95% CI):
+- "DINO helps MoGe-2" if AND leakage < MoGe-2 leakage (CI excludes 0) **and** AND recall ≥ MoGe-2 recall − 0.05.
+- "MoGe-2 helps DINO" if AND leakage < DINO leakage (CI excludes 0) **and** AND recall ≥ DINO recall − 0.05.
+- "Two-way" only if both hold.
+
+**Amended case table:** a mask is "wrong" if its leakage > 0.10 (more than 10% of its foreground is clear background).
+
+**Synthetic-val guard:** AND recall must not fall more than 0.05 below MoGe-2's.
+
+The fusion rules, DINO method and EXP-016 protocol are unchanged.
+
 ## Known biases
 - GT-centred crops put the spacecraft in the middle, which favours the "border = background" sign rule. Automatic localization would be harder.
 - The GT silhouette excludes antennas, so masks that include antennas lose some precision. This applies equally to all methods.
