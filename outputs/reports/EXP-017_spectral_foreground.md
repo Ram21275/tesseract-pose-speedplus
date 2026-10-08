@@ -3,6 +3,12 @@
 ## Status
 Completed. Pre-registered on 2026-10-08, before any result. User-requested; option 1 of 4 inspired by CASS (Kim et al., CVPR 2025, arXiv 2411.17150).
 
+
+## Keep score
+**1 / 5: Negative.** Fails its pre-registered test: the fused-graph spectral mask is worse than AND. A small side finding (a spectral DINO-only mask beats PCA-DINO) could justify a separately registered retest.
+
+_Keep score rubric (0–5): 5 strong support: pre-registered goal met with a large effect, adopt. 4 support: goal met, carry forward. 3 partial: mixed or one-sided evidence, keep for further testing. 2 weak: goal not met but an informative side result. 1 negative: fails, reject, kept only as a recorded result. 0 inconclusive or not run._
+
 ## Research question
 EXP-015 used a simple principal-component DINO foreground. Does a spectral partition of a **fused** patch graph give cleaner training-free spacecraft masks? The fused graph keeps an edge only where DINOv3 appearance **and** MoGe-2 geometry agree.
 

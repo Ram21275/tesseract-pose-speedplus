@@ -1,0 +1,33 @@
+{
+  "cache": "outputs/shared_cache/moge2_vitl_cassdino__subset_v1__93cc6718a17d__bbdb3e2e3f5b70a1",
+  "cache_manifest": {
+    "spec": {
+      "model": "Ruicheng/moge-2-vitl-normal",
+      "size": 518,
+      "num_tokens": 1369,
+      "layers": [
+        5,
+        11,
+        17,
+        23
+      ],
+      "fov": "predicted",
+      "apply_mask": false,
+      "use_fp16": true,
+      "map_res": 74,
+      "crop": "gt_square",
+      "gray_to_rgb": "replicate",
+      "cass_injection": "DINOv3-L block23 keys -> MoGe-2 block23",
+      "K_EIGEN": 20,
+      "ENERGY": 0.95,
+      "EPSILON": 1.5,
+      "SCALE_FACTOR": 10.0,
+      "GAUSS_STD": 5.0
+    },
+    "preprocess_hash": "93cc6718a17d",
+    "manifest_hash": "bbdb3e2e3f5b70a1",
+    "n": 9500,
+    "code_version": "d9be5ea380e76e36567e9560cbce19b574d7f138",
+    "seconds": 773.2
+  }
+}

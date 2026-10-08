@@ -3,6 +3,12 @@
 ## Status
 Completed (subset v1). The first attempts failed, one of them taking the machine down; see Failure analysis.
 
+
+## Keep score
+**2 / 5: Weak.** Some complementarity on synthetic data and a usable agreement cue, but almost none on real images. Superseded by EXP-014.
+
+_Keep score rubric (0–5): 5 strong support: pre-registered goal met with a large effect, adopt. 4 support: goal met, carry forward. 3 partial: mixed or one-sided evidence, keep for further testing. 2 weak: goal not met but an informative side result. 1 negative: fails, reject, kept only as a recorded result. 0 inconclusive or not run._
+
 ## Research question
 Does VGGT add information beyond DINOv3? Specifically: do the two branches fail on different images, does their agreement predict correctness, and how do they behave under illumination (sunlamp), object scale and domain shift?
 

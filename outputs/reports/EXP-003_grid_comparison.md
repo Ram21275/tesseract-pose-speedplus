@@ -3,6 +3,12 @@
 ## Status
 Completed
 
+
+## Keep score
+**3 / 5: Partial.** Tesseract is less precise per hypothesis than Super-Fibonacci and Hopf. Its only advantage is search cost (44 nodes at L5). Keep, but the Hopf baseline must stay in every comparison.
+
+_Keep score rubric (0–5): 5 strong support: pre-registered goal met with a large effect, adopt. 4 support: goal met, carry forward. 3 partial: mixed or one-sided evidence, keep for further testing. 2 weak: goal not met but an informative side result. 1 negative: fails, reject, kept only as a recorded result. 0 inconclusive or not run._
+
 ## Research question
 At matched hypothesis counts, and at matched covering radius, how does the Tesseract grid compare with established SO(3) grids in precision, uniformity and search cost?
 

@@ -3,6 +3,12 @@
 ## Status
 Completed (subset v1)
 
+
+## Keep score
+**2 / 5: Weak.** MoGe-2 is no more complementary to DINOv3 than VGGT, and a non-geometric DINOv3-B control is more complementary. Geometry-specific value is not shown.
+
+_Keep score rubric (0–5): 5 strong support: pre-registered goal met with a large effect, adopt. 4 support: goal met, carry forward. 3 partial: mixed or one-sided evidence, keep for further testing. 2 weak: goal not met but an informative side result. 1 negative: fails, reject, kept only as a recorded result. 0 inconclusive or not run._
+
 ## Research question
 Does MoGe-2 add information beyond DINOv3? Is it more complementary than VGGT was in EXP-012?
 

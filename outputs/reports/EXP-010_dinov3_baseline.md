@@ -3,6 +3,12 @@
 ## Status
 Completed (subset v1 sanity run)
 
+
+## Keep score
+**4 / 5: Support.** DINOv3-L grid4 is the strongest branch (17.2° synthetic-val median). The large synthetic→real gap (62–70° real-domain medians) keeps this from a 5.
+
+_Keep score rubric (0–5): 5 strong support: pre-registered goal met with a large effect, adopt. 4 support: goal met, carry forward. 3 partial: mixed or one-sided evidence, keep for further testing. 2 weak: goal not met but an informative side result. 1 negative: fails, reject, kept only as a recorded result. 0 inconclusive or not run._
+
 ## Research question
 How much rotation information do frozen DINOv3 features carry? Which model size, layer and pooling works best, and how much does performance fall from synthetic to lightbox and sunlamp?
 

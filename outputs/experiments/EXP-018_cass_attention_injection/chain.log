@@ -1,0 +1,40 @@
+>>> EXP-018 mask eval
+| domain | method | n | leakage | recall | iou | boundary_f | tip_coverage | area |
+|---|---|---|---|---|---|---|---|---|
+| synthetic_val | moge2 | 1500 | 0.279 | 0.989 | 0.581 | 0.487 | 0.908 | 0.575 |
+| synthetic_val | moge2_inj | 1500 | 0.282 | 0.963 | 0.563 | 0.478 | 0.868 | 0.571 |
+| synthetic_val | dino | 1500 | 0.116 | 0.962 | 0.615 | 0.463 | 0.716 | 0.372 |
+| synthetic_val | dino_inj | 1500 | 0.094 | 0.970 | 0.622 | 0.455 | 0.786 | 0.367 |
+| synthetic_val | and | 1500 | 0.070 | 0.952 | 0.775 | 0.775 | 0.669 | 0.294 |
+| lightbox | moge2 | 1000 | 0.523 | 0.997 | 0.291 | 0.098 | 0.959 | 0.891 |
+| lightbox | moge2_inj | 1000 | 0.524 | 0.992 | 0.290 | 0.101 | 0.940 | 0.893 |
+| lightbox | dino | 1000 | 0.139 | 0.980 | 0.562 | 0.316 | 0.792 | 0.406 |
+| lightbox | dino_inj | 1000 | 0.129 | 0.970 | 0.568 | 0.329 | 0.796 | 0.397 |
+| lightbox | and | 1000 | 0.119 | 0.977 | 0.599 | 0.393 | 0.771 | 0.382 |
+| sunlamp | moge2 | 1000 | 0.565 | 1.000 | 0.242 | 0.040 | 0.988 | 0.959 |
+| sunlamp | moge2_inj | 1000 | 0.567 | 1.000 | 0.240 | 0.029 | 0.987 | 0.969 |
+| sunlamp | dino | 1000 | 0.121 | 0.994 | 0.586 | 0.304 | 0.637 | 0.415 |
+| sunlamp | dino_inj | 1000 | 0.123 | 0.993 | 0.583 | 0.313 | 0.682 | 0.417 |
+| sunlamp | and | 1000 | 0.116 | 0.994 | 0.593 | 0.329 | 0.632 | 0.406 |
+RUN outputs/experiments/EXP-018_cass_attention_injection/RUN-20261009-000716-seed0
+moge2_vitl_cassdino:grid4 seed 0 synthetic_val: mean 44.7 med 23.9 root 0.82 | lightbox: mean 86.1 med 80.5 root 0.57 | sunlamp: mean 92.6 med 92.8 root 0.57
+RUN outputs/experiments/EXP-018_cass_attention_injection/RUN-20261009-001024-seed0
+EXIT_CODE=0 moge2_vitl_cassdino:grid4 seed 0
+moge2_vitl_cassdino:grid4 seed 1 synthetic_val: mean 46.7 med 26.1 root 0.80 | lightbox: mean 87.6 med 86.8 root 0.56 | sunlamp: mean 90.2 med 88.7 root 0.57
+RUN outputs/experiments/EXP-018_cass_attention_injection/RUN-20261009-001035-seed1
+EXIT_CODE=0 moge2_vitl_cassdino:grid4 seed 1
+moge2_vitl_cassdino:grid4 seed 2 synthetic_val: mean 45.2 med 24.8 root 0.82 | lightbox: mean 86.6 med 84.8 root 0.56 | sunlamp: mean 91.7 med 90.1 root 0.56
+RUN outputs/experiments/EXP-018_cass_attention_injection/RUN-20261009-001045-seed2
+EXIT_CODE=0 moge2_vitl_cassdino:grid4 seed 2
+moge2_vitl_cassdino:normals16 seed 0 synthetic_val: mean 62.2 med 32.7 root 0.68 | lightbox: mean 91.4 med 94.4 root 0.50 | sunlamp: mean 105.5 med 114.6 root 0.42
+RUN outputs/experiments/EXP-018_cass_attention_injection/RUN-20261009-001056-seed0
+EXIT_CODE=0 moge2_vitl_cassdino:normals16 seed 0
+moge2_vitl_cassdino:normals16 seed 1 synthetic_val: mean 62.1 med 32.2 root 0.68 | lightbox: mean 92.7 med 98.2 root 0.50 | sunlamp: mean 105.3 med 111.3 root 0.41
+RUN outputs/experiments/EXP-018_cass_attention_injection/RUN-20261009-001104-seed1
+EXIT_CODE=0 moge2_vitl_cassdino:normals16 seed 1
+moge2_vitl_cassdino:normals16 seed 2 synthetic_val: mean 62.9 med 33.5 root 0.68 | lightbox: mean 95.4 med 98.6 root 0.48 | sunlamp: mean 105.2 med 113.5 root 0.43
+RUN outputs/experiments/EXP-018_cass_attention_injection/RUN-20261009-001112-seed2
+EXIT_CODE=0 moge2_vitl_cassdino:normals16 seed 2
+dinov3_vitl16_cassmoge:grid4 seed 0 synthetic_val: mean 33.0 med 22.0 root 0.90 | lightbox: mean 77.5 med 66.6 root 0.61 | sunlamp: mean 80.0 med 71.9 root 0.66
+RUN outputs/experiments/EXP-018_cass_attention_injection/RUN-20261009-001120-seed0
+EXIT_CODE=0 dinov3_vitl16_cassmoge:grid4 seed 0

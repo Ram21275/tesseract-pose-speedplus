@@ -3,6 +3,12 @@
 ## Status
 Completed
 
+
+## Keep score
+**4 / 5: Support.** Depth precision behaves as designed (error halves per level), but L5 has a 2.5° mean / 6.2° worst-case floor and 14× cell-volume variation, so a continuous refinement is required.
+
+_Keep score rubric (0–5): 5 strong support: pre-registered goal met with a large effect, adopt. 4 support: goal met, carry forward. 3 partial: mixed or one-sided evidence, keep for further testing. 2 weak: goal not met but an informative side result. 1 negative: fails, reject, kept only as a recorded result. 0 inconclusive or not run._
+
 ## Research question
 How precise is the Tesseract grid at each depth, how uniform is it, and what does each depth cost?
 

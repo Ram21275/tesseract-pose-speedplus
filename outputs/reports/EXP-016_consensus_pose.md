@@ -3,6 +3,12 @@
 ## Status
 Completed. Pre-registered on 2026-10-08, before any result.
 
+
+## Keep score
+**4 / 5: Support.** One-way at the pose level, but large: consensus-masked MoGe-2 normals gain 6.9° (lightbox) and 13.0° (sunlamp) mean error and have the best real-domain acc@20 of any feature. Strong candidate for Phase-2 fusion.
+
+_Keep score rubric (0–5): 5 strong support: pre-registered goal met with a large effect, adopt. 4 support: goal met, carry forward. 3 partial: mixed or one-sided evidence, keep for further testing. 2 weak: goal not met but an informative side result. 1 negative: fails, reject, kept only as a recorded result. 0 inconclusive or not run._
+
 ## Research question
 Does the training-free consensus mask from EXP-015 improve rotation prediction for **both** branches?
 - **DINO helps MoGe-2:** MoGe-2 `normals16` built with the consensus mask instead of MoGe-2's own mask.

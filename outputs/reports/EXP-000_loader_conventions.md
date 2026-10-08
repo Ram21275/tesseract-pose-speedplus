@@ -3,6 +3,12 @@
 ## Status
 Completed
 
+
+## Keep score
+**5 / 5: Strong support.** The pose convention is verified without ambiguity (bbox IoU 0.97 vs 0.52) in all three domains. Everything downstream depends on it.
+
+_Keep score rubric (0–5): 5 strong support: pre-registered goal met with a large effect, adopt. 4 support: goal met, carry forward. 3 partial: mixed or one-sided evidence, keep for further testing. 2 weak: goal not met but an informative side result. 1 negative: fails, reject, kept only as a recorded result. 0 inconclusive or not run._
+
 ## Research question
 Does the loader read the original SPEED+ files correctly, and which quaternion/rotation convention maps the Tango body frame into the camera frame?
 

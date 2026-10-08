@@ -1,0 +1,290 @@
+[
+  {
+    "domain": "synthetic_val",
+    "comparison": "moge2_inj - moge2",
+    "metric": "leakage",
+    "mean_diff": 0.0029956144582190427,
+    "ci_low": 0.0007581481298240233,
+    "ci_high": 0.005358638208088276
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "moge2_inj - moge2",
+    "metric": "recall",
+    "mean_diff": -0.02601526629140027,
+    "ci_low": -0.029638357676267008,
+    "ci_high": -0.02240567057220927
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "moge2_inj - moge2",
+    "metric": "iou",
+    "mean_diff": -0.01826920936925656,
+    "ci_low": -0.022231980887285945,
+    "ci_high": -0.014270698998820249
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "moge2_inj - moge2",
+    "metric": "boundary_f",
+    "mean_diff": -0.009529825653678454,
+    "ci_low": -0.014119070861728318,
+    "ci_high": -0.005269742300856506
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "dino_inj - dino",
+    "metric": "leakage",
+    "mean_diff": -0.021564747496264094,
+    "ci_low": -0.025937107945127838,
+    "ci_high": -0.017323396204173086
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "dino_inj - dino",
+    "metric": "recall",
+    "mean_diff": 0.008027826145538966,
+    "ci_low": -6.538497402468526e-06,
+    "ci_high": 0.016047082065696192
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "dino_inj - dino",
+    "metric": "iou",
+    "mean_diff": 0.007684747898491656,
+    "ci_low": 0.0031779396522487527,
+    "ci_high": 0.01228529427468638
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "dino_inj - dino",
+    "metric": "boundary_f",
+    "mean_diff": -0.008036010073216145,
+    "ci_low": -0.015830440079244636,
+    "ci_high": -0.0002768197029495924
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "moge2_inj - and",
+    "metric": "leakage",
+    "mean_diff": 0.2118574792048857,
+    "ci_low": 0.1981273594046605,
+    "ci_high": 0.22572333274130887
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "moge2_inj - and",
+    "metric": "recall",
+    "mean_diff": 0.011074162668599728,
+    "ci_low": 0.0015111170305420042,
+    "ci_high": 0.02107713264882705
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "moge2_inj - and",
+    "metric": "iou",
+    "mean_diff": -0.21174386204258988,
+    "ci_low": -0.22440196566407308,
+    "ci_high": -0.19875967733934857
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "moge2_inj - and",
+    "metric": "boundary_f",
+    "mean_diff": -0.29711960098701184,
+    "ci_low": -0.314695989105365,
+    "ci_high": -0.27952222830493934
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "moge2_inj - moge2",
+    "metric": "leakage",
+    "mean_diff": 0.0009180516872962738,
+    "ci_low": -0.0027548354092563894,
+    "ci_high": 0.00419921111193328
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "moge2_inj - moge2",
+    "metric": "recall",
+    "mean_diff": -0.004901349257334286,
+    "ci_low": -0.007352561672643664,
+    "ci_high": -0.002631793231841393
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "moge2_inj - moge2",
+    "metric": "iou",
+    "mean_diff": -0.00013586487908645806,
+    "ci_low": -0.00389018326654692,
+    "ci_high": 0.003920741852709607
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "moge2_inj - moge2",
+    "metric": "boundary_f",
+    "mean_diff": 0.003377114874850027,
+    "ci_low": -0.0019025775626874558,
+    "ci_high": 0.009225110051114146
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "dino_inj - dino",
+    "metric": "leakage",
+    "mean_diff": -0.009944074324099064,
+    "ci_low": -0.01503877346025752,
+    "ci_high": -0.0050317286479956945
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "dino_inj - dino",
+    "metric": "recall",
+    "mean_diff": -0.009739875451827437,
+    "ci_low": -0.017242674812671225,
+    "ci_high": -0.0015839447673032213
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "dino_inj - dino",
+    "metric": "iou",
+    "mean_diff": 0.005420202236508804,
+    "ci_low": 0.0007978436994643408,
+    "ci_high": 0.010216982055752787
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "dino_inj - dino",
+    "metric": "boundary_f",
+    "mean_diff": 0.013307988998670639,
+    "ci_low": 0.00469483834359801,
+    "ci_high": 0.021690411899522748
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "moge2_inj - and",
+    "metric": "leakage",
+    "mean_diff": 0.4049757499672963,
+    "ci_low": 0.3903648532855174,
+    "ci_high": 0.41871071970272006
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "moge2_inj - and",
+    "metric": "recall",
+    "mean_diff": 0.014660732342665714,
+    "ci_low": 0.007769451980108378,
+    "ci_high": 0.02230628408314816
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "moge2_inj - and",
+    "metric": "iou",
+    "mean_diff": -0.30893248535908646,
+    "ci_low": -0.32137091209182717,
+    "ci_high": -0.2964401441521711
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "moge2_inj - and",
+    "metric": "boundary_f",
+    "mean_diff": -0.29194609232514995,
+    "ci_low": -0.31223694492895787,
+    "ci_high": -0.27276355660526963
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "moge2_inj - moge2",
+    "metric": "leakage",
+    "mean_diff": 0.002193920837826819,
+    "ci_low": 0.0001559035048947635,
+    "ci_high": 0.0042644311502545934
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "moge2_inj - moge2",
+    "metric": "recall",
+    "mean_diff": -0.00015320709667906884,
+    "ci_low": -0.0004046239709304122,
+    "ci_high": 6.0962563062702295e-05
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "moge2_inj - moge2",
+    "metric": "iou",
+    "mean_diff": -0.001190753319468288,
+    "ci_low": -0.0032017635745179717,
+    "ci_high": 0.0009721016718200929
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "moge2_inj - moge2",
+    "metric": "boundary_f",
+    "mean_diff": -0.01130750458063752,
+    "ci_low": -0.015561132073133659,
+    "ci_high": -0.007092032386830649
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "dino_inj - dino",
+    "metric": "leakage",
+    "mean_diff": 0.0016280152756872738,
+    "ci_low": -0.0033910913971580054,
+    "ci_high": 0.007523080015392946
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "dino_inj - dino",
+    "metric": "recall",
+    "mean_diff": -0.0014409472079810665,
+    "ci_low": -0.0033092689332853676,
+    "ci_high": 0.0009045997993447616
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "dino_inj - dino",
+    "metric": "iou",
+    "mean_diff": -0.003276236162412634,
+    "ci_low": -0.008549117516487072,
+    "ci_high": 0.0013059514873321853
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "dino_inj - dino",
+    "metric": "boundary_f",
+    "mean_diff": 0.008491614083701853,
+    "ci_low": -0.00047780342785364195,
+    "ci_high": 0.017054062120344368
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "moge2_inj - and",
+    "metric": "leakage",
+    "mean_diff": 0.45118395986782683,
+    "ci_low": 0.4410351828061491,
+    "ci_high": 0.4610901850011932
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "moge2_inj - and",
+    "metric": "recall",
+    "mean_diff": 0.00583300290332093,
+    "ci_low": 0.0038413463612861306,
+    "ci_high": 0.008315807328036986
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "moge2_inj - and",
+    "metric": "iou",
+    "mean_diff": -0.3527804283194682,
+    "ci_low": -0.36153744807215976,
+    "ci_high": -0.3439486478749793
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "moge2_inj - and",
+    "metric": "boundary_f",
+    "mean_diff": -0.30004307778063755,
+    "ci_low": -0.31541941125869766,
+    "ci_high": -0.2855183196901696
+  }
+]

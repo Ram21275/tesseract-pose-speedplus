@@ -3,6 +3,12 @@
 ## Status
 Completed
 
+
+## Keep score
+**5 / 5: Strong support.** Every Tesseract invariant holds on all 69,491 labels. The representation is correct.
+
+_Keep score rubric (0–5): 5 strong support: pre-registered goal met with a large effect, adopt. 4 support: goal met, carry forward. 3 partial: mixed or one-sided evidence, keep for further testing. 2 weak: goal not met but an informative side result. 1 negative: fails, reject, kept only as a recorded result. 0 inconclusive or not run._
+
 ## Research question
 Does the Tesseract encoder produce correct, antipodally invariant, deterministic and invertible paths for every SPEED+ ground-truth rotation?
 

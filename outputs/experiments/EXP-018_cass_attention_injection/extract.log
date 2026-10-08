@@ -2,3 +2,50 @@ Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF
   4/9500  343 ms/img  peak GPU 4.0 GB
   204/9500  169 ms/img  peak GPU 4.1 GB
   404/9500  120 ms/img  peak GPU 4.1 GB
+  604/9500  117 ms/img  peak GPU 4.1 GB
+  804/9500  123 ms/img  peak GPU 4.1 GB
+  1004/9500  126 ms/img  peak GPU 4.1 GB
+  1204/9500  128 ms/img  peak GPU 4.1 GB
+  1404/9500  124 ms/img  peak GPU 4.1 GB
+  1604/9500  116 ms/img  peak GPU 4.1 GB
+  1804/9500  110 ms/img  peak GPU 4.1 GB
+  2004/9500  106 ms/img  peak GPU 4.1 GB
+  2204/9500  102 ms/img  peak GPU 4.1 GB
+  2404/9500  99 ms/img  peak GPU 4.1 GB
+  2604/9500  95 ms/img  peak GPU 4.1 GB
+  2804/9500  93 ms/img  peak GPU 4.1 GB
+  3004/9500  91 ms/img  peak GPU 4.1 GB
+  3204/9500  89 ms/img  peak GPU 4.1 GB
+  3404/9500  87 ms/img  peak GPU 4.1 GB
+  3604/9500  86 ms/img  peak GPU 4.1 GB
+  3804/9500  85 ms/img  peak GPU 4.1 GB
+  4004/9500  84 ms/img  peak GPU 4.1 GB
+  4204/9500  85 ms/img  peak GPU 4.1 GB
+  4404/9500  86 ms/img  peak GPU 4.1 GB
+  4604/9500  85 ms/img  peak GPU 4.1 GB
+  4804/9500  84 ms/img  peak GPU 4.1 GB
+  5004/9500  83 ms/img  peak GPU 4.1 GB
+  5204/9500  83 ms/img  peak GPU 4.1 GB
+  5404/9500  85 ms/img  peak GPU 4.1 GB
+  5604/9500  86 ms/img  peak GPU 4.1 GB
+  5804/9500  88 ms/img  peak GPU 4.1 GB
+  6004/9500  89 ms/img  peak GPU 4.1 GB
+  6204/9500  89 ms/img  peak GPU 4.1 GB
+  6404/9500  88 ms/img  peak GPU 4.1 GB
+  6604/9500  88 ms/img  peak GPU 4.1 GB
+  6804/9500  87 ms/img  peak GPU 4.1 GB
+  7004/9500  86 ms/img  peak GPU 4.1 GB
+  7204/9500  86 ms/img  peak GPU 4.1 GB
+  7404/9500  85 ms/img  peak GPU 4.1 GB
+  7604/9500  85 ms/img  peak GPU 4.1 GB
+  7804/9500  84 ms/img  peak GPU 4.1 GB
+  8004/9500  84 ms/img  peak GPU 4.1 GB
+  8204/9500  83 ms/img  peak GPU 4.1 GB
+  8404/9500  83 ms/img  peak GPU 4.1 GB
+  8604/9500  82 ms/img  peak GPU 4.1 GB
+  8804/9500  81 ms/img  peak GPU 4.1 GB
+  9004/9500  81 ms/img  peak GPU 4.1 GB
+  9204/9500  81 ms/img  peak GPU 4.1 GB
+  9404/9500  81 ms/img  peak GPU 4.1 GB
+done 773.2 s
+EXIT_CODE=0

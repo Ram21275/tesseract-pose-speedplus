@@ -3,6 +3,12 @@
 ## Status
 Completed (subset v1 sanity run)
 
+
+## Keep score
+**3 / 5: Partial.** MoGe-2 clearly beats VGGT (39.6° vs 48.7° mean) and its normals are informative, but it trails DINOv3 and its foreground mask fails on textured backgrounds. Kept as the geometric branch candidate.
+
+_Keep score rubric (0–5): 5 strong support: pre-registered goal met with a large effect, adopt. 4 support: goal met, carry forward. 3 partial: mixed or one-sided evidence, keep for further testing. 2 weak: goal not met but an informative side result. 1 negative: fails, reject, kept only as a recorded result. 0 inconclusive or not run._
+
 ## Research question
 Is a model trained for **single-image** geometry a better second branch than VGGT? MoGe-2 is tested with the same predictor, budget, subset and seeds as EXP-010 and EXP-011.
 

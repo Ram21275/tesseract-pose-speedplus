@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_probe.py --exp EXP-018_cass_attention_injection --features dinov3_vitl16_cassmoge:grid4 --seed 0
