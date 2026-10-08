@@ -1,0 +1,9 @@
+dino: dinov3_vitl16:grid4
+vggt: dinov3_vitb16:grid4
+second_exp: EXP-010_dinov3_baseline
+second_map: last_grid
+run_exp: EXP-014_moge2_complementarity
+subset: v1
+seeds: 0,1,2
+thresh: 10.0
+seed: 0

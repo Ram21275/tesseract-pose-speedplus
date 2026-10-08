@@ -134,20 +134,20 @@ Best per branch, chosen by the same synthetic-val mean rule:
 | **MoGe-2 `grid4`** (EXP-013) | 39.6 | 21.2 | 0.471 | 0.838 | 128 |
 | VGGT `l11_cam+mean` (EXP-011) | 48.7 | 25.4 | 0.397 | 0.813 | 246 |
 
-MoGe-2 beats VGGT on synthetic val by 9.1° mean error (39.6 vs 48.7; seed std ≤ 0.7°). Every MoGe-2 feature family improves on its VGGT counterpart:
+MoGe-2 beats VGGT on synthetic val by 9.1° mean error (39.6 vs 48.7; seed std ≤ 0.8°). Tokens and the spatial grid improve on VGGT; dense depth and points are on par:
 
 | feature family | MoGe-2 mean | VGGT mean |
 |---|---:|---:|
 | tokens (best layer) | 45.2 | 48.7 |
 | `grid4` | 39.6 | 49.1 |
-| point map | 66.0 | 67.2 |
-| depth | 66.1 | 66.1 |
+| point map | 66.0 | 67.2 (≈1 std, on par) |
+| depth | 66.1 | 66.1 (tie) |
 
-MoGe-2 is still clearly behind DINOv3, and about 9.5× slower to extract.
+MoGe-2 is still clearly behind DINOv3. Extraction timings (13.5 / 128 / 246 ms per image) were measured at different times, batch sizes and loads on a GPU shared at 100% with other users, so they are indicative only and are not used as decision evidence.
 
 ## Interpretation
 Observations, decided on synthetic validation:
-1. **The single-image geometry model is a better geometric branch than VGGT.** Its best token, grid and normal features all beat VGGT's best.
+1. **The single-image geometry model is a better single geometric branch than VGGT.** Its best token, grid and normal features beat VGGT's best; dense depth and points are on par.
 2. **Surface normals are the most pose-informative dense map.** `normals16` (1,024 numbers) reaches acc@10 0.179, the highest of any MoGe-2 or VGGT feature, against VGGT's best at 0.122. Its median of 24.8° approaches DINOv3 grid4's 17.2°. This supports the reason for choosing MoGe-2: normals encode face orientation.
 3. **Layer profile.** MoGe-2's best single layer is 17 (median 22.6°), similar to VGGT, where a middle layer was best. Its last-layer mean-pooled token is poor (median 61.4°), so its pose information sits in the CLS token and the spatial layout.
 4. **Off-domain (descriptive).** MoGe-2 `grid4` is better than VGGT's best tokens on lightbox and sunlamp (means 83–84° vs 101–107°) but still worse than DINOv3 (76–79°). The foreground-mask failure limits the dense maps there.
@@ -157,11 +157,11 @@ Observations, decided on synthetic validation:
 - The foreground-mask failure on real images is a model-domain-gap failure, not a bug. It is documented above.
 
 ## Decision
-**Keep MoGe-2 as the geometric branch candidate in place of VGGT.**
+**Recommend MoGe-2 over VGGT as the geometric branch candidate (awaiting user decision).**
 - Primary: `grid4` (rule-selected).
 - Secondary: `normals16` (highest acc@10, lowest dimension).
 
-Whether a geometric branch is kept at all depends on EXP-014 and on Phase-2 fusion beating DINOv3 alone.
+Whether a geometric branch is kept at all depends on EXP-014 (including its non-geometric control) and on Phase-2 fusion beating DINOv3 alone. No architecture change is made until the user decides.
 
 ## Next experiment
 EXP-014: DINOv3–MoGe-2 complementarity, the EXP-012 audit repeated.

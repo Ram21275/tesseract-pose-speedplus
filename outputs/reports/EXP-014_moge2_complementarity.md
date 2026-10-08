@@ -31,6 +31,8 @@ Training-free analysis. No new training; it reuses EXP-010 and EXP-013 predictio
 ## Changed variable
 Second branch: MoGe-2 `grid4` instead of VGGT `l11_cam+mean` (EXP-012).
 
+A reference control was added on reviewer advice: DINOv3-B `grid4` (EXP-010 predictions, mean 29.9°) as the second branch. It is a second appearance-only model, so it shows how much complementarity *any* second model gives, with no geometric information.
+
 ## Method
 Identical to EXP-012 (same script, `scripts/exp012_complementarity.py`, now parameterized by the second branch). The band-energy audit uses MoGe-2's 74×74 surface-normal map.
 
@@ -44,7 +46,8 @@ scripts/guarded.sh 24 -- python scripts/exp012_complementarity.py --dino dinov3_
 ## Runs
 | Run ID | Status | Peak RAM | Artifact directory |
 |---|---|---:|---|
-| RUN-20261008-161752-seed0 | Completed | 3.9 GB | outputs/experiments/EXP-014_moge2_complementarity/RUN-20261008-161752-seed0 |
+| RUN-20261008-161752-seed0 | Completed (MoGe-2 grid4) | 3.9 GB | outputs/experiments/EXP-014_moge2_complementarity/RUN-20261008-161752-seed0 |
+| RUN-20261008-162511-seed0 | Completed (**control:** DINOv3-B grid4 as the second branch; appearance only, no geometry) | – | outputs/experiments/EXP-014_moge2_complementarity/RUN-20261008-162511-seed0 |
 
 ## Quantitative results
 DINOv3-L `grid4` with MoGe-2 `grid4`, mean over 3 seed pairs. Source: `RUN-20261008-161752-seed0/metrics/metrics.csv`.
@@ -57,6 +60,17 @@ DINOv3-L `grid4` with MoGe-2 `grid4`, mean over 3 seed pairs. Source: `RUN-20261
 
 DINO-alone acc@10: 0.201 synthetic_val, 0.036 lightbox, 0.015 sunlamp.
 
+**Complementarity on synthetic validation, all second branches.** Mean ± std over the 3 seed pairs. Source: each run's `metrics/complementarity_per_seed.csv`.
+
+| second branch | its mean error | only it solves (<10°) | oracle-of-two acc@10 | Spearman(err) | DINO-L acc@10 agree/disagree ratio | agree fraction |
+|---|---:|---:|---:|---:|---:|---:|
+| VGGT `l11_cam+mean` (EXP-012) | 48.7° | 0.077 ± 0.007 | 0.278 ± 0.022 | 0.312 ± 0.011 | 2.60 ± 0.31 | 0.298 |
+| VGGT `grid4` (EXP-012b) | 49.1° | 0.068 ± 0.009 | 0.269 ± 0.016 | 0.384 ± 0.007 | 2.95 ± 0.17 | 0.297 |
+| **MoGe-2 `grid4`** (EXP-014) | 39.6° | 0.088 ± 0.002 | 0.289 ± 0.020 | 0.376 ± 0.019 | 3.18 ± 0.24 | 0.367 |
+| *Control: DINOv3-B `grid4`* (no geometry) | 29.9° | 0.107 ± 0.009 | 0.308 ± 0.022 | 0.421 ± 0.001 | 3.67 ± 0.05 | 0.441 |
+
+DINO-L alone: acc@10 0.201.
+
 ## Domain-wise results
 **Head-to-head with the VGGT audit (EXP-012, primary pick `l11_cam+mean`).** The decision rests on synthetic validation. Real-domain columns are descriptive only.
 
@@ -67,7 +81,7 @@ DINO-alone acc@10: 0.201 synthetic_val, 0.036 lightbox, 0.015 sunlamp.
 | oracle-of-two acc@10 (DINO alone 0.201) | 0.278 | **0.289** | 0.045 / 0.018 | **0.053 / 0.029** |
 | error correlation (Spearman) | **0.312** (less correlated) | 0.376 | 0.276 / 0.166 | 0.329 / 0.284 |
 | fraction of images where the branches agree | 29.8% | **36.7%** | 4.3 / 1.6% | 6.7 / 6.1% |
-| DINO acc@10 when agree / disagree | 0.354 / 0.137 (2.6×) | 0.355 / 0.112 (**3.2×**) | 0.134 / 0.032 | 0.133 / 0.030 |
+| DINO acc@10 when agree / disagree | 0.354 / 0.137 (2.6×; VGGT grid4: 3.0×) | 0.355 / 0.112 (3.2×) | 0.134 / 0.032 | 0.133 / 0.030 |
 
 **Object scale**, mean error by GT crop-size tertile (DINO / MoGe-2):
 - synthetic_val: small 28.0 / 39.6, medium 24.6 / 36.1, large 30.4 / 43.1;
@@ -103,27 +117,28 @@ See the EXP-013 figure (`outputs/experiments/EXP-013_moge2_controls/figures/moge
 - Credible-region coverage: n/a
 
 ## Comparison with control
-The control is DINO alone. With a perfect per-image selector (an upper bound, not an achievable fusion), adding MoGe-2 raises acc@10 by:
-- synthetic_val: +8.8 points (0.201 → 0.289), against +7.7 points for VGGT;
-- lightbox and sunlamp: +1.7 and +1.4 points (descriptive), against +0.9 and +0.3 for VGGT.
+The control is DINO alone. With a perfect per-image selector (an upper bound, not an achievable fusion), acc@10 on synthetic_val rises from 0.201 to:
+- 0.278 ± 0.022 with VGGT;
+- 0.289 ± 0.020 with MoGe-2;
+- 0.308 ± 0.022 with the appearance-only control, DINOv3-B.
 
 ## Interpretation
 On synthetic validation:
-1. **MoGe-2 is at least as complementary as VGGT.** It solves more images that DINO misses (8.8% vs 7.7%) and gives a higher oracle-of-two bound (0.289 vs 0.278), even though its errors are slightly more correlated with DINO's (0.38 vs 0.31). That higher correlation fits its DINOv2 encoder overlapping somewhat more with DINOv3.
-2. **The agreement signal is stronger and covers more images.** When DINO and MoGe-2 agree, DINO is correct below 10° 3.2× as often as when they disagree (VGGT: 2.6×). The agreement set is also larger (36.7% vs 29.8% of images). This is the most direct use of a second branch, both for the Phase-2 reliability-weighted fusion (EXP-021 "agreement") and for Phase-5 adaptive depth.
-3. **Off-domain** (descriptive), MoGe-2 is better than VGGT but both branches remain near chance on most real images (95–97% solved by neither). Drift to lightbox is a little larger for MoGe-2 (0.65 vs 0.54). The real-domain mask failure documented in EXP-013 is a likely contributor; this is not tested.
+1. **MoGe-2 and VGGT are about equally complementary to DINOv3-L.** Their oracle bounds (0.289 vs 0.278) and "only it solves" rates (8.8% vs 7.7%) differ by about one seed standard deviation or less. MoGe-2 is **clearly the better single branch** (39.6° vs 48.7°, std ≤ 0.8°).
+2. **Neither geometric branch shows complementarity beyond what any second model gives.** The appearance-only DINOv3-B control gives a *higher* oracle bound (0.308), more images it alone solves (10.7%) and a stronger agreement signal (3.67×). Across the four second branches, complementarity tracks the second model's own accuracy, not whether it carries geometry. At this subset scale, these audits do not show that a geometric branch adds *geometric* information that DINOv3 lacks.
+3. **Agreement remains a useful reliability cue.** DINO-L is correct 3.2× more often when it agrees with MoGe-2. Against VGGT `grid4` the ratio is 3.0×, so like for like the gap to VGGT is small. A second DINOv3 model gives the same cue (3.7×) at about one tenth of the extraction cost, though extraction timings on the shared GPU are only indicative.
+4. **Off-domain** (descriptive), all second branches are near chance on most real images (94–97% solved by neither).
+
+## Recommendation (awaiting user decision)
+- **If a geometric branch is kept, use MoGe-2 rather than VGGT.** It is the better single branch, about equally complementary, and has a slightly stronger agreement signal.
+- **Whether to keep a geometric branch at all is open.** This subset gives no evidence that it adds geometric information beyond a second appearance model. That should be re-tested on the full synthetic training split, and in Phase 2 against a matched non-geometric second branch (e.g. DINOv3-B), before it is fixed in the design.
+- Replacing VGGT changes the project's stated DINOv3–VGGT architecture (ground rules §2.5, §16.7), so **no swap is made until the user decides.**
 
 ## Failure analysis
 None. The run completed on the first attempt within the memory caps.
 
 ## Decision
-**Replace VGGT with MoGe-2 as the geometric branch carried into Phase 2.** The deciding evidence is synthetic validation only:
-- MoGe-2 is better as a single branch (39.6° vs 48.7° mean);
-- it is at least as complementary (oracle 0.289 vs 0.278);
-- it gives a stronger, wider agreement signal (3.2× on 36.7% of images, vs 2.6× on 29.8%);
-- it is about 2× cheaper to extract than VGGT (128 vs 246 ms/img).
-
-DINOv3-L `grid4` remains the primary branch. If no training-free fusion of DINOv3 and MoGe-2 beats DINOv3 alone on synthetic validation in Phase 2, the geometric branch is dropped, or kept only as an agreement and uncertainty cue.
+Modify. MoGe-2 is recommended over VGGT as the geometric branch. Whether a geometric branch is retained is deferred to the full-data repeat and the Phase-2 matched control. The swap awaits the user's decision.
 
 ## Next experiment
 Either:

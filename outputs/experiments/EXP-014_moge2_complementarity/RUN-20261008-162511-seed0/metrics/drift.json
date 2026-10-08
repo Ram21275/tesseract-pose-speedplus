@@ -1,0 +1,32 @@
+[
+  {
+    "features": "dinov3_vitl16:grid4",
+    "domain": "synthetic_val",
+    "mean_shift_over_spread": 0.028639469295740128
+  },
+  {
+    "features": "dinov3_vitl16:grid4",
+    "domain": "lightbox",
+    "mean_shift_over_spread": 0.47911155223846436
+  },
+  {
+    "features": "dinov3_vitl16:grid4",
+    "domain": "sunlamp",
+    "mean_shift_over_spread": 0.9271789193153381
+  },
+  {
+    "features": "dinov3_vitb16:grid4",
+    "domain": "synthetic_val",
+    "mean_shift_over_spread": 0.030670497566461563
+  },
+  {
+    "features": "dinov3_vitb16:grid4",
+    "domain": "lightbox",
+    "mean_shift_over_spread": 0.49335330724716187
+  },
+  {
+    "features": "dinov3_vitb16:grid4",
+    "domain": "sunlamp",
+    "mean_shift_over_spread": 0.8132847547531128
+  }
+]

@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/exp012_complementarity.py --dino dinov3_vitl16:grid4 --vggt dinov3_vitb16:grid4 --second-exp EXP-010_dinov3_baseline --second-map last_grid --run-exp EXP-014_moge2_complementarity
