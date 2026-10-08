@@ -128,14 +128,14 @@ Against the strongest DINOv3 branch, under the same predictor, budget, subset an
 Observations:
 1. **Middle layers are best for VGGT.** Layer 11 beats layer 4, while layers 17 and 23 degrade sharply (median 44–57°). This is the opposite of DINOv3, where the last layer is best. One possible reason, not tested: VGGT's late layers specialize for its multi-view heads, which a single frame does not exercise.
 2. **Spatial pooling (`grid4`) matters most off-domain.** On synthetic val it matches the best vector (49.1° vs 48.7° mean), but it is far better on lightbox (median 84° vs 105°) and sunlamp (92° vs 110°).
-3. **Dense geometry (depth/confidence and point maps) is weaker on synthetic** (mean about 66–67°). However, `depthconf16` has the **highest real-domain acc@20 of any VGGT feature**, 0.132 lightbox and 0.112 sunlamp, comparable to DINOv3's 0.145 and 0.109, from only 512 numbers. That small, illumination-insensitive geometry summary is the one VGGT signal worth carrying into the complementarity audit and the Phase-2 reliability signals.
+3. **Dense geometry (depth/confidence and point maps) is weaker on synthetic validation** (mean about 66–67°), so it is not selected. Descriptively, not used for any selection: `depthconf16` has the highest lightbox and sunlamp acc@20 of the VGGT features (0.132 / 0.112). Using that to choose features would require a recorded real-domain validation split (ground rules §6).
 4. **VGGT costs about 17× more extraction time than DINOv3-L for a weaker branch.**
 
 ## Failure analysis
 None of the runs failed. VGGT's weak real-domain performance is measured, not a bug: the same crops and conventions were used as in EXP-010.
 
 ## Decision
-Keep VGGT `l11_cam+mean` (primary, selected by the synthetic-val mean rule) and `grid4` (statistically tied) as the VGGT representatives for EXP-012. Flag `depthconf16` as a candidate reliability or geometry signal. Whether VGGT stays at all is decided by EXP-012 and the Phase-1 gate.
+Keep VGGT `l11_cam+mean` (primary, selected by the pre-declared synthetic-val mean rule) and `grid4` (statistically tied on synthetic val: 49.1 ± 0.7° vs 48.7 ± 0.7°) as the VGGT representatives for EXP-012. No feature is selected or flagged on the basis of lightbox or sunlamp results. Whether VGGT stays at all is decided by EXP-012 and the Phase-1 gate.
 
 ## Next experiment
 EXP-012: complementarity and frequency audit.

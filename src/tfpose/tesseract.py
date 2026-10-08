@@ -6,8 +6,9 @@ Builds on the recursive tesseract subdivision of Kurz, Pfaff & Hanebeck,
 that work: the cubic facets of the 4D hypercube, recursive 8-way halving of
 each cube, and radial projection q = x / ||x||. Differences (ours):
 - representatives are cell CENTRES, not cube corners, so every rotation
-  belongs to exactly one cell and has a unique root-to-leaf path (a corner is
-  shared by up to 16 cubes and has no unique parent);
+  belongs to exactly one cell and has a unique root-to-leaf path (a corner of
+  the subdivided tesseract surface is shared by up to 8 cubes, so it has no
+  unique parent);
 - only the 4 positive facets are kept (antipodal canonicalisation), so
   q and -q map to the same path, giving 4 * 8**L cells instead of
   (2**m+1)**4 - (2**m-1)**4 corner points with antipodal duplicates;

@@ -147,7 +147,7 @@ Observations:
 6. **Frequency.**
    - DINO's token maps shift energy toward high frequencies on the real domains (0.25 → 0.29), consistent with sensor noise and glare texture.
    - VGGT depth is overwhelmingly low-frequency (about 94–96%), and slightly more so on real data.
-   - The data do **not** support a simple "DINO = low frequency, VGGT = high frequency" split (ground rules §4.7). If anything it runs the other way for these maps.
+   - These two maps are different quantities on different grids, so they say nothing about which backbone is "low" or "high" frequency. A like-for-like comparison (e.g. both token grids at 8×8) has not been run.
 
 ## Failure analysis
 - **Path dtype bug.** The two quick failures came from pandas reading Tesseract path strings as integers. Fixed with `dtype=str`.
@@ -160,14 +160,16 @@ Observations:
   - unit tests that spawn a process, exceed a 0.5 GB limit, and check it is killed.
 
 ## Decision
-Keep VGGT **conditionally**:
-- it adds measurable complementary information on synthetic data;
-- it provides a strong agreement-based reliability signal;
-- its real-domain complementarity is small, and it costs about 17× DINO's extraction time.
+Keep VGGT **conditionally**. The evidence used for this decision is **synthetic validation only**:
+- the errors are only weakly correlated (Spearman 0.31);
+- VGGT alone solves 7.7% of images DINO misses, and the oracle-of-two upper bound is +7.7 acc@10 points;
+- agreement between the branches makes DINO correct below 10° 2.6× more often (0.354 vs 0.137).
+
+Against it: VGGT costs about 17× DINO's extraction time. The lightbox and sunlamp numbers above are reported as description only and were not used to make this decision.
 
 Phase-1 gate recommendation:
 - Carry DINOv3-L `grid4` as the primary branch.
-- Carry VGGT (`grid4` tokens, plus `depthconf16` as a candidate geometry signal) into the Phase-2 training-free fusion tests.
+- Carry VGGT `l11_cam+mean` (the rule-selected pick; `grid4` is tied on synthetic val) into the Phase-2 training-free fusion tests (EXP-020/021), together with the agreement-based reliability signal.
 - If no training-free fusion beats DINO alone on synthetic validation, drop VGGT, or use it only as an uncertainty cue.
 
 All Phase-1 numbers come from a 6,000-image subset in which the probe is data-limited. Repeating EXP-010/011/012 on the full synthetic training split is advisable before committing to the Phase-2 design.

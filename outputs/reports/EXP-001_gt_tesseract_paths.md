@@ -38,10 +38,10 @@ None; this is a validation experiment.
 | Geometry | cubic facets of the 4D hypercube, recursive 8-way halving, radial projection q = x/‖x‖ | same |
 | Grid points | cube **corners** | cube **centres** |
 | Facets | all 8 (±each axis); q and −q both present | 4 positive facets; q ~ −q canonicalized |
-| Points per level | (2ᵐ+1)⁴ − (2ᵐ−1)⁴ = 16, 80, 544, 3968, … | 4·8ᴸ = 32, 256, 2048, 16384, 131072 |
+| Points per level | (2ᵐ+1)⁴ − (2ᵐ−1)⁴ = 16, 80, 544, 4160, … | 4·8ᴸ = 32, 256, 2048, 16384, 131072 |
 | Structure | flat point set (used for grid filtering) | tree: 4 roots → 8 children per level, a unique path per rotation, encode/decode |
 
-Cell centres are used because a corner is shared by up to 16 neighbouring cubes and so has no unique parent. Centres give the unique root-to-leaf path and `path(q) == path(−q)` that the hierarchical predictor needs (ground rules §5).
+Cell centres are used because a corner of the subdivided surface is shared by up to 8 neighbouring cubes (4 at original tesseract vertices, 6 on tesseract edges, 8 elsewhere; verified by enumeration), so it has no unique parent. Centres give the unique root-to-leaf path and `path(q) == path(−q)` that the hierarchical predictor needs (ground rules §5).
 
 Encoding (`src/tfpose/tesseract.py`):
 1. Normalize q.
