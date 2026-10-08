@@ -3,7 +3,8 @@
 Spec string: ``<backbone>:<featset>``, e.g. ``dinov3_vitb16:l11_cls+mean``.
 featsets:
 - ``l<i>_<a>[+<b>]``   concatenation of cached per-layer vectors (cls/mean/cam)
-- ``grid4``            last-layer patch grid, 4x4 average pooled, flattened
+- ``grid4`` / ``grid2`` last-layer patch grid, 4x4 / 2x2 average pooled, flattened
+- ``parts4``           DINOv3 tokens pooled by 4 soft spectral parts (EXP-019) + part centroid and second moments
 - ``depthconf16``      depth / per-image median and log confidence (VGGT) or masked median + mask (MoGe-2), 16x16 pooled
 - ``points16``         point map centred (conf/mask-weighted) and RMS-scaled, plus conf (VGGT: log) or mask (MoGe-2), 16x16 pooled
 - ``normals16``        MoGe-2 surface normals (masked) plus foreground mask, 16x16 pooled
@@ -73,9 +74,29 @@ def load(spec: str, subset: str):
                 unweighted = Gc.mean((2, 4))
                 out.append(np.where(den > 1e-6, num / np.maximum(den, 1e-6), unweighted))  # empty cell -> plain mean
             X = np.concatenate(out).reshape(len(names), -1)
-        elif fs == "grid4":
+        elif fs in ("grid4", "grid2"):
             key = "last_grid" if "last_grid" in f else "last_grid8"
-            X = _pool(f[key], 4).reshape(len(names), -1)
+            X = _pool(f[key], int(fs[-1])).reshape(len(names), -1)
+        elif fs == "parts4":  # EXP-019: spectral part pooling (fused-graph eigvecs 2-5, weights v^2)
+            pp = REPO / f"outputs/shared_cache/spectral_parts__subset_{subset}"
+            with h5py.File(pp / "parts.h5", "r") as fp:
+                if [s.decode() for s in fp["image_relpath"][:]] != names:
+                    raise ValueError("parts cache order does not match feature cache")
+                V = fp["eigvecs_2_5"][:].astype(np.float32).reshape(len(names), 256, 4)
+            W = V ** 2
+            W = W / (W.sum(1, keepdims=True) + 1e-12)                       # (N,256,4) soft part weights, sign-invariant
+            yy, xx = np.meshgrid((np.arange(16) + 0.5) / 16, (np.arange(16) + 0.5) / 16, indexing="ij")
+            P = np.stack([xx.reshape(-1), yy.reshape(-1)], 1).astype(np.float32)   # (256,2)
+            out = []
+            for s0 in range(0, len(names), 256):
+                G = np.asarray(f["last_grid"][s0:s0 + 256], dtype=np.float32).reshape(-1, 256, f["last_grid"].shape[-1])
+                w = W[s0:s0 + 256]
+                feat = np.einsum("npk,npc->nkc", w, G)                     # (n,4,C) weighted mean tokens
+                cen = np.einsum("npk,pd->nkd", w, P)                        # (n,4,2) centroids
+                dx = P[None, :, None, :] - cen[:, None, :, :]               # (n,256,4,2)
+                mom = np.stack([(w * dx[..., 0] ** 2).sum(1), (w * dx[..., 0] * dx[..., 1]).sum(1), (w * dx[..., 1] ** 2).sum(1)], -1)
+                out.append(np.concatenate([feat, cen, mom], -1).reshape(len(G), -1))   # (n, 4*(C+5))
+            X = np.concatenate(out)
         elif fs == "depthconf16":
             d = f["depth"][:].astype(np.float32)
             if "depth_conf" in f:  # VGGT: confidence map, log-scaled
