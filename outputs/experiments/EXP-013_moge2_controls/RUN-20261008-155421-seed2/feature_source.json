@@ -1,0 +1,29 @@
+{
+  "cache": "outputs/shared_cache/moge2_vitl__subset_v1__04daa56d7cd2__bbdb3e2e3f5b70a1",
+  "cache_manifest": {
+    "spec": {
+      "model": "Ruicheng/moge-2-vitl-normal",
+      "size": 518,
+      "num_tokens": 1369,
+      "layers": [
+        5,
+        11,
+        17,
+        23
+      ],
+      "fov": "predicted",
+      "apply_mask": false,
+      "use_fp16": true,
+      "map_res": 74,
+      "crop": "gt_square",
+      "gray_to_rgb": "replicate"
+    },
+    "preprocess_hash": "04daa56d7cd2",
+    "manifest_hash": "bbdb3e2e3f5b70a1",
+    "n": 9500,
+    "code_version": "576f052df4dcd895fe272b6f43dd29ad6dd82830",
+    "seconds": 1217.9,
+    "ms_per_image": 128.2,
+    "peak_gpu_mb": 2993.5
+  }
+}

@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_probe.py --exp EXP-013_moge2_controls --features moge2_vitl:grid4 --seed 1

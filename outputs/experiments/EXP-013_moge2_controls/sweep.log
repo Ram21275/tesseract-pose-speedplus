@@ -1,0 +1,91 @@
+moge2_vitl:l5_cls+mean seed 0 synthetic_val: mean 85.8 med 81.0 root 0.57 | lightbox: mean 123.7 med 128.4 root 0.25 | sunlamp: mean 124.9 med 133.7 root 0.27
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-155245-seed0
+EXIT_CODE=0 l5_cls+mean seed 0
+moge2_vitl:l5_cls+mean seed 1 synthetic_val: mean 84.9 med 81.2 root 0.59 | lightbox: mean 124.8 med 129.2 root 0.26 | sunlamp: mean 123.4 med 132.6 root 0.25
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-155332-seed1
+EXIT_CODE=0 l5_cls+mean seed 1
+moge2_vitl:l5_cls+mean seed 2 synthetic_val: mean 84.8 med 76.4 root 0.59 | lightbox: mean 126.1 med 132.1 root 0.24 | sunlamp: mean 124.1 med 134.1 root 0.28
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-155421-seed2
+EXIT_CODE=0 l5_cls+mean seed 2
+moge2_vitl:l11_cls+mean seed 0 synthetic_val: mean 54.3 med 28.8 root 0.76 | lightbox: mean 111.1 med 118.2 root 0.37 | sunlamp: mean 109.5 med 114.1 root 0.41
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-155509-seed0
+EXIT_CODE=0 l11_cls+mean seed 0
+moge2_vitl:l11_cls+mean seed 1 synthetic_val: mean 53.7 med 29.0 root 0.76 | lightbox: mean 111.9 med 119.5 root 0.36 | sunlamp: mean 111.9 med 116.2 root 0.40
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-155559-seed1
+EXIT_CODE=0 l11_cls+mean seed 1
+moge2_vitl:l11_cls+mean seed 2 synthetic_val: mean 53.4 med 27.2 root 0.77 | lightbox: mean 113.7 med 122.6 root 0.36 | sunlamp: mean 111.9 med 116.1 root 0.38
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-155646-seed2
+EXIT_CODE=0 l11_cls+mean seed 2
+moge2_vitl:l17_cls+mean seed 0 synthetic_val: mean 45.4 med 23.3 root 0.82 | lightbox: mean 107.9 med 113.4 root 0.40 | sunlamp: mean 105.0 med 106.5 root 0.43
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-155734-seed0
+EXIT_CODE=0 l17_cls+mean seed 0
+moge2_vitl:l17_cls+mean seed 1 synthetic_val: mean 45.9 med 22.8 root 0.83 | lightbox: mean 105.7 med 112.1 root 0.43 | sunlamp: mean 107.7 med 111.1 root 0.42
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-155821-seed1
+EXIT_CODE=0 l17_cls+mean seed 1
+moge2_vitl:l17_cls+mean seed 2 synthetic_val: mean 44.4 med 21.6 root 0.82 | lightbox: mean 109.8 med 119.1 root 0.39 | sunlamp: mean 107.6 med 112.4 root 0.40
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-155911-seed2
+EXIT_CODE=0 l17_cls+mean seed 2
+moge2_vitl:l23_cls+mean seed 0 synthetic_val: mean 51.8 med 26.3 root 0.81 | lightbox: mean 99.5 med 102.3 root 0.46 | sunlamp: mean 101.9 med 102.5 root 0.50
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-155958-seed0
+EXIT_CODE=0 l23_cls+mean seed 0
+moge2_vitl:l23_cls+mean seed 1 synthetic_val: mean 52.6 med 27.1 root 0.81 | lightbox: mean 100.6 med 100.7 root 0.43 | sunlamp: mean 102.0 med 104.3 root 0.47
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-160047-seed1
+EXIT_CODE=0 l23_cls+mean seed 1
+moge2_vitl:l23_cls+mean seed 2 synthetic_val: mean 52.1 med 24.4 root 0.81 | lightbox: mean 103.2 med 108.7 root 0.43 | sunlamp: mean 101.6 med 101.2 root 0.50
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-160129-seed2
+EXIT_CODE=0 l23_cls+mean seed 2
+moge2_vitl:l23_cls seed 0 synthetic_val: mean 52.5 med 26.8 root 0.81 | lightbox: mean 101.8 med 104.8 root 0.43 | sunlamp: mean 103.8 med 107.3 root 0.48
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-160219-seed0
+EXIT_CODE=0 l23_cls seed 0
+moge2_vitl:l23_cls seed 1 synthetic_val: mean 52.1 med 27.2 root 0.81 | lightbox: mean 103.0 med 107.3 root 0.43 | sunlamp: mean 106.5 med 109.7 root 0.45
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-160306-seed1
+EXIT_CODE=0 l23_cls seed 1
+moge2_vitl:l23_cls seed 2 synthetic_val: mean 52.3 med 26.3 root 0.80 | lightbox: mean 103.9 med 107.8 root 0.42 | sunlamp: mean 105.9 med 110.2 root 0.46
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-160356-seed2
+EXIT_CODE=0 l23_cls seed 2
+moge2_vitl:l23_mean seed 0 synthetic_val: mean 74.1 med 60.3 root 0.70 | lightbox: mean 109.1 med 115.7 root 0.40 | sunlamp: mean 108.7 med 110.4 root 0.40
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-160443-seed0
+EXIT_CODE=0 l23_mean seed 0
+moge2_vitl:l23_mean seed 1 synthetic_val: mean 75.7 med 65.7 root 0.69 | lightbox: mean 108.2 med 116.4 root 0.40 | sunlamp: mean 109.0 med 111.6 root 0.41
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-160533-seed1
+EXIT_CODE=0 l23_mean seed 1
+moge2_vitl:l23_mean seed 2 synthetic_val: mean 73.1 med 58.3 root 0.71 | lightbox: mean 108.3 med 111.8 root 0.41 | sunlamp: mean 105.5 med 108.2 root 0.42
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-160621-seed2
+EXIT_CODE=0 l23_mean seed 2
+moge2_vitl:grid4 seed 0 synthetic_val: mean 39.6 med 21.0 root 0.84 | lightbox: mean 82.4 med 76.4 root 0.58 | sunlamp: mean 83.0 med 79.8 root 0.58
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-160711-seed0
+EXIT_CODE=0 grid4 seed 0
+moge2_vitl:grid4 seed 1 synthetic_val: mean 40.2 med 21.7 root 0.84 | lightbox: mean 83.7 med 79.4 root 0.57 | sunlamp: mean 85.0 med 81.7 root 0.59
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-160802-seed1
+EXIT_CODE=0 grid4 seed 1
+moge2_vitl:grid4 seed 2 synthetic_val: mean 39.0 med 21.0 root 0.84 | lightbox: mean 84.0 med 78.1 root 0.56 | sunlamp: mean 83.5 med 82.0 root 0.57
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-160858-seed2
+EXIT_CODE=0 grid4 seed 2
+moge2_vitl:depthconf16 seed 0 synthetic_val: mean 65.6 med 40.0 root 0.61 | lightbox: mean 93.8 med 100.4 root 0.47 | sunlamp: mean 102.2 med 108.4 root 0.44
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-160949-seed0
+EXIT_CODE=0 depthconf16 seed 0
+moge2_vitl:depthconf16 seed 1 synthetic_val: mean 65.8 med 35.6 root 0.61 | lightbox: mean 95.2 med 101.2 root 0.44 | sunlamp: mean 102.7 med 111.6 root 0.43
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-161041-seed1
+EXIT_CODE=0 depthconf16 seed 1
+moge2_vitl:depthconf16 seed 2 synthetic_val: mean 66.9 med 38.2 root 0.60 | lightbox: mean 96.4 med 104.8 root 0.44 | sunlamp: mean 103.7 med 112.2 root 0.41
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-161127-seed2
+EXIT_CODE=0 depthconf16 seed 2
+moge2_vitl:points16 seed 0 synthetic_val: mean 65.1 med 32.6 root 0.63 | lightbox: mean 92.5 med 96.7 root 0.48 | sunlamp: mean 103.7 med 112.7 root 0.44
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-161221-seed0
+EXIT_CODE=0 points16 seed 0
+moge2_vitl:points16 seed 1 synthetic_val: mean 66.1 med 33.9 root 0.63 | lightbox: mean 95.0 med 98.4 root 0.46 | sunlamp: mean 102.3 med 108.1 root 0.42
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-161307-seed1
+EXIT_CODE=0 points16 seed 1
+moge2_vitl:points16 seed 2 synthetic_val: mean 66.7 med 35.5 root 0.63 | lightbox: mean 95.7 med 100.4 root 0.46 | sunlamp: mean 103.4 med 109.5 root 0.41
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-161404-seed2
+EXIT_CODE=0 points16 seed 2
+moge2_vitl:normals16 seed 0 synthetic_val: mean 55.5 med 24.1 root 0.73 | lightbox: mean 81.6 med 78.5 root 0.57 | sunlamp: mean 100.0 med 104.0 root 0.46
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-161449-seed0
+EXIT_CODE=0 normals16 seed 0
+moge2_vitl:normals16 seed 1 synthetic_val: mean 56.7 med 24.3 root 0.72 | lightbox: mean 85.5 med 87.2 root 0.54 | sunlamp: mean 100.3 med 106.3 root 0.48
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-161544-seed1
+EXIT_CODE=0 normals16 seed 1
+moge2_vitl:normals16 seed 2 synthetic_val: mean 56.9 med 26.0 root 0.72 | lightbox: mean 85.0 med 88.0 root 0.54 | sunlamp: mean 99.9 med 104.7 root 0.45
+RUN outputs/experiments/EXP-013_moge2_controls/RUN-20261008-161629-seed2
+EXIT_CODE=0 normals16 seed 2
+SWEEP_DONE
