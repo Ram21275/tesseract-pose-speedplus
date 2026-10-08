@@ -20,3 +20,10 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
   - train only on SPEED+ synthetic/train;
   - use synthetic/validation for model selection;
   - lightbox and sunlamp are test-only and never used for selection or tuning.
+
+## DEC-002 — Experiment numbering (2026-10-09)
+- **Why:** user-requested side experiments EXP-015–020 used IDs that collide with the plan's Phase-2 IDs (EXP-020–024).
+- **Rule:**
+  - The plan's Phase-2 experiments will be numbered **EXP-025–029** (plan EXP-020 → 025, 021 → 026, 022 → 027, 023 → 028, 024 → 029). Phase 3 onwards keeps the plan's numbers.
+  - New user-requested side experiments use the **EXP-1xx** series, starting with EXP-101.
+  - Existing IDs are never renamed.

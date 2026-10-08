@@ -88,3 +88,67 @@ class HierMLP(nn.Module):
             chart = chart.gather(1, src)
             path = torch.cat([path.gather(1, src[:, :, None].expand(-1, -1, l)), child[:, :, None]], -1)
         return chart, path, score, nodes
+
+
+_FREE_T = {}
+
+
+def decode_torch(chart: torch.Tensor, path: torch.Tensor) -> torch.Tensor:
+    """GPU Tesseract cell centres, identical to tesseract.decode. chart (...,), path (..., l) -> (..., 4).
+
+    After l levels the free coordinate is lo + 2^-l with lo = -1 + sum_t b_t * 2^(1-t) (t = 1..l).
+    """
+    dev = path.device
+    if dev not in _FREE_T:
+        _FREE_T[dev] = torch.as_tensor(T.FREE, device=dev)
+    l = path.shape[-1]
+    if l:
+        w = 2.0 ** (1 - torch.arange(1, l + 1, device=dev, dtype=torch.float32))      # (l,)
+        bits = torch.stack([(path >> k) & 1 for k in range(3)], -1).float()          # (..., l, 3)
+        u = -1.0 + (bits * w[:, None]).sum(-2) + 2.0 ** (-l)                          # (..., 3)
+    else:
+        u = torch.zeros(path.shape[:-1] + (3,), device=dev)
+    x = torch.ones(path.shape[:-1] + (4,), device=dev)
+    x.scatter_(-1, _FREE_T[dev][chart], u)
+    return F.normalize(x, dim=-1)
+
+
+@torch.no_grad()
+def beam_search_fast(model: "HierMLP", x, beam: int = 1, depth: int | None = None):
+    """Same search as HierMLP.beam_search but fully on the device (no NumPy decode, no host syncs)."""
+    depth = depth or model.depth
+    h = model.encode(x)
+    B = h.shape[0]
+    lp = F.log_softmax(model.root(h).float(), -1)
+    k0 = min(beam, T.N_CHARTS)
+    score, chart = lp.topk(k0, -1)
+    path = torch.zeros(B, k0, 0, dtype=torch.long, device=x.device)
+    for l in range(depth):
+        K = chart.shape[1]
+        pq = decode_torch(chart.reshape(-1), path.reshape(B * K, l)).to(h.dtype)
+        hk = h[:, None].expand(B, K, h.shape[-1]).reshape(B * K, -1)
+        lev = torch.full((B * K,), l, device=x.device, dtype=torch.long)
+        clp = F.log_softmax(model.child_logits(hk, lev, pq).float(), -1).view(B, K, 8)
+        tot = (score[:, :, None] + clp).view(B, K * 8)
+        score, idx = tot.topk(min(beam, K * 8), -1)
+        src, child = idx // 8, idx % 8
+        chart = chart.gather(1, src)
+        path = torch.cat([path.gather(1, src[:, :, None].expand(-1, -1, l)), child[:, :, None]], -1)
+    return chart, path, score
+
+
+class FlatAnchorMLP(nn.Module):
+    """SPACE-HOP-style flat classifier over K anchor rotations, on the SAME trunk as HierMLP.
+
+    Prediction = argmax over K logits -> anchor rotation (no continuous offset; EXP-101 compares
+    discrete prediction only, like the Tesseract head without residual).
+    """
+
+    def __init__(self, d_in: int, n_anchors: int, hidden: int = 512, dropout: float = 0.1):
+        super().__init__()
+        self.trunk = nn.Sequential(nn.LayerNorm(d_in), nn.Dropout(dropout), nn.Linear(d_in, hidden), nn.GELU(),
+                                   nn.Dropout(dropout), nn.Linear(hidden, hidden), nn.GELU())
+        self.cls = nn.Linear(hidden, n_anchors)
+
+    def forward(self, x):
+        return self.cls(self.trunk(x))

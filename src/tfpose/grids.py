@@ -97,3 +97,27 @@ def error_summary(err_rad: np.ndarray, prefix: str = "") -> dict:
     e = np.degrees(err_rad)
     return {f"{prefix}mean_deg": float(e.mean()), f"{prefix}median_deg": float(np.median(e)),
             f"{prefix}p95_deg": float(np.percentile(e, 95)), f"{prefix}max_deg": float(e.max())}
+
+
+def spacehop_hopf_grid(num_points: int = 256, num_rolls: int = 12) -> np.ndarray:
+    """SPACE-HOP anchor grid (Team-M3OW/SPACE-HOP src/hopf_grid.py::generate_hopf_so3_grid), as quaternions.
+
+    Fibonacci-lattice directions on S^2 -> frame with z along the direction (up=[0,0,1], [1,0,0] near the
+    poles) -> num_rolls in-plane rotations about z. Reproduced verbatim in NumPy (float64).
+    """
+    i = np.arange(num_points, dtype=np.float64)
+    phi = np.arccos(1 - 2 * (i + 0.5) / num_points)
+    theta = np.pi * (1 + 5 ** 0.5) * i
+    z = np.stack([np.cos(theta) * np.sin(phi), np.sin(theta) * np.sin(phi), np.cos(phi)], -1)
+    z /= np.linalg.norm(z, axis=1, keepdims=True)
+    up = np.tile([0.0, 0.0, 1.0], (num_points, 1))
+    up[np.abs(z[:, 2]) > 0.999] = [1.0, 0.0, 0.0]
+    x = np.cross(up, z); x /= np.linalg.norm(x, axis=1, keepdims=True)
+    y = np.cross(z, x); y /= np.linalg.norm(y, axis=1, keepdims=True)
+    Rb = np.stack([x, y, z], -1)                                      # columns [X, Y, Z]
+    a = np.linspace(0, 2 * np.pi, num_rolls + 1)[:-1]
+    Rr = np.zeros((num_rolls, 3, 3)); Rr[:, 0, 0] = np.cos(a); Rr[:, 0, 1] = -np.sin(a)
+    Rr[:, 1, 0] = np.sin(a); Rr[:, 1, 1] = np.cos(a); Rr[:, 2, 2] = 1.0
+    R = (Rb[:, None] @ Rr[None]).reshape(-1, 3, 3)
+    from .rotations import matrix_to_quat
+    return matrix_to_quat(R)

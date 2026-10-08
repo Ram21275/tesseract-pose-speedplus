@@ -53,3 +53,23 @@ def test_freeze_asserts():
         raise RuntimeError("should have failed")
     except AssertionError:
         pass
+
+
+def test_decode_torch_matches_numpy():
+    from tfpose.predictor import decode_torch
+    for L in (0, 1, 3, 5):
+        chart, path = T.all_cells(L) if L <= 3 else T.encode(rot.random_quats(3000, np.random.default_rng(1)), L)
+        a = decode_torch(torch.as_tensor(chart), torch.as_tensor(path)).double().numpy()
+        b = T.decode(chart, path)
+        assert np.allclose(a, b, atol=1e-6)
+
+
+def test_beam_search_fast_matches_reference():
+    from tfpose.predictor import beam_search_fast
+    torch.manual_seed(1)
+    m = HierMLP(16, 4, hidden=32, emb=16).eval()
+    x = torch.randn(40, 16)
+    for beam in (1, 4):
+        c1, p1, s1, _ = m.beam_search(x, beam=beam)
+        c2, p2, s2 = beam_search_fast(m, x, beam=beam)
+        assert torch.equal(c1, c2) and torch.equal(p1, p2) and torch.allclose(s1, s2, atol=1e-5)
