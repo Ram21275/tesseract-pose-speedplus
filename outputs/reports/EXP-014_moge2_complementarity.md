@@ -47,6 +47,7 @@ scripts/guarded.sh 24 -- python scripts/exp012_complementarity.py --dino dinov3_
 | Run ID | Status | Peak RAM | Artifact directory |
 |---|---|---:|---|
 | RUN-20261008-161752-seed0 | Completed (MoGe-2 grid4) | 3.9 GB | outputs/experiments/EXP-014_moge2_complementarity/RUN-20261008-161752-seed0 |
+| RUN-20261008-225350-seed0 | Completed (reproduction of RUN-20261008-161752 via the new `configs/branches.yaml` defaults; metrics bit-identical) | – | outputs/experiments/EXP-014_moge2_complementarity/RUN-20261008-225350-seed0 |
 | RUN-20261008-162511-seed0 | Completed (**control:** DINOv3-B grid4 as the second branch; appearance only, no geometry) | – | outputs/experiments/EXP-014_moge2_complementarity/RUN-20261008-162511-seed0 |
 
 ## Quantitative results
@@ -138,7 +139,7 @@ On synthetic validation:
 None. The run completed on the first attempt within the memory caps.
 
 ## Decision
-Modify. MoGe-2 is recommended over VGGT as the geometric branch. Whether a geometric branch is retained is deferred to the full-data repeat and the Phase-2 matched control. The swap awaits the user's decision.
+Modify. MoGe-2 replaces VGGT as the geometric branch (DEC-001, user decision 2026-10-08). Whether a geometric branch is retained at all is deferred to the full-data repeat and the Phase-2 matched non-geometric control.
 
 ## Next experiment
 Either:

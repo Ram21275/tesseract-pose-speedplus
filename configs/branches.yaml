@@ -1,0 +1,18 @@
+# Feature branches used by downstream experiments (Phase 2 onward).
+# Decision log: outputs/DECISIONS.md
+primary:                      # appearance branch (EXP-010)
+  backbone: dinov3_vitl16
+  features: dinov3_vitl16:grid4
+  probe_experiment: EXP-010_dinov3_baseline
+geometric:                    # geometric branch: MoGe-2 replaces VGGT (user decision 2026-10-08, DEC-001)
+  backbone: moge2_vitl
+  checkpoint: Ruicheng/moge-2-vitl-normal
+  features: moge2_vitl:grid4          # rule-selected on synthetic val (EXP-013)
+  secondary_features: moge2_vitl:normals16
+  dense_map: normal                   # map used by the band-energy audit
+  probe_experiment: EXP-013_moge2_controls
+retired:
+  - backbone: vggt_1b
+    checkpoint: facebook/VGGT-1B
+    reason: weaker single branch than MoGe-2 on synthetic val (48.7 vs 39.6 deg mean), equally complementary (EXP-011/012/013/014)
+    retired_on: 2026-10-08

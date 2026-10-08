@@ -1,4 +1,6 @@
-"""EXP-012: DINOv3 vs VGGT complementarity and frequency audit.
+"""DINOv3 vs geometric-branch complementarity and frequency audit (EXP-012 VGGT, EXP-014 MoGe-2).
+
+Defaults come from configs/branches.yaml (geometric branch = MoGe-2 since DEC-001).
 
 Uses the saved greedy predictions of the selected single-branch probes (same
 subset, same predictor, same seeds) -- no new training.
@@ -23,11 +25,14 @@ from tfpose import featsets  # noqa: E402
 from tfpose.runlog import Run, md_table  # noqa: E402
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--dino", required=True, help="feature spec of selected DINO probe (EXP-010)")
-ap.add_argument("--vggt", required=True, help="feature spec of the second branch probe (VGGT in EXP-011, MoGe-2 in EXP-013)")
-ap.add_argument("--second-exp", default="EXP-011_vggt_controls", help="experiment holding the second-branch probe runs")
-ap.add_argument("--second-map", default="depth", help="dense map of the second branch used for the band-energy audit")
-ap.add_argument("--run-exp", default="EXP-012_complementarity", help="experiment id_name for this audit run")
+BR = yaml.safe_load(open(REPO / "configs/branches.yaml"))
+ap.add_argument("--dino", default=BR["primary"]["features"], help="feature spec of the primary (DINOv3) probe")
+ap.add_argument("--primary-exp", default=BR["primary"]["probe_experiment"], help="experiment holding the primary probe runs")
+ap.add_argument("--geo", "--vggt", dest="vggt", default=BR["geometric"]["features"],
+                help="feature spec of the second-branch probe (--vggt kept as an alias for EXP-012 commands)")
+ap.add_argument("--second-exp", default=BR["geometric"]["probe_experiment"], help="experiment holding the second-branch probe runs")
+ap.add_argument("--second-map", default=BR["geometric"]["dense_map"], help="dense map of the second branch used for the band-energy audit")
+ap.add_argument("--run-exp", required=True, help="experiment id_name for this audit run")
 ap.add_argument("--subset", default="v1")
 ap.add_argument("--seeds", default="0,1,2")
 ap.add_argument("--thresh", type=float, default=10.0)
@@ -47,7 +52,7 @@ try:
     side = dict(zip(df.image_relpath, df.crop_side))
     rows, scale_rows, used = [], [], []
     for s in seeds:
-        a, ra = preds("EXP-010_dinov3_baseline", args.dino, s)
+        a, ra = preds(args.primary_exp, args.dino, s)
         b, rb = preds(args.second_exp, args.vggt, s)
         used += [ra, rb]
         m = a.merge(b, on=["image_relpath", "domain"], suffixes=("_d", "_v"))

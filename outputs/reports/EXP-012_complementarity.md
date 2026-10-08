@@ -46,8 +46,11 @@ VGGT representative: `l11_cam+mean` (primary) versus `grid4` (secondary).
 
 ## Commands
 ```
-scripts/guarded.sh 24 -- python scripts/exp012_complementarity.py --dino dinov3_vitl16:grid4 --vggt vggt_1b:l11_cam+mean
-scripts/guarded.sh 24 -- python scripts/exp012_complementarity.py --dino dinov3_vitl16:grid4 --vggt vggt_1b:grid4
+# explicit form (defaults changed to MoGe-2 after DEC-001)
+scripts/guarded.sh 24 -- python scripts/exp012_complementarity.py --dino dinov3_vitl16:grid4 --vggt vggt_1b:l11_cam+mean \
+    --second-exp EXP-011_vggt_controls --second-map depth --run-exp EXP-012_complementarity
+scripts/guarded.sh 24 -- python scripts/exp012_complementarity.py --dino dinov3_vitl16:grid4 --vggt vggt_1b:grid4 \
+    --second-exp EXP-011_vggt_controls --second-map depth --run-exp EXP-012_complementarity
 ```
 
 ## Runs

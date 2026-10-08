@@ -1,0 +1,7 @@
+features,domain,mean_shift_over_spread
+dinov3_vitl16:grid4,synthetic_val,0.028639469295740128
+dinov3_vitl16:grid4,lightbox,0.47911155223846436
+dinov3_vitl16:grid4,sunlamp,0.9271789193153381
+moge2_vitl:grid4,synthetic_val,0.030945545062422752
+moge2_vitl:grid4,lightbox,0.6461740136146545
+moge2_vitl:grid4,sunlamp,0.8799097537994385

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Phase-1 probe sweeps on subset v1 (3 seeds each). Waits for each feature cache.
+# HISTORICAL: the exact Phase-1 sweeps behind EXP-010 (ViT-L part) and EXP-011 (VGGT,
+# retired by DEC-001). Kept for reproducibility; use scripts/run_phase1.sh for new runs.
 set -u
 cd "$(dirname "$0")/.."
 PY=.venv/bin/python

@@ -157,7 +157,7 @@ Observations, decided on synthetic validation:
 - The foreground-mask failure on real images is a model-domain-gap failure, not a bug. It is documented above.
 
 ## Decision
-**Recommend MoGe-2 over VGGT as the geometric branch candidate (awaiting user decision).**
+**Adopted (DEC-001, user decision 2026-10-08): MoGe-2 replaces VGGT as the geometric branch.**
 - Primary: `grid4` (rule-selected).
 - Secondary: `normals16` (highest acc@10, lowest dimension).
 
