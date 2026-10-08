@@ -1,0 +1,5 @@
+a: EXP-010_dinov3_baseline:dinov3_vitl16:grid4
+b: EXP-016_consensus_pose:moge2_vitl:normals16~and
+subset: v1
+seeds: 0,1,2
+seed: 0
