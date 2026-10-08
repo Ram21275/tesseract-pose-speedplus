@@ -2,3 +2,84 @@
 RUN outputs/experiments/EXP-034_beam_decoding/RUN-20261009-022450-seed0
 EXIT_CODE=0
 >>> 02:25:49 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-031_gru_path_decoder --features dinov3_vitl16:grid4 --decoder gru --seed 0
+dinov3_vitl16:grid4 gru/hard/res=False seed 0 synthetic_val: mean 6.23 med 5.20 (disc 6.23) | lightbox: mean 43.09 med 12.39 (disc 43.09) | sunlamp: mean 51.88 med 19.82 (disc 51.88)
+RUN outputs/experiments/EXP-031_gru_path_decoder/RUN-20261009-022550-seed0
+EXIT_CODE=0
+>>> 02:29:14 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-031_gru_path_decoder --features dinov3_vitl16:grid4 --decoder gru --seed 1
+dinov3_vitl16:grid4 gru/hard/res=False seed 1 synthetic_val: mean 6.26 med 5.20 (disc 6.26) | lightbox: mean 41.21 med 11.77 (disc 41.21) | sunlamp: mean 47.50 med 18.15 (disc 47.50)
+RUN outputs/experiments/EXP-031_gru_path_decoder/RUN-20261009-022915-seed1
+EXIT_CODE=0
+>>> 02:33:04 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-031_gru_path_decoder --features dinov3_vitl16:grid4 --decoder gru --seed 2
+dinov3_vitl16:grid4 gru/hard/res=False seed 2 synthetic_val: mean 6.37 med 5.18 (disc 6.37) | lightbox: mean 41.99 med 12.24 (disc 41.99) | sunlamp: mean 49.70 med 18.98 (disc 49.70)
+RUN outputs/experiments/EXP-031_gru_path_decoder/RUN-20261009-023305-seed2
+EXIT_CODE=0
+>>> 02:37:00 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-031_gru_path_decoder --features moge2_vitl:normals16~and --decoder gru --seed 0
+moge2_vitl:normals16~and gru/hard/res=False seed 0 synthetic_val: mean 16.95 med 5.94 (disc 16.95) | lightbox: mean 43.27 med 10.11 (disc 43.27) | sunlamp: mean 60.26 med 18.13 (disc 60.26)
+RUN outputs/experiments/EXP-031_gru_path_decoder/RUN-20261009-023701-seed0
+EXIT_CODE=0
+>>> 02:39:38 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-031_gru_path_decoder --features moge2_vitl:normals16~and --decoder gru --seed 1
+moge2_vitl:normals16~and gru/hard/res=False seed 1 synthetic_val: mean 16.98 med 5.93 (disc 16.98) | lightbox: mean 43.28 med 10.04 (disc 43.28) | sunlamp: mean 59.77 med 17.87 (disc 59.77)
+RUN outputs/experiments/EXP-031_gru_path_decoder/RUN-20261009-023939-seed1
+EXIT_CODE=0
+>>> 02:42:01 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-031_gru_path_decoder --features moge2_vitl:normals16~and --decoder gru --seed 2
+moge2_vitl:normals16~and gru/hard/res=False seed 2 synthetic_val: mean 16.86 med 5.93 (disc 16.86) | lightbox: mean 43.03 med 10.09 (disc 43.03) | sunlamp: mean 59.58 med 18.55 (disc 59.58)
+RUN outputs/experiments/EXP-031_gru_path_decoder/RUN-20261009-024201-seed2
+EXIT_CODE=0
+>>> 02:44:34 scripts/guarded.sh 32 -- .venv/bin/python scripts/exp03x_fused_eval.py --exp EXP-031_gru_path_decoder --beams 1,4 --run-exp EXP-031_gru_path_decoder
+RUN outputs/experiments/EXP-031_gru_path_decoder/RUN-20261009-024435-seed0
+EXIT_CODE=0
+>>> 02:45:38 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-033_geodesic_soft_targets --features dinov3_vitl16:grid4 --targets soft --seed 0
+dinov3_vitl16:grid4 mlp/soft/res=False seed 0 synthetic_val: mean 5.68 med 4.93 (disc 5.68) | lightbox: mean 36.45 med 12.74 (disc 36.45) | sunlamp: mean 46.80 med 23.51 (disc 46.80)
+RUN outputs/experiments/EXP-033_geodesic_soft_targets/RUN-20261009-024539-seed0
+EXIT_CODE=0
+>>> 02:48:37 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-033_geodesic_soft_targets --features dinov3_vitl16:grid4 --targets soft --seed 1
+dinov3_vitl16:grid4 mlp/soft/res=False seed 1 synthetic_val: mean 5.70 med 4.89 (disc 5.70) | lightbox: mean 37.52 med 13.17 (disc 37.52) | sunlamp: mean 48.45 med 23.02 (disc 48.45)
+RUN outputs/experiments/EXP-033_geodesic_soft_targets/RUN-20261009-024837-seed1
+EXIT_CODE=0
+>>> 02:51:36 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-033_geodesic_soft_targets --features dinov3_vitl16:grid4 --targets soft --seed 2
+dinov3_vitl16:grid4 mlp/soft/res=False seed 2 synthetic_val: mean 5.70 med 4.93 (disc 5.70) | lightbox: mean 36.95 med 12.95 (disc 36.95) | sunlamp: mean 49.13 med 24.14 (disc 49.13)
+RUN outputs/experiments/EXP-033_geodesic_soft_targets/RUN-20261009-025137-seed2
+EXIT_CODE=0
+>>> 02:53:42 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-033_geodesic_soft_targets --features moge2_vitl:normals16~and --targets soft --seed 0
+moge2_vitl:normals16~and mlp/soft/res=False seed 0 synthetic_val: mean 16.53 med 6.01 (disc 16.53) | lightbox: mean 42.14 med 11.09 (disc 42.14) | sunlamp: mean 57.85 med 19.17 (disc 57.85)
+RUN outputs/experiments/EXP-033_geodesic_soft_targets/RUN-20261009-025342-seed0
+EXIT_CODE=0
+>>> 02:54:28 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-033_geodesic_soft_targets --features moge2_vitl:normals16~and --targets soft --seed 1
+moge2_vitl:normals16~and mlp/soft/res=False seed 1 synthetic_val: mean 16.47 med 6.02 (disc 16.47) | lightbox: mean 41.12 med 11.06 (disc 41.12) | sunlamp: mean 58.93 med 19.91 (disc 58.93)
+RUN outputs/experiments/EXP-033_geodesic_soft_targets/RUN-20261009-025429-seed1
+EXIT_CODE=0
+>>> 02:55:14 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-033_geodesic_soft_targets --features moge2_vitl:normals16~and --targets soft --seed 2
+moge2_vitl:normals16~and mlp/soft/res=False seed 2 synthetic_val: mean 16.43 med 5.89 (disc 16.43) | lightbox: mean 42.45 med 11.22 (disc 42.45) | sunlamp: mean 58.86 med 19.84 (disc 58.86)
+RUN outputs/experiments/EXP-033_geodesic_soft_targets/RUN-20261009-025515-seed2
+EXIT_CODE=0
+>>> 02:55:57 scripts/guarded.sh 32 -- .venv/bin/python scripts/exp03x_fused_eval.py --exp EXP-033_geodesic_soft_targets --beams 1,4 --run-exp EXP-033_geodesic_soft_targets
+RUN outputs/experiments/EXP-033_geodesic_soft_targets/RUN-20261009-025557-seed0
+EXIT_CODE=0
+>>> 02:56:45 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-035_tangent_residual --features dinov3_vitl16:grid4 --residual --seed 0
+dinov3_vitl16:grid4 mlp/hard/res=True seed 0 synthetic_val: mean 6.56 med 5.40 (disc 6.56) | lightbox: mean 42.88 med 14.32 (disc 42.89) | sunlamp: mean 53.00 med 25.76 (disc 52.99)
+RUN outputs/experiments/EXP-035_tangent_residual/RUN-20261009-025646-seed0
+EXIT_CODE=0
+>>> 02:58:13 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-035_tangent_residual --features dinov3_vitl16:grid4 --residual --seed 1
+dinov3_vitl16:grid4 mlp/hard/res=True seed 1 synthetic_val: mean 6.62 med 5.37 (disc 6.63) | lightbox: mean 42.88 med 14.56 (disc 42.87) | sunlamp: mean 51.96 med 25.21 (disc 51.95)
+RUN outputs/experiments/EXP-035_tangent_residual/RUN-20261009-025814-seed1
+EXIT_CODE=0
+>>> 02:59:37 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-035_tangent_residual --features dinov3_vitl16:grid4 --residual --seed 2
+dinov3_vitl16:grid4 mlp/hard/res=True seed 2 synthetic_val: mean 6.56 med 5.35 (disc 6.57) | lightbox: mean 41.81 med 14.21 (disc 41.81) | sunlamp: mean 53.22 med 26.03 (disc 53.23)
+RUN outputs/experiments/EXP-035_tangent_residual/RUN-20261009-025938-seed2
+EXIT_CODE=0
+>>> 03:01:03 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-035_tangent_residual --features moge2_vitl:normals16~and --residual --seed 0
+moge2_vitl:normals16~and mlp/hard/res=True seed 0 synthetic_val: mean 18.03 med 6.35 (disc 18.10) | lightbox: mean 45.56 med 12.39 (disc 45.57) | sunlamp: mean 62.75 med 23.80 (disc 62.76)
+RUN outputs/experiments/EXP-035_tangent_residual/RUN-20261009-030104-seed0
+EXIT_CODE=0
+>>> 03:01:49 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-035_tangent_residual --features moge2_vitl:normals16~and --residual --seed 1
+moge2_vitl:normals16~and mlp/hard/res=True seed 1 synthetic_val: mean 17.89 med 6.22 (disc 17.95) | lightbox: mean 45.67 med 12.23 (disc 45.69) | sunlamp: mean 63.59 med 24.32 (disc 63.62)
+RUN outputs/experiments/EXP-035_tangent_residual/RUN-20261009-030150-seed1
+EXIT_CODE=0
+>>> 03:02:34 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-035_tangent_residual --features moge2_vitl:normals16~and --residual --seed 2
+moge2_vitl:normals16~and mlp/hard/res=True seed 2 synthetic_val: mean 17.79 med 6.20 (disc 17.86) | lightbox: mean 45.40 med 12.06 (disc 45.43) | sunlamp: mean 61.92 med 23.63 (disc 61.92)
+RUN outputs/experiments/EXP-035_tangent_residual/RUN-20261009-030235-seed2
+EXIT_CODE=0
+>>> 03:03:20 scripts/guarded.sh 32 -- .venv/bin/python scripts/exp03x_fused_eval.py --exp EXP-035_tangent_residual --beams 1,4 --run-exp EXP-035_tangent_residual
+RUN outputs/experiments/EXP-035_tangent_residual/RUN-20261009-030321-seed0
+EXIT_CODE=0
+CHAIN_DONE

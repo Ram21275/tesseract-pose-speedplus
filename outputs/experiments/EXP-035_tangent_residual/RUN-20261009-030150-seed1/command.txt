@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_probe_p3.py --exp EXP-035_tangent_residual --features moge2_vitl:normals16~and --residual --seed 1

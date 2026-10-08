@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/exp03x_fused_eval.py --exp EXP-031_gru_path_decoder --beams 1,4 --run-exp EXP-031_gru_path_decoder

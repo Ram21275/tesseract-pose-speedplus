@@ -37,3 +37,16 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
   - EXP-027 (no signal helped individually);
   - EXP-028/029 (learned gates and cross-attention are conditional on training-free fusion failing; it did not).
 - **Caveat:** all Phase-1/2 numbers come from the 6k-image subset. Phase 3 starts with a full-data repeat of the frozen design (EXP-030).
+
+## DEC-004 — Phase-3 gate (2026-10-09)
+- **Frozen predictor:** MLP Tesseract tree with **geodesic soft targets** (EXP-033), **greedy** decoding (EXP-034), no tangent residual (EXP-035), and equal-weight PoE fusion (DEC-003).
+- **Evidence:** PoE synthetic val 6.068 ± 0.067° vs EXP-030 6.242 ± 0.072°. Among the pre-registered variants only EXP-033 passed; EXP-031 (GRU) missed by 0.005°.
+- **Open question for the user (selection policy):**
+  - Under soft targets, DINOv3 *alone* has the lower synthetic-val error (5.69° vs PoE 6.07°).
+  - PoE is far better on the real domains: lightbox 28.2° vs 37.0°, sunlamp 42.1° vs 48.1°.
+  - DEC-000 forbids selecting on lightbox or sunlamp. Keeping PoE therefore rests on DEC-003 (EXP-025/030), not on EXP-033.
+  - Options:
+    - (a) keep PoE per DEC-003;
+    - (b) re-select by synthetic val (DINOv3 alone);
+    - (c) record a real-domain validation split (e.g. a held-out part of lightbox) and select on it, reporting sunlamp and the rest of lightbox as test.
+- **Not yet tested:** soft targets + GRU decoder combined. Each helps the single branches; it would need a new pre-registered experiment.
