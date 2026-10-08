@@ -122,3 +122,23 @@ def mask_metrics(pred: np.ndarray, gt: np.ndarray, tips: np.ndarray, tol: int = 
     valid = [(0 <= x < RES and 0 <= y < RES) for x, y in ti]
     out["tip_coverage"] = float(np.sum(inside) / max(1, np.sum(valid)))
     return out
+
+
+def envelope(pts, q, t, cam, cx, cy, side, dilate_cells: int = 3) -> np.ndarray:
+    """Generous object envelope on the RES grid: hull of all 11 keypoints, any coverage, dilated.
+
+    Pixels outside it are background beyond doubt (EXP-015 amendment A1).
+    """
+    canvas = np.zeros((RASTER, RASTER), np.uint8)
+    uv = to_crop(D.project_points(pts, q, t, cam), cx, cy, side, RASTER)
+    hull = cv2.convexHull((uv * 16).round().astype(np.int32))
+    cv2.fillConvexPoly(canvas, hull, 1, lineType=cv2.LINE_8, shift=4)
+    env = cv2.resize(canvas.astype(np.float32), (RES, RES), interpolation=cv2.INTER_AREA) > 0
+    k = np.ones((2 * dilate_cells + 1, 2 * dilate_cells + 1), np.uint8)
+    return cv2.dilate(env.astype(np.uint8), k).astype(bool)
+
+
+def leakage(pred: np.ndarray, env: np.ndarray) -> float:
+    """Fraction of predicted foreground outside the envelope (0 if the mask is empty)."""
+    n = pred.sum()
+    return float((pred & ~env).sum() / n) if n else 0.0
