@@ -7,6 +7,7 @@ featsets:
 - ``depthconf16``      depth / per-image median and log confidence (VGGT) or masked median + mask (MoGe-2), 16x16 pooled
 - ``points16``         point map centred (conf/mask-weighted) and RMS-scaled, plus conf (VGGT: log) or mask (MoGe-2), 16x16 pooled
 - ``normals16``        MoGe-2 surface normals (masked) plus foreground mask, 16x16 pooled
+- suffix ``~and``     use the EXP-015 consensus mask: ``normals16~and``, ``grid4~and`` (mask-weighted 4x4 pooling)
 No statistics are fitted here; standardisation happens in the predictor pipeline
 with train-split statistics only.
 """
@@ -40,12 +41,39 @@ def _pool(a, r: int, chunk: int = 256) -> np.ndarray:
     return np.concatenate(out)
 
 
+def consensus_mask(subset: str, names: list[str]) -> np.ndarray:
+    """EXP-015 training-free AND mask (MoGe-2 mask AND DINOv3 PCA foreground), (N,74,74,1) float32."""
+    p = REPO / f"outputs/shared_cache/consensus_masks__subset_{subset}"
+    if not (p / "manifest.json").exists():
+        raise FileNotFoundError(p)
+    with h5py.File(p / "masks.h5", "r") as f:
+        if [s.decode() for s in f["image_relpath"][:]] != names:
+            raise ValueError("consensus mask order does not match feature cache")
+        return f["and_mask"][:].astype(np.float32)[..., None]
+
+
 def load(spec: str, subset: str):
     backbone, fs = spec.split(":")
+    fs, _, mask_src = fs.partition("~")      # e.g. normals16~and : use the EXP-015 consensus mask
+    if mask_src not in ("", "and"):
+        raise ValueError(f"unknown mask source {mask_src}")
     path = find_cache(backbone, subset)
     with h5py.File(path / "features.h5", "r") as f:
         names = [s.decode() for s in f["image_relpath"][:]]
-        if fs == "grid4":
+        if fs == "grid4" and mask_src == "and":  # mask-weighted 4x4 pooling of the 16x16 token grid (EXP-016)
+            m = _pool(consensus_mask(subset, names), 16)[..., 0]           # (N,16,16) area fraction
+            out = []
+            for s0 in range(0, len(names), 256):
+                G = np.asarray(f["last_grid"][s0:s0 + 256], dtype=np.float32)  # (n,16,16,C)
+                w = m[s0:s0 + 256]
+                n, H, W, C = G.shape
+                Gc = G.reshape(n, 4, 4, 4, 4, C)                       # (n, cy, py, cx, px, C)
+                wc = w.reshape(n, 4, 4, 4, 4)[..., None]
+                num = (Gc * wc).sum((2, 4)); den = wc.sum((2, 4))
+                unweighted = Gc.mean((2, 4))
+                out.append(np.where(den > 1e-6, num / np.maximum(den, 1e-6), unweighted))  # empty cell -> plain mean
+            X = np.concatenate(out).reshape(len(names), -1)
+        elif fs == "grid4":
             key = "last_grid" if "last_grid" in f else "last_grid8"
             X = _pool(f[key], 4).reshape(len(names), -1)
         elif fs == "depthconf16":
@@ -72,7 +100,7 @@ def load(spec: str, subset: str):
             X = np.concatenate([_pool(p, 16), _pool(cfeat, 16)], -1).reshape(len(names), -1)
         elif fs == "normals16":  # MoGe-2 surface normals (camera frame) + foreground mask
             nrm = f["normal"][:].astype(np.float32)
-            m = f["mask"][:].astype(np.float32)
+            m = consensus_mask(subset, names) if mask_src == "and" else f["mask"][:].astype(np.float32)
             X = np.concatenate([_pool(nrm * m, 16), _pool(m, 16)], -1).reshape(len(names), -1)
         else:
             layer, parts = fs.split("_", 1)
