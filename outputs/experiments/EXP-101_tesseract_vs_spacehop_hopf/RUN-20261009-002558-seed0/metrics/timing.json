@@ -1,0 +1,98 @@
+[
+  {
+    "device": "NVIDIA RTX A400",
+    "batch": 1,
+    "depth_L": 2,
+    "hypotheses_K": 256,
+    "head": "tesseract_beam1",
+    "params": 9025932,
+    "median_ms": 0.6355449731927365,
+    "p95_ms": 0.640661793295294,
+    "per_image_ms": 0.6355449731927365,
+    "iters": 5
+  },
+  {
+    "device": "NVIDIA RTX A400",
+    "batch": 1,
+    "depth_L": 2,
+    "hypotheses_K": 256,
+    "head": "tesseract_beam4",
+    "params": 9025932,
+    "median_ms": 0.702315999660641,
+    "p95_ms": 0.7336130132898688,
+    "per_image_ms": 0.702315999660641,
+    "iters": 5
+  },
+  {
+    "device": "NVIDIA RTX A400",
+    "batch": 1,
+    "depth_L": 2,
+    "hypotheses_K": 256,
+    "head": "flat_argmax",
+    "params": 8815872,
+    "median_ms": 0.4222949792165309,
+    "p95_ms": 0.43395498651079834,
+    "per_image_ms": 0.4222949792165309,
+    "iters": 5
+  },
+  {
+    "device": "NVIDIA RTX A400",
+    "batch": 1,
+    "depth_L": 3,
+    "hypotheses_K": 2048,
+    "head": "tesseract_beam1",
+    "params": 9026060,
+    "median_ms": 0.7782100001350045,
+    "p95_ms": 0.7872630085330456,
+    "per_image_ms": 0.7782100001350045,
+    "iters": 5
+  },
+  {
+    "device": "NVIDIA RTX A400",
+    "batch": 1,
+    "depth_L": 3,
+    "hypotheses_K": 2048,
+    "head": "tesseract_beam4",
+    "params": 9026060,
+    "median_ms": 0.8430859888903797,
+    "p95_ms": 0.8610669930931181,
+    "per_image_ms": 0.8430859888903797,
+    "iters": 5
+  },
+  {
+    "device": "NVIDIA RTX A400",
+    "batch": 1,
+    "depth_L": 3,
+    "hypotheses_K": 2048,
+    "head": "flat_argmax",
+    "params": 9735168,
+    "median_ms": 0.5203610053285956,
+    "p95_ms": 0.5290701927151531,
+    "per_image_ms": 0.5203610053285956,
+    "iters": 5
+  },
+  {
+    "device": "NVIDIA RTX A400",
+    "batch": 1,
+    "depth_L": "-",
+    "hypotheses_K": "-",
+    "head": "backbone DINOv3-L/16 @256 (shared by both arms)",
+    "params": 303079424,
+    "median_ms": 64.63944850838743,
+    "p95_ms": 64.70801505493,
+    "per_image_ms": 64.63944850838743,
+    "iters": 50
+  },
+  {
+    "device": "NVIDIA RTX A400",
+    "batch": 32,
+    "depth_L": "-",
+    "hypotheses_K": "-",
+    "head": "backbone DINOv3-L/16 @256 (shared by both arms)",
+    "params": 303079424,
+    "median_ms": 1122.0521399955032,
+    "p95_ms": 1132.0016131008742,
+    "per_image_ms": 35.064129374859476,
+    "iters": 50
+  }
+]

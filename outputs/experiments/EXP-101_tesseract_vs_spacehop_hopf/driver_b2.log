@@ -1,0 +1,19 @@
+flat_hopf 3072 seed 0 synthetic_val: mean 50.0 med 16.4 | lightbox: mean 77.6 med 66.4 | sunlamp: mean 88.0 med 90.8
+EXIT_CODE=0 flat 256x12 seed 0
+flat_hopf 3072 seed 1 synthetic_val: mean 49.6 med 16.2 | lightbox: mean 78.1 med 71.9 | sunlamp: mean 86.3 med 89.2
+EXIT_CODE=0 flat 256x12 seed 1
+flat_hopf 3072 seed 2 synthetic_val: mean 48.9 med 16.4 | lightbox: mean 78.2 med 68.7 | sunlamp: mean 86.7 med 89.4
+EXIT_CODE=0 flat 256x12 seed 2
+flat_hopf 16380 seed 0 synthetic_val: mean 50.5 med 16.4 | lightbox: mean 86.6 med 86.1 | sunlamp: mean 91.6 med 97.0
+EXIT_CODE=0 flat 1365x12 seed 0
+flat_hopf 16380 seed 1 synthetic_val: mean 50.7 med 16.5 | lightbox: mean 82.8 med 84.9 | sunlamp: mean 93.2 med 99.5
+EXIT_CODE=0 flat 1365x12 seed 1
+flat_hopf 16380 seed 2 synthetic_val: mean 49.6 med 16.5 | lightbox: mean 84.8 med 86.0 | sunlamp: mean 91.0 med 95.8
+EXIT_CODE=0 flat 1365x12 seed 2
+flat_hopf 131076 seed 0 synthetic_val: mean 52.8 med 16.5 | lightbox: mean 89.3 med 91.1 | sunlamp: mean 96.2 med 101.7
+EXIT_CODE=0 flat 10923x12 seed 0
+flat_hopf 131076 seed 1 synthetic_val: mean 51.0 med 16.5 | lightbox: mean 87.8 med 89.1 | sunlamp: mean 96.2 med 101.2
+EXIT_CODE=0 flat 10923x12 seed 1
+flat_hopf 131076 seed 2 synthetic_val: mean 52.2 med 16.9 | lightbox: mean 85.1 med 87.6 | sunlamp: mean 95.1 med 101.1
+EXIT_CODE=0 flat 10923x12 seed 2
+B2_DONE

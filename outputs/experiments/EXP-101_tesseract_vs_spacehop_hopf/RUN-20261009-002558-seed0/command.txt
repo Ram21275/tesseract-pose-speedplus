@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/exp101_timing.py --depths 2,3 --devices cuda:1 --batches 1 --warmup 3 --iters 5

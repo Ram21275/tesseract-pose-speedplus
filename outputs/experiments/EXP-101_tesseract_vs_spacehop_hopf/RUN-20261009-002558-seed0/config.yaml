@@ -1,0 +1,9 @@
+d_in: 16384
+depths: 2,3
+devices: cuda:1
+batches: '1'
+warmup: 3
+iters: 5
+cpu_max_seconds: 60.0
+seed: 0
+part: C_timing

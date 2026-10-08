@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_flat_probe.py --features moge2_vitl:normals16~and --hopf-points 256 --hopf-rolls 12 --seed 2

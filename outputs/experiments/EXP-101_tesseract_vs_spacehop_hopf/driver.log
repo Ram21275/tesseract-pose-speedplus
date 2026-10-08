@@ -1,0 +1,22 @@
+flat_hopf 3072 seed 0 synthetic_val: mean 48.9 med 22.0 | lightbox: mean 92.0 med 94.0 | sunlamp: mean 101.5 med 104.9
+EXIT_CODE=0 flat 256x12 seed 0
+flat_hopf 3072 seed 1 synthetic_val: mean 52.9 med 22.3 | lightbox: mean 96.1 med 100.5 | sunlamp: mean 100.7 med 106.9
+EXIT_CODE=0 flat 256x12 seed 1
+flat_hopf 3072 seed 2 synthetic_val: mean 50.2 med 22.0 | lightbox: mean 91.6 med 93.9 | sunlamp: mean 99.4 med 103.7
+EXIT_CODE=0 flat 256x12 seed 2
+flat_hopf 16380 seed 0 synthetic_val: mean 67.2 med 35.1 | lightbox: mean 109.5 med 117.8 | sunlamp: mean 108.3 med 111.8
+EXIT_CODE=0 flat 1365x12 seed 0
+flat_hopf 16380 seed 1 synthetic_val: mean 65.7 med 34.4 | lightbox: mean 105.3 med 110.2 | sunlamp: mean 110.2 med 116.1
+EXIT_CODE=0 flat 1365x12 seed 1
+flat_hopf 16380 seed 2 synthetic_val: mean 64.4 med 33.1 | lightbox: mean 105.2 med 108.5 | sunlamp: mean 109.0 med 111.7
+EXIT_CODE=0 flat 1365x12 seed 2
+flat_hopf 131076 seed 0 synthetic_val: mean 70.0 med 38.4 | lightbox: mean 108.6 med 116.7 | sunlamp: mean 112.6 med 116.9
+EXIT_CODE=0 flat 10923x12 seed 0
+flat_hopf 131076 seed 1 synthetic_val: mean 69.6 med 42.1 | lightbox: mean 111.4 med 120.4 | sunlamp: mean 111.1 med 115.0
+EXIT_CODE=0 flat 10923x12 seed 1
+flat_hopf 131076 seed 2 synthetic_val: mean 70.2 med 38.1 | lightbox: mean 109.6 med 114.8 | sunlamp: mean 111.2 med 115.7
+EXIT_CODE=0 flat 10923x12 seed 2
+PARTB_DONE
+RUN outputs/experiments/EXP-101_tesseract_vs_spacehop_hopf/RUN-20261009-003047-seed0
+EXIT_CODE=0 timing
+EXP101_DONE

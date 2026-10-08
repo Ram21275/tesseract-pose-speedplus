@@ -1,0 +1,14 @@
+exp: EXP-101_tesseract_vs_spacehop_hopf
+features: moge2_vitl:normals16~and
+subset: v1
+hopf_points: 1365
+hopf_rolls: 12
+epochs: 100
+batch: 256
+lr: 0.001
+wd: 0.05
+hidden: 512
+dropout: 0.1
+eval_every: 5
+seed: 0
+head: flat_spacehop_hopf
