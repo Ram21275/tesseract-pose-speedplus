@@ -1,0 +1,26 @@
+| beam | method | domain | mean_deg | median_deg | acc@10 | acc@20 | mean_deg_std |
+|---|---|---|---|---|---|---|---|
+| 1 | AVG(A,B) | lightbox | 64.523 | 45.069 | 0.073 | 0.241 | nan |
+| 1 | AVG(A,B) | sunlamp | 74.223 | 61.356 | 0.039 | 0.164 | nan |
+| 1 | AVG(A,B) | synthetic_val | 26.897 | 15.243 | 0.283 | 0.643 | nan |
+| 1 | A_dino | lightbox | 76.720 | 64.104 | 0.037 | 0.142 | nan |
+| 1 | A_dino | sunlamp | 79.549 | 69.741 | 0.015 | 0.101 | nan |
+| 1 | A_dino | synthetic_val | 26.783 | 16.847 | 0.220 | 0.590 | nan |
+| 1 | B_consensus_normals | lightbox | 77.242 | 68.778 | 0.082 | 0.242 | nan |
+| 1 | B_consensus_normals | sunlamp | 86.454 | 87.861 | 0.042 | 0.153 | nan |
+| 1 | B_consensus_normals | synthetic_val | 47.841 | 18.757 | 0.220 | 0.523 | nan |
+| 1 | PoE(A,B) | lightbox | 62.526 | 41.345 | 0.079 | 0.262 | nan |
+| 1 | PoE(A,B) | sunlamp | 71.143 | 55.955 | 0.034 | 0.175 | nan |
+| 1 | PoE(A,B) | synthetic_val | 25.962 | 14.671 | 0.289 | 0.651 | nan |
+| 4 | AVG(A,B) | lightbox | 69.936 | 56.706 | 0.069 | 0.219 | nan |
+| 4 | AVG(A,B) | sunlamp | 80.269 | 72.347 | 0.034 | 0.137 | nan |
+| 4 | AVG(A,B) | synthetic_val | 32.424 | 16.211 | 0.263 | 0.603 | nan |
+| 4 | A_dino | lightbox | 76.359 | 63.538 | 0.036 | 0.147 | nan |
+| 4 | A_dino | sunlamp | 79.400 | 69.642 | 0.017 | 0.104 | nan |
+| 4 | A_dino | synthetic_val | 27.151 | 16.847 | 0.221 | 0.591 | nan |
+| 4 | B_consensus_normals | lightbox | 76.233 | 68.207 | 0.081 | 0.241 | nan |
+| 4 | B_consensus_normals | sunlamp | 87.329 | 88.979 | 0.046 | 0.157 | nan |
+| 4 | B_consensus_normals | synthetic_val | 47.262 | 18.646 | 0.229 | 0.529 | nan |
+| 4 | PoE(A,B) | lightbox | 62.264 | 40.769 | 0.080 | 0.265 | nan |
+| 4 | PoE(A,B) | sunlamp | 71.695 | 58.227 | 0.033 | 0.175 | nan |
+| 4 | PoE(A,B) | synthetic_val | 26.141 | 14.679 | 0.288 | 0.655 | nan |

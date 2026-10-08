@@ -1,0 +1,6 @@
+a: EXP-010_dinov3_baseline:dinov3_vitl16:grid4
+b: EXP-016_consensus_pose:moge2_vitl:normals16~and
+subset: v1
+seeds: '0'
+run_exp: EXP-099_p3_smoke
+seed: 0

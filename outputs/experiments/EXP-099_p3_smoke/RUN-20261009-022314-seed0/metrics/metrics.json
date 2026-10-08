@@ -1,0 +1,242 @@
+[
+  {
+    "beam": 1,
+    "method": "AVG(A,B)",
+    "domain": "lightbox",
+    "mean_deg": 64.52320885766106,
+    "median_deg": 45.06921647446587,
+    "acc@10": 0.073,
+    "acc@20": 0.241,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 1,
+    "method": "AVG(A,B)",
+    "domain": "sunlamp",
+    "mean_deg": 74.22327750879622,
+    "median_deg": 61.3556832198977,
+    "acc@10": 0.039,
+    "acc@20": 0.164,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 1,
+    "method": "AVG(A,B)",
+    "domain": "synthetic_val",
+    "mean_deg": 26.897039784349065,
+    "median_deg": 15.243266395995073,
+    "acc@10": 0.2826666666666667,
+    "acc@20": 0.6426666666666667,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 1,
+    "method": "A_dino",
+    "domain": "lightbox",
+    "mean_deg": 76.71963320325624,
+    "median_deg": 64.10369216292372,
+    "acc@10": 0.037,
+    "acc@20": 0.142,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 1,
+    "method": "A_dino",
+    "domain": "sunlamp",
+    "mean_deg": 79.54863318011485,
+    "median_deg": 69.74105576304572,
+    "acc@10": 0.015,
+    "acc@20": 0.101,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 1,
+    "method": "A_dino",
+    "domain": "synthetic_val",
+    "mean_deg": 26.782908377187095,
+    "median_deg": 16.84665387778437,
+    "acc@10": 0.22,
+    "acc@20": 0.59,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 1,
+    "method": "B_consensus_normals",
+    "domain": "lightbox",
+    "mean_deg": 77.24202010900264,
+    "median_deg": 68.77796555385551,
+    "acc@10": 0.082,
+    "acc@20": 0.242,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 1,
+    "method": "B_consensus_normals",
+    "domain": "sunlamp",
+    "mean_deg": 86.45415724474458,
+    "median_deg": 87.86050685174212,
+    "acc@10": 0.042,
+    "acc@20": 0.153,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 1,
+    "method": "B_consensus_normals",
+    "domain": "synthetic_val",
+    "mean_deg": 47.841236087674275,
+    "median_deg": 18.75716861228909,
+    "acc@10": 0.22,
+    "acc@20": 0.5226666666666666,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 1,
+    "method": "PoE(A,B)",
+    "domain": "lightbox",
+    "mean_deg": 62.526031511668954,
+    "median_deg": 41.34516578432357,
+    "acc@10": 0.079,
+    "acc@20": 0.262,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 1,
+    "method": "PoE(A,B)",
+    "domain": "sunlamp",
+    "mean_deg": 71.14291024405259,
+    "median_deg": 55.955250473590525,
+    "acc@10": 0.034,
+    "acc@20": 0.175,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 1,
+    "method": "PoE(A,B)",
+    "domain": "synthetic_val",
+    "mean_deg": 25.961773769706586,
+    "median_deg": 14.670813260660452,
+    "acc@10": 0.28933333333333333,
+    "acc@20": 0.6513333333333333,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 4,
+    "method": "AVG(A,B)",
+    "domain": "lightbox",
+    "mean_deg": 69.93645711728095,
+    "median_deg": 56.70564664654253,
+    "acc@10": 0.069,
+    "acc@20": 0.219,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 4,
+    "method": "AVG(A,B)",
+    "domain": "sunlamp",
+    "mean_deg": 80.26882099851046,
+    "median_deg": 72.3472637220144,
+    "acc@10": 0.034,
+    "acc@20": 0.137,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 4,
+    "method": "AVG(A,B)",
+    "domain": "synthetic_val",
+    "mean_deg": 32.423685421600425,
+    "median_deg": 16.210595965668574,
+    "acc@10": 0.2633333333333333,
+    "acc@20": 0.6026666666666667,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 4,
+    "method": "A_dino",
+    "domain": "lightbox",
+    "mean_deg": 76.3586251129036,
+    "median_deg": 63.5375684652759,
+    "acc@10": 0.036,
+    "acc@20": 0.147,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 4,
+    "method": "A_dino",
+    "domain": "sunlamp",
+    "mean_deg": 79.39973224520948,
+    "median_deg": 69.64198697391465,
+    "acc@10": 0.017,
+    "acc@20": 0.104,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 4,
+    "method": "A_dino",
+    "domain": "synthetic_val",
+    "mean_deg": 27.15062062980163,
+    "median_deg": 16.84665387778437,
+    "acc@10": 0.22133333333333333,
+    "acc@20": 0.5913333333333334,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 4,
+    "method": "B_consensus_normals",
+    "domain": "lightbox",
+    "mean_deg": 76.23286109870023,
+    "median_deg": 68.20729394499637,
+    "acc@10": 0.081,
+    "acc@20": 0.241,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 4,
+    "method": "B_consensus_normals",
+    "domain": "sunlamp",
+    "mean_deg": 87.32902992428973,
+    "median_deg": 88.97927169464893,
+    "acc@10": 0.046,
+    "acc@20": 0.157,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 4,
+    "method": "B_consensus_normals",
+    "domain": "synthetic_val",
+    "mean_deg": 47.262480418490654,
+    "median_deg": 18.646309541790373,
+    "acc@10": 0.22866666666666666,
+    "acc@20": 0.5286666666666666,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 4,
+    "method": "PoE(A,B)",
+    "domain": "lightbox",
+    "mean_deg": 62.26373653320242,
+    "median_deg": 40.76872990226206,
+    "acc@10": 0.08,
+    "acc@20": 0.265,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 4,
+    "method": "PoE(A,B)",
+    "domain": "sunlamp",
+    "mean_deg": 71.69517490367315,
+    "median_deg": 58.22702787283373,
+    "acc@10": 0.033,
+    "acc@20": 0.175,
+    "mean_deg_std": NaN
+  },
+  {
+    "beam": 4,
+    "method": "PoE(A,B)",
+    "domain": "synthetic_val",
+    "mean_deg": 26.140659456365015,
+    "median_deg": 14.679078197739518,
+    "acc@10": 0.288,
+    "acc@20": 0.6546666666666666,
+    "mean_deg_std": NaN
+  }
+]

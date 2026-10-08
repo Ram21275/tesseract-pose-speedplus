@@ -1,0 +1,2 @@
+ep 1 train_loss 9.7790 val_mean_deg 19.011 val_median 13.078 discrete_mean 19.014
+ep 2 train_loss 7.2457 val_mean_deg 11.923 val_median 8.169 discrete_mean 11.920

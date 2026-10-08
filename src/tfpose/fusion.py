@@ -41,24 +41,42 @@ def combine(lps: list[torch.Tensor], rule: str) -> torch.Tensor:
 
 
 @torch.no_grad()
-def fused_beam(models, xs, rule: str, beam: int = 1):
-    """Beam search over the Tesseract tree with per-level fused distributions. Returns best (chart, path)."""
+def fused_beam(models, xs, rule: str, beam: int = 1, return_h: bool = False):
+    """Beam search over the Tesseract tree with per-level fused distributions. Returns best (chart, path).
+
+    Works for HierMLP (stateless children) and phase3.HierGRU (stateful path decoder) members.
+    """
     dev = xs[0].device
     hs = [m.encode(x) for m, x in zip(models, xs)]
     B = hs[0].shape[0]
+    gru = [hasattr(m, "cell") for m in models]
     lp = combine([F.log_softmax(m.root(h).float(), -1) for m, h in zip(models, hs)], rule)
     k0 = min(beam, 4)
     score, chart = lp.topk(k0, -1)
     path = torch.zeros(B, k0, 0, dtype=torch.long, device=dev)
+    states = [m.init_state(h, None)[:, None].expand(B, k0, -1).reshape(B * k0, -1) if g else None
+              for m, h, g in zip(models, hs, gru)]
+    prev = torch.full((B * k0,), 8, dtype=torch.long, device=dev)
     for l in range(models[0].depth):
         K = chart.shape[1]
         pq = decode_torch(chart.reshape(-1), path.reshape(B * K, l))
         lev = torch.full((B * K,), l, device=dev, dtype=torch.long)
-        clps = [F.log_softmax(m.child_logits(h[:, None].expand(B, K, h.shape[-1]).reshape(B * K, -1), lev, pq).float(), -1)
-                for m, h in zip(models, hs)]
+        clps, new_states = [], []
+        for m, h, g, st in zip(models, hs, gru, states):
+            hk = h[:, None].expand(B, K, h.shape[-1]).reshape(B * K, -1)
+            if g:
+                lg, st = m.step(hk, st, chart.reshape(-1), prev, lev, pq)
+            else:
+                lg = m.child_logits(hk, lev, pq)
+            clps.append(F.log_softmax(lg.float(), -1)); new_states.append(st)
         tot = (score[:, :, None] + combine(clps, rule).view(B, K, 8)).view(B, K * 8)
         score, idx = tot.topk(min(beam, K * 8), -1)
         src, child = idx // 8, idx % 8
         chart = chart.gather(1, src)
         path = torch.cat([path.gather(1, src[:, :, None].expand(-1, -1, l)), child[:, :, None]], -1)
+        states = [st.view(B, K, -1).gather(1, src[:, :, None].expand(-1, -1, st.shape[-1])).reshape(B * src.shape[1], -1)
+                  if st is not None else None for st in new_states]
+        prev = child.reshape(-1)
+    if return_h:
+        return chart[:, 0], path[:, 0], hs
     return chart[:, 0], path[:, 0]
