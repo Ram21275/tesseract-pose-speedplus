@@ -24,12 +24,15 @@ from tfpose.runlog import Run, md_table  # noqa: E402
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--dino", required=True, help="feature spec of selected DINO probe (EXP-010)")
-ap.add_argument("--vggt", required=True, help="feature spec of selected VGGT probe (EXP-011)")
+ap.add_argument("--vggt", required=True, help="feature spec of the second branch probe (VGGT in EXP-011, MoGe-2 in EXP-013)")
+ap.add_argument("--second-exp", default="EXP-011_vggt_controls", help="experiment holding the second-branch probe runs")
+ap.add_argument("--second-map", default="depth", help="dense map of the second branch used for the band-energy audit")
+ap.add_argument("--run-exp", default="EXP-012_complementarity", help="experiment id_name for this audit run")
 ap.add_argument("--subset", default="v1")
 ap.add_argument("--seeds", default="0,1,2")
 ap.add_argument("--thresh", type=float, default=10.0)
 args = ap.parse_args()
-run = Run("EXP-012", "complementarity", vars(args), seed=0)
+run = Run(args.run_exp.split("_", 1)[0], args.run_exp.split("_", 1)[1], vars(args), seed=0)
 try:
     seeds = [int(s) for s in args.seeds.split(",")]
 
@@ -45,7 +48,7 @@ try:
     rows, scale_rows, used = [], [], []
     for s in seeds:
         a, ra = preds("EXP-010_dinov3_baseline", args.dino, s)
-        b, rb = preds("EXP-011_vggt_controls", args.vggt, s)
+        b, rb = preds(args.second_exp, args.vggt, s)
         used += [ra, rb]
         m = a.merge(b, on=["image_relpath", "domain"], suffixes=("_d", "_v"))
         for dom, g in m.groupby("domain"):
@@ -90,7 +93,7 @@ try:
         for d in ["synthetic_val", "lightbox", "sunlamp"]:
             drift_rows.append({"features": spec, "domain": d,
                                "mean_shift_over_spread": float(np.linalg.norm(Z[dom == d].mean(0)) / spread)})
-    for backbone, key in [(args.dino.split(":")[0], "last_grid"), (args.vggt.split(":")[0], "depth")]:
+    for backbone, key in [(args.dino.split(":")[0], "last_grid"), (args.vggt.split(":")[0], args.second_map)]:
         path = featsets.find_cache(backbone, args.subset)
         # Streamed in chunks (float32 / complex64): the earlier whole-array
         # version peaked at ~100 GB and most likely took the machine down.

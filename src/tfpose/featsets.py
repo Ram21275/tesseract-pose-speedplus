@@ -4,8 +4,9 @@ Spec string: ``<backbone>:<featset>``, e.g. ``dinov3_vitb16:l11_cls+mean``.
 featsets:
 - ``l<i>_<a>[+<b>]``   concatenation of cached per-layer vectors (cls/mean/cam)
 - ``grid4``            last-layer patch grid, 4x4 average pooled, flattened
-- ``depthconf16``      VGGT depth / per-image median depth and log depth-confidence, 16x16 pooled
-- ``points16``         VGGT point map centred (conf-weighted) and RMS-scaled, plus log conf, 16x16 pooled
+- ``depthconf16``      depth / per-image median and log confidence (VGGT) or masked median + mask (MoGe-2), 16x16 pooled
+- ``points16``         point map centred (conf/mask-weighted) and RMS-scaled, plus conf (VGGT: log) or mask (MoGe-2), 16x16 pooled
+- ``normals16``        MoGe-2 surface normals (masked) plus foreground mask, 16x16 pooled
 No statistics are fitted here; standardisation happens in the predictor pipeline
 with train-split statistics only.
 """
@@ -49,17 +50,30 @@ def load(spec: str, subset: str):
             X = _pool(f[key], 4).reshape(len(names), -1)
         elif fs == "depthconf16":
             d = f["depth"][:].astype(np.float32)
-            c = f["depth_conf"][:].astype(np.float32)
-            d = d / np.median(d.reshape(len(d), -1), 1)[:, None, None, None]
-            X = np.concatenate([_pool(d, 16), _pool(np.log(c), 16)], -1).reshape(len(names), -1)
+            if "depth_conf" in f:  # VGGT: confidence map, log-scaled
+                c = f["depth_conf"][:].astype(np.float32)
+                d = d / np.median(d.reshape(len(d), -1), 1)[:, None, None, None]
+                X = np.concatenate([_pool(d, 16), _pool(np.log(c), 16)], -1)
+            else:  # MoGe-2: foreground mask in [0,1]; depth / masked median, background zeroed
+                m = f["mask"][:].astype(np.float32)
+                med = np.array([np.median(di[mi > 0.5]) if (mi > 0.5).any() else np.median(di)
+                                for di, mi in zip(d, m)], dtype=np.float32)
+                d = d / med[:, None, None, None] * m
+                X = np.concatenate([_pool(d, 16), _pool(m, 16)], -1)
+            X = X.reshape(len(names), -1)
         elif fs == "points16":
             p = f["points"][:].astype(np.float32)
-            c = f["points_conf"][:].astype(np.float32)
+            c = f["points_conf"][:].astype(np.float32) if "points_conf" in f else f["mask"][:].astype(np.float32) + 1e-6
             w = c / c.sum((1, 2, 3), keepdims=True)
             mu = (p * w).sum((1, 2), keepdims=True)
             p = p - mu
             p = p / np.sqrt((p ** 2 * w).sum((1, 2, 3), keepdims=True))
-            X = np.concatenate([_pool(p, 16), _pool(np.log(c), 16)], -1).reshape(len(names), -1)
+            cfeat = np.log(c) if "points_conf" in f else c
+            X = np.concatenate([_pool(p, 16), _pool(cfeat, 16)], -1).reshape(len(names), -1)
+        elif fs == "normals16":  # MoGe-2 surface normals (camera frame) + foreground mask
+            nrm = f["normal"][:].astype(np.float32)
+            m = f["mask"][:].astype(np.float32)
+            X = np.concatenate([_pool(nrm * m, 16), _pool(m, 16)], -1).reshape(len(names), -1)
         else:
             layer, parts = fs.split("_", 1)
             X = np.concatenate([f[f"{layer}_{p}"][:].astype(np.float32) for p in parts.split("+")], 1)
