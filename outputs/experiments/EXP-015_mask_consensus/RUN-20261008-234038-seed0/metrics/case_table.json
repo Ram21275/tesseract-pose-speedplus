@@ -1,0 +1,122 @@
+[
+  {
+    "domain": "synthetic_val",
+    "moge2": "MoGe-2 right",
+    "dino": "DINO right",
+    "frac_images": 0.39466666666666667,
+    "and_leakage": 5.7771987658740504e-05,
+    "and_recall": 0.9784455361048533,
+    "moge2_leakage": 0.0006706271394054759,
+    "dino_leakage": 0.022139032548906645
+  },
+  {
+    "domain": "synthetic_val",
+    "moge2": "MoGe-2 right",
+    "dino": "DINO wrong",
+    "frac_images": 0.098,
+    "and_leakage": 0.0003832616198557012,
+    "and_recall": 0.9556604394700681,
+    "moge2_leakage": 0.0017711516258191644,
+    "dino_leakage": 0.23462556998733336
+  },
+  {
+    "domain": "synthetic_val",
+    "moge2": "MoGe-2 wrong",
+    "dino": "DINO right",
+    "frac_images": 0.30333333333333334,
+    "and_leakage": 0.008114219277208483,
+    "and_recall": 0.9954808458643466,
+    "moge2_leakage": 0.5526161085603652,
+    "dino_leakage": 0.009827965475670084
+  },
+  {
+    "domain": "synthetic_val",
+    "moge2": "MoGe-2 wrong",
+    "dino": "DINO wrong",
+    "frac_images": 0.204,
+    "and_leakage": 0.33010550136693195,
+    "and_recall": 0.8324767700206459,
+    "moge2_leakage": 0.542450895476979,
+    "dino_leakage": 0.3961849112699809
+  },
+  {
+    "domain": "lightbox",
+    "moge2": "MoGe-2 right",
+    "dino": "DINO right",
+    "frac_images": 0.061,
+    "and_leakage": 0.0007580413418862855,
+    "and_recall": 0.9894462462430235,
+    "moge2_leakage": 0.005650586835589782,
+    "dino_leakage": 0.03303677851942827
+  },
+  {
+    "domain": "lightbox",
+    "moge2": "MoGe-2 right",
+    "dino": "DINO wrong",
+    "frac_images": 0.033,
+    "and_leakage": 0.0036386332585379806,
+    "and_recall": 0.964878890852434,
+    "moge2_leakage": 0.00740301171383481,
+    "dino_leakage": 0.2604084405521687
+  },
+  {
+    "domain": "lightbox",
+    "moge2": "MoGe-2 wrong",
+    "dino": "DINO right",
+    "frac_images": 0.534,
+    "and_leakage": 0.022449841308806784,
+    "and_recall": 0.9938355263014023,
+    "moge2_leakage": 0.5609824964736304,
+    "dino_leakage": 0.022991050829961335
+  },
+  {
+    "domain": "lightbox",
+    "moge2": "MoGe-2 wrong",
+    "dino": "DINO wrong",
+    "frac_images": 0.372,
+    "and_leakage": 0.2879831408895764,
+    "and_recall": 0.9522359756681176,
+    "moge2_leakage": 0.5999689992173528,
+    "dino_leakage": 0.31086096983563144
+  },
+  {
+    "domain": "sunlamp",
+    "moge2": "MoGe-2 right",
+    "dino": "DINO right",
+    "frac_images": 0.002,
+    "and_leakage": 0.0003536067892503536,
+    "and_recall": 0.9884311878178016,
+    "moge2_leakage": 0.046765182704742385,
+    "dino_leakage": 0.03581794113131129
+  },
+  {
+    "domain": "sunlamp",
+    "moge2": "MoGe-2 right",
+    "dino": "DINO wrong",
+    "frac_images": 0.0,
+    "and_leakage": NaN,
+    "and_recall": NaN,
+    "moge2_leakage": NaN,
+    "dino_leakage": NaN
+  },
+  {
+    "domain": "sunlamp",
+    "moge2": "MoGe-2 wrong",
+    "dino": "DINO right",
+    "frac_images": 0.689,
+    "and_leakage": 0.022464665926404007,
+    "and_recall": 0.9933686917108402,
+    "moge2_leakage": 0.5441081795777093,
+    "dino_leakage": 0.022936915401191353
+  },
+  {
+    "domain": "sunlamp",
+    "moge2": "MoGe-2 wrong",
+    "dino": "DINO wrong",
+    "frac_images": 0.309,
+    "and_leakage": 0.32531460442616683,
+    "and_recall": 0.9947223089286074,
+    "moge2_leakage": 0.6149091436338849,
+    "dino_leakage": 0.3407196381692005
+  }
+]

@@ -1,7 +1,7 @@
 # EXP-015: Two-way DINOv3 ↔ MoGe-2 foreground consensus (training-free)
 
 ## Status
-Running. Pre-registered on 2026-10-08, before any mask metric was computed.
+Completed. Pre-registered on 2026-10-08; amendment A1 was added before any validation or test metric.
 
 ## Research question
 MoGe-2's foreground mask fails on real images (EXP-013). Does a training-free DINOv3 foreground fix MoGe-2 where it fails, and does MoGe-2 sharpen or fix DINOv3 where DINOv3 fails? In other words, is there a **two-way** consensus?
@@ -75,5 +75,70 @@ The fusion rules, DINO method and EXP-016 protocol are unchanged.
 - GT-centred crops put the spacecraft in the middle, which favours the "border = background" sign rule. Automatic localization would be harder.
 - The GT silhouette excludes antennas, so masks that include antennas lose some precision. This applies equally to all methods.
 
+## Runs
+| Run ID | Status | Notes |
+|---|---|---|
+| RUN-20261008-231024-seed0 | Failed (stopped deliberately) | About 10× slow from BLAS thread oversubscription; no results. `guarded.sh` now defaults to 1 BLAS thread. |
+| RUN-20261008-234038-seed0 | Completed | About 6 min, CPU only, under `guarded.sh 16`. Wrote the AND masks to `outputs/shared_cache/consensus_masks__subset_v1/`. |
+
 ## Results
-(to be filled from `outputs/experiments/EXP-015_mask_consensus/`)
+Source: `outputs/experiments/EXP-015_mask_consensus/RUN-20261008-234038-seed0/metrics/{metrics,paired_differences,case_table}.csv`. Means over images.
+
+| domain | method | **leakage** ↓ | **recall** ↑ | IoU* | precision* | boundary-F* | antenna-tip coverage | mask area (frac of crop) |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| synthetic_val | MoGe-2 | 0.279 | 0.989 | 0.581 | 0.590 | 0.487 | 0.908 | 0.575 |
+| synthetic_val | DINO (PCA) | 0.116 | 0.962 | 0.615 | 0.619 | 0.463 | 0.716 | 0.372 |
+| synthetic_val | **AND** | **0.070** | 0.952 | **0.775** | **0.788** | **0.775** | 0.669 | 0.294 |
+| synthetic_val | OR | 0.314 | 0.999 | 0.432 | 0.433 | 0.176 | 0.955 | 0.653 |
+| synthetic_val | avg | 0.278 | 0.992 | 0.572 | 0.578 | 0.485 | 0.914 | 0.578 |
+| lightbox | MoGe-2 | 0.523 | 0.997 | 0.291 | 0.292 | 0.098 | 0.959 | 0.891 |
+| lightbox | DINO (PCA) | 0.139 | 0.980 | 0.562 | 0.565 | 0.316 | 0.792 | 0.406 |
+| lightbox | **AND** | **0.119** | 0.977 | **0.599** | **0.604** | **0.393** | 0.771 | 0.382 |
+| lightbox | OR | 0.537 | 1.000 | 0.259 | 0.259 | 0.020 | 0.980 | 0.915 |
+| lightbox | avg | 0.523 | 0.997 | 0.289 | 0.290 | 0.096 | 0.963 | 0.891 |
+| sunlamp | MoGe-2 | 0.565 | 1.000 | 0.242 | 0.242 | 0.040 | 0.988 | 0.959 |
+| sunlamp | DINO (PCA) | 0.121 | 0.994 | 0.586 | 0.589 | 0.304 | 0.637 | 0.415 |
+| sunlamp | **AND** | **0.116** | 0.994 | **0.593** | **0.597** | **0.329** | 0.632 | 0.406 |
+| sunlamp | OR | 0.567 | 1.000 | 0.238 | 0.238 | 0.010 | 0.993 | 0.968 |
+| sunlamp | avg | 0.564 | 1.000 | 0.242 | 0.242 | 0.038 | 0.987 | 0.958 |
+
+\* Against the approximate `hull8` silhouette (amendment A1), so relative comparisons only.
+
+**Paired differences** (mean, 95% bootstrap CI):
+
+| domain | AND − MoGe-2 leakage | AND − MoGe-2 recall | AND − DINO leakage | AND − DINO recall |
+|---|---|---|---|---|
+| synthetic_val | −0.209 [−0.222, −0.195] | −0.037 [−0.046, −0.029] | −0.046 [−0.051, −0.041] | −0.010 [−0.012, −0.009] |
+| lightbox | **−0.404 [−0.418, −0.390]** | −0.020 [−0.027, −0.013] | **−0.019 [−0.024, −0.015]** | −0.003 [−0.004, −0.002] |
+| sunlamp | **−0.449 [−0.459, −0.439]** | −0.006 [−0.009, −0.004] | **−0.005 [−0.007, −0.004]** | −0.000 [−0.000, −0.000] |
+
+**Case table.** A mask is "wrong" if its leakage is > 0.10. Values are the fraction of images, with AND's leakage in brackets.
+
+| domain | MoGe-2 ✓ DINO ✓ | MoGe-2 ✓ DINO ✗ (MoGe-2 can fix DINO) | MoGe-2 ✗ DINO ✓ (DINO can fix MoGe-2) | both ✗ |
+|---|---|---|---|---|
+| synthetic_val | 39.5% (0.000) | 9.8% (0.000) | 30.3% (0.008) | 20.4% (0.330) |
+| lightbox | 6.1% (0.001) | 3.3% (0.004) | 53.4% (0.022) | 37.2% (0.288) |
+| sunlamp | 0.2% (0.000) | 0.0% (–) | 68.9% (0.022) | 30.9% (0.325) |
+
+**Figure:** `figures/mask_examples.jpg`. Rows: 2 synthetic_val, 2 lightbox, 2 sunlamp. Columns: crop, MoGe-2, DINO, AND; green = `hull8`.
+
+## Pre-registered verdict
+- **DINO helps MoGe-2: YES (large).** AND cuts MoGe-2's leakage from 0.52 to 0.12 on lightbox and from 0.57 to 0.12 on sunlamp (CIs far from 0). Recall drops only 0.020 / 0.006.
+- **MoGe-2 helps DINO: YES under the pre-registered rule, but small on real images.** Leakage falls from 0.139 to 0.119 on lightbox and from 0.121 to 0.116 on sunlamp (CIs exclude 0), with no recall loss. On synthetic val the effect is large: leakage 0.116 → 0.070, and approximate boundary-F 0.46 → 0.78. Here MoGe-2's sharp mask trims DINO's blocky patch halo.
+- **Two-way: YES by the pre-registered rule, but asymmetric.** DINO rescues MoGe-2 often: 53% of lightbox and 69% of sunlamp images fall in the "MoGe-2 wrong, DINO right" cell. MoGe-2 can only rescue DINO where MoGe-2 itself is right, which is rare on real images (9% of lightbox, 0.2% of sunlamp) but common on synthetic (49%).
+- **Synthetic-val guard: passed.** AND recall is 0.037 below MoGe-2's (limit 0.05).
+
+## Interpretation
+- **The backgrounds that break MoGe-2 are textured ones** (Earth, clouds, stray light, glare). This holds on synthetic images with an Earth background too. On plain dark backgrounds MoGe-2's mask is tight and sharper than DINO's 16×16-patch mask.
+- **The two sources fail in different ways:**
+  - MoGe-2 over-segments textured backgrounds;
+  - DINO is blocky at the boundary and occasionally picks the background as the "object" (when both fail, about 20–37% of images).
+  - AND keeps only what both call object, so it fixes each source's specific failure as long as the other one is right there.
+- **Cost:** AND loses antenna tips (coverage 0.91 → 0.67 on synthetic, 0.96 → 0.77 on lightbox), because DINO's coarse patches miss the thin antennas.
+- **The average rule ≈ MoGe-2 and OR ≈ MoGe-2,** as predicted: MoGe-2's background mask of about 1.0 dominates them.
+
+## Decision
+Keep. The AND consensus mask is the training-free foreground carried to EXP-016 (pose) and is the baseline for EXP-017 (spectral fusion).
+
+## Next experiment
+EXP-016: does the consensus mask help pose? Then EXP-017 to EXP-020 (CASS options 1–4).

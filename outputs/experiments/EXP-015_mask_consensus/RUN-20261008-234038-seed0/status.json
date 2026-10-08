@@ -1,0 +1,10 @@
+{
+  "state": "completed",
+  "pid": 1615771,
+  "start": "2026-10-08T23:40:38.340785",
+  "wall_clock_s": 200.03,
+  "peak_cpu_rss_mb": 1301.4,
+  "peak_gpu_mb": 0.0,
+  "end": "2026-10-08T23:43:58.369869",
+  "consensus_cache": "outputs/shared_cache/consensus_masks__subset_v1"
+}
