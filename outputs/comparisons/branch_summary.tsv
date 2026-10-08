@@ -1,0 +1,16 @@
+experiment	features	domain	mean_deg	mean_deg_std	median_deg	acc@10	acc@20	root_acc	extract_ms_per_img	selection_split
+EXP-010_dinov3_baseline	dinov3_vitl16:grid4	lightbox	76.1	1.03	62.21	0.036	0.145	0.612	13.48	synthetic_val only
+EXP-010_dinov3_baseline	dinov3_vitl16:grid4	sunlamp	79.13	0.61	70.27	0.015	0.109	0.629	13.48	synthetic_val only
+EXP-010_dinov3_baseline	dinov3_vitl16:grid4	synthetic_val	27.68	0.8	17.2	0.201	0.585	0.91	13.48	synthetic_val only
+EXP-011_vggt_controls	vggt_1b:l11_cam+mean	lightbox	101.5	0.93	104.69	0.01	0.054	0.474	246.24	synthetic_val only
+EXP-011_vggt_controls	vggt_1b:l11_cam+mean	sunlamp	106.87	1.55	109.78	0.003	0.031	0.457	246.24	synthetic_val only
+EXP-011_vggt_controls	vggt_1b:l11_cam+mean	synthetic_val	48.7	0.65	25.35	0.122	0.397	0.813	246.24	synthetic_val only
+EXP-011_vggt_controls	vggt_1b:grid4	lightbox	86.66	0.72	84.33	0.028	0.103	0.568	246.24	synthetic_val only
+EXP-011_vggt_controls	vggt_1b:grid4	sunlamp	92.5	2.43	91.61	0.013	0.066	0.551	246.24	synthetic_val only
+EXP-011_vggt_controls	vggt_1b:grid4	synthetic_val	49.12	0.74	27.06	0.116	0.38	0.799	246.24	synthetic_val only
+EXP-013_moge2_controls	moge2_vitl:grid4	lightbox	83.35	0.86	77.97	0.02	0.113	0.568	128.2	synthetic_val only
+EXP-013_moge2_controls	moge2_vitl:grid4	sunlamp	83.86	1.02	81.15	0.015	0.101	0.58	128.2	synthetic_val only
+EXP-013_moge2_controls	moge2_vitl:grid4	synthetic_val	39.6	0.61	21.23	0.154	0.471	0.838	128.2	synthetic_val only
+EXP-013_moge2_controls	moge2_vitl:normals16	lightbox	84.04	2.11	84.58	0.066	0.202	0.55	128.2	synthetic_val only
+EXP-013_moge2_controls	moge2_vitl:normals16	sunlamp	100.06	0.21	105.0	0.021	0.092	0.464	128.2	synthetic_val only
+EXP-013_moge2_controls	moge2_vitl:normals16	synthetic_val	56.38	0.76	24.82	0.179	0.442	0.722	128.2	synthetic_val only
