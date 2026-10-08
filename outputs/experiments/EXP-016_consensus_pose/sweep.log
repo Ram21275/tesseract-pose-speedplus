@@ -1,0 +1,19 @@
+moge2_vitl:normals16~and seed 0 synthetic_val: mean 47.8 med 18.8 root 0.76 | lightbox: mean 77.2 med 68.8 root 0.60 | sunlamp: mean 86.5 med 87.9 root 0.54
+RUN outputs/experiments/EXP-016_consensus_pose/RUN-20261008-234614-seed0
+EXIT_CODE=0 moge2_vitl:normals16~and seed 0
+moge2_vitl:normals16~and seed 1 synthetic_val: mean 46.3 med 18.5 root 0.77 | lightbox: mean 76.0 med 65.6 root 0.60 | sunlamp: mean 88.7 med 90.2 root 0.53
+RUN outputs/experiments/EXP-016_consensus_pose/RUN-20261008-234636-seed1
+EXIT_CODE=0 moge2_vitl:normals16~and seed 1
+moge2_vitl:normals16~and seed 2 synthetic_val: mean 48.2 med 19.6 root 0.76 | lightbox: mean 78.1 med 71.7 root 0.59 | sunlamp: mean 86.2 med 86.9 root 0.54
+RUN outputs/experiments/EXP-016_consensus_pose/RUN-20261008-234704-seed2
+EXIT_CODE=0 moge2_vitl:normals16~and seed 2
+dinov3_vitl16:grid4~and seed 0 synthetic_val: mean 30.7 med 19.6 root 0.90 | lightbox: mean 77.4 med 68.4 root 0.60 | sunlamp: mean 77.6 med 67.1 root 0.65
+RUN outputs/experiments/EXP-016_consensus_pose/RUN-20261008-234727-seed0
+EXIT_CODE=0 dinov3_vitl16:grid4~and seed 0
+dinov3_vitl16:grid4~and seed 1 synthetic_val: mean 31.4 med 19.3 root 0.90 | lightbox: mean 77.4 med 64.1 root 0.62 | sunlamp: mean 79.1 med 69.7 root 0.67
+RUN outputs/experiments/EXP-016_consensus_pose/RUN-20261008-234801-seed1
+EXIT_CODE=0 dinov3_vitl16:grid4~and seed 1
+dinov3_vitl16:grid4~and seed 2 synthetic_val: mean 31.4 med 19.9 root 0.91 | lightbox: mean 76.4 med 60.2 root 0.61 | sunlamp: mean 77.8 med 67.0 root 0.64
+RUN outputs/experiments/EXP-016_consensus_pose/RUN-20261008-234838-seed2
+EXIT_CODE=0 dinov3_vitl16:grid4~and seed 2
+SWEEP_DONE

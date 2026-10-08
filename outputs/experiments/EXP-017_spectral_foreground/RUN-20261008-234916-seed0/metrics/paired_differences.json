@@ -1,0 +1,482 @@
+[
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_fused - and",
+    "metric": "leakage",
+    "mean_diff": 0.07921526269157657,
+    "ci_low": 0.06767916818779338,
+    "ci_high": 0.09036628753904433
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_fused - and",
+    "metric": "recall",
+    "mean_diff": -0.16761030013425685,
+    "ci_low": -0.1819437191109415,
+    "ci_high": -0.15270481758990304
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_fused - and",
+    "metric": "iou",
+    "mean_diff": -0.20303668770976654,
+    "ci_low": -0.21951593554819102,
+    "ci_high": -0.18635747733757682
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_fused - and",
+    "metric": "boundary_f",
+    "mean_diff": -0.18089841430160344,
+    "ci_low": -0.20319464833462167,
+    "ci_high": -0.16011039694399287
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_fused - moge2",
+    "metric": "leakage",
+    "mean_diff": -0.12964660205509013,
+    "ci_low": -0.1481935333666597,
+    "ci_high": -0.1117914842697927
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_fused - moge2",
+    "metric": "recall",
+    "mean_diff": -0.20469972909425685,
+    "ci_low": -0.2174345941546898,
+    "ci_high": -0.19172057654538538
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_fused - moge2",
+    "metric": "iou",
+    "mean_diff": -0.009562035036433257,
+    "ci_low": -0.033642382453594175,
+    "ci_high": 0.015310968889075427
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_fused - moge2",
+    "metric": "boundary_f",
+    "mean_diff": 0.10669136103172991,
+    "ci_low": 0.07287482238939298,
+    "ci_high": 0.1396751184464696
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_fused - dino",
+    "metric": "leakage",
+    "mean_diff": 0.03354473757157656,
+    "ci_low": 0.02296229554898957,
+    "ci_high": 0.04415327126195829
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_fused - dino",
+    "metric": "recall",
+    "mean_diff": -0.17788395080092353,
+    "ci_low": -0.1919737083710718,
+    "ci_high": -0.1629660987097249
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_fused - dino",
+    "metric": "iou",
+    "mean_diff": -0.04314597074976657,
+    "ci_low": -0.05548837267322342,
+    "ci_high": -0.030017937979621896
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_fused - dino",
+    "metric": "boundary_f",
+    "mean_diff": 0.13111075483172988,
+    "ci_low": 0.1140265327080774,
+    "ci_high": 0.14829466838313646
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_dino - dino",
+    "metric": "leakage",
+    "mean_diff": -0.037438890821829635,
+    "ci_low": -0.04171329404797582,
+    "ci_high": -0.033561981396388246
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_dino - dino",
+    "metric": "recall",
+    "mean_diff": 0.010472957380790794,
+    "ci_low": 0.004346461477965564,
+    "ci_high": 0.016870067055506605
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_dino - dino",
+    "metric": "iou",
+    "mean_diff": 0.04777240910552371,
+    "ci_low": 0.044256138755795926,
+    "ci_high": 0.051704023625207665
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_dino - dino",
+    "metric": "boundary_f",
+    "mean_diff": 0.06681608121360462,
+    "ci_low": 0.062063461014873464,
+    "ci_high": 0.07198353181318813
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_avg - and",
+    "metric": "leakage",
+    "mean_diff": 0.09438977025563652,
+    "ci_low": 0.08406083007290542,
+    "ci_high": 0.10501614950914691
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_avg - and",
+    "metric": "recall",
+    "mean_diff": -0.022542339909114258,
+    "ci_low": -0.03054273444341614,
+    "ci_high": -0.014494929608393646
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_avg - and",
+    "metric": "iou",
+    "mean_diff": -0.1369711188739722,
+    "ci_low": -0.15123314097170953,
+    "ci_high": -0.12326568108845853
+  },
+  {
+    "domain": "synthetic_val",
+    "comparison": "spec_avg - and",
+    "metric": "boundary_f",
+    "mean_diff": -0.14535546470184219,
+    "ci_low": -0.1663426019271402,
+    "ci_high": -0.12443716871778632
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_fused - and",
+    "metric": "leakage",
+    "mean_diff": 0.09795781294205605,
+    "ci_low": 0.08318928186704251,
+    "ci_high": 0.11196304185810267
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_fused - and",
+    "metric": "recall",
+    "mean_diff": -0.10237941231340296,
+    "ci_low": -0.11510089209508467,
+    "ci_high": -0.09001501148723953
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_fused - and",
+    "metric": "iou",
+    "mean_diff": -0.007979746827525794,
+    "ci_low": -0.02575014484299744,
+    "ci_high": 0.009610163710573631
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_fused - and",
+    "metric": "boundary_f",
+    "mean_diff": 0.2541866926641925,
+    "ci_low": 0.22755031899788633,
+    "ci_high": 0.2800918109642557
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_fused - moge2",
+    "metric": "leakage",
+    "mean_diff": -0.3060998853379439,
+    "ci_low": -0.32607975092706293,
+    "ci_high": -0.28542137624972863
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_fused - moge2",
+    "metric": "recall",
+    "mean_diff": -0.12194149391340296,
+    "ci_low": -0.1336337299640387,
+    "ci_high": -0.11077823361576128
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_fused - moge2",
+    "metric": "iou",
+    "mean_diff": 0.3008168736524742,
+    "ci_low": 0.27888196679810257,
+    "ci_high": 0.3238152674372049
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_fused - moge2",
+    "metric": "boundary_f",
+    "mean_diff": 0.5495098998641925,
+    "ci_low": 0.5220047505095031,
+    "ci_high": 0.5768384412564266
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_fused - dino",
+    "metric": "leakage",
+    "mean_diff": 0.07871582290205605,
+    "ci_low": 0.06444053237103847,
+    "ci_high": 0.09203833399887026
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_fused - dino",
+    "metric": "recall",
+    "mean_diff": -0.10533661231340297,
+    "ci_low": -0.11823941726412161,
+    "ci_high": -0.09274074762888249
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_fused - dino",
+    "metric": "iou",
+    "mean_diff": 0.029053147642474207,
+    "ci_low": 0.013441860361167422,
+    "ci_high": 0.04491912038916617
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_fused - dino",
+    "metric": "boundary_f",
+    "mean_diff": 0.3316202402641925,
+    "ci_low": 0.3081897219746269,
+    "ci_high": 0.3544396237669548
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_dino - dino",
+    "metric": "leakage",
+    "mean_diff": -0.030963418624972764,
+    "ci_low": -0.035417209592246826,
+    "ci_high": -0.026741190307486343
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_dino - dino",
+    "metric": "recall",
+    "mean_diff": 0.002077803685409872,
+    "ci_low": -0.0034343630643700537,
+    "ci_high": 0.008071887531207418
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_dino - dino",
+    "metric": "iou",
+    "mean_diff": 0.03230530853428229,
+    "ci_low": 0.028687584709304888,
+    "ci_high": 0.03588990303037777
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_dino - dino",
+    "metric": "boundary_f",
+    "mean_diff": 0.043072515200022976,
+    "ci_low": 0.038244491589179405,
+    "ci_high": 0.047974828860537354
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_avg - and",
+    "metric": "leakage",
+    "mean_diff": 0.10025094409628728,
+    "ci_low": 0.08671245015976142,
+    "ci_high": 0.11353667338162786
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_avg - and",
+    "metric": "recall",
+    "mean_diff": -0.03754582672511654,
+    "ci_low": -0.047821185737543355,
+    "ci_high": -0.027526671800977905
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_avg - and",
+    "metric": "iou",
+    "mean_diff": 0.009710573028364512,
+    "ci_low": -0.005619067419103406,
+    "ci_high": 0.025614338425106416
+  },
+  {
+    "domain": "lightbox",
+    "comparison": "spec_avg - and",
+    "metric": "boundary_f",
+    "mean_diff": 0.27873525935485355,
+    "ci_low": 0.2552604315717642,
+    "ci_high": 0.30372431879948913
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_fused - and",
+    "metric": "leakage",
+    "mean_diff": 0.15986363822787994,
+    "ci_low": 0.1457751951117634,
+    "ci_high": 0.17363706070181903
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_fused - and",
+    "metric": "recall",
+    "mean_diff": -0.1012585937396526,
+    "ci_low": -0.11330545547665123,
+    "ci_high": -0.08912709523943045
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_fused - and",
+    "metric": "iou",
+    "mean_diff": -0.045759440167123494,
+    "ci_low": -0.06154635370478233,
+    "ci_high": -0.03050813719086266
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_fused - and",
+    "metric": "boundary_f",
+    "mean_diff": 0.288798234185731,
+    "ci_low": 0.267484405142483,
+    "ci_high": 0.3090123762300998
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_fused - moge2",
+    "metric": "leakage",
+    "mean_diff": -0.2891264008021201,
+    "ci_low": -0.3045937642295974,
+    "ci_high": -0.27349888244366427
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_fused - moge2",
+    "metric": "recall",
+    "mean_diff": -0.1072448037396526,
+    "ci_low": -0.11932665903550078,
+    "ci_high": -0.09546267127272264
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_fused - moge2",
+    "metric": "iou",
+    "mean_diff": 0.3058302348328765,
+    "ci_low": 0.2885124032782178,
+    "ci_high": 0.3231319677651783
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_fused - moge2",
+    "metric": "boundary_f",
+    "mean_diff": 0.577533807385731,
+    "ci_low": 0.5575180186432389,
+    "ci_high": 0.5982111800181933
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_fused - dino",
+    "metric": "leakage",
+    "mean_diff": 0.15470726900787996,
+    "ci_low": 0.1404185127776388,
+    "ci_high": 0.16826208660358363
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_fused - dino",
+    "metric": "recall",
+    "mean_diff": -0.1014651237396526,
+    "ci_low": -0.11354764210873229,
+    "ci_high": -0.089427165064852
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_fused - dino",
+    "metric": "iou",
+    "mean_diff": -0.038297950167123486,
+    "ci_low": -0.053871202505394004,
+    "ci_high": -0.023297934493621934
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_fused - dino",
+    "metric": "boundary_f",
+    "mean_diff": 0.313063748885731,
+    "ci_low": 0.2923716012256773,
+    "ci_high": 0.3323607065521173
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_dino - dino",
+    "metric": "leakage",
+    "mean_diff": -0.009171150633513677,
+    "ci_low": -0.012298506426362203,
+    "ci_high": -0.006181070397244521
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_dino - dino",
+    "metric": "recall",
+    "mean_diff": 0.0009596464389791557,
+    "ci_low": 0.0005617747575361301,
+    "ci_high": 0.001431727793937202
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_dino - dino",
+    "metric": "iou",
+    "mean_diff": 0.00467763144129897,
+    "ci_low": 0.0024237448296958947,
+    "ci_high": 0.006970162524149963
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_dino - dino",
+    "metric": "boundary_f",
+    "mean_diff": -0.0005478856828676338,
+    "ci_low": -0.0036905619198260384,
+    "ci_high": 0.0025124857362484577
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_avg - and",
+    "metric": "leakage",
+    "mean_diff": 0.15633345674404922,
+    "ci_low": 0.14322939478700036,
+    "ci_high": 0.16932292715518638
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_avg - and",
+    "metric": "recall",
+    "mean_diff": -0.048313632267649315,
+    "ci_low": -0.05779813945239017,
+    "ci_high": -0.03889814776650822
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_avg - and",
+    "metric": "iou",
+    "mean_diff": -0.03545665171198273,
+    "ci_low": -0.04918345631284038,
+    "ci_high": -0.02142867325881419
+  },
+  {
+    "domain": "sunlamp",
+    "comparison": "spec_avg - and",
+    "metric": "boundary_f",
+    "mean_diff": 0.28466850091239415,
+    "ci_low": 0.26506078524111437,
+    "ci_high": 0.3025399201278051
+  }
+]

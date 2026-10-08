@@ -1,0 +1,10 @@
+{
+  "state": "completed",
+  "pid": 1618942,
+  "start": "2026-10-08T23:49:16.419119",
+  "wall_clock_s": 128.94,
+  "peak_cpu_rss_mb": 1272.7,
+  "peak_gpu_mb": 0.0,
+  "end": "2026-10-08T23:51:25.358309",
+  "parts_cache": "outputs/shared_cache/spectral_parts__subset_v1"
+}

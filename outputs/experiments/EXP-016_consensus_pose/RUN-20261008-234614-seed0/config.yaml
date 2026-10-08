@@ -1,0 +1,13 @@
+exp: EXP-016_consensus_pose
+features: moge2_vitl:normals16~and
+subset: v1
+depth: 5
+epochs: 100
+batch: 256
+lr: 0.001
+wd: 0.05
+hidden: 512
+dropout: 0.1
+eval_every: 5
+beams: 1,2,4,8
+seed: 0

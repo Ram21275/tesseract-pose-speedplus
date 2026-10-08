@@ -1,0 +1,4 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  4/9500  343 ms/img  peak GPU 4.0 GB
+  204/9500  169 ms/img  peak GPU 4.1 GB
+  404/9500  120 ms/img  peak GPU 4.1 GB

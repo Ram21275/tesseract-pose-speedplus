@@ -1,0 +1,7 @@
+run,features,seed,epochs,state,wall_clock_s,best_epoch,params,feature_dim
+RUN-20261008-234614-seed0,moge2_vitl:normals16~and,0,100,completed,21.33,80,1131276,1024
+RUN-20261008-234636-seed1,moge2_vitl:normals16~and,1,100,completed,25.64,75,1131276,1024
+RUN-20261008-234704-seed2,moge2_vitl:normals16~and,2,100,completed,21.83,65,1131276,1024
+RUN-20261008-234727-seed0,dinov3_vitl16:grid4~and,0,100,completed,31.87,60,9026316,16384
+RUN-20261008-234801-seed1,dinov3_vitl16:grid4~and,1,100,completed,35.52,95,9026316,16384
+RUN-20261008-234838-seed2,dinov3_vitl16:grid4~and,2,100,completed,36.14,80,9026316,16384

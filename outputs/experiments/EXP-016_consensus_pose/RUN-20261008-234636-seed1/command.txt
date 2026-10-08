@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_probe.py --exp EXP-016_consensus_pose --features moge2_vitl:normals16~and --seed 1
