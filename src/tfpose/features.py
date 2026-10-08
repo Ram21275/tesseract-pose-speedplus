@@ -124,6 +124,65 @@ class VGGTExtractor:
         return out
 
 
+class MoGe2Extractor:
+    """MoGe-2 (Microsoft, single-image geometry; DINOv2 ViT-L/14 encoder fine-tuned for geometry).
+
+    Input: the same GT crop at 518x518 with num_tokens = 37*37, so the encoder
+    sees a 37x37 token grid exactly like VGGT. The FoV is predicted by the
+    model (no intrinsics given), matching the VGGT control. apply_mask=False so
+    maps stay finite everywhere; the predicted foreground mask is cached as the
+    confidence map.
+    Cached: per encoder layer CLS + mean patch token (1024-d, DINOv2 final norm
+    applied by get_intermediate_layers), last-layer patch grid pooled to 8x8,
+    and depth / points / normal / mask pooled to 74x74.
+    """
+
+    def __init__(self, device, repo: str = "Ruicheng/moge-2-vitl-normal"):
+        from moge.model.v2 import MoGeModel
+        self.model = freeze(MoGeModel.from_pretrained(repo).to(device))
+        self.size = 518
+        self.num_tokens = 37 * 37
+        self.device = device
+        self.layers = list(self.model.encoder.intermediate_layers)
+        bb = self.model.encoder.backbone
+        orig = bb.get_intermediate_layers
+        self._feats = None
+
+        def capture(*a, **k):
+            out = orig(*a, **k)
+            self._feats = out
+            return out
+        bb.get_intermediate_layers = capture
+        self.spec = {"model": repo, "size": self.size, "num_tokens": self.num_tokens, "layers": self.layers,
+                     "fov": "predicted", "apply_mask": False, "use_fp16": True, "map_res": VGGT_MAP_RES,
+                     "crop": "gt_square", "gray_to_rgb": "replicate"}
+
+    @torch.no_grad()
+    def __call__(self, x: torch.Tensor) -> dict:
+        x = x.to(self.device)
+        pred = self.model.infer(x, num_tokens=self.num_tokens, apply_mask=False, use_fp16=True)
+        assert_frozen(self.model)
+        out = {}
+        for li, (patch, cls) in zip(self.layers, self._feats):
+            out[f"l{li}_cls"] = cls.float()
+            out[f"l{li}_mean"] = patch.float().mean(1)
+        last = self._feats[-1][0].float()
+        g = int(round(last.shape[1] ** 0.5))
+        grid = last.reshape(-1, g, g, last.shape[-1]).permute(0, 3, 1, 2)
+        out["last_grid8"] = F.adaptive_avg_pool2d(grid, 8).permute(0, 2, 3, 1)
+
+        def pool(m):  # (B,H,W,C) -> (B,R,R,C)
+            return F.adaptive_avg_pool2d(m.permute(0, 3, 1, 2).float(), VGGT_MAP_RES).permute(0, 2, 3, 1)
+        out["depth"] = pool(pred["depth"][..., None])
+        out["points"] = pool(pred["points"])
+        out["normal"] = pool(pred["normal"])
+        out["mask"] = pool(pred["mask"].float()[..., None])
+        for k in ("depth", "points", "normal"):
+            if not torch.isfinite(out[k]).all():
+                raise ValueError(f"non-finite MoGe-2 {k} output")
+        return out
+
+
 def cache_path(cache_root: Path, tag: str, spec: dict, manifest_hash: str) -> Path:
     return Path(cache_root) / f"{tag}__{preprocess_hash(spec)}__{manifest_hash}"
 
@@ -146,7 +205,18 @@ def extract_to_cache(extractor, root: Path, df, out_dir: Path, batch: int, code_
         dsets = {}
         for s in range(0, n, batch):
             x = load_crops(root, rows[s:s + batch], extractor.size)
-            out = extractor(x)
+            # The GPU is shared: on CUDA OOM, free cache and retry the batch
+            # a few times before failing loudly.
+            for attempt in range(6):
+                try:
+                    out = extractor(x)
+                    break
+                except torch.OutOfMemoryError:
+                    if attempt == 5:
+                        raise
+                    torch.cuda.empty_cache()
+                    log(f"  CUDA OOM at {s}, retry {attempt + 1}/5 in 60 s")
+                    time.sleep(60)
             for k, v in out.items():
                 v = v.cpu().numpy().astype(np.float16)
                 if k not in dsets:

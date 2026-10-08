@@ -13,7 +13,7 @@ sys.path.insert(0, str(REPO / "src"))
 from tfpose import features as Fx  # noqa: E402
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--backbone", required=True, choices=["dinov3_vitb16", "dinov3_vitl16", "vggt_1b"])
+ap.add_argument("--backbone", required=True, choices=["dinov3_vitb16", "dinov3_vitl16", "vggt_1b", "moge2_vitl"])
 ap.add_argument("--subset", default="v1")
 ap.add_argument("--batch", type=int, default=32)
 args = ap.parse_args()
@@ -27,8 +27,10 @@ torch.manual_seed(0)
 if args.backbone.startswith("dinov3"):
     name = {"dinov3_vitb16": "vit_base_patch16_dinov3.lvd1689m", "dinov3_vitl16": "vit_large_patch16_dinov3.lvd1689m"}[args.backbone]
     ex = Fx.DinoV3(name, dev)
-else:
+elif args.backbone == "vggt_1b":
     ex = Fx.VGGTExtractor(dev)
+else:
+    ex = Fx.MoGe2Extractor(dev)
 code = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip()
 out = Fx.cache_path(REPO / "outputs/shared_cache", f"{args.backbone}__subset_{args.subset}", ex.spec, mhash)
 print("->", out, flush=True)
