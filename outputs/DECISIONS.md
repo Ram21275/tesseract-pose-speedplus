@@ -27,3 +27,13 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
   - The plan's Phase-2 experiments will be numbered **EXP-025–029** (plan EXP-020 → 025, 021 → 026, 022 → 027, 023 → 028, 024 → 029). Phase 3 onwards keeps the plan's numbers.
   - New user-requested side experiments use the **EXP-1xx** series, starting with EXP-101.
   - Existing IDs are never renamed.
+
+## DEC-003 — Phase-2 gate: fusion design frozen (2026-10-09)
+- **Decision:** the representation for Phase 3 is the **training-free product of experts** of two Tesseract probes:
+  - DINOv3-L `grid4`;
+  - MoGe-2 `normals16~and` (normals masked by the EXP-015 DINO∧MoGe-2 consensus).
+- **Evidence (synthetic val):** PoE 25.9 ± 0.5° vs DINOv3 alone 27.7 ± 0.8° (EXP-025). No reliability weighting improves on equal weights (EXP-026). Real domains (descriptive): lightbox 62.5° vs 76.1°, sunlamp 71.4° vs 79.1°.
+- **Skipped plan items:**
+  - EXP-027 (no signal helped individually);
+  - EXP-028/029 (learned gates and cross-attention are conditional on training-free fusion failing; it did not).
+- **Caveat:** all Phase-1/2 numbers come from the 6k-image subset. Phase 3 starts with a full-data repeat of the frozen design (EXP-030).
