@@ -1,0 +1,2 @@
+trainable LoRA params 1,179,648; head params 9,026,316; 1498 steps/epoch
+ep 1 train_loss 12.0703 val_mean_deg 114.189 val_median 114.365 elapsed 0.3 min

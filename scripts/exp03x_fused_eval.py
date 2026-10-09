@@ -28,6 +28,7 @@ ap.add_argument("--subset", default="full")
 ap.add_argument("--beams", default="1,4")
 ap.add_argument("--seeds", default="0,1,2")
 ap.add_argument("--run-exp", required=True)
+ap.add_argument("--epochs", type=int, default=100, help="epoch budget of the probe runs to load")
 args = ap.parse_args()
 run = Run(args.run_exp.split("_", 1)[0], args.run_exp.split("_", 1)[1], dict(vars(args), stage="fused_eval"), seed=0)
 try:
@@ -50,7 +51,7 @@ try:
     def load(spec, seed):
         for d in sorted((REPO / "outputs/experiments" / args.exp).glob(f"RUN-*-seed{seed}")):
             cfg = yaml.safe_load((d / "config.yaml").read_text())
-            if cfg.get("features") != spec or cfg.get("epochs") != 100 or not (d / "checkpoints/best.pt").exists():
+            if cfg.get("features") != spec or cfg.get("epochs") != args.epochs or not (d / "checkpoints/best.pt").exists():
                 continue
             x = feat(spec)
             ck = torch.load(d / "checkpoints/best.pt", map_location=dev)

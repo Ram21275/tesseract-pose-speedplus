@@ -1,0 +1,17 @@
+branch: moge
+exp: EXP-099_p3_smoke
+subset: full
+epochs: 1
+batch: 8
+accum: 1
+lora_rank: 8
+lora_alpha: 16.0
+lr_lora: 0.0001
+lr_head: 0.001
+wd: 0.05
+workers: 8
+max_train: 0
+max_steps: 20
+max_eval: 64
+seed: 99
+backbone_adaptation: true

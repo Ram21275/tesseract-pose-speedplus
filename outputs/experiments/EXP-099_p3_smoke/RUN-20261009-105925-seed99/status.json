@@ -1,0 +1,10 @@
+{
+  "state": "failed",
+  "pid": 2316202,
+  "start": "2026-10-09T10:59:25.965325",
+  "wall_clock_s": 73.36,
+  "peak_cpu_rss_mb": 11405.2,
+  "peak_gpu_mb": 1203.7,
+  "error": "Traceback (most recent call last):\n  File \"/home/kavinder/RAM/pose-estimation/scripts/train_adapter.py\", line 111, in <module>\n    sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=[args.lr_lora, args.lr_head], total_steps=max(total, 1), pct_start=0.05)\n  File \"/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/optim/lr_scheduler.py\", line 2516, in __init__\n    super().__init__(optimizer, last_epoch)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/optim/lr_scheduler.py\", line 174, in __init__\n    self._initial_step()\n    ~~~~~~~~~~~~~~~~~~^^\n  File \"/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/optim/lr_scheduler.py\", line 180, in _initial_step\n    self.step()\n    ~~~~~~~~~^^\n  File \"/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/optim/lr_scheduler.py\", line 282, in step\n    self._update_lr(epoch)\n    ~~~~~~~~~~~~~~~^^^^^^^\n  File \"/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/optim/lr_scheduler.py\", line 288, in _update_lr\n    values = self.get_lr()\n  File \"/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/optim/lr_scheduler.py\", line 2582, in get_lr\n    pct = (step_num - start_step) / (end_step - start_step)\n          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~\nZeroDivisionError: float division by zero\n",
+  "end": "2026-10-09T11:00:39.321100"
+}

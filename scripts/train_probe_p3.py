@@ -41,6 +41,8 @@ ap.add_argument("--eval-every", type=int, default=5)
 ap.add_argument("--beams", default="1,4")
 ap.add_argument("--gpu-dtype", default="fp16", choices=["fp32", "fp16"])
 ap.add_argument("--amp", default="none", choices=["none", "bf16"], help="autocast for the probe forward pass (speed); features and losses as before")
+ap.add_argument("--train-frac", type=float, default=1.0, help="fixed seeded (rng 0) fraction of synthetic train, as in train_adapter.py")
+ap.add_argument("--clip", type=float, default=0.0, help="gradient-norm clip (0 = off)")
 ap.add_argument("--seed", type=int, default=0)
 args = ap.parse_args()
 exp_id, short = args.exp.split("_", 1)
@@ -87,6 +89,8 @@ try:
     n_params = sum(p.numel() for p in params)
     opt = torch.optim.AdamW(params, lr=args.lr, weight_decay=args.wd)
     tr_idx = np.flatnonzero(tr)
+    if args.train_frac < 1.0:
+        tr_idx = np.sort(np.random.default_rng(0).choice(tr_idx, int(round(args.train_frac * len(tr_idx))), replace=False))
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=args.epochs * int(np.ceil(len(tr_idx) / args.batch)), pct_start=0.05)
     res_scale = np.radians(P.TAU_DEG[args.depth])                     # residual loss in units of the L5 cell size
 
@@ -149,7 +153,10 @@ try:
             b = torch.as_tensor(perm[s:s + args.batch], device=dev)
             with torch.autocast("cuda", dtype=torch.bfloat16, enabled=args.amp == "bf16"):
                 loss = losses(b)
-            opt.zero_grad(set_to_none=True); loss.backward(); opt.step(); sched.step()
+            opt.zero_grad(set_to_none=True); loss.backward()
+            if args.clip > 0:
+                torch.nn.utils.clip_grad_norm_(params, args.clip)
+            opt.step(); sched.step()
             tot += loss.item() * len(b)
         if ep % args.eval_every == 0 or ep == args.epochs:
             vm, _, _, _ = evaluate(groups["synthetic_val"].to_numpy(), 1)

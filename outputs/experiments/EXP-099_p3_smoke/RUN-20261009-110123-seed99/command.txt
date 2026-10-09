@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_adapter.py --exp EXP-099_p3_smoke --branch dino --batch 32 --epochs 1 --max-steps 20 --max-eval 64 --workers 8 --seed 99

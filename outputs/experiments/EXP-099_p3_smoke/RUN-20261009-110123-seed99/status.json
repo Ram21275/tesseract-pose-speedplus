@@ -1,0 +1,13 @@
+{
+  "state": "completed",
+  "pid": 2316765,
+  "start": "2026-10-09T11:01:23.678738",
+  "wall_clock_s": 92.55,
+  "peak_cpu_rss_mb": 11404.7,
+  "peak_gpu_mb": 8315.5,
+  "end": "2026-10-09T11:02:56.226179",
+  "best_epoch": 1,
+  "lora_params": 1179648,
+  "head_params": 9026316,
+  "adapted_cache": "outputs/shared_cache/adapted__EXP-099_p3_smoke__dino__seed99__RUN-20261009-110123-seed99"
+}
