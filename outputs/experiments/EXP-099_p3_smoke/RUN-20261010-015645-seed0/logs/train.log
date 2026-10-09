@@ -1,0 +1,2 @@
+ep 1 loss 5.6045 3s | synth-val(sel 300) point mean 127.164 median 129.574
+ep 2 loss 5.3827 3s | synth-val(sel 300) point mean 125.564 median 132.450

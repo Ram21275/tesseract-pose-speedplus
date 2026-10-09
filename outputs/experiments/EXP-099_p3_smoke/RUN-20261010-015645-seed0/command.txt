@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_phase4.py --exp EXP-099_p3_smoke --features moge2_vitl:normals16~and --mode flow --base uniform --centre gt --epochs 2 --eval-every 1 --train-frac 0.05 --eval-cap 300 --val-cap 300 --m 8

@@ -41,7 +41,7 @@ def combine(lps: list[torch.Tensor], rule: str) -> torch.Tensor:
 
 
 @torch.no_grad()
-def fused_beam(models, xs, rule: str, beam: int = 1, return_h: bool = False):
+def fused_beam(models, xs, rule: str, beam: int = 1, return_h: bool = False, return_all: bool = False):
     """Beam search over the Tesseract tree with per-level fused distributions. Returns best (chart, path).
 
     Works for HierMLP (stateless children), phase3.HierGRU (stateful path decoder) and
@@ -80,6 +80,8 @@ def fused_beam(models, xs, rule: str, beam: int = 1, return_h: bool = False):
         states = [st.view(B, K, -1).gather(1, src[:, :, None].expand(-1, -1, st.shape[-1])).reshape(B * src.shape[1], -1)
                   if st is not None else None for st in new_states]
         prev = child.reshape(-1)
+    if return_all:   # every beam, best first: chart (B,K), path (B,K,L), joint log-prob score (B,K)
+        return chart, path, score, hs
     if return_h:
         return chart[:, 0], path[:, 0], hs
     return chart[:, 0], path[:, 0]

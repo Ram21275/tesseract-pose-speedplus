@@ -132,3 +132,23 @@ def read_gray(root: Path, relpath: str) -> np.ndarray:
 
 def manifest_hash(rows: list[str]) -> str:
     return hashlib.sha256("\n".join(rows).encode()).hexdigest()[:16]
+
+
+# DEC-005: fixed real-domain validation split = seeded 20% of lightbox (rng 0), used for selection and gates
+# from Phase 4 on; the remaining lightbox images ("lightbox_test") and all of sunlamp stay test-only.
+REAL_VAL_FRAC, REAL_VAL_SEED = 0.2, 0
+
+
+def real_val_names(lightbox_names: list[str]) -> list[str]:
+    names = sorted(lightbox_names)
+    k = int(round(REAL_VAL_FRAC * len(names)))
+    return sorted(np.random.default_rng(REAL_VAL_SEED).choice(names, k, replace=False).tolist())
+
+
+def eval_groups(df) -> dict:
+    """Boolean masks for the DEC-005 evaluation groups over a subset manifest."""
+    lb = (df.domain == "lightbox").to_numpy()
+    val = df.image_relpath.isin(set(real_val_names(df.image_relpath[lb].tolist()))).to_numpy() & lb
+    return {"synthetic_val": ((df.domain == "synthetic") & (df.split == "validation")).to_numpy(),
+            "lightbox_val": val, "lightbox_test": lb & ~val, "lightbox": lb,
+            "sunlamp": (df.domain == "sunlamp").to_numpy()}

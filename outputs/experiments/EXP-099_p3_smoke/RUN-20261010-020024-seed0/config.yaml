@@ -1,0 +1,11 @@
+exp: EXP-099_p3_smoke
+a: moge2_vitl:normals16~and
+b: moge2_vitl:normals16~and
+seeds: '0'
+m: 4
+nfe: 10
+mode: flow
+base: local
+save_samples: true
+stage: fused_eval
+seed: 0

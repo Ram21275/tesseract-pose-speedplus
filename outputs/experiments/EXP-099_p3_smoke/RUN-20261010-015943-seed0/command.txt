@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/exp04x_fused_eval.py --exp EXP-099_p3_smoke --a moge2_vitl:normals16~and --b moge2_vitl:normals16~and --seeds 0 --m 4

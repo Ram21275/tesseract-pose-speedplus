@@ -54,3 +54,10 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 ## DEC-004 update — Phase-3 gate re-decided after EXP-032 and EXP-036 (2026-10-09)
 - **Frozen predictor:** the **Transformer decoder + geodesic soft targets** (EXP-036), greedy decoding, PoE fusion (DEC-003). PoE synthetic val is **5.540 ± 0.063°**, the lowest of EXP-030–036. It replaces EXP-033.
 - **Selection-policy question still open:** with the winner, DINOv3 alone is below PoE on synthetic val (5.35° vs 5.54°), but PoE is far better on lightbox (26.9° vs 37.1°) and sunlamp (36.6° vs 41.4°). The real-domain validation split chosen by the user awaits their clarification and has not been applied.
+
+## DEC-005 — Real-domain validation split (2026-10-10)
+- **Decided by:** the user, choosing option (c) of the DEC-004 selection-policy question ("Real-domain val split").
+- **Why now:** the Phase-4 gate judges multimodal recall and coverage. Synthetic val has almost no errors above 90° (0.1% for EXP-036 DINO seed 0, vs 16% on lightbox and sunlamp), so it cannot register that benefit.
+- **Split:** `lightbox_val` = a seeded 20% of lightbox (1,348 images): sorted names, `numpy.random.default_rng(0).choice(k=round(0.2·N), replace=False)`. List: `outputs/data_manifests/lightbox_val_DEC005.txt` (sha `57b45ce4262ce3a4`); code: `tfpose.data.eval_groups`. `lightbox_test` = the other 5,392 lightbox images. Sunlamp (2,791) stays test-only.
+- **Leakage check:** lightbox has no sequence structure (consecutive names are a median 132° apart; nearest-neighbour rotation distance has median 7.1° and is never below 1°), so a random split is used.
+- **Use:** from Phase 4 on, selection and gates use synthetic val **and** `lightbox_val`, with the rule pre-registered per experiment. Only `lightbox_test` and sunlamp are reported as untouched tests. Earlier experiments keep their reported numbers. Their full-lightbox figures were not used for tuning, but they overlap `lightbox_val`.

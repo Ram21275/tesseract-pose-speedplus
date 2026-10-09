@@ -1,0 +1,9 @@
+src_exp: EXP-036_transformer_soft_targets
+a: dinov3_vitl16:tokens8
+b: moge2_vitl:normals16~and
+seeds: '0'
+beam: 8
+n_train: 12000
+run_exp: EXP-040_tangent_residual_predicted_leaf
+stage: diag
+seed: 0

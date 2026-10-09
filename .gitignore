@@ -11,3 +11,4 @@ outputs/experiments/**/predictions/*.npy
 # regenerated deterministically by scripts/exp001_gt_tesseract_paths.py (hash file is committed)
 outputs/data_manifests/speedplus_tesseract_L5.csv
 outputs/data_manifests/speedplus_tesseract_L5.tsv
+outputs/experiments/**/samples/*.npy
