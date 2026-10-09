@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/exp03x_fused_eval.py --exp EXP-036_transformer_soft_targets --a dinov3_vitl16:tokens8 --b moge2_vitl:normals16~and --beams 1,4 --run-exp EXP-036_transformer_soft_targets

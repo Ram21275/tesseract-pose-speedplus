@@ -50,3 +50,7 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
     - (b) re-select by synthetic val (DINOv3 alone);
     - (c) record a real-domain validation split (e.g. a held-out part of lightbox) and select on it, reporting sunlamp and the rest of lightbox as test.
 - **Not yet tested:** soft targets + GRU decoder combined. Each helps the single branches; it would need a new pre-registered experiment.
+
+## DEC-004 update — Phase-3 gate re-decided after EXP-032 and EXP-036 (2026-10-09)
+- **Frozen predictor:** the **Transformer decoder + geodesic soft targets** (EXP-036), greedy decoding, PoE fusion (DEC-003). PoE synthetic val is **5.540 ± 0.063°**, the lowest of EXP-030–036. It replaces EXP-033.
+- **Selection-policy question still open:** with the winner, DINOv3 alone is below PoE on synthetic val (5.35° vs 5.54°), but PoE is far better on lightbox (26.9° vs 37.1°) and sunlamp (36.6° vs 41.4°). The real-domain validation split chosen by the user awaits their clarification and has not been applied.
