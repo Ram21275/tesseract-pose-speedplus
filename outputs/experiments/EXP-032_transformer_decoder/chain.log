@@ -1,0 +1,28 @@
+>>> 09:44:54 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-032_transformer_decoder --features dinov3_vitl16:tokens8 --decoder transformer --token-shape 64x1024 --feat-device gpu --amp bf16 --seed 0
+dinov3_vitl16:tokens8 transformer/hard/res=False seed 0 synthetic_val: mean 6.18 med 5.34 (disc 6.18) | lightbox: mean 45.95 med 17.49 (disc 45.95) | sunlamp: mean 52.85 med 26.98 (disc 52.85)
+RUN outputs/experiments/EXP-032_transformer_decoder/RUN-20261009-094455-seed0
+EXIT_CODE=0
+>>> 09:53:56 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-032_transformer_decoder --features moge2_vitl:normals16~and --decoder transformer --token-shape 256x4 --feat-device gpu --amp bf16 --seed 0
+moge2_vitl:normals16~and transformer/hard/res=False seed 0 synthetic_val: mean 18.46 med 6.10 (disc 18.46) | lightbox: mean 47.10 med 11.30 (disc 47.10) | sunlamp: mean 64.89 med 21.94 (disc 64.89)
+RUN outputs/experiments/EXP-032_transformer_decoder/RUN-20261009-095356-seed0
+EXIT_CODE=0
+>>> 10:12:58 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-032_transformer_decoder --features dinov3_vitl16:tokens8 --decoder transformer --token-shape 64x1024 --feat-device gpu --amp bf16 --seed 1
+dinov3_vitl16:tokens8 transformer/hard/res=False seed 1 synthetic_val: mean 5.95 med 5.15 (disc 5.95) | lightbox: mean 41.12 med 14.81 (disc 41.12) | sunlamp: mean 54.37 med 27.13 (disc 54.37)
+RUN outputs/experiments/EXP-032_transformer_decoder/RUN-20261009-101259-seed1
+EXIT_CODE=0
+>>> 10:22:38 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-032_transformer_decoder --features moge2_vitl:normals16~and --decoder transformer --token-shape 256x4 --feat-device gpu --amp bf16 --seed 1
+moge2_vitl:normals16~and transformer/hard/res=False seed 1 synthetic_val: mean 18.59 med 6.21 (disc 18.59) | lightbox: mean 47.74 med 11.60 (disc 47.74) | sunlamp: mean 65.93 med 23.37 (disc 65.93)
+RUN outputs/experiments/EXP-032_transformer_decoder/RUN-20261009-102239-seed1
+EXIT_CODE=0
+>>> 10:41:38 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-032_transformer_decoder --features dinov3_vitl16:tokens8 --decoder transformer --token-shape 64x1024 --feat-device gpu --amp bf16 --seed 2
+dinov3_vitl16:tokens8 transformer/hard/res=False seed 2 synthetic_val: mean 6.12 med 5.21 (disc 6.12) | lightbox: mean 43.99 med 15.58 (disc 43.99) | sunlamp: mean 51.41 med 24.50 (disc 51.41)
+RUN outputs/experiments/EXP-032_transformer_decoder/RUN-20261009-104139-seed2
+EXIT_CODE=0
+>>> 10:51:16 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-032_transformer_decoder --features moge2_vitl:normals16~and --decoder transformer --token-shape 256x4 --feat-device gpu --amp bf16 --seed 2
+moge2_vitl:normals16~and transformer/hard/res=False seed 2 synthetic_val: mean 18.00 med 6.12 (disc 18.00) | lightbox: mean 46.43 med 11.08 (disc 46.43) | sunlamp: mean 64.84 med 23.75 (disc 64.84)
+RUN outputs/experiments/EXP-032_transformer_decoder/RUN-20261009-105117-seed2
+EXIT_CODE=0
+>>> 11:10:24 scripts/guarded.sh 32 -- .venv/bin/python scripts/exp03x_fused_eval.py --exp EXP-032_transformer_decoder --a dinov3_vitl16:tokens8 --b moge2_vitl:normals16~and --beams 1,4 --run-exp EXP-032_transformer_decoder
+RUN outputs/experiments/EXP-032_transformer_decoder/RUN-20261009-111025-seed0
+EXIT_CODE=0
+>>> 11:17:07 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-036_transformer_soft_targets --features dinov3_vitl16:tokens8 --decoder transformer --token-shape 64x1024 --feat-device gpu --amp bf16 --targets soft --seed 0

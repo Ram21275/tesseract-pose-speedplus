@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_probe_p3.py --exp EXP-036_transformer_soft_targets --features dinov3_vitl16:tokens8 --decoder transformer --token-shape 64x1024 --feat-device gpu --amp bf16 --targets soft --seed 0
