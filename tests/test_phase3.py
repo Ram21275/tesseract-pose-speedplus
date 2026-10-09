@@ -64,3 +64,30 @@ def test_fused_beam_single_gru_matches_model_beam():
         c1, p1, _ = m.beam_search(x, beam=beam)
         c2, p2 = fused_beam([m], [x], "single", beam=beam)
         assert torch.equal(c1[:, 0], c2) and torch.equal(p1[:, 0], p2)
+
+
+def test_transformer_teacher_forcing_matches_prefix_decoding():
+    torch.manual_seed(3)
+    m = P.HierTransformer((16, 8), 3, d=32, heads=4, ff=64).eval()
+    x = torch.randn(12, 16 * 8)
+    q = rot.random_quats(12, RNG); c, p = T.encode(q, 3)
+    c, p = torch.as_tensor(c), torch.as_tensor(p)
+    mem = m.encode(x)
+    rl, cl = m.logits_tf(mem, c, p)
+    assert torch.allclose(rl, m.root(mem), atol=1e-5)
+    for l in range(3):
+        assert torch.allclose(cl[:, l], m.child_logits_prefix(mem, c, p[:, :l]), atol=1e-5)
+
+
+def test_transformer_fused_beam_greedy():
+    from tfpose.fusion import fused_beam
+    torch.manual_seed(4)
+    m = P.HierTransformer((16, 8), 3, d=32, heads=4, ff=64).eval()
+    x = torch.randn(10, 128)
+    c, p = fused_beam([m], [x], "single", beam=1)
+    mem = m.encode(x); chart = m.root(mem).argmax(-1); path = torch.zeros(10, 0, dtype=torch.long)
+    for l in range(3):
+        path = torch.cat([path, m.child_logits_prefix(mem, chart, path).argmax(-1)[:, None]], 1)
+    assert torch.equal(c, chart) and torch.equal(p, path)
+    c4, p4 = fused_beam([m], [x], "single", beam=4)
+    assert c4.shape == (10,) and p4.shape == (10, 3)

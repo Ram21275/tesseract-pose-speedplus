@@ -154,3 +154,73 @@ class HierGRU(nn.Module):
             st = st.view(B, K, -1).gather(1, src[:, :, None].expand(-1, -1, st.shape[-1])).reshape(B * src.shape[1], -1)
             prev = child.reshape(-1)
         return chart, path, score
+
+
+# ---------------- lightweight cross-attentive Tesseract Transformer (EXP-032/036) ----------------
+def _pos2d(T: int, d: int) -> torch.Tensor:
+    g = int(round(T ** 0.5)); assert g * g == T, "token count must be a square grid"
+    yy, xx = torch.meshgrid(torch.arange(g), torch.arange(g), indexing="ij")
+    pos = torch.stack([yy.reshape(-1), xx.reshape(-1)], 1).float() / g
+    freqs = 2.0 ** torch.arange(d // 4) * np.pi
+    a = pos[:, :, None] * freqs                                   # (T, 2, d/4)
+    return torch.cat([a.sin(), a.cos()], -1).reshape(T, -1)[:, :d]
+
+
+class HierTransformer(nn.Module):
+    """Autoregressive decoder over the Tesseract path that cross-attends to frozen visual tokens.
+
+    Input x is the flattened token grid (T*C). Sequence position 0 = [ROOT] -> chart logits (4);
+    position j>=1 embeds the cell reached after j-1 child decisions (level + Fourier(cell centre))
+    and predicts the next child (8). Causal self-attention over the path, cross-attention to memory.
+    """
+
+    def __init__(self, token_shape, depth: int, d: int = 256, enc_layers: int = 1, dec_layers: int = 2,
+                 heads: int = 4, ff: int = 512, dropout: float = 0.1, n_freq: int = 6):
+        super().__init__()
+        self.T, self.C = token_shape
+        self.depth, self.n_freq, self.prefix_decoder = depth, n_freq, True
+        self.inp = nn.Sequential(nn.LayerNorm(self.C), nn.Linear(self.C, d))
+        self.register_buffer("pos", _pos2d(self.T, d))
+        self.enc = nn.TransformerEncoder(nn.TransformerEncoderLayer(d, heads, ff, dropout, batch_first=True, norm_first=True), enc_layers)
+        self.dec = nn.TransformerDecoder(nn.TransformerDecoderLayer(d, heads, ff, dropout, batch_first=True, norm_first=True), dec_layers)
+        self.root_tok = nn.Parameter(torch.zeros(1, 1, d)); nn.init.normal_(self.root_tok, std=0.02)
+        self.level_emb = nn.Embedding(depth + 1, d)
+        self.cell_proj = nn.Linear(4 + 8 * n_freq, d)
+        self.root_head = nn.Linear(d, T.N_CHARTS)
+        self.child_head = nn.Linear(d, T.N_CHILD)
+
+    def encode(self, x):
+        tok = self.inp(x.view(x.shape[0], self.T, self.C)) + self.pos
+        return self.enc(tok)
+
+    def _seq(self, chart, path):
+        """Token sequence [ROOT, cell_0, ..., cell_l] for a prefix of l child decisions; (B, l+2, d)."""
+        B, l = path.shape
+        toks = [self.root_tok.expand(B, -1, -1)]
+        for j in range(l + 1):
+            qc = decode_torch(chart, path[:, :j])
+            lev = torch.full((B,), j, device=path.device, dtype=torch.long)
+            toks.append((self.level_emb(lev) + self.cell_proj(fourier(qc, self.n_freq)))[:, None])
+        return torch.cat(toks, 1)
+
+    def _run(self, mem, seq):
+        L = seq.shape[1]
+        mask = torch.triu(torch.full((L, L), float("-inf"), device=seq.device), 1)
+        return self.dec(seq, mem, tgt_mask=mask)
+
+    def root(self, mem):
+        return self.root_head(self._run(mem, self.root_tok.expand(mem.shape[0], -1, -1))[:, 0])
+
+    def child_logits_prefix(self, mem, chart, path_prefix):
+        return self.child_head(self._run(mem, self._seq(chart, path_prefix))[:, -1])
+
+    def logits_tf(self, mem, chart, path):
+        """Teacher forcing: root (B,4) and child logits for every level (B,L,8) in one pass."""
+        out = self._run(mem, self._seq(chart, path[:, :-1]))      # positions 0..L
+        return self.root_head(out[:, 0]), self.child_head(out[:, 1:])
+
+    @torch.no_grad()
+    def beam_search(self, x, beam: int = 1):
+        from .fusion import fused_beam
+        c, p = fused_beam([self], [x], "single", beam)
+        return c[:, None], p[:, None], None

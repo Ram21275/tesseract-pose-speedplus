@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_probe_p3.py --exp EXP-099_p3_smoke --features moge2_vitl:normals16~and --decoder transformer --token-shape 256x4 --feat-device gpu --epochs 1 --eval-every 1 --beams 1 --seed 99

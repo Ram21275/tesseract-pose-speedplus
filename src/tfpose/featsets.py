@@ -4,6 +4,7 @@ Spec string: ``<backbone>:<featset>``, e.g. ``dinov3_vitb16:l11_cls+mean``.
 featsets:
 - ``l<i>_<a>[+<b>]``   concatenation of cached per-layer vectors (cls/mean/cam)
 - ``grid4`` / ``grid2`` last-layer patch grid, 4x4 / 2x2 average pooled, flattened
+- ``tokens8``          DINOv3 last-layer tokens pooled 16x16 -> 8x8, flattened (64*C), fp16 (EXP-032/036)
 - ``parts4``           DINOv3 tokens pooled by 4 soft spectral parts (EXP-019) + part centroid and second moments
 - ``depthconf16``      depth / per-image median and log confidence (VGGT) or masked median + mask (MoGe-2), 16x16 pooled
 - ``points16``         point map centred (conf/mask-weighted) and RMS-scaled, plus conf (VGGT: log) or mask (MoGe-2), 16x16 pooled
@@ -74,6 +75,11 @@ def load(spec: str, subset: str):
                 unweighted = Gc.mean((2, 4))
                 out.append(np.where(den > 1e-6, num / np.maximum(den, 1e-6), unweighted))  # empty cell -> plain mean
             X = np.concatenate(out).reshape(len(names), -1)
+        elif fs == "tokens8":  # EXP-032/036: 16x16 token grid pooled to 8x8, kept fp16 (N, 64*C)
+            ds = f["last_grid"]; N, C = ds.shape[0], ds.shape[-1]
+            X = np.empty((N, 64 * C), np.float16)                      # filled chunk-wise: no full float32 copy
+            for s0 in range(0, N, 1024):
+                X[s0:s0 + 1024] = _pool(ds[s0:s0 + 1024], 8).astype(np.float16).reshape(-1, 64 * C)
         elif fs in ("grid4", "grid2"):
             key = "last_grid" if "last_grid" in f else "last_grid8"
             X = _pool(f[key], int(fs[-1])).reshape(len(names), -1)
@@ -127,4 +133,21 @@ def load(spec: str, subset: str):
             layer, parts = fs.split("_", 1)
             X = np.concatenate([f[f"{layer}_{p}"][:].astype(np.float32) for p in parts.split("+")], 1)
     man = json.loads((path / "manifest.json").read_text())
-    return names, X.astype(np.float32), {"cache": str(path.relative_to(REPO)), "cache_manifest": man}
+    X = X if X.dtype == np.float16 else X.astype(np.float32)
+    return names, X, {"cache": str(path.relative_to(REPO)), "cache_manifest": man}
+
+
+def standardize_to_tensor(X: np.ndarray, train_mask: np.ndarray, device, dtype, pin: bool = False, chunk: int = 4096):
+    """Train-split standardization, chunked (float64 statistics), written into a torch tensor.
+
+    Avoids materializing a full float32 copy of very large feature matrices.
+    """
+    tr = np.flatnonzero(train_mask)
+    s1 = np.zeros(X.shape[1]); s2 = np.zeros(X.shape[1])
+    for i in range(0, len(tr), chunk):
+        c = X[tr[i:i + chunk]].astype(np.float64); s1 += c.sum(0); s2 += (c ** 2).sum(0)
+    mu = s1 / len(tr); sd = np.sqrt(np.maximum(s2 / len(tr) - mu ** 2, 0)) + 1e-6
+    out = torch.empty(X.shape, dtype=dtype, device=device, pin_memory=pin and str(device) == "cpu")
+    for i in range(0, len(X), chunk):
+        out[i:i + chunk] = torch.from_numpy(((X[i:i + chunk].astype(np.float32) - mu) / sd).astype(np.float32)).to(dtype)
+    return out

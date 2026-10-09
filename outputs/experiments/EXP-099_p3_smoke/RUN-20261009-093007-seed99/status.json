@@ -1,0 +1,10 @@
+{
+  "state": "failed",
+  "pid": 2290176,
+  "start": "2026-10-09T09:30:07.616120",
+  "wall_clock_s": 85.37,
+  "peak_cpu_rss_mb": 27779.4,
+  "peak_gpu_mb": 0.0,
+  "error": "[memguard] aborting: process RSS 27.1 GB > limit 27.0 GB",
+  "end": "2026-10-09T09:31:32.987219"
+}

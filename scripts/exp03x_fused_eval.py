@@ -42,8 +42,9 @@ try:
     def feat(spec):
         if spec not in feats:
             names, X, _ = featsets.load(spec, args.subset); assert names == df.image_relpath.tolist()
-            mu, sd = X[tr].mean(0), X[tr].std(0) + 1e-6
-            feats[spec] = torch.tensor((X - mu) / sd, device=dev, dtype=torch.float16)
+            big = X.nbytes > 4e9
+            feats[spec] = featsets.standardize_to_tensor(X, tr, "cpu" if big else dev, torch.float16, pin=False)
+            del X
         return feats[spec]
 
     def load(spec, seed):
@@ -54,7 +55,9 @@ try:
             x = feat(spec)
             ck = torch.load(d / "checkpoints/best.pt", map_location=dev)
             sd_model = ck["model"] if isinstance(ck, dict) and "model" in ck else ck
-            if cfg.get("decoder", "mlp") == "gru":
+            if cfg.get("decoder", "mlp") == "transformer":
+                m = P.HierTransformer(tuple(int(v) for v in cfg["token_shape"].split("x")), cfg["depth"], dropout=cfg["dropout"]).to(dev)
+            elif cfg.get("decoder", "mlp") == "gru":
                 m = P.HierGRU(x.shape[1], cfg["depth"], hidden=cfg["hidden"], dropout=cfg["dropout"]).to(dev)
             else:
                 m = HierMLP(x.shape[1], cfg["depth"], hidden=cfg["hidden"], dropout=cfg["dropout"]).to(dev)
@@ -82,7 +85,7 @@ try:
                     with torch.no_grad():
                         for s in range(0, len(idx), 2048):
                             b = torch.as_tensor(idx[s:s + 2048], device=dev)
-                            c, p, hs = fused_beam(ms, [x[b].float() for x in xs], rule, beam, return_h=True)
+                            c, p, hs = fused_beam(ms, [(x[b] if x.is_cuda else x[b.cpu()].to(dev, non_blocking=True)).float() for x in xs], rule, beam, return_h=True)
                             ql = decode_torch(c, p); qd.append(ql.cpu().numpy())
                             if all(r is not None for r in rs):
                                 delta = torch.stack([r(h, ql) for r, h in zip(rs, hs)]).mean(0)

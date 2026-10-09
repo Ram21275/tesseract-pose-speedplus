@@ -44,12 +44,13 @@ def combine(lps: list[torch.Tensor], rule: str) -> torch.Tensor:
 def fused_beam(models, xs, rule: str, beam: int = 1, return_h: bool = False):
     """Beam search over the Tesseract tree with per-level fused distributions. Returns best (chart, path).
 
-    Works for HierMLP (stateless children) and phase3.HierGRU (stateful path decoder) members.
+    Works for HierMLP (stateless children), phase3.HierGRU (stateful path decoder) and
+    phase3.HierTransformer (prefix decoder over visual tokens) members.
     """
     dev = xs[0].device
     hs = [m.encode(x) for m, x in zip(models, xs)]
     B = hs[0].shape[0]
-    gru = [hasattr(m, "cell") for m in models]
+    gru = [isinstance(getattr(m, "cell", None), torch.nn.GRUCell) for m in models]
     lp = combine([F.log_softmax(m.root(h).float(), -1) for m, h in zip(models, hs)], rule)
     k0 = min(beam, 4)
     score, chart = lp.topk(k0, -1)
@@ -63,8 +64,10 @@ def fused_beam(models, xs, rule: str, beam: int = 1, return_h: bool = False):
         lev = torch.full((B * K,), l, device=dev, dtype=torch.long)
         clps, new_states = [], []
         for m, h, g, st in zip(models, hs, gru, states):
-            hk = h[:, None].expand(B, K, h.shape[-1]).reshape(B * K, -1)
-            if g:
+            hk = h[:, None].expand(B, K, *h.shape[1:]).reshape(B * K, *h.shape[1:])
+            if getattr(m, "prefix_decoder", False):
+                lg = m.child_logits_prefix(hk, chart.reshape(-1), path.reshape(B * K, l))
+            elif g:
                 lg, st = m.step(hk, st, chart.reshape(-1), prev, lev, pq)
             else:
                 lg = m.child_logits(hk, lev, pq)

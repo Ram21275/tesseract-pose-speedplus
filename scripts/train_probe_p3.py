@@ -24,7 +24,9 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--exp", required=True)
 ap.add_argument("--features", required=True)
 ap.add_argument("--subset", default="full")
-ap.add_argument("--decoder", default="mlp", choices=["mlp", "gru"])
+ap.add_argument("--decoder", default="mlp", choices=["mlp", "gru", "transformer"])
+ap.add_argument("--token-shape", default=None, help="TxC token grid for --decoder transformer, e.g. 64x1024 or 256x4")
+ap.add_argument("--feat-device", default="gpu", choices=["gpu", "cpu"], help="cpu = pinned host memory, batches copied to GPU")
 ap.add_argument("--targets", default="hard", choices=["hard", "soft"])
 ap.add_argument("--residual", action="store_true")
 ap.add_argument("--res-weight", type=float, default=1.0)
@@ -38,6 +40,7 @@ ap.add_argument("--dropout", type=float, default=0.1)
 ap.add_argument("--eval-every", type=int, default=5)
 ap.add_argument("--beams", default="1,4")
 ap.add_argument("--gpu-dtype", default="fp16", choices=["fp32", "fp16"])
+ap.add_argument("--amp", default="none", choices=["none", "bf16"], help="autocast for the probe forward pass (speed); features and losses as before")
 ap.add_argument("--seed", type=int, default=0)
 args = ap.parse_args()
 exp_id, short = args.exp.split("_", 1)
@@ -57,9 +60,12 @@ try:
               "synthetic_val": (df.domain == "synthetic") & (df.split == "validation"),
               "lightbox": df.domain == "lightbox", "sunlamp": df.domain == "sunlamp"}
     tr = groups["synthetic_train"].to_numpy()
-    mu, sd = X[tr].mean(0), X[tr].std(0) + 1e-6
-    Xt = torch.tensor((X - mu) / sd, device=dev, dtype=torch.float16 if args.gpu_dtype == "fp16" else torch.float32)
+    Xt = featsets.standardize_to_tensor(X, tr, dev if args.feat_device == "gpu" else "cpu",
+                                        torch.float16 if args.gpu_dtype == "fp16" else torch.float32, pin=False)  # pinned host memory rounds up to a power of two (9 GB -> 16 GB)
     d_in = X.shape[1]; del X
+
+    def getx(b):  # b: index tensor on GPU
+        return (Xt[b] if args.feat_device == "gpu" else Xt[b.cpu()].to(dev, non_blocking=True)).float()
     Ct, Pt, PQt = torch.as_tensor(chart, device=dev), torch.as_tensor(path, device=dev), torch.as_tensor(pq, dtype=torch.float32, device=dev)
     if args.targets == "soft":
         rs, cs = P.soft_targets(q, chart, path)
@@ -67,8 +73,15 @@ try:
     if args.residual:
         Dt = torch.as_tensor(P.leaf_rotvec_targets(q, chart, path), device=dev)
         QLt = torch.as_tensor(T.decode(chart, path), dtype=torch.float32, device=dev)
-    model = (HierMLP(d_in, args.depth, hidden=args.hidden, dropout=args.dropout) if args.decoder == "mlp"
-             else P.HierGRU(d_in, args.depth, hidden=args.hidden, dropout=args.dropout)).to(dev)
+    if args.decoder == "transformer":
+        if args.residual:
+            raise ValueError("--residual is not defined for the transformer decoder")
+        ts = tuple(int(v) for v in args.token_shape.split("x")); assert ts[0] * ts[1] == d_in, (ts, d_in)
+        model = P.HierTransformer(ts, args.depth, dropout=args.dropout).to(dev)
+    elif args.decoder == "gru":
+        model = P.HierGRU(d_in, args.depth, hidden=args.hidden, dropout=args.dropout).to(dev)
+    else:
+        model = HierMLP(d_in, args.depth, hidden=args.hidden, dropout=args.dropout).to(dev)
     res = P.ResidualHead(args.hidden).to(dev) if args.residual else None
     params = list(model.parameters()) + (list(res.parameters()) if res else [])
     n_params = sum(p.numel() for p in params)
@@ -78,15 +91,18 @@ try:
     res_scale = np.radians(P.TAU_DEG[args.depth])                     # residual loss in units of the L5 cell size
 
     def losses(b):
-        x = Xt[b].float(); h = model.encode(x)
-        if args.decoder == "mlp":
+        x = getx(b); h = model.encode(x)
+        if args.decoder == "transformer":
+            rl, cl = model.logits_tf(h, Ct[b], Pt[b])
+        elif args.decoder == "mlp":
             B, L = Pt[b].shape
             hl = h[:, None].expand(B, L, h.shape[-1]).reshape(B * L, -1)
             lev = torch.arange(L, device=dev).repeat(B)
             cl = model.child_logits(hl, lev, PQt[b].reshape(B * L, 4)).view(B, L, 8)
         else:
             cl = model.child_logits_tf(h, Ct[b], Pt[b], PQt[b])
-        rl = model.root(h)
+        if args.decoder != "transformer":
+            rl = model.root(h)
         if args.targets == "soft":
             loss = P.soft_ce(rl, RSt[b]) + sum(P.soft_ce(cl[:, l], CSt[b][:, l]) for l in range(cl.shape[1]))
         else:
@@ -100,11 +116,12 @@ try:
         model.eval(); res is not None and res.eval()
         idx = np.flatnonzero(mask); cs_, ps_, qr_, hits = [], [], [], []
         for s in range(0, len(idx), 1024):
-            b = torch.as_tensor(idx[s:s + 1024], device=dev); x = Xt[b].float()
-            if args.decoder == "mlp":
-                c, p, _, _ = model.beam_search(x, beam=beam)
-            else:
-                c, p, _ = model.beam_search(x, beam=beam)
+            b = torch.as_tensor(idx[s:s + 1024], device=dev); x = getx(b)
+            with torch.autocast("cuda", dtype=torch.bfloat16, enabled=args.amp == "bf16"):
+                if args.decoder == "mlp":
+                    c, p, _, _ = model.beam_search(x, beam=beam)
+                else:
+                    c, p, _ = model.beam_search(x, beam=beam)
             c0, p0 = c[:, 0], p[:, 0]
             if res is not None:
                 ql = decode_torch(c0, p0)
@@ -130,7 +147,8 @@ try:
         perm = np.random.permutation(tr_idx); tot = 0.0
         for s in range(0, len(perm), args.batch):
             b = torch.as_tensor(perm[s:s + args.batch], device=dev)
-            loss = losses(b)
+            with torch.autocast("cuda", dtype=torch.bfloat16, enabled=args.amp == "bf16"):
+                loss = losses(b)
             opt.zero_grad(set_to_none=True); loss.backward(); opt.step(); sched.step()
             tot += loss.item() * len(b)
         if ep % args.eval_every == 0 or ep == args.epochs:
