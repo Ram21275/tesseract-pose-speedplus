@@ -1,0 +1,69 @@
+{
+  "concat": [
+    "dinov3_vitl16:tokens8",
+    "moge2_vitl:normals8~and"
+  ],
+  "channels": [
+    1024,
+    4
+  ],
+  "tokens": 64,
+  "sources": [
+    {
+      "cache": "outputs/shared_cache/dinov3_vitl16__subset_full__793c65d370cc__c7c029785fb8458c",
+      "cache_manifest": {
+        "spec": {
+          "model": "vit_large_patch16_dinov3.lvd1689m",
+          "hf_hub_id": "timm/vit_large_patch16_dinov3.lvd1689m",
+          "size": 256,
+          "layers": [
+            5,
+            11,
+            17,
+            23
+          ],
+          "norm": "imagenet",
+          "intermediate_norm": true,
+          "crop": "gt_square",
+          "gray_to_rgb": "replicate"
+        },
+        "preprocess_hash": "793c65d370cc",
+        "manifest_hash": "c7c029785fb8458c",
+        "n": 69491,
+        "code_version": "88e752ed60b86b5dc5e6fa204e7a6b531f2a8336",
+        "seconds": 801.2,
+        "ms_per_image": 11.53,
+        "peak_gpu_mb": 1646.7
+      }
+    },
+    {
+      "cache": "outputs/shared_cache/moge2_vitl__subset_full__04daa56d7cd2__c7c029785fb8458c",
+      "cache_manifest": {
+        "spec": {
+          "model": "Ruicheng/moge-2-vitl-normal",
+          "size": 518,
+          "num_tokens": 1369,
+          "layers": [
+            5,
+            11,
+            17,
+            23
+          ],
+          "fov": "predicted",
+          "apply_mask": false,
+          "use_fp16": true,
+          "map_res": 74,
+          "crop": "gt_square",
+          "gray_to_rgb": "replicate"
+        },
+        "preprocess_hash": "04daa56d7cd2",
+        "manifest_hash": "c7c029785fb8458c",
+        "n": 69491,
+        "code_version": "88e752ed60b86b5dc5e6fa204e7a6b531f2a8336",
+        "seconds": 2028.7,
+        "ms_per_image": 29.19,
+        "peak_gpu_mb": 2993.5
+      }
+    }
+  ]
+}

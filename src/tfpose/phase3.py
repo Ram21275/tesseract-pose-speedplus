@@ -175,11 +175,16 @@ class HierTransformer(nn.Module):
     """
 
     def __init__(self, token_shape, depth: int, d: int = 256, enc_layers: int = 1, dec_layers: int = 2,
-                 heads: int = 4, ff: int = 512, dropout: float = 0.1, n_freq: int = 6):
+                 heads: int = 4, ff: int = 512, dropout: float = 0.1, n_freq: int = 6, fuse: str = "linear", fuse_hidden: int = 1024):
         super().__init__()
         self.T, self.C = token_shape
         self.depth, self.n_freq, self.prefix_decoder = depth, n_freq, True
-        self.inp = nn.Sequential(nn.LayerNorm(self.C), nn.Linear(self.C, d))
+        if fuse == "linear":      # EXP-032/036 input layer; on concatenated tokens = "concat + linear projection" (EXP-029 arm 4)
+            self.inp = nn.Sequential(nn.LayerNorm(self.C), nn.Linear(self.C, d))
+        elif fuse == "mlp":       # EXP-029 arm 5, PanSt3R-inspired: concat -> 2-layer GELU MLP -> d-dim joint token
+            self.inp = nn.Sequential(nn.LayerNorm(self.C), nn.Linear(self.C, fuse_hidden), nn.GELU(), nn.Linear(fuse_hidden, d))
+        else:
+            raise ValueError(fuse)
         self.register_buffer("pos", _pos2d(self.T, d))
         self.enc = nn.TransformerEncoder(nn.TransformerEncoderLayer(d, heads, ff, dropout, batch_first=True, norm_first=True), enc_layers)
         self.dec = nn.TransformerDecoder(nn.TransformerDecoderLayer(d, heads, ff, dropout, batch_first=True, norm_first=True), dec_layers)

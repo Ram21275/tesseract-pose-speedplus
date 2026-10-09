@@ -70,3 +70,11 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
   - lightbox (all 6,740) and sunlamp are test-only and descriptive.
 - **Effect:** DEC-005 never influenced any training run or checkpoint. Phase-4 heads train on synthetic/train and select checkpoints on a synthetic-val sample, and their training-noise width comes from synthetic-val errors. Its only effect was the pre-registered Phase-4 gate, which is rewritten here before any result. Per-run files still list `lightbox_val` / `lightbox_test` rows from the DEC-005 split; these are purely descriptive, and fused evaluations report the whole of lightbox.
 - **Known limitation:** synthetic val has almost no gross (> 90°) errors, so gains in multimodality or flip recovery can only show up in the descriptive lightbox and sunlamp numbers. Those cannot be used to select.
+
+## DEC-007 — Two plan additions: EXP-029 (PanSt3R-inspired fusion) and EXP-064 (broader objects) (2026-10-10)
+- **Decided by:** the user (the request text is the specification). IDs were allocated under DEC-002 by phase slot.
+- **EXP-029** = the plan's Phase-2 EXP-024 slot ("shallow channel projection", → EXP-029 under DEC-002). DEC-003 had skipped it because training-free fusion did not fail; the user has now requested it explicitly, so it is reopened.
+  - **Order:** the Phase-4 runs already started (EXP-040–042) complete first, as the user asked. EXP-029 runs next, then EXP-043–045 in numeric order, all before Phase 5.
+  - **Controls:** Phase-4 results stay as controls on the DEC-003/DEC-004 representation.
+- **EXP-064** = the next free Phase-6 ID (after EXP-060–063). It runs near the end of Phase 6. Status: **paused until the user adds YCB-V and T-LESS (BOP)**. A search of the local disks found neither (only an LM-O copy in another user's folder, which is not used).
+- **Unchanged:** the cancelled LoRA experiment (EXP-102) stays cancelled.

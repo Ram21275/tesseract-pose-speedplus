@@ -26,6 +26,7 @@ ap.add_argument("--features", required=True)
 ap.add_argument("--subset", default="full")
 ap.add_argument("--decoder", default="mlp", choices=["mlp", "gru", "transformer"])
 ap.add_argument("--token-shape", default=None, help="TxC token grid for --decoder transformer, e.g. 64x1024 or 256x4")
+ap.add_argument("--fuse", default="linear", choices=["linear", "mlp"], help="transformer input layer (EXP-029 arms 4/5)")
 ap.add_argument("--feat-device", default="gpu", choices=["gpu", "cpu"], help="cpu = pinned host memory, batches copied to GPU")
 ap.add_argument("--targets", default="hard", choices=["hard", "soft"])
 ap.add_argument("--residual", action="store_true")
@@ -79,7 +80,7 @@ try:
         if args.residual:
             raise ValueError("--residual is not defined for the transformer decoder")
         ts = tuple(int(v) for v in args.token_shape.split("x")); assert ts[0] * ts[1] == d_in, (ts, d_in)
-        model = P.HierTransformer(ts, args.depth, dropout=args.dropout).to(dev)
+        model = P.HierTransformer(ts, args.depth, dropout=args.dropout, fuse=args.fuse).to(dev)
     elif args.decoder == "gru":
         model = P.HierGRU(d_in, args.depth, hidden=args.hidden, dropout=args.dropout).to(dev)
     else:

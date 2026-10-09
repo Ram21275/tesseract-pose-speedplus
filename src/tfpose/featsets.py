@@ -9,6 +9,9 @@ featsets:
 - ``depthconf16``      depth / per-image median and log confidence (VGGT) or masked median + mask (MoGe-2), 16x16 pooled
 - ``points16``         point map centred (conf/mask-weighted) and RMS-scaled, plus conf (VGGT: log) or mask (MoGe-2), 16x16 pooled
 - ``normals16``        MoGe-2 surface normals (masked) plus foreground mask, 16x16 pooled
+- ``normals8``         the same definition pooled to 8x8 (EXP-029 matched-grid geometry)
+- ``A|B``              per-token concatenation of two token featsets on the same grid, e.g.
+                       ``dinov3_vitl16:tokens8|moge2_vitl:normals8~and`` -> (N, 64*(1024+4)) fp16 (EXP-029)
 - suffix ``~and``     use the EXP-015 consensus mask: ``normals16~and``, ``grid4~and`` (mask-weighted 4x4 pooling)
 No statistics are fitted here; standardisation happens in the predictor pipeline
 with train-split statistics only.
@@ -55,6 +58,8 @@ def consensus_mask(subset: str, names: list[str]) -> np.ndarray:
 
 
 def load(spec: str, subset: str):
+    if "|" in spec:
+        return load_concat(spec.split("|"), subset)
     backbone, fs = spec.split(":")
     fs, _, mask_src = fs.partition("~")      # e.g. normals16~and : use the EXP-015 consensus mask
     if mask_src not in ("", "and"):
@@ -125,16 +130,44 @@ def load(spec: str, subset: str):
             p = p / np.sqrt((p ** 2 * w).sum((1, 2, 3), keepdims=True))
             cfeat = np.log(c) if "points_conf" in f else c
             X = np.concatenate([_pool(p, 16), _pool(cfeat, 16)], -1).reshape(len(names), -1)
-        elif fs == "normals16":  # MoGe-2 surface normals (camera frame) + foreground mask
+        elif fs in ("normals16", "normals8"):  # MoGe-2 surface normals (camera frame) + foreground mask
+            r = int(fs[len("normals"):])
             nrm = f["normal"][:].astype(np.float32)
             m = consensus_mask(subset, names) if mask_src == "and" else f["mask"][:].astype(np.float32)
-            X = np.concatenate([_pool(nrm * m, 16), _pool(m, 16)], -1).reshape(len(names), -1)
+            X = np.concatenate([_pool(nrm * m, r), _pool(m, r)], -1).reshape(len(names), -1)
         else:
             layer, parts = fs.split("_", 1)
             X = np.concatenate([f[f"{layer}_{p}"][:].astype(np.float32) for p in parts.split("+")], 1)
     man = json.loads((path / "manifest.json").read_text())
     X = X if X.dtype == np.float16 else X.astype(np.float32)
     return names, X, {"cache": str(path.relative_to(REPO)), "cache_manifest": man}
+
+
+TOKENS = {"tokens8": 64, "normals8": 64, "normals16": 256}
+
+
+def load_concat(specs: list[str], subset: str):
+    """Per-token concatenation [S_i || G_i] of token featsets on the same grid (same crop, row-major y,x order).
+    Returns (N, T*sum(C)) fp16, token-major. Standardisation stays per dimension (train split) downstream,
+    which equals standardising each source separately."""
+    parts, infos, names0 = [], [], None
+    for sp in specs:
+        T_ = TOKENS[sp.split(":")[1].split("~")[0]]
+        names, X, info = load(sp, subset)
+        if names0 is not None and names != names0:
+            raise ValueError("feature caches are not in the same image order")
+        names0 = names; parts.append((X, T_)); infos.append(info)
+    if len({t for _, t in parts}) != 1:
+        raise ValueError("token grids differ; concatenation needs one common grid")
+    T_ = parts[0][1]; N = len(names0); Cs = [X.shape[1] // T_ for X, _ in parts]
+    out = np.empty((N, T_, sum(Cs)), np.float16)
+    o = 0
+    for (X, _), C in zip(parts, Cs):
+        for s0 in range(0, N, 4096):
+            out[s0:s0 + 4096, :, o:o + C] = X[s0:s0 + 4096].reshape(-1, T_, C).astype(np.float16)
+        o += C
+    del parts
+    return names0, out.reshape(N, -1), {"concat": specs, "channels": Cs, "tokens": T_, "sources": infos}
 
 
 def standardize_to_tensor(X: np.ndarray, train_mask: np.ndarray, device, dtype, pin: bool = False, chunk: int = 4096):

@@ -228,6 +228,27 @@ Run only if training-free fusion is insufficient and Phase 1 showed complementar
 - `EXP-024`: shallow channel projection or small reliability network;
 - cross-attention/Perceiver fusion only if the shallow methods remain insufficient.
 
+### EXP-029 (plan EXP-024, reopened by DEC-007) — PanSt3R-inspired learned feature fusion
+
+*Added 2026-10-10 at the user's request. It is a Phase-2 extension evaluated with the Phase-3 recipe, and it runs after the Phase-4 chain EXP-040–042 and before EXP-043 and the adaptive-depth phase.*
+
+- **Question:** does learned joint feature fusion improve rotation prediction over the training-free per-level PoE (DEC-003)?
+- **Reference:** PanSt3R (arXiv:2506.21348, Sec. 3.1). Verified against the official code (`naver/panst3r`): v1 concatenates raw DINOv2-encoder (1024), MUSt3R-encoder (1024) and MUSt3R-decoder (768) patch tokens and passes them through a 2-layer GELU MLP (`proj_16`, hidden 4×input) to 768-d joint tokens. v2 replaces this with Linear + 3 RoPE Transformer blocks + LayerNorm (`InputMixer`). Ours is **PanSt3R-inspired, not a reproduction**: two frozen sources (DINOv3, MoGe-2) and the existing consensus-masked normals; no MoGe-2 latent features in this experiment.
+- **Joint token:** F_i = MLP_ψ([S_i ‖ G_i]) ∈ R²⁵⁶ on a common 8×8 grid:
+  - S_i is the DINOv3-L last-layer token pooled 16×16 → 8×8 (`tokens8`);
+  - G_i is the MoGe-2 masked normal sum plus consensus-mask coverage pooled to 8×8 (`normals8~and`, the `normals16~and` definition at 8×8);
+  - both come from the same GT square crop, in row-major (y, x) order. Alignment was verified on held-out images: the foreground correlation is 0.877 aligned vs ≤ 0.72 flipped, transposed or shifted.
+  - Normalization: per-dimension z-score with synthetic-train statistics only (the existing rule; it is affine, so normals and coverage keep their meaning).
+- **Arms** (3 seeds; EXP-036 recipe: Transformer decoder, depth 5, geodesic soft targets, greedy, 100 epochs, AdamW 1e-3/0.05, batch 256):
+  1. DINO-only;
+  2. geometry-only (8×8);
+  3. two Transformers + equal-weight per-level PoE (8×8 control);
+  4. concat + LayerNorm + Linear → one Transformer;
+  5. concat + LayerNorm + Linear–GELU–Linear (hidden 1024) → one Transformer.
+- **Historical reference:** the EXP-036 16×16-geometry PoE.
+- **Decision on synthetic val only** (DEC-006). Lightbox and sunlamp are descriptive. If fusion wins, any later continuous-refinement comparison on the new representation needs matched controls.
+- **Follow-up, not in this experiment:** MoGe-2 latent-feature fusion, only if accessible and justified.
+
 ## Phase output
 
 One selected input representation/fusion method for all fixed-depth predictor experiments.
@@ -487,6 +508,29 @@ Evaluate entropy, agreement, beam diversity, posterior spread, credible-region c
 ### EXP-063 — Efficiency
 
 Profile backbone extraction, fusion, hierarchy, flow solver/sampling, distillation benefit, adaptive controller, and refinement separately.
+
+### EXP-064 — Broader-object validation (YCB-Video, T-LESS; BOP versions)
+
+*Added 2026-10-10 at the user's request. Runs after the rotation architecture and the adaptive-depth decision are selected, before the milestone closes. It is **paused until the user adds the data**; YCB-V and T-LESS are not on disk.*
+
+- **Question:** does the selected Tesseract rotation method keep its benefits on objects beyond spacecraft?
+- **Scope:** cross-object validation **with pose-head retraining**, not zero-shot transfer.
+  - **Setup:** the same frozen encoders and the selected architecture and recipe; fresh per-object heads trained on each benchmark's permitted training split.
+  - **Inputs:** RGB with GT/controlled crops; no automatic localization.
+- **Object subset:** declared before any evaluation, covering varied appearance, geometry and symmetry. Record the selection criteria and dataset versions.
+- **Comparisons** (matched features, budgets, refinement capacity and compute):
+  - DINO-only vs the selected fusion;
+  - Tesseract vs a properly matched Hopf baseline, retrained under the same budget (not the old subset-trained Hopf);
+  - discrete vs tangent refinement vs the selected flow, if retained;
+  - fixed vs adaptive depth, if retained.
+- **Splits:** validation split by scene/sequence, independent of test; normalization and tuning on train/val only.
+- **Metrics:**
+  - per-object results and object-balanced aggregates;
+  - geodesic error for asymmetric objects;
+  - for symmetric objects, documented symmetry-equivalent error alongside raw error;
+  - BOP symmetry-aware metrics only where compatible with rotation-only evaluation (not a 6DoF benchmark entry);
+  - accuracy, severe failures, coverage if applicable, runtime and memory.
+- **Out of scope:** true held-out-object generalization without retraining is separate future work and needs CAD/template or reference-frame conditioning.
 
 ## Milestone output
 
