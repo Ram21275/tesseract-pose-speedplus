@@ -1,0 +1,17 @@
+ep 5 train_loss 6.3850 val_mean_deg 11.750 val_median 10.351 discrete_mean 11.750
+ep 10 train_loss 5.3624 val_mean_deg 8.791 val_median 7.895 discrete_mean 8.791
+ep 15 train_loss 4.9730 val_mean_deg 7.339 val_median 6.501 discrete_mean 7.339
+ep 20 train_loss 4.7309 val_mean_deg 6.950 val_median 6.241 discrete_mean 6.950
+ep 25 train_loss 4.5447 val_mean_deg 6.836 val_median 6.027 discrete_mean 6.836
+ep 30 train_loss 4.3955 val_mean_deg 6.471 val_median 5.718 discrete_mean 6.471
+ep 35 train_loss 4.2636 val_mean_deg 6.297 val_median 5.670 discrete_mean 6.297
+ep 40 train_loss 4.1613 val_mean_deg 6.137 val_median 5.441 discrete_mean 6.137
+ep 45 train_loss 4.0604 val_mean_deg 6.144 val_median 5.486 discrete_mean 6.144
+ep 50 train_loss 3.9745 val_mean_deg 5.972 val_median 5.331 discrete_mean 5.972
+ep 55 train_loss 3.8914 val_mean_deg 5.773 val_median 5.186 discrete_mean 5.773
+ep 60 train_loss 3.8319 val_mean_deg 5.818 val_median 5.160 discrete_mean 5.818
+ep 65 train_loss 3.7731 val_mean_deg 5.669 val_median 5.062 discrete_mean 5.669
+ep 70 train_loss 3.7227 val_mean_deg 5.627 val_median 4.998 discrete_mean 5.627
+ep 75 train_loss 3.6817 val_mean_deg 5.598 val_median 4.965 discrete_mean 5.598
+ep 80 train_loss 3.6531 val_mean_deg 5.533 val_median 4.918 discrete_mean 5.533
+ep 85 train_loss 3.6297 val_mean_deg 5.465 val_median 4.888 discrete_mean 5.465

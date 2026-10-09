@@ -33,6 +33,7 @@ Phase-1/2 numbers (EXP-010–026, 101) come from the **subset v1** sanity runs; 
 | EXP-032 | Phase-3 lightweight cross-attentive Tesseract Transformer, hard targets | Trainable predictor | Completed | PoE synth 5.685° vs 6.242° (control) and 6.068° (EXP-033) — best so far; DINO alone 6.08°; sunlamp 41.8°, lightbox 31.6° | Keep; gate decided after EXP-036 | **4/5** Support | [report](reports/EXP-032_transformer_decoder.md) |
 | EXP-033 | Phase-3 hard vs geodesic soft targets | Trainable predictor | Completed | PoE synth 6.068° vs 6.242° (PASS); DINO alone 5.69°; lightbox 28.2°, sunlamp 42.1° | Frozen (DEC-004); fusion-vs-DINO selection question flagged | **4/5** Support | [report](reports/EXP-033_geodesic_soft_targets.md) |
 | EXP-035 | Phase-3 tangent residual (GT-leaf teacher forcing) | Trainable predictor | Completed | Refines only 0.05° (6.27→6.21°); no gain vs control; wrong-cell errors dominate | Reject | **1/5** Negative | [report](reports/EXP-035_tangent_residual.md) |
+| EXP-102 | LoRA adapters to specialize DINOv3 / MoGe-2 (backbone adaptation; DINO / MoGe / fused) (user-requested) | Backbone adaptation | **Cancelled by user** before any run | – | Code kept; not run | **0/5** Not run | [report](reports/EXP-102_lora_adapters.md) |
 
 Branch and complementarity summaries: `comparisons/branch_summary.csv`, `comparisons/complementarity_summary.csv`.
 Decision log: `DECISIONS.md` (DEC-001: MoGe-2 replaces VGGT; DEC-002: experiment numbering; DEC-003: Phase-2 gate; DEC-004: Phase-3 gate).

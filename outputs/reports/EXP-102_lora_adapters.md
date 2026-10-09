@@ -1,7 +1,7 @@
 # EXP-102: LoRA adapters to specialize DINOv3 and MoGe-2 (backbone adaptation): DINOv3 only, MoGe-2 only, fused
 
 ## Status
-Running. Pre-registered on 2026-10-09, before any result. User-requested side experiment (DEC-002 numbering).
+**Cancelled by the user on 2026-10-09, before any training run.** Pre-registered on 2026-10-09. No adapter or control run was executed (the chain was still waiting for EXP-032/036). The code (`src/tfpose/adapters.py`, `scripts/train_adapter.py`, `scripts/exp102_fused_eval.py`), its tests, and the init-equivalence check are kept for possible future use. User-requested side experiment (DEC-002 numbering).
 
 **Separately named backbone-adaptation experiment** (ground rules §2.4): its results are not mixed into the frozen-backbone comparison.
 
@@ -44,4 +44,7 @@ Trainable (backbone adapters + head); training-free PoE fusion
 - **Scheduling:** runs start only after the EXP-032/036 chain finishes. Running both would exceed the shared GPU's memory: a smoke run hit OOM at 19.6 GB.
 
 ## Results
-(to be filled)
+None (cancelled).
+
+## Keep score
+**0 / 5: Not run** (cancelled).
