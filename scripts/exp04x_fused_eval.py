@@ -74,7 +74,7 @@ try:
             return tree, head, cfg, feat(spec), d.name
         raise FileNotFoundError(spec, seed)
 
-    rows, used = [], []
+    rows, used, fpreds = [], [], []
     for seed in [int(s) for s in args.seeds.split(",")]:
         A = load(args.a, seed); B = load(args.b, seed); used += [A[4], B[4]]
         mode, base = A[2]["mode"], A[2]["base"]; assert (mode, base) == (B[2]["mode"], B[2]["base"])
@@ -114,7 +114,12 @@ try:
                         np.save(run.sub("samples") / f"{g}_fused_seed0_fp16.npy", smp.half().cpu().numpy())
                         np.save(run.sub("samples") / f"{g}_index.npy", idx)
                 rows.append(row)
+                if name == "fused" and seed == 0:              # per-image predictions for figures / later analysis
+                    fpreds.append(pd.DataFrame({"image_relpath": df.image_relpath.values[idx], "group": g, "err_deg": ept, "leaf_err_deg": ec,
+                                                **{f"q_pred_{k}": pt[:, i].cpu().numpy() for i, k in enumerate("wxyz")}}))
                 print(name, seed, g, f"point {ept.mean():.2f}/{np.median(ept):.2f}  leaf {ec.mean():.2f}", flush=True)
+    if fpreds:
+        pd.concat(fpreds).to_csv(run.sub("predictions") / "fused_seed0.csv", index=False, float_format="%.6g")
     per = pd.DataFrame(rows); run.write_metrics(rows, "per_seed")
     num = [c for c in per.columns if c not in ("seed", "method", "domain")]
     agg = per.groupby(["method", "domain"])[num].mean().join(per.groupby(["method", "domain"])[["mean_deg"]].std().rename(columns={"mean_deg": "mean_deg_std"})).reset_index()
