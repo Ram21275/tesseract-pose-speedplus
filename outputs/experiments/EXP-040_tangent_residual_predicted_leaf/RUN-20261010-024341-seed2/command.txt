@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_phase4.py --exp EXP-040_tangent_residual_predicted_leaf --features moge2_vitl:normals16~and --mode residual --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 2

@@ -1,0 +1,48 @@
+>>> 02:04:08 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-040_tangent_residual_predicted_leaf --features dinov3_vitl16:tokens8 --mode residual --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 0
+dinov3_vitl16:tokens8 residual/uniform seed 0 synthetic_val: 5.30/4.70 (leaf 5.46) | lightbox_val: 37.80/14.78 (leaf 37.86) | lightbox_test: 39.04/14.28 (leaf 39.12) | sunlamp: 42.48/21.37 (leaf 42.56)
+RUN outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-020409-seed0
+EXIT_CODE=0
+>>> 02:12:28 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-040_tangent_residual_predicted_leaf --features moge2_vitl:normals16~and --mode residual --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 0
+moge2_vitl:normals16~and residual/uniform seed 0 synthetic_val: 16.82/5.89 (leaf 16.82) | lightbox_val: 42.57/9.84 (leaf 42.57) | lightbox_test: 43.45/10.47 (leaf 43.45) | sunlamp: 60.30/17.65 (leaf 60.30)
+RUN outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-021229-seed0
+EXIT_CODE=0
+>>> 02:16:57 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-040_tangent_residual_predicted_leaf --features dinov3_vitl16:tokens8 --mode residual --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 1
+dinov3_vitl16:tokens8 residual/uniform seed 1 synthetic_val: 5.12/4.58 (leaf 5.24) | lightbox_val: 35.06/12.60 (leaf 35.12) | lightbox_test: 34.68/12.40 (leaf 34.77) | sunlamp: 40.94/19.24 (leaf 41.03)
+RUN outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-021657-seed1
+EXIT_CODE=0
+>>> 02:26:25 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-040_tangent_residual_predicted_leaf --features moge2_vitl:normals16~and --mode residual --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 1
+moge2_vitl:normals16~and residual/uniform seed 1 synthetic_val: 16.71/5.89 (leaf 16.71) | lightbox_val: 42.79/10.10 (leaf 42.79) | lightbox_test: 45.44/10.55 (leaf 45.44) | sunlamp: 60.92/19.37 (leaf 60.91)
+RUN outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-022626-seed1
+EXIT_CODE=0
+>>> 02:34:14 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-040_tangent_residual_predicted_leaf --features dinov3_vitl16:tokens8 --mode residual --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 2
+dinov3_vitl16:tokens8 residual/uniform seed 2 synthetic_val: 5.10/4.55 (leaf 5.34) | lightbox_val: 38.17/13.52 (leaf 38.30) | lightbox_test: 37.20/13.25 (leaf 37.32) | sunlamp: 40.72/20.43 (leaf 40.79)
+RUN outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-023415-seed2
+EXIT_CODE=0
+>>> 02:43:40 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-040_tangent_residual_predicted_leaf --features moge2_vitl:normals16~and --mode residual --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 2
+moge2_vitl:normals16~and residual/uniform seed 2 synthetic_val: 16.62/5.87 (leaf 16.62) | lightbox_val: 41.59/9.80 (leaf 41.59) | lightbox_test: 43.22/10.46 (leaf 43.23) | sunlamp: 60.62/18.01 (leaf 60.63)
+RUN outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-024341-seed2
+EXIT_CODE=0
+>>> 02:48:59 scripts/guarded.sh 32 -- .venv/bin/python scripts/exp04x_fused_eval.py --exp EXP-040_tangent_residual_predicted_leaf
+fused 0 synthetic_val point 5.45/4.53  leaf 5.57
+fused 0 lightbox point 27.60/9.30  leaf 27.62
+fused 0 sunlamp point 37.36/13.37  leaf 37.39
+fused 1 synthetic_val point 5.37/4.48  leaf 5.47
+fused 1 lightbox point 26.04/8.64  leaf 26.07
+fused 1 sunlamp point 36.95/12.67  leaf 36.98
+fused 2 synthetic_val point 5.42/4.46  leaf 5.59
+fused 2 lightbox point 27.00/8.93  leaf 27.04
+fused 2 sunlamp point 35.58/12.87  leaf 35.61
+| method | domain | mean_deg | mean_deg_std | median_deg | acc@10 | leaf_mean_deg |
+|---|---|---|---|---|---|---|
+| A | lightbox | 36.983 | 2.074 | 13.360 | 0.362 | 37.080 |
+| A | sunlamp | 41.388 | 0.966 | 20.347 | 0.205 | 41.469 |
+| A | synthetic_val | 5.171 | 0.109 | 4.611 | 0.961 | 5.344 |
+| B | lightbox | 43.692 | 1.071 | 10.375 | 0.484 | 43.695 |
+| B | sunlamp | 60.586 | 0.287 | 18.338 | 0.311 | 60.590 |
+| B | synthetic_val | 16.719 | 0.100 | 5.883 | 0.805 | 16.721 |
+| fused | lightbox | 26.884 | 0.786 | 8.958 | 0.555 | 26.911 |
+| fused | sunlamp | 36.630 | 0.929 | 12.970 | 0.374 | 36.660 |
+| fused | synthetic_val | 5.414 | 0.043 | 4.492 | 0.951 | 5.544 |
+RUN outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-024900-seed0
+EXIT_CODE=0
+>>> 02:52:13 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-041_cell_conditioned_rfm --features dinov3_vitl16:tokens8 --mode flow --base local --sigma-b-deg 3 --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 0

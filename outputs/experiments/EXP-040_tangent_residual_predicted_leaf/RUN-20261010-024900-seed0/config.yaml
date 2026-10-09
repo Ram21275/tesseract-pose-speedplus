@@ -1,0 +1,11 @@
+exp: EXP-040_tangent_residual_predicted_leaf
+a: dinov3_vitl16:tokens8
+b: moge2_vitl:normals16~and
+seeds: 0,1,2
+m: 32
+nfe: 10
+mode: null
+base: null
+save_samples: false
+stage: fused_eval
+seed: 0

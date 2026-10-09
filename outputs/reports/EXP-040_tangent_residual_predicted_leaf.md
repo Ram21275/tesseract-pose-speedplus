@@ -1,10 +1,10 @@
 # EXP-040: Tesseract + tangent residual on the predicted leaf (Phase 4)
 
 ## Status
-Running. Pre-registered on 2026-10-10, before any training result. The stage-0 diagnostic (no training) has run.
+Completed (2026-10-10). Pre-registered before any training result; the gate was rewritten to synthetic val only by DEC-006 before any result.
 
 ## Keep score
-Pending.
+**3 / 5: Partial.** The pre-registered claim passes on synthetic val, but the effect is small (−0.13°). It comes entirely from the DINOv3 head and does nothing on the real domains (descriptive).
 
 ## Research question
 Can a one-step tangent correction q = q_c ⊗ Exp(δ) applied at the frozen predictor's **predicted** leaf reduce rotation error? This is the Phase-4 low-cost continuous baseline. EXP-035 trained only on the GT leaf, which cannot repair wrong-cell choices.
@@ -45,10 +45,29 @@ Source: `outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-2026101
 - On the real domains a candidate within 20° is in the top 8 beams for 85% (lightbox) and 78% (sunlamp) of images, although greedy is that close far less often. Wrong-mode choices (often near-180° flips) are largely *recoverable in principle*. A one-step residual at the greedy leaf cannot do that; it only removes within-mode error.
 
 ## Runs
-Planned: 6 head runs (2 branches × 3 seeds) and 1 fused evaluation. Chain: `scripts/run_phase4.sh`.
+- 6 head runs (2 branches × 3 seeds) and 1 fused evaluation (`outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-024900-seed0`), all completed under `guarded.sh 32`.
+- Chain log: `outputs/experiments/EXP-040_tangent_residual_predicted_leaf/phase4_chain.log`.
 
 ## Quantitative results
-Pending.
+Mean over 3 seeds; source `outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-024900-seed0/metrics/per_seed.csv`. "Leaf" = the frozen EXP-036 greedy leaf (control). Lightbox and sunlamp are descriptive (test-only, DEC-006).
+
+| method | synthetic_val mean ± std (leaf) | median | acc@5 | lightbox mean (leaf) / median | sunlamp mean (leaf) / median | latency ms/img |
+|---|---|---|---|---|---|---|
+| A: DINOv3 + residual | **5.171 ± 0.109** (5.344) | 4.61 | 0.566 | 36.98 (37.08) / 13.4 | 41.39 (41.47) / 20.3 | 0.11 |
+| B: MoGe-2 + residual | 16.719 ± 0.100 (16.721) | 5.88 | 0.386 | 43.69 (43.70) / 10.4 | 60.59 (60.59) / 18.3 | 0.24 |
+| **fused** (PoE leaf + mean δ) | **5.414 ± 0.043** (5.544 ± 0.066) | 4.49 | 0.588 | 26.88 (26.91) / 9.0 | 36.63 (36.66) / 13.0 | 0.33 |
+
+## Pre-registered verdict
+**PASS (helps).** The fused synthetic-val mean of 5.414° is below the control's 5.544° by 0.130°, which exceeds the larger seed std (0.066°).
+
+## Interpretation
+- **DINOv3 head:** the residual removes about 0.17° of within-cell error.
+- **MoGe-2 head:** it learns essentially nothing (mean |change| about 0.1°, half of images improved, half worsened). Averaging both deltas therefore halves the DINOv3 correction.
+- **Real domains (descriptive):** unchanged (≤ 0.03°). Real-domain error is dominated by wrong-mode (~180°) choices (EXP-104), which a one-step residual at the greedy leaf cannot fix.
+- **Selection-policy aside:** as in DEC-004, DINOv3 alone (5.17°) is below the fused system (5.41°) on synthetic val, while the fused system is far better on real data. PoE stays per DEC-003.
+
+## Qualitative results
+`outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-024900-seed0/figures/best_worst_{synthetic_val,lightbox,sunlamp}.png` (fused, seed 0).
 
 ## Decision
-Pending.
+Keep it as the low-cost Phase-4 continuous baseline for the EXP-045 comparison. It does not address the dominant real-domain failure mode.
