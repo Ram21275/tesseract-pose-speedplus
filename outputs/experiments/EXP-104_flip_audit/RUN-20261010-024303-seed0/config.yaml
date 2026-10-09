@@ -1,0 +1,7 @@
+preds:
+- outputs/experiments/EXP-036_transformer_soft_targets/RUN-20261009-111708-seed0/predictions/predictions_greedy.csv
+- outputs/experiments/EXP-036_transformer_soft_targets/RUN-20261009-112706-seed0/predictions/predictions_greedy.csv
+names:
+- DINOv3
+- MoGe-2
+seed: 0

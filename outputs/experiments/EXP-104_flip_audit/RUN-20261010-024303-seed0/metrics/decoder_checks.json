@@ -1,0 +1,7 @@
+{
+  "tf_decode_max_deg_numpy": 5.775683202638095,
+  "tf_decode_max_deg_torch": 5.7756653717917095,
+  "tf_decode_mean_deg": 2.508732098048551,
+  "manifest_path_matches_encoder": 1.0,
+  "encode_pm_q_identical": true
+}

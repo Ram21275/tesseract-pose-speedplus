@@ -1,0 +1,2 @@
+tf_decode_max_deg_numpy	tf_decode_max_deg_torch	tf_decode_mean_deg	manifest_path_matches_encoder	encode_pm_q_identical
+5.775683202638095	5.7756653717917095	2.508732098048551	1.0	True
