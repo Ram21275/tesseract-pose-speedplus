@@ -4,7 +4,7 @@ Fixed fusion rules (pre-registered, no fitted parameters):
 - residual: q = q_leaf (x) Exp(mean of the two branches' deltas at the PoE leaf)       (EXP-035 rule)
 - flow:     velocity average  omega = (omega_A + omega_B) / 2 at the same state (a heuristic, NOT an exact PoE);
             local base centred on the PoE leaf; point estimate = KDE mode of the M endpoint samples.
-Groups follow DEC-005. Rows are reported for A, B (each with its own greedy leaf) and the fused system.
+Groups: synthetic val (selection) and lightbox/sunlamp (test-only, DEC-000/DEC-006). Rows are reported for A, B (each with its own greedy leaf) and the fused system.
 """
 import argparse
 import sys
@@ -42,7 +42,7 @@ try:
     df = pd.read_csv(REPO / "outputs/data_manifests/subset_full.csv")
     q = df[[f"q_can_{k}" for k in "wxyz"]].to_numpy()
     tr = ((df.domain == "synthetic") & (df.split == "train")).to_numpy()
-    groups = {k: v for k, v in eval_groups(df).items() if k != "lightbox"}
+    groups = {k: v for k, v in eval_groups(df).items() if k in ("synthetic_val", "lightbox", "sunlamp")}   # DEC-006: real domains test-only
     Qt = torch.as_tensor(q, dtype=torch.float32, device=dev)
     feats = {}
 

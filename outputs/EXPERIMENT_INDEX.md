@@ -37,7 +37,7 @@ Phase-1/2 numbers (EXP-010–026, 101) come from the **subset v1** sanity runs; 
 | EXP-036 | Phase-3 Transformer decoder + geodesic soft targets | Trainable predictor | Completed | PoE synth 5.540° (best; EXP-032 5.685°, EXP-033 6.068°); lightbox 26.9° (median 9.0°), sunlamp 36.6° (median 13.0°); DINO alone 5.35° synth | Frozen (DEC-004 update); selection-policy issue returns | **5/5** Strong support | [report](reports/EXP-036_transformer_soft_targets.md) |
 
 Branch and complementarity summaries: `comparisons/branch_summary.csv`, `comparisons/complementarity_summary.csv`.
-Decision log: `DECISIONS.md` (DEC-001: MoGe-2 replaces VGGT; DEC-002: experiment numbering; DEC-003: Phase-2 gate; DEC-004: Phase-3 gate).
-| EXP-040 | Phase-4 tangent residual at the *predicted* leaf on frozen EXP-036 (DEC-005 gates) | Trainable predictor | Running (stage-0 diagnostic done) | Diagnostic: PoE best-of-8 within 20° on lightbox_val 0.85 vs greedy error > 90° for 11%: wrong modes are often in the beam | Pending | – | [report](reports/EXP-040_tangent_residual_predicted_leaf.md) |
+Decision log: `DECISIONS.md` (DEC-005 real-domain val split withdrawn by DEC-006; DEC-001: MoGe-2 replaces VGGT; DEC-002: experiment numbering; DEC-003: Phase-2 gate; DEC-004: Phase-3 gate).
+| EXP-040 | Phase-4 tangent residual at the *predicted* leaf on frozen EXP-036 | Trainable predictor | Running (stage-0 diagnostic done) | Diagnostic (descriptive): PoE best-of-8 within 20° on lightbox 0.86 vs greedy error > 90° for 11%: wrong modes are often in the beam | Pending | – | [report](reports/EXP-040_tangent_residual_predicted_leaf.md) |
 | EXP-041 | Phase-4 separate cell-conditioned SO(3) flow refiner (local base σ 3°) | RFM | Running | – | Pending | – | [report](reports/EXP-041_cell_conditioned_rfm.md) |
 | EXP-042 | Phase-4 image-conditioned SO(3) flow posterior (uniform base) | RFM | Running | – | Pending | – | [report](reports/EXP-042_image_conditioned_so3_posterior.md) |

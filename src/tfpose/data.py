@@ -134,7 +134,7 @@ def manifest_hash(rows: list[str]) -> str:
     return hashlib.sha256("\n".join(rows).encode()).hexdigest()[:16]
 
 
-# DEC-005: fixed real-domain validation split = seeded 20% of lightbox (rng 0), used for selection and gates
+# DEC-005 (WITHDRAWN by DEC-006; kept for reproducibility of descriptive rows): fixed real-domain validation split = seeded 20% of lightbox (rng 0), used for selection and gates
 # from Phase 4 on; the remaining lightbox images ("lightbox_test") and all of sunlamp stay test-only.
 REAL_VAL_FRAC, REAL_VAL_SEED = 0.2, 0
 

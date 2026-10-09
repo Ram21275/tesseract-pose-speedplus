@@ -61,3 +61,12 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 - **Split:** `lightbox_val` = a seeded 20% of lightbox (1,348 images): sorted names, `numpy.random.default_rng(0).choice(k=round(0.2·N), replace=False)`. List: `outputs/data_manifests/lightbox_val_DEC005.txt` (sha `57b45ce4262ce3a4`); code: `tfpose.data.eval_groups`. `lightbox_test` = the other 5,392 lightbox images. Sunlamp (2,791) stays test-only.
 - **Leakage check:** lightbox has no sequence structure (consecutive names are a median 132° apart; nearest-neighbour rotation distance has median 7.1° and is never below 1°), so a random split is used.
 - **Use:** from Phase 4 on, selection and gates use synthetic val **and** `lightbox_val`, with the rule pre-registered per experiment. Only `lightbox_test` and sunlamp are reported as untouched tests. Earlier experiments keep their reported numbers. Their full-lightbox figures were not used for tuning, but they overlap `lightbox_val`.
+
+## DEC-006 — DEC-005 withdrawn; strict split policy restored (2026-10-10)
+- **Decided by:** the user. They clarified that lightbox and sunlamp must stay test-only and chose "Strict: synth val only".
+- **Policy:** DEC-000 again applies unchanged:
+  - train on synthetic/train only;
+  - select and gate on synthetic/validation only;
+  - lightbox (all 6,740) and sunlamp are test-only and descriptive.
+- **Effect:** DEC-005 never influenced any training run or checkpoint. Phase-4 heads train on synthetic/train and select checkpoints on a synthetic-val sample, and their training-noise width comes from synthetic-val errors. Its only effect was the pre-registered Phase-4 gate, which is rewritten here before any result. Per-run files still list `lightbox_val` / `lightbox_test` rows from the DEC-005 split; these are purely descriptive, and fused evaluations report the whole of lightbox.
+- **Known limitation:** synthetic val has almost no gross (> 90°) errors, so gains in multimodality or flip recovery can only show up in the descriptive lightbox and sunlamp numbers. Those cannot be used to select.
