@@ -78,3 +78,12 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
   - **Controls:** Phase-4 results stay as controls on the DEC-003/DEC-004 representation.
 - **EXP-064** = the next free Phase-6 ID (after EXP-060–063). It runs near the end of Phase 6. Status: **paused until the user adds YCB-V and T-LESS (BOP)**. A search of the local disks found neither (only an LM-O copy in another user's folder, which is not used).
 - **Unchanged:** the cancelled LoRA experiment (EXP-102) stays cancelled.
+
+## DEC-008 — After EXP-029: training-free PoE kept; learned feature fusion not adopted (2026-10-13)
+- **Decided by:** the user ("continue") after the recommendation to keep PoE. The representation is unchanged (DEC-003/DEC-004).
+- **Evidence:**
+  - EXP-029 concat + MLP passed its literal pre-registered rule vs the 8×8 PoE on synthetic val (5.341 ± 0.031° vs 5.582 ± 0.103°).
+  - But it equals DINOv3-alone (5.345°), so the geometry tokens add nothing measurable.
+  - It is much worse on the real domains (descriptive: lightbox 40.8° vs 27.9°, sunlamp 46.2° vs 37.9°).
+  - Adopting it on synthetic val alone would contradict ground rule 15.
+- **Consequence:** Phase-4 results (EXP-040–042) stay matched to the representation in use. EXP-043 onwards uses the same PoE representation, so no new controls are needed.

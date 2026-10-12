@@ -1,7 +1,7 @@
 # EXP-029: PanSt3R-inspired learned feature fusion vs training-free PoE
 
 ## Status
-Completed (2026-10-10, 08:22–09:40). Pre-registered before any result. All 9 training runs and the evaluation completed under `guarded.sh 40`. **Architecture decision pending the user** (see Decision).
+Completed (2026-10-10, 08:22–09:40). Pre-registered before any result. All 9 training runs and the evaluation completed under `guarded.sh 40`. Decision: training-free PoE kept (DEC-008).
 
 ## Keep score
 **2 / 5: Weak.** The pre-registered rule technically passes, but the learned fusion adds nothing measurable over DINOv3 alone. Its "gain" over PoE is the known DINOv3-vs-PoE synthetic gap (DEC-004), and it is much worse on the real domains (descriptive).
@@ -113,7 +113,7 @@ Greedy, mean over 3 seeds; source `outputs/experiments/EXP-029_panst3r_inspired_
 - **Speculation:** with z-scored inputs and a single synthetic-trained projection, the network relies on the dominant 1024-d DINO channels and ignores the 4 geometric channels. Late (posterior) fusion keeps the geometry expert's independent vote, which is what helps under domain shift.
 
 ## Decision
-**Pending the user.** The pre-registered "if fusion wins, record a revised architecture" would switch to a predictor that is equivalent to DINO-only on synthetic val and much worse on real data. That conflicts with ground rule 15 ("do not choose a method solely because it has the best synthetic validation result"), and it is the same selection-policy question as DEC-004.
+**Keep PoE; learned feature fusion not adopted (DEC-008, 2026-10-13: the user said "continue" after the recommendation below).** The pre-registered "if fusion wins, record a revised architecture" would switch to a predictor that is equivalent to DINO-only on synthetic val and much worse on real data. That conflicts with ground rule 15 ("do not choose a method solely because it has the best synthetic validation result"), and it is the same selection-policy question as DEC-004.
 - **Recommended:** keep PoE (DEC-003) and record EXP-029 as a negative result for learned feature fusion. Optionally run an EXP-029 follow-up that rebalances the sources (per-source LayerNorm or a learned source gate) before concatenation.
 - **Alternative:** adopt concat + MLP per the literal rule.
 

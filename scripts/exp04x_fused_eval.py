@@ -34,9 +34,13 @@ ap.add_argument("--m", type=int, default=32)
 ap.add_argument("--nfe", type=int, default=10)
 ap.add_argument("--mode", default=None, help="only load head runs with this mode (default: any)")
 ap.add_argument("--base", default=None, help="only load flow runs with this base (default: any)")
+ap.add_argument("--run-exp", default=None, help="experiment dir for this evaluation run (default: --exp)")
+ap.add_argument("--fused-only", action="store_true", help="evaluate only the fused system (skip single-branch rows)")
+ap.add_argument("--save-all-seeds", action="store_true", help="with --save-samples: save fused samples for every seed, not only seed 0")
 ap.add_argument("--save-samples", action="store_true", help="save fused endpoint samples (EXP-043 input)")
 args = ap.parse_args()
-run = Run(args.exp.split("_", 1)[0], args.exp.split("_", 1)[1], dict(vars(args), stage="fused_eval"), seed=0)
+_re = args.run_exp or args.exp
+run = Run(_re.split("_", 1)[0], _re.split("_", 1)[1], dict(vars(args), stage="fused_eval"), seed=0)
 try:
     dev = torch.device("cuda")
     df = pd.read_csv(REPO / "outputs/data_manifests/subset_full.csv")
@@ -79,7 +83,7 @@ try:
         A = load(args.a, seed); B = load(args.b, seed); used += [A[4], B[4]]
         mode, base = A[2]["mode"], A[2]["base"]; assert (mode, base) == (B[2]["mode"], B[2]["base"])
         sig_b = np.radians(A[2]["sigma_b_deg"])
-        for name, members in [("A", [A]), ("B", [B]), ("fused", [A, B])]:
+        for name, members in ([("fused", [A, B])] if args.fused_only else [("A", [A]), ("B", [B]), ("fused", [A, B])]):
             for g, msk in groups.items():
                 idx = np.flatnonzero(msk); pts, qcs, smps = [], [], []; t0 = time.time()
                 bs = 512 if mode == "residual" else max(8, 4096 // args.m)
@@ -110,8 +114,8 @@ try:
                                 **{f"any_sample_within_{t}": float((es.min(1) <= t).mean()) for t in (5, 10, 20)},
                                 "spread_deg": float(dmode.mean()),
                                 **{f"coverage@{a}": float((ept <= np.quantile(dmode, a, axis=1)).mean()) for a in (0.5, 0.8, 0.9, 0.95)}})
-                    if args.save_samples and name == "fused" and seed == 0:
-                        np.save(run.sub("samples") / f"{g}_fused_seed0_fp16.npy", smp.half().cpu().numpy())
+                    if args.save_samples and name == "fused" and (seed == 0 or args.save_all_seeds):
+                        np.save(run.sub("samples") / f"{g}_fused_seed{seed}_fp16.npy", smp.half().cpu().numpy())
                         np.save(run.sub("samples") / f"{g}_index.npy", idx)
                 rows.append(row)
                 if name == "fused" and seed == 0:              # per-image predictions for figures / later analysis
