@@ -1,0 +1,15 @@
+EXP-036_transformer_soft_targets/RUN-20261009-111708-seed0
+EXP-036_transformer_soft_targets/RUN-20261009-112706-seed0
+EXP-029_panst3r_inspired_fusion/RUN-20261010-082247-seed0
+EXP-029_panst3r_inspired_fusion/RUN-20261010-082738-seed0
+EXP-029_panst3r_inspired_fusion/RUN-20261010-083214-seed0
+EXP-036_transformer_soft_targets/RUN-20261009-114601-seed1
+EXP-036_transformer_soft_targets/RUN-20261009-115549-seed1
+EXP-029_panst3r_inspired_fusion/RUN-20261010-084002-seed1
+EXP-029_panst3r_inspired_fusion/RUN-20261010-084450-seed1
+EXP-029_panst3r_inspired_fusion/RUN-20261010-085041-seed1
+EXP-036_transformer_soft_targets/RUN-20261009-121442-seed2
+EXP-036_transformer_soft_targets/RUN-20261009-122432-seed2
+EXP-029_panst3r_inspired_fusion/RUN-20261010-085804-seed2
+EXP-029_panst3r_inspired_fusion/RUN-20261010-090256-seed2
+EXP-029_panst3r_inspired_fusion/RUN-20261010-090954-seed2

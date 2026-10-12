@@ -1,10 +1,10 @@
 # EXP-042: Image-conditioned SO(3) flow posterior (Phase 4)
 
 ## Status
-Running. Pre-registered on 2026-10-10, before any training result.
+Completed (2026-10-10). Pre-registered before any training result; the gate was rewritten to synthetic val only by DEC-006 before any result.
 
 ## Keep score
-Pending.
+**4 / 5: Support.** The point estimate passes on synthetic val (−0.32°). Its 32 samples contain a near-GT rotation far more often than the tree's greedy path on the real domains (best-of-32 on lightbox 9.7° vs greedy 26.9°). That is the property EXP-043/044 need. The KDE-mode point estimate is worse on real data (descriptive), and the regions over-cover on synthetic val, so they are not calibrated.
 
 ## Research question
 Can a global, image-conditioned SO(3) flow from a **uniform** base represent the posterior well enough to (a) give a competitive point estimate, (b) place samples on the correct mode when the tree's greedy choice is wrong, and (c) produce calibrated credible regions?
@@ -37,10 +37,32 @@ Trainable predictor on frozen features; training-free fusion of velocities
 Descriptive only (DEC-006): on lightbox, any-sample-within-10° of the fused flow is compared with the tree's best-of-8 within 10° (0.752, stage 0); this cannot be used for selection. Coverage is called "calibrated" only if the measured coverage on synthetic val is within ±0.05 of nominal at 0.8 and 0.9.
 
 ## Runs
-Planned: 6 head runs and 1 fused evaluation (`scripts/run_phase4.sh`).
+- 6 head runs (`RUN-20261010-055931/061700` seed 0, `065119/070241` seed 1, `072215/073325` seed 2) and 1 fused evaluation with saved endpoint samples (`outputs/experiments/EXP-042_image_conditioned_so3_posterior/RUN-20261010-075303-seed0`, `samples/*_fused_seed0_fp16.npy` + `*_index.npy`, M = 32), all completed.
 
 ## Quantitative results
-Pending.
+Mean over 3 seeds; source `outputs/experiments/EXP-042_image_conditioned_so3_posterior/RUN-20261010-075303-seed0/metrics/per_seed.csv`. Uniform (Haar) base, NFE 10, M = 32, point estimate = KDE mode (5° bandwidth). Lightbox and sunlamp are descriptive.
+
+| method | synthetic_val mean ± std (leaf) | median | best-of-32 | any sample ≤ 10° | spread | coverage @0.5 / 0.8 / 0.9 | lightbox mean (leaf) / best-of-32 | sunlamp mean (leaf) / best-of-32 | ms/img |
+|---|---|---|---|---|---|---|---|---|---|
+| A: DINOv3 | **4.568 ± 0.128** (5.348) | 3.96 | 2.64 | 0.992 | 3.7° | 0.10 / 0.42 / 0.71 | 38.43 (37.08) / 17.3 | 42.50 (41.46) / 16.3 | 2.9 |
+| B: MoGe-2 | 19.380 ± 0.620 (16.724) | 5.57 | 5.20 | 0.915 | 33.2° | 0.40 / 0.88 / 0.96 | 48.52 (43.69) / 12.2 | 65.82 (60.58) / 16.3 | 9.8 |
+| **fused** (velocity average) | **5.219 ± 0.149** (5.540 ± 0.066) | **3.75** | 2.60 | 0.985 | 13.0° | 0.37 / 0.88 / 0.98 | 29.85 (26.88) / **9.7** | 37.61 (36.72) / **10.6** | 12.7 |
+
+## Pre-registered verdicts
+- **Point estimate: PASS.** 5.219° vs 5.540°, a gap of 0.321° > 0.149° (the larger seed std).
+- **Secondary, multimodality (descriptive only, DEC-006):** on lightbox, any-sample-within-10° is 0.742 vs the tree's best-of-8 within 10° of 0.752. It is roughly equal and **does not exceed** the beam. However, best-of-32 has a mean of 9.7° vs the tree's best-of-8 of 17.5°: when the flow's samples miss, they miss by less.
+- **Calibration: NOT calibrated.** Synthetic-val coverage is 0.876 at a nominal 0.8 and 0.977 at 0.9, more than 0.05 above nominal (over-dispersed after velocity averaging). The DINOv3 head alone under-covers (0.42 / 0.71).
+
+## Interpretation
+- **A global posterior from a uniform base is learnable from frozen features.** The DINOv3 head alone reaches 4.57° on synthetic val, the lowest of any system so far, with median 3.96°.
+- **On real data the samples spread over several modes** (fused spread 41° on lightbox), and the true mode is usually among them. The KDE mode then picks the wrong one more often than the tree's greedy path, so the real-domain point error is +3° (descriptive). This is the EXP-104 symmetry problem in a different form. Mode **selection** remains the open issue, and EXP-043/044 (flow-induced Tesseract masses, distillation) and the proposed beam/template verifier (EXP-103, awaiting approval) target exactly that.
+- **Velocity averaging** of a sharp head (DINOv3) and a broad head (MoGe-2) gives intermediate spread; it is a heuristic, not a product of experts.
+
+## Qualitative results
+`outputs/experiments/EXP-042_image_conditioned_so3_posterior/RUN-20261010-075303-seed0/figures/best_worst_{synthetic_val,lightbox,sunlamp}.png`
 
 ## Decision
-Pending.
+Keep it. It provides the endpoint samples for EXP-043 (flow-induced masses) and EXP-044 (distillation). Do not use its KDE-mode point estimate on real data without a better mode selector.
+
+## Next experiment
+EXP-043: project the saved fused samples into per-level Tesseract masses (exact parent–child consistency) and measure GT-cell recall by depth.

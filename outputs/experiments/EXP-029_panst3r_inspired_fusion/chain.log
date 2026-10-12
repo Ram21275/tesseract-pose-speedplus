@@ -1,1 +1,62 @@
 >>> 03:29:38 waiting for the Phase-4 chain to finish
+>>> 08:22:46 Phase-4 chain exited; last line: CHAIN_DONE
+>>> 08:22:46 scripts/guarded.sh 40 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-029_panst3r_inspired_fusion --decoder transformer --targets soft --amp bf16 --feat-device gpu --features moge2_vitl:normals8~and --token-shape 64x4 --seed 0
+moge2_vitl:normals8~and transformer/soft/res=False seed 0 synthetic_val: mean 20.28 med 6.47 (disc 20.28) | lightbox: mean 48.44 med 12.30 (disc 48.44) | sunlamp: mean 66.08 med 25.14 (disc 66.08)
+RUN outputs/experiments/EXP-029_panst3r_inspired_fusion/RUN-20261010-082247-seed0
+EXIT_CODE=0
+>>> 08:27:37 scripts/guarded.sh 40 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-029_panst3r_inspired_fusion --decoder transformer --targets soft --amp bf16 --feat-device gpu --features dinov3_vitl16:tokens8|moge2_vitl:normals8~and --token-shape 64x1028 --fuse linear --seed 0
+dinov3_vitl16:tokens8|moge2_vitl:normals8~and transformer/soft/res=False seed 0 synthetic_val: mean 5.46 med 4.87 (disc 5.46) | lightbox: mean 37.38 med 13.38 (disc 37.38) | sunlamp: mean 39.81 med 19.64 (disc 39.81)
+RUN outputs/experiments/EXP-029_panst3r_inspired_fusion/RUN-20261010-082738-seed0
+EXIT_CODE=0
+>>> 08:32:13 scripts/guarded.sh 40 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-029_panst3r_inspired_fusion --decoder transformer --targets soft --amp bf16 --feat-device gpu --features dinov3_vitl16:tokens8|moge2_vitl:normals8~and --token-shape 64x1028 --fuse mlp --seed 0
+dinov3_vitl16:tokens8|moge2_vitl:normals8~and transformer/soft/res=False seed 0 synthetic_val: mean 5.31 med 4.76 (disc 5.31) | lightbox: mean 40.35 med 14.35 (disc 40.35) | sunlamp: mean 44.42 med 21.46 (disc 44.42)
+RUN outputs/experiments/EXP-029_panst3r_inspired_fusion/RUN-20261010-083214-seed0
+EXIT_CODE=0
+>>> 08:40:01 scripts/guarded.sh 40 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-029_panst3r_inspired_fusion --decoder transformer --targets soft --amp bf16 --feat-device gpu --features moge2_vitl:normals8~and --token-shape 64x4 --seed 1
+moge2_vitl:normals8~and transformer/soft/res=False seed 1 synthetic_val: mean 20.56 med 6.58 (disc 20.56) | lightbox: mean 48.66 med 12.54 (disc 48.66) | sunlamp: mean 65.80 med 24.76 (disc 65.80)
+RUN outputs/experiments/EXP-029_panst3r_inspired_fusion/RUN-20261010-084002-seed1
+EXIT_CODE=0
+>>> 08:44:50 scripts/guarded.sh 40 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-029_panst3r_inspired_fusion --decoder transformer --targets soft --amp bf16 --feat-device gpu --features dinov3_vitl16:tokens8|moge2_vitl:normals8~and --token-shape 64x1028 --fuse linear --seed 1
+dinov3_vitl16:tokens8|moge2_vitl:normals8~and transformer/soft/res=False seed 1 synthetic_val: mean 5.30 med 4.75 (disc 5.30) | lightbox: mean 38.52 med 12.84 (disc 38.52) | sunlamp: mean 42.43 med 19.83 (disc 42.43)
+RUN outputs/experiments/EXP-029_panst3r_inspired_fusion/RUN-20261010-084450-seed1
+EXIT_CODE=0
+>>> 08:50:41 scripts/guarded.sh 40 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-029_panst3r_inspired_fusion --decoder transformer --targets soft --amp bf16 --feat-device gpu --features dinov3_vitl16:tokens8|moge2_vitl:normals8~and --token-shape 64x1028 --fuse mlp --seed 1
+dinov3_vitl16:tokens8|moge2_vitl:normals8~and transformer/soft/res=False seed 1 synthetic_val: mean 5.35 med 4.71 (disc 5.35) | lightbox: mean 39.91 med 15.08 (disc 39.91) | sunlamp: mean 45.82 med 22.29 (disc 45.82)
+RUN outputs/experiments/EXP-029_panst3r_inspired_fusion/RUN-20261010-085041-seed1
+EXIT_CODE=0
+>>> 08:58:03 scripts/guarded.sh 40 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-029_panst3r_inspired_fusion --decoder transformer --targets soft --amp bf16 --feat-device gpu --features moge2_vitl:normals8~and --token-shape 64x4 --seed 2
+moge2_vitl:normals8~and transformer/soft/res=False seed 2 synthetic_val: mean 20.01 med 6.49 (disc 20.01) | lightbox: mean 48.17 med 11.81 (disc 48.17) | sunlamp: mean 66.08 med 24.00 (disc 66.08)
+RUN outputs/experiments/EXP-029_panst3r_inspired_fusion/RUN-20261010-085804-seed2
+EXIT_CODE=0
+>>> 09:02:55 scripts/guarded.sh 40 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-029_panst3r_inspired_fusion --decoder transformer --targets soft --amp bf16 --feat-device gpu --features dinov3_vitl16:tokens8|moge2_vitl:normals8~and --token-shape 64x1028 --fuse linear --seed 2
+dinov3_vitl16:tokens8|moge2_vitl:normals8~and transformer/soft/res=False seed 2 synthetic_val: mean 5.38 med 4.85 (disc 5.38) | lightbox: mean 38.94 med 13.87 (disc 38.94) | sunlamp: mean 41.50 med 20.15 (disc 41.50)
+RUN outputs/experiments/EXP-029_panst3r_inspired_fusion/RUN-20261010-090256-seed2
+EXIT_CODE=0
+>>> 09:09:53 scripts/guarded.sh 40 -- .venv/bin/python scripts/train_probe_p3.py --exp EXP-029_panst3r_inspired_fusion --decoder transformer --targets soft --amp bf16 --feat-device gpu --features dinov3_vitl16:tokens8|moge2_vitl:normals8~and --token-shape 64x1028 --fuse mlp --seed 2
+dinov3_vitl16:tokens8|moge2_vitl:normals8~and transformer/soft/res=False seed 2 synthetic_val: mean 5.37 med 4.73 (disc 5.37) | lightbox: mean 42.01 med 15.93 (disc 42.01) | sunlamp: mean 48.27 med 23.40 (disc 48.27)
+RUN outputs/experiments/EXP-029_panst3r_inspired_fusion/RUN-20261010-090954-seed2
+EXIT_CODE=0
+>>> 09:17:03 scripts/guarded.sh 40 -- .venv/bin/python scripts/exp029_eval.py
+| arm | domain | mean_deg | mean_deg_std | median_deg | p95_deg | acc@10 | frac_gt90 | params |
+|---|---|---|---|---|---|---|---|---|
+| 1 A (DINOv3) | lightbox | 37.086 | 2.064 | 13.481 | 168.829 | 0.357 | 0.153 | 2391564.000 |
+| 1 A (DINOv3) | sunlamp | 41.468 | 0.976 | 20.477 | 156.801 | 0.204 | 0.159 | 2391564.000 |
+| 1 A (DINOv3) | synthetic_val | 5.345 | 0.103 | 4.797 | 9.788 | 0.955 | 0.001 | 2391564.000 |
+| 2 G8 (geometry 8x8) | lightbox | 48.478 | 0.285 | 12.223 | 174.241 | 0.422 | 0.258 | 2128404.000 |
+| 2 G8 (geometry 8x8) | sunlamp | 65.959 | 0.125 | 24.528 | 176.462 | 0.257 | 0.367 | 2128404.000 |
+| 2 G8 (geometry 8x8) | synthetic_val | 20.309 | 0.285 | 6.520 | 130.955 | 0.752 | 0.086 | 2128404.000 |
+| 3 PoE8 (A,G8) | lightbox | 27.948 | 0.904 | 9.488 | 161.225 | 0.527 | 0.110 | 4519968.000 |
+| 3 PoE8 (A,G8) | sunlamp | 37.869 | 1.537 | 14.103 | 163.056 | 0.343 | 0.156 | 4519968.000 |
+| 3 PoE8 (A,G8) | synthetic_val | 5.582 | 0.103 | 4.697 | 10.338 | 0.944 | 0.002 | 4519968.000 |
+| 4 Flin (concat+linear) | lightbox | 38.281 | 0.806 | 13.362 | 170.309 | 0.361 | 0.163 | 2392596.000 |
+| 4 Flin (concat+linear) | sunlamp | 41.243 | 1.329 | 19.874 | 157.869 | 0.210 | 0.162 | 2392596.000 |
+| 4 Flin (concat+linear) | synthetic_val | 5.381 | 0.077 | 4.825 | 9.887 | 0.953 | 0.001 | 2392596.000 |
+| 5 Fmlp (concat+MLP) | lightbox | 40.756 | 1.105 | 15.121 | 170.323 | 0.318 | 0.170 | 3445268.000 |
+| 5 Fmlp (concat+MLP) | sunlamp | 46.169 | 1.946 | 22.384 | 163.162 | 0.189 | 0.186 | 3445268.000 |
+| 5 Fmlp (concat+MLP) | synthetic_val | 5.341 | 0.031 | 4.732 | 9.777 | 0.955 | 0.001 | 3445268.000 |
+| ref PoE16 (EXP-036) | lightbox | 26.888 | 0.811 | 9.001 | 159.705 | 0.555 | 0.105 | 4519968.000 |
+| ref PoE16 (EXP-036) | sunlamp | 36.663 | 1.042 | 12.950 | 163.137 | 0.373 | 0.154 | 4519968.000 |
+| ref PoE16 (EXP-036) | synthetic_val | 5.543 | 0.064 | 4.625 | 10.186 | 0.947 | 0.002 | 4519968.000 |
+RUN outputs/experiments/EXP-029_panst3r_inspired_fusion/RUN-20261010-091704-seed0
+EXIT_CODE=0
+CHAIN_DONE

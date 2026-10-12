@@ -1,10 +1,10 @@
 # EXP-029: PanSt3R-inspired learned feature fusion vs training-free PoE
 
 ## Status
-**Queued.** Pre-registered on 2026-10-10, before any result. It starts automatically after the Phase-4 chain (EXP-040–042) finishes (`scripts/run_exp029.sh`, which waits for `run_phase4_resume.sh`). ID and placement: DEC-007 (the plan's Phase-2 EXP-024 slot, reopened).
+Completed (2026-10-10, 08:22–09:40). Pre-registered before any result. All 9 training runs and the evaluation completed under `guarded.sh 40`. **Architecture decision pending the user** (see Decision).
 
 ## Keep score
-Pending.
+**2 / 5: Weak.** The pre-registered rule technically passes, but the learned fusion adds nothing measurable over DINOv3 alone. Its "gain" over PoE is the known DINOv3-vs-PoE synthetic gap (DEC-004), and it is much worse on the real domains (descriptive).
 
 ## Research question
 Does learned joint feature fusion of frozen DINOv3 and MoGe-2 tokens into one Tesseract Transformer improve rotation prediction over the existing training-free per-level product of experts (DEC-003)?
@@ -74,13 +74,48 @@ Script: `scripts/exp029_eval.py`.
 `scripts/run_exp029.sh`: 9 training runs under `guarded.sh 40`, one at a time, then `scripts/exp029_eval.py`.
 
 ## Runs
-Pending.
+- **New runs:** `RUN-20261010-0822`–`0909` (arms 2 / 4 / 5 × seeds 0–2).
+- **Reused:** arm 1 and the PoE16 reference are the EXP-036 runs (listed in `outputs/experiments/EXP-029_panst3r_inspired_fusion/RUN-20261010-091704-seed0/source_runs.txt`).
+- **Evaluation:** `outputs/experiments/EXP-029_panst3r_inspired_fusion/RUN-20261010-091704-seed0`. Chain log: `outputs/experiments/EXP-029_panst3r_inspired_fusion/chain.log`.
 
 ## Quantitative results
-Pending.
+Greedy, mean over 3 seeds; source `outputs/experiments/EXP-029_panst3r_inspired_fusion/RUN-20261010-091704-seed0/metrics/metrics.csv`. Lightbox and sunlamp are descriptive (DEC-006).
+
+| arm | params | synth mean ± std | median | p95 | acc@10 | >90° | lightbox mean / median / >90° | sunlamp mean / median / >90° |
+|---|---|---|---|---|---|---|---|---|
+| 1 DINO-only | 2.39M | 5.345 ± 0.103 | 4.80 | 9.79 | 0.955 | 0.001 | 37.1 / 13.5 / 0.153 | 41.5 / 20.5 / 0.159 |
+| 2 Geometry-only 8×8 | 2.13M | 20.309 ± 0.285 | 6.52 | 131.0 | 0.752 | 0.086 | 48.5 / 12.2 / 0.258 | 66.0 / 24.5 / 0.367 |
+| 3 **PoE8** (control) | 4.52M (two predictors) | 5.582 ± 0.103 | 4.70 | 10.34 | 0.944 | 0.002 | **27.9 / 9.5 / 0.110** | **37.9 / 14.1 / 0.156** |
+| 4 Concat + linear | 2.39M | 5.381 ± 0.077 | 4.83 | 9.89 | 0.953 | 0.001 | 38.3 / 13.4 / 0.163 | 41.2 / 19.9 / 0.162 |
+| 5 Concat + MLP | 3.45M | **5.341 ± 0.031** | 4.73 | 9.78 | 0.955 | 0.001 | 40.8 / 15.1 / 0.170 | 46.2 / 22.4 / 0.186 |
+| ref PoE16 (EXP-036) | ~4.52M | 5.543 ± 0.064 | 4.63 | 10.19 | 0.947 | 0.002 | 26.9 / 9.0 / 0.105 | 36.7 / 13.0 / 0.154 |
+
+**Per-seed synthetic-val mean** (seed 0 / 1 / 2):
+- PoE8: 5.700 / 5.535 / 5.511
+- concat + MLP: 5.307 / 5.346 / 5.369
+- concat + linear: 5.458 / 5.305 / 5.381
+- DINO-only: 5.455 / 5.249 / 5.332
+
+**Paired per-image comparisons, seed-averaged errors** (source `outputs/experiments/EXP-029_panst3r_inspired_fusion/RUN-20261010-091704-seed0/metrics/paired.csv`):
+- **Concat + MLP vs PoE8:** mean difference −0.24° on synthetic val. Median difference 0.00°; 25% of images better and 24% worse by more than 1°. On lightbox the mean is +12.8° (median +3.8°), with 2.6% of > 90° failures fixed and 9.0% newly broken.
+- **Concat + MLP vs DINO-only:** −0.15 / +0.10 / +0.04° on synthetic val (seeds 0 / 1 / 2). The per-image error correlation is only about 0.5, so the two disagree per image but have the same average.
+- **PoE16 vs PoE8 (cost of the coarser geometry grid):** −0.04° on synthetic val; −1.1° on lightbox and −1.2° on sunlamp.
+
+**Resources** (`latency_ms_per_image_b1024`, `peak_infer_mem_mb_b1024` in metrics.csv): the single-predictor fusion arms run one decoder instead of two.
+
+## Pre-registered verdict
+- **Selected fusion arm:** concat + MLP (5.341° vs concat + linear's 5.381°).
+- **vs PoE8:** below it by 0.241° > 0.103° (the larger seed std), and lower in all 3 seed pairs. By the pre-registered rule, **fusion "wins"**. This is a best-of-two selection, and a gap larger than one std is not a significance test.
+
+## Interpretation (observation vs speculation)
+- **Observed:** the fusion arms reach exactly DINO-only accuracy on synthetic val (5.34–5.38° vs 5.35°), and on the real domains they behave like DINO-only, or worse (MLP). The pre-registered rule compared fusion with PoE8 only. Its "win" is the same synthetic gap by which DINOv3 alone already beats PoE (DEC-004: 5.35° vs 5.54°). **The learned fusion extracts no measurable extra value from the geometry tokens.**
+- **Observed (descriptive):** the training-free PoE keeps its large real-domain advantage (lightbox 27.9° vs 40.8°; sunlamp 37.9° vs 46.2°).
+- **Speculation:** with z-scored inputs and a single synthetic-trained projection, the network relies on the dominant 1024-d DINO channels and ignores the 4 geometric channels. Late (posterior) fusion keeps the geometry expert's independent vote, which is what helps under domain shift.
 
 ## Decision
-Pending.
+**Pending the user.** The pre-registered "if fusion wins, record a revised architecture" would switch to a predictor that is equivalent to DINO-only on synthetic val and much worse on real data. That conflicts with ground rule 15 ("do not choose a method solely because it has the best synthetic validation result"), and it is the same selection-policy question as DEC-004.
+- **Recommended:** keep PoE (DEC-003) and record EXP-029 as a negative result for learned feature fusion. Optionally run an EXP-029 follow-up that rebalances the sources (per-source LayerNorm or a learned source gate) before concatenation.
+- **Alternative:** adopt concat + MLP per the literal rule.
 
 ## Next experiment permitted by the gate
-EXP-043 (flow-induced Tesseract masses) on the representation selected here, with matched controls if the representation changes.
+EXP-043 (flow-induced Tesseract masses) on the representation decided above. If the representation changes, matched controls are required.

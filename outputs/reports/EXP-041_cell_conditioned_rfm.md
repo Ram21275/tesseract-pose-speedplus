@@ -1,10 +1,10 @@
 # EXP-041: Tesseract + separate cell-conditioned SO(3) flow refiner (Phase 4)
 
 ## Status
-Running. Pre-registered on 2026-10-10, before any training result.
+Completed (2026-10-10). Pre-registered before any training result; the gate was rewritten to synthetic val only by DEC-006 before any result.
 
 ## Keep score
-Pending.
+**3 / 5: Partial.** It passes on synthetic val (−0.30° vs leaf) and beats EXP-040 by 0.17°. It does not help the real domains (descriptive), its credible regions undercover, and it is about 60× slower than the residual.
 
 ## Research question
 Does a probabilistic, cell-conditioned SO(3) flow, started around the predicted cell, refine better than the tangent residual (EXP-040)? Does it give useful sample spread and coverage? The cell classifier loss (the frozen EXP-036) and the flow loss are separate.
@@ -45,10 +45,33 @@ Trainable predictor on a frozen Phase-3 tree; training-free PoE fusion
 EXP-041 vs EXP-040, fused, on synthetic-val mean, under the same seed-std rule.
 
 ## Runs
-Planned: 6 head runs and 1 fused evaluation (`scripts/run_phase4.sh`).
+- 6 head runs (`RUN-20261010-025214/030942` seed 0, `034242/035707` seed 1, `042857/044542` seed 2) and 1 fused evaluation (`outputs/experiments/EXP-041_cell_conditioned_rfm/RUN-20261010-051956-seed0`), all completed under `guarded.sh 32`.
+- **Chain note:** the chain controller was briefly stopped and resumed with identical commands (`scripts/run_phase4_resume.sh`); no run was interrupted.
 
 ## Quantitative results
-Pending.
+Mean over 3 seeds; source `outputs/experiments/EXP-041_cell_conditioned_rfm/RUN-20261010-051956-seed0/metrics/per_seed.csv`. "Leaf" = frozen EXP-036 greedy leaf (control). M = 32 samples, NFE 10, point estimate = KDE mode. Lightbox and sunlamp are descriptive (DEC-006).
+
+| method | synthetic_val mean ± std (leaf) | median | best-of-32 | any sample ≤ 10° | coverage @0.5 / 0.8 / 0.9 | lightbox mean (leaf) | sunlamp mean (leaf) | ms/img |
+|---|---|---|---|---|---|---|---|---|
+| A: DINOv3 | **5.003 ± 0.094** (5.348) | 4.47 | 2.44 | 0.993 | 0.35 / 0.64 / 0.76 | 37.17 (37.08) | 41.55 (41.46) | 3.5 |
+| B: MoGe-2 | 16.807 ± 0.116 (16.724) | 5.99 | 13.27 | 0.883 | 0.31 / 0.53 / 0.63 | 43.75 (43.69) | 60.61 (60.58) | 11–14 |
+| **fused** (PoE leaf, velocity average) | **5.244 ± 0.077** (5.540 ± 0.066) | 4.39 | 2.64 | 0.986 | 0.43 / 0.71 / 0.80 | 27.12 (26.88) | 36.65 (36.72) | 19.4 |
+
+## Pre-registered verdicts
+- **vs control: PASS.** 5.244° vs 5.540°, a gap of 0.296° > 0.077° (the larger seed std).
+- **vs EXP-040: PASS.** 5.244° vs EXP-040's 5.414 ± 0.043°, a gap of 0.170° > 0.077°.
+
+## Interpretation
+- **Within-mode refinement works on synthetic data.** The fused point error drops 0.30°, and the median drops from 4.49° (EXP-040) to 4.39°.
+- **Real domains (descriptive) do not improve.** The base is a 3° Gaussian around the greedy leaf, so a wrong-mode (~180°) greedy choice (EXP-104) cannot be escaped.
+- **Uncertainty is overconfident.** The spread is about 4°, and nominal 90% regions cover 80% on synthetic val and 34% / 22% on lightbox / sunlamp. These samples **must not be called calibrated**.
+- **Cost:** 19 ms/img fused (two heads × 10 NFE × 32 samples), vs 0.33 ms for the EXP-040 residual.
+
+## Qualitative results
+`outputs/experiments/EXP-041_cell_conditioned_rfm/RUN-20261010-051956-seed0/figures/best_worst_{synthetic_val,lightbox,sunlamp}.png`
 
 ## Decision
-Pending.
+Keep it as the "separate RFM refiner" system for EXP-045. It is the best within-mode refiner so far, but it does not address the dominant real-domain failure.
+
+## Next experiment
+EXP-042 (global posterior), then EXP-043.

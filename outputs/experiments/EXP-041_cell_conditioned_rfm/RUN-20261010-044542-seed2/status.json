@@ -1,0 +1,12 @@
+{
+  "state": "completed",
+  "pid": 3352462,
+  "start": "2026-10-10T04:45:42.777906",
+  "wall_clock_s": 2051.86,
+  "peak_cpu_rss_mb": 11547.5,
+  "peak_gpu_mb": 5407.7,
+  "end": "2026-10-10T05:19:54.635596",
+  "best_epoch": 30,
+  "n_params": 1693955,
+  "trainable_params": 1693955
+}

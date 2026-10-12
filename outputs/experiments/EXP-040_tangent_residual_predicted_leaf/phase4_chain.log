@@ -46,3 +46,98 @@ fused 2 sunlamp point 35.58/12.87  leaf 35.61
 RUN outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-024900-seed0
 EXIT_CODE=0
 >>> 02:52:13 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-041_cell_conditioned_rfm --features dinov3_vitl16:tokens8 --mode flow --base local --sigma-b-deg 3 --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 0
+dinov3_vitl16:tokens8 flow/local seed 0 synthetic_val: 5.10/4.53 (leaf 5.46) | lightbox_val: 37.58/14.83 (leaf 37.80) | lightbox_test: 39.03/14.64 (leaf 39.12) | sunlamp: 42.34/21.13 (leaf 42.57)
+RUN outputs/experiments/EXP-041_cell_conditioned_rfm/RUN-20261010-025214-seed0
+EXIT_CODE=0
+>>> 03:09:41 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-041_cell_conditioned_rfm --features moge2_vitl:normals16~and --mode flow --base local --sigma-b-deg 3 --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 0
+moge2_vitl:normals16~and flow/local seed 0 synthetic_val: 16.92/6.00 (leaf 16.84) | lightbox_val: 42.68/10.21 (leaf 42.64) | lightbox_test: 43.46/10.52 (leaf 43.40) | sunlamp: 60.26/17.73 (leaf 60.26)
+RUN outputs/experiments/EXP-041_cell_conditioned_rfm/RUN-20261010-030942-seed0
+he remaining Phase-4 steps as soon as EXP-041 MoGe seed 0 finishes. EXP-029 (DEC-007) runs after this chain.
+>>> 03:42:42 EXP-041 MoGe seed 0 finished: "state": "completed"
+>>> 03:42:42 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-041_cell_conditioned_rfm --features dinov3_vitl16:tokens8 --mode flow --base local --sigma-b-deg 3 --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 1
+dinov3_vitl16:tokens8 flow/local seed 1 synthetic_val: 4.91/4.37 (leaf 5.25) | lightbox_val: 35.33/12.78 (leaf 35.08) | lightbox_test: 34.86/12.65 (leaf 34.75) | sunlamp: 41.29/19.82 (leaf 41.00)
+RUN outputs/experiments/EXP-041_cell_conditioned_rfm/RUN-20261010-034242-seed1
+EXIT_CODE=0
+>>> 03:57:06 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-041_cell_conditioned_rfm --features moge2_vitl:normals16~and --mode flow --base local --sigma-b-deg 3 --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 1
+moge2_vitl:normals16~and flow/local seed 1 synthetic_val: 16.84/5.98 (leaf 16.75) | lightbox_val: 42.83/10.25 (leaf 42.81) | lightbox_test: 45.46/10.57 (leaf 45.42) | sunlamp: 60.87/19.40 (leaf 60.85)
+RUN outputs/experiments/EXP-041_cell_conditioned_rfm/RUN-20261010-035707-seed1
+EXIT_CODE=0
+>>> 04:28:56 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-041_cell_conditioned_rfm --features dinov3_vitl16:tokens8 --mode flow --base local --sigma-b-deg 3 --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 2
+dinov3_vitl16:tokens8 flow/local seed 2 synthetic_val: 5.01/4.49 (leaf 5.34) | lightbox_val: 38.59/14.24 (leaf 38.30) | lightbox_test: 37.59/13.93 (leaf 37.33) | sunlamp: 41.06/21.00 (leaf 40.80)
+RUN outputs/experiments/EXP-041_cell_conditioned_rfm/RUN-20261010-042857-seed2
+EXIT_CODE=0
+>>> 04:45:41 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-041_cell_conditioned_rfm --features moge2_vitl:normals16~and --mode flow --base local --sigma-b-deg 3 --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 2
+moge2_vitl:normals16~and flow/local seed 2 synthetic_val: 16.70/5.98 (leaf 16.62) | lightbox_val: 41.62/10.09 (leaf 41.59) | lightbox_test: 43.24/10.37 (leaf 43.20) | sunlamp: 60.64/17.99 (leaf 60.60)
+RUN outputs/experiments/EXP-041_cell_conditioned_rfm/RUN-20261010-044542-seed2
+EXIT_CODE=0
+>>> 05:19:55 scripts/guarded.sh 32 -- .venv/bin/python scripts/exp04x_fused_eval.py --exp EXP-041_cell_conditioned_rfm
+fused 0 synthetic_val point 5.26/4.40  leaf 5.57
+fused 0 lightbox point 27.69/9.58  leaf 27.61
+fused 0 sunlamp point 37.33/13.44  leaf 37.54
+fused 1 synthetic_val point 5.16/4.35  leaf 5.47
+fused 1 lightbox point 26.22/9.06  leaf 26.00
+fused 1 sunlamp point 37.07/13.09  leaf 37.00
+fused 2 synthetic_val point 5.31/4.41  leaf 5.59
+fused 2 lightbox point 27.44/9.42  leaf 27.04
+fused 2 sunlamp point 35.55/12.92  leaf 35.62
+| method | domain | mean_deg | mean_deg_std | median_deg | acc@10 | leaf_mean_deg |
+|---|---|---|---|---|---|---|
+| A | lightbox | 37.167 | 1.972 | 13.706 | 0.350 | 37.075 |
+| A | sunlamp | 41.552 | 0.691 | 20.778 | 0.201 | 41.457 |
+| A | synthetic_val | 5.003 | 0.094 | 4.465 | 0.967 | 5.348 |
+| B | lightbox | 43.750 | 1.055 | 10.462 | 0.481 | 43.691 |
+| B | sunlamp | 60.613 | 0.258 | 18.623 | 0.306 | 60.583 |
+| B | synthetic_val | 16.807 | 0.116 | 5.987 | 0.799 | 16.724 |
+| fused | lightbox | 27.119 | 0.786 | 9.355 | 0.535 | 26.882 |
+| fused | sunlamp | 36.651 | 0.964 | 13.150 | 0.367 | 36.724 |
+| fused | synthetic_val | 5.244 | 0.077 | 4.386 | 0.958 | 5.540 |
+RUN outputs/experiments/EXP-041_cell_conditioned_rfm/RUN-20261010-051956-seed0
+EXIT_CODE=0
+>>> 05:59:30 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-042_image_conditioned_so3_posterior --features dinov3_vitl16:tokens8 --mode flow --base uniform --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 0
+dinov3_vitl16:tokens8 flow/uniform seed 0 synthetic_val: 4.70/4.07 (leaf 5.46) | lightbox_val: 38.95/17.64 (leaf 37.80) | lightbox_test: 39.35/17.42 (leaf 39.12) | sunlamp: 42.75/25.37 (leaf 42.57)
+RUN outputs/experiments/EXP-042_image_conditioned_so3_posterior/RUN-20261010-055931-seed0
+EXIT_CODE=0
+>>> 06:16:59 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-042_image_conditioned_so3_posterior --features moge2_vitl:normals16~and --mode flow --base uniform --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 0
+moge2_vitl:normals16~and flow/uniform seed 0 synthetic_val: 20.06/5.77 (leaf 16.84) | lightbox_val: 51.12/13.04 (leaf 42.64) | lightbox_test: 49.23/13.58 (leaf 43.40) | sunlamp: 67.32/29.35 (leaf 60.26)
+RUN outputs/experiments/EXP-042_image_conditioned_so3_posterior/RUN-20261010-061700-seed0
+EXIT_CODE=0
+>>> 06:51:18 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-042_image_conditioned_so3_posterior --features dinov3_vitl16:tokens8 --mode flow --base uniform --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 1
+dinov3_vitl16:tokens8 flow/uniform seed 1 synthetic_val: 4.48/3.86 (leaf 5.25) | lightbox_val: 38.70/16.07 (leaf 35.08) | lightbox_test: 38.22/15.27 (leaf 34.75) | sunlamp: 43.19/22.30 (leaf 41.00)
+RUN outputs/experiments/EXP-042_image_conditioned_so3_posterior/RUN-20261010-065119-seed1
+EXIT_CODE=0
+>>> 07:02:40 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-042_image_conditioned_so3_posterior --features moge2_vitl:normals16~and --mode flow --base uniform --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 1
+moge2_vitl:normals16~and flow/uniform seed 1 synthetic_val: 19.05/5.52 (leaf 16.75) | lightbox_val: 47.22/12.07 (leaf 42.81) | lightbox_test: 49.06/12.88 (leaf 45.42) | sunlamp: 66.39/26.48 (leaf 60.85)
+RUN outputs/experiments/EXP-042_image_conditioned_so3_posterior/RUN-20261010-070241-seed1
+EXIT_CODE=0
+>>> 07:22:14 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-042_image_conditioned_so3_posterior --features dinov3_vitl16:tokens8 --mode flow --base uniform --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 2
+dinov3_vitl16:tokens8 flow/uniform seed 2 synthetic_val: 4.56/3.96 (leaf 5.34) | lightbox_val: 37.63/15.90 (leaf 38.30) | lightbox_test: 37.83/16.25 (leaf 37.33) | sunlamp: 41.41/24.14 (leaf 40.80)
+RUN outputs/experiments/EXP-042_image_conditioned_so3_posterior/RUN-20261010-072215-seed2
+EXIT_CODE=0
+>>> 07:33:24 scripts/guarded.sh 32 -- .venv/bin/python scripts/train_phase4.py --exp EXP-042_image_conditioned_so3_posterior --features moge2_vitl:normals16~and --mode flow --base uniform --centre mix --err-dist outputs/experiments/EXP-040_tangent_residual_predicted_leaf/RUN-20261010-015411-seed0/tables/poe_synthval_greedy_err.csv --seed 2
+moge2_vitl:normals16~and flow/uniform seed 2 synthetic_val: 18.76/5.44 (leaf 16.62) | lightbox_val: 47.78/11.51 (leaf 41.59) | lightbox_test: 48.37/12.16 (leaf 43.20) | sunlamp: 66.42/28.82 (leaf 60.60)
+RUN outputs/experiments/EXP-042_image_conditioned_so3_posterior/RUN-20261010-073325-seed2
+EXIT_CODE=0
+>>> 07:53:02 scripts/guarded.sh 32 -- .venv/bin/python scripts/exp04x_fused_eval.py --exp EXP-042_image_conditioned_so3_posterior --save-samples
+fused 0 synthetic_val point 5.36/3.84  leaf 5.57
+fused 0 lightbox point 30.77/11.43  leaf 27.61
+fused 0 sunlamp point 38.28/16.06  leaf 37.54
+fused 1 synthetic_val point 5.07/3.71  leaf 5.47
+fused 1 lightbox point 29.84/10.38  leaf 26.00
+fused 1 sunlamp point 38.33/15.06  leaf 37.00
+fused 2 synthetic_val point 5.23/3.71  leaf 5.59
+fused 2 lightbox point 28.93/10.59  leaf 27.04
+fused 2 sunlamp point 36.21/15.17  leaf 35.62
+| method | domain | mean_deg | mean_deg_std | median_deg | acc@10 | leaf_mean_deg |
+|---|---|---|---|---|---|---|
+| A | lightbox | 38.429 | 0.803 | 16.317 | 0.281 | 37.075 |
+| A | sunlamp | 42.499 | 0.973 | 23.913 | 0.156 | 41.457 |
+| A | synthetic_val | 4.568 | 0.128 | 3.956 | 0.969 | 5.348 |
+| B | lightbox | 48.519 | 0.593 | 12.675 | 0.426 | 43.691 |
+| B | sunlamp | 65.817 | 0.655 | 27.426 | 0.257 | 60.583 |
+| B | synthetic_val | 19.380 | 0.620 | 5.574 | 0.777 | 16.724 |
+| fused | lightbox | 29.847 | 0.921 | 10.800 | 0.466 | 26.882 |
+| fused | sunlamp | 37.609 | 1.211 | 15.432 | 0.310 | 36.724 |
+| fused | synthetic_val | 5.219 | 0.149 | 3.750 | 0.938 | 5.540 |
+RUN outputs/experiments/EXP-042_image_conditioned_so3_posterior/RUN-20261010-075303-seed0
+EXIT_CODE=0
+CHAIN_DONE

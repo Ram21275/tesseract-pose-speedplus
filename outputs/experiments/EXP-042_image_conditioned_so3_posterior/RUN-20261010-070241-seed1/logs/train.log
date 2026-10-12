@@ -1,0 +1,30 @@
+ep 1 loss 5.3430 14s
+ep 2 loss 3.7547 14s
+ep 3 loss 2.9087 14s
+ep 4 loss 2.5383 14s
+ep 5 loss 2.3054 14s | synth-val(sel 4000) point mean 42.005 median 14.310
+ep 6 loss 2.1372 14s
+ep 7 loss 2.0035 14s
+ep 8 loss 1.8976 20s
+ep 9 loss 1.8154 24s
+ep 10 loss 1.7326 24s | synth-val(sel 4000) point mean 29.243 median 8.725
+ep 11 loss 1.6721 27s
+ep 12 loss 1.6118 32s
+ep 13 loss 1.5595 32s
+ep 14 loss 1.5129 35s
+ep 15 loss 1.4731 35s | synth-val(sel 4000) point mean 24.198 median 6.785
+ep 16 loss 1.4343 35s
+ep 17 loss 1.3999 35s
+ep 18 loss 1.3769 35s
+ep 19 loss 1.3482 34s
+ep 20 loss 1.3287 35s | synth-val(sel 4000) point mean 21.524 median 6.128
+ep 21 loss 1.3013 35s
+ep 22 loss 1.2829 34s
+ep 23 loss 1.2686 35s
+ep 24 loss 1.2606 35s
+ep 25 loss 1.2484 35s | synth-val(sel 4000) point mean 21.218 median 5.823
+ep 26 loss 1.2388 35s
+ep 27 loss 1.2290 35s
+ep 28 loss 1.2264 35s
+ep 29 loss 1.2243 35s
+ep 30 loss 1.2203 34s | synth-val(sel 4000) point mean 20.821 median 5.674
