@@ -46,7 +46,7 @@ try:
     X = {}
     for sp in SPECS:
         names, x, _ = featsets.load(sp, "full"); assert names == df.image_relpath.tolist()
-        X[sp] = featsets.standardize_to_tensor(x, tr, dev, torch.float16); del x
+        X[sp] = featsets.standardize_to_tensor(x, tr, "cpu", torch.float16); del x   # host memory; batches moved to GPU
 
     def tree(spec, seed):
         for d in sorted((REPO / "outputs/experiments" / args.tree_exp).glob(f"RUN-*-seed{seed}")):
@@ -83,7 +83,7 @@ try:
             with torch.no_grad(), torch.autocast("cuda", dtype=torch.bfloat16):
                 for s in range(0, N, 1024):
                     b = torch.as_tensor(idx[s:s + 1024], device=dev)
-                    xs = [X[SPECS[0]][b].float(), X[SPECS[1]][b].float()]
+                    xs = [X[SPECS[0]][b.cpu()].to(dev).float(), X[SPECS[1]][b.cpu()].to(dev).float()]
                     ct, pt = torch.as_tensor(gc[s:s + 1024], device=dev), torch.as_tensor(gp[s:s + 1024], device=dev)
                     outs = [m.logits_tf(m.encode(x), ct, pt) for m, x in zip((mA, mB), xs)]
                     root = F.log_softmax(sum(F.log_softmax(o[0].float(), -1) for o in outs), -1)

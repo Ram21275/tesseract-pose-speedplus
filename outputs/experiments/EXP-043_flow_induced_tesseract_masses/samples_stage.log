@@ -1,0 +1,15 @@
+fused 0 synthetic_val point 5.36/3.88  leaf 5.58
+fused 0 lightbox point 30.19/11.32  leaf 27.64
+fused 0 sunlamp point 38.06/15.99  leaf 37.46
+fused 1 synthetic_val point 5.09/3.69  leaf 5.47
+fused 1 lightbox point 30.35/10.48  leaf 26.01
+fused 1 sunlamp point 37.34/14.57  leaf 37.03
+fused 2 synthetic_val point 5.13/3.73  leaf 5.59
+fused 2 lightbox point 29.85/10.71  leaf 27.05
+fused 2 sunlamp point 36.36/14.81  leaf 35.60
+| method | domain | mean_deg | mean_deg_std | median_deg | acc@10 | leaf_mean_deg |
+|---|---|---|---|---|---|---|
+| fused | lightbox | 30.131 | 0.253 | 10.836 | 0.463 | 26.896 |
+| fused | sunlamp | 37.252 | 0.853 | 15.122 | 0.313 | 36.693 |
+| fused | synthetic_val | 5.191 | 0.147 | 3.766 | 0.940 | 5.543 |
+RUN outputs/experiments/EXP-043_flow_induced_tesseract_masses/RUN-20261013-004254-seed0

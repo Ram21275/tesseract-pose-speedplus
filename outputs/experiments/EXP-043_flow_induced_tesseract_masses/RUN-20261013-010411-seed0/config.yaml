@@ -1,0 +1,5 @@
+samples_run: outputs/experiments/EXP-043_flow_induced_tesseract_masses/RUN-20261013-004254-seed0
+tree_exp: EXP-036_transformer_soft_targets
+seeds: 0,1,2
+stage: analysis
+seed: 0

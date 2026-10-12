@@ -1,0 +1,73 @@
+  self.enc = nn.TransformerEncoder(nn.TransformerEncoderLayer(d, heads, ff, dropout, batch_first=True, norm_first=True), enc_layers)
+fused 0 synthetic_val point 5.32/3.87  leaf 5.57
+Traceback (most recent call last):
+  File "/home/kavinder/RAM/pose-estimation/scripts/exp04x_fused_eval.py", line 104, in <module>
+    smp = S.integrate(vel, q0, args.nfe).view(len(b), M, 4)
+          ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+  File "/home/kavinder/RAM/pose-estimation/src/tfpose/so3flow.py", line 122, in integrate
+    q = qcanon(qmul(q, rotvec_to_quat(dt * vel_fn(q, tau))))
+                                           ~~~~~~^^^^^^^^
+  File "/home/kavinder/RAM/pose-estimation/scripts/exp04x_fused_eval.py", line 103, in <lambda>
+    vel = lambda qq, tt: torch.stack([m[1](mk, qq, tt, cond) for m, mk in zip(members, memk)]).mean(0)  # noqa: E731
+                                      ~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    # If we don't have any hooks, we want to skip the rest of the logic in
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    nonlocal result, args, kwargs
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/RAM/pose-estimation/src/tfpose/so3flow.py", line 113, in forward
+    return self.out(self.att(z, mem)[:, 0])
+                    ~~~~~~~~^^^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    # If we don't have any hooks, we want to skip the rest of the logic in
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    nonlocal result, args, kwargs
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/RAM/pose-estimation/src/tfpose/so3flow.py", line 77, in forward
+    return self.dec(self.inp(qfeat), mem)
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    # If we don't have any hooks, we want to skip the rest of the logic in
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    nonlocal result, args, kwargs
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/transformer.py", line 644, in forward
+    
+    
+    ...<8 lines>...
+        exploring this `tutorial <https://pytorch.org/tutorials/intermediate/transformer_building_blocks.html>`_
+        ^^^^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    # If we don't have any hooks, we want to skip the rest of the logic in
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    nonlocal result, args, kwargs
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/transformer.py", line 1135, in forward
+    # self-attention block
+                    ^^^^^^
+    ...<5 lines>...
+        is_causal: bool = False,
+        ^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/transformer.py", line 1185, in _mha_block
+    def _get_activation_fn(activation: str) -> Callable[[Tensor], Tensor]:
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    
+    
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    # If we don't have any hooks, we want to skip the rest of the logic in
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    nonlocal result, args, kwargs
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/activation.py", line 1492, in forward
+          dimensions.
+    
+    ...<19 lines>...
+    ) -> None:
+    ^^^^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/functional.py", line 6478, in multi_head_attention_forward
+    attn_mask = attn_mask.view(bsz, num_heads, -1, src_len)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/functional.py", line 5862, in _in_projection_packed
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 GiB. GPU 0 has a total capacity of 47.37 GiB of which 88.94 MiB is free. Process 41143 has 15.36 GiB memory in use. Process 303268 has 15.11 GiB memory in use. Including non-PyTorch memory, this process has 16.47 GiB memory in use. Of the allocated memory 12.00 GiB is allocated by PyTorch, and 3.98 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)

@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/exp04x_fused_eval.py --exp EXP-042_image_conditioned_so3_posterior --run-exp EXP-043_flow_induced_tesseract_masses --fused-only --save-samples --save-all-seeds --feat-cpu --queries 1024

@@ -1,0 +1,245 @@
+[
+  {
+    "seed": 0,
+    "domain": "synthetic_val",
+    "estimate": "tree greedy (PoE, EXP-036)",
+    "mean_deg": 5.567419303217689,
+    "median_deg": 4.655814957022116,
+    "acc@10": 0.9451392362848091,
+    "frac_gt90": 0.002001000500250125
+  },
+  {
+    "seed": 0,
+    "domain": "synthetic_val",
+    "estimate": "flow KDE mode (EXP-042)",
+    "mean_deg": 5.357975051638239,
+    "median_deg": 3.872183348834846,
+    "acc@10": 0.9346339836584959,
+    "frac_gt90": 0.0018342504585626147
+  },
+  {
+    "seed": 0,
+    "domain": "synthetic_val",
+    "estimate": "flow-mass greedy descent",
+    "mean_deg": 6.353663106737046,
+    "median_deg": 4.651105617138212,
+    "acc@10": 0.9092879773219943,
+    "frac_gt90": 0.0014173753543438386
+  },
+  {
+    "seed": 0,
+    "domain": "lightbox",
+    "estimate": "tree greedy (PoE, EXP-036)",
+    "mean_deg": 27.617914547382657,
+    "median_deg": 9.360964343988314,
+    "acc@10": 0.536646884272997,
+    "frac_gt90": 0.10875370919881305
+  },
+  {
+    "seed": 0,
+    "domain": "lightbox",
+    "estimate": "flow KDE mode (EXP-042)",
+    "mean_deg": 30.190883032235806,
+    "median_deg": 11.323268575139716,
+    "acc@10": 0.43857566765578637,
+    "frac_gt90": 0.11023738872403561
+  },
+  {
+    "seed": 0,
+    "domain": "lightbox",
+    "estimate": "flow-mass greedy descent",
+    "mean_deg": 31.887712778683202,
+    "median_deg": 12.782934478094699,
+    "acc@10": 0.3919881305637982,
+    "frac_gt90": 0.11172106824925816
+  },
+  {
+    "seed": 0,
+    "domain": "sunlamp",
+    "estimate": "tree greedy (PoE, EXP-036)",
+    "mean_deg": 37.53133740574627,
+    "median_deg": 13.373143833597686,
+    "acc@10": 0.3593694016481548,
+    "frac_gt90": 0.16194912217843066
+  },
+  {
+    "seed": 0,
+    "domain": "sunlamp",
+    "estimate": "flow KDE mode (EXP-042)",
+    "mean_deg": 38.06571016483884,
+    "median_deg": 15.967437271782766,
+    "acc@10": 0.2887853815836618,
+    "frac_gt90": 0.1415263346470799
+  },
+  {
+    "seed": 0,
+    "domain": "sunlamp",
+    "estimate": "flow-mass greedy descent",
+    "mean_deg": 40.427348916303956,
+    "median_deg": 19.59300402970764,
+    "acc@10": 0.23181655320673594,
+    "frac_gt90": 0.14367610175564313
+  },
+  {
+    "seed": 1,
+    "domain": "synthetic_val",
+    "estimate": "tree greedy (PoE, EXP-036)",
+    "mean_deg": 5.46901706410018,
+    "median_deg": 4.582603444852118,
+    "acc@10": 0.947223611805903,
+    "frac_gt90": 0.0015007503751875938
+  },
+  {
+    "seed": 1,
+    "domain": "synthetic_val",
+    "estimate": "flow KDE mode (EXP-042)",
+    "mean_deg": 5.088002276032375,
+    "median_deg": 3.6936166227873066,
+    "acc@10": 0.9423044855761213,
+    "frac_gt90": 0.001584125396031349
+  },
+  {
+    "seed": 1,
+    "domain": "synthetic_val",
+    "estimate": "flow-mass greedy descent",
+    "mean_deg": 6.114160572246015,
+    "median_deg": 4.546317059513957,
+    "acc@10": 0.9171252292813074,
+    "frac_gt90": 0.0016675004168751042
+  },
+  {
+    "seed": 1,
+    "domain": "lightbox",
+    "estimate": "tree greedy (PoE, EXP-036)",
+    "mean_deg": 26.002200303914226,
+    "median_deg": 8.671518273313957,
+    "acc@10": 0.5722551928783383,
+    "frac_gt90": 0.10014836795252226
+  },
+  {
+    "seed": 1,
+    "domain": "lightbox",
+    "estimate": "flow KDE mode (EXP-042)",
+    "mean_deg": 30.342193634573636,
+    "median_deg": 10.482020287301788,
+    "acc@10": 0.4774480712166172,
+    "frac_gt90": 0.11513353115727003
+  },
+  {
+    "seed": 1,
+    "domain": "lightbox",
+    "estimate": "flow-mass greedy descent",
+    "mean_deg": 31.543935006671536,
+    "median_deg": 11.941271924304754,
+    "acc@10": 0.421513353115727,
+    "frac_gt90": 0.11023738872403561
+  },
+  {
+    "seed": 1,
+    "domain": "sunlamp",
+    "estimate": "tree greedy (PoE, EXP-036)",
+    "mean_deg": 36.96104658169964,
+    "median_deg": 12.690839682029477,
+    "acc@10": 0.3837334288785382,
+    "frac_gt90": 0.15693299892511645
+  },
+  {
+    "seed": 1,
+    "domain": "sunlamp",
+    "estimate": "flow KDE mode (EXP-042)",
+    "mean_deg": 37.26783805476874,
+    "median_deg": 14.578697000030607,
+    "acc@10": 0.3231816553206736,
+    "frac_gt90": 0.1479756359727696
+  },
+  {
+    "seed": 1,
+    "domain": "sunlamp",
+    "estimate": "flow-mass greedy descent",
+    "mean_deg": 39.81538641046844,
+    "median_deg": 17.27489705882755,
+    "acc@10": 0.27982801863131496,
+    "frac_gt90": 0.15191687567180223
+  },
+  {
+    "seed": 2,
+    "domain": "synthetic_val",
+    "estimate": "tree greedy (PoE, EXP-036)",
+    "mean_deg": 5.587377850897705,
+    "median_deg": 4.630930021867392,
+    "acc@10": 0.9475571118892779,
+    "frac_gt90": 0.002417875604468901
+  },
+  {
+    "seed": 2,
+    "domain": "synthetic_val",
+    "estimate": "flow KDE mode (EXP-042)",
+    "mean_deg": 5.132652104354856,
+    "median_deg": 3.7317385299107437,
+    "acc@10": 0.9426379856594964,
+    "frac_gt90": 0.0018342504585626147
+  },
+  {
+    "seed": 2,
+    "domain": "synthetic_val",
+    "estimate": "flow-mass greedy descent",
+    "mean_deg": 6.162353655598959,
+    "median_deg": 4.551198892123903,
+    "acc@10": 0.9182091045522761,
+    "frac_gt90": 0.0022511255627813906
+  },
+  {
+    "seed": 2,
+    "domain": "lightbox",
+    "estimate": "tree greedy (PoE, EXP-036)",
+    "mean_deg": 27.05095578441986,
+    "median_deg": 8.97978552551455,
+    "acc@10": 0.5562314540059348,
+    "frac_gt90": 0.10652818991097923
+  },
+  {
+    "seed": 2,
+    "domain": "lightbox",
+    "estimate": "flow KDE mode (EXP-042)",
+    "mean_deg": 29.84490637620195,
+    "median_deg": 10.696617659091912,
+    "acc@10": 0.47418397626112757,
+    "frac_gt90": 0.10875370919881305
+  },
+  {
+    "seed": 2,
+    "domain": "lightbox",
+    "estimate": "flow-mass greedy descent",
+    "mean_deg": 31.181042286425175,
+    "median_deg": 11.92151760395381,
+    "acc@10": 0.4218100890207715,
+    "frac_gt90": 0.1086053412462908
+  },
+  {
+    "seed": 2,
+    "domain": "sunlamp",
+    "estimate": "tree greedy (PoE, EXP-036)",
+    "mean_deg": 35.51575496304759,
+    "median_deg": 12.78721952954317,
+    "acc@10": 0.37764242207094234,
+    "frac_gt90": 0.1426012182013615
+  },
+  {
+    "seed": 2,
+    "domain": "sunlamp",
+    "estimate": "flow KDE mode (EXP-042)",
+    "mean_deg": 36.339254542666005,
+    "median_deg": 14.802136844977879,
+    "acc@10": 0.3246148333930491,
+    "frac_gt90": 0.1336438552490147
+  },
+  {
+    "seed": 2,
+    "domain": "sunlamp",
+    "estimate": "flow-mass greedy descent",
+    "mean_deg": 38.99174231009451,
+    "median_deg": 18.584660593561498,
+    "acc@10": 0.26621282694374776,
+    "frac_gt90": 0.13794338946614118
+  }
+]

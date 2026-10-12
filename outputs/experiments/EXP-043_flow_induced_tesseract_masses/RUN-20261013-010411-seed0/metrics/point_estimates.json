@@ -1,0 +1,83 @@
+[
+  {
+    "domain": "lightbox",
+    "estimate": "flow KDE mode (EXP-042)",
+    "mean_deg": 30.125994347670467,
+    "median_deg": 10.833968840511139,
+    "acc@10": 0.4634025717111771,
+    "frac_gt90": 0.11137487636003957,
+    "mean_deg_std": 0.25491481003106076
+  },
+  {
+    "domain": "lightbox",
+    "estimate": "flow-mass greedy descent",
+    "mean_deg": 31.53756335725997,
+    "median_deg": 12.215241335451088,
+    "acc@10": 0.41177052423343224,
+    "frac_gt90": 0.11018793273986154,
+    "mean_deg_std": 0.3533783306800514
+  },
+  {
+    "domain": "lightbox",
+    "estimate": "tree greedy (PoE, EXP-036)",
+    "mean_deg": 26.89035687857225,
+    "median_deg": 9.004089380938941,
+    "acc@10": 0.5550445103857568,
+    "frac_gt90": 0.10514342235410484,
+    "mean_deg_std": 0.819742115275456
+  },
+  {
+    "domain": "sunlamp",
+    "estimate": "flow KDE mode (EXP-042)",
+    "mean_deg": 37.22426758742453,
+    "median_deg": 15.11609037226375,
+    "acc@10": 0.3121939567657948,
+    "frac_gt90": 0.14104860862295474,
+    "mean_deg_std": 0.86405210667615
+  },
+  {
+    "domain": "sunlamp",
+    "estimate": "flow-mass greedy descent",
+    "mean_deg": 39.74482587895563,
+    "median_deg": 18.484187227365563,
+    "acc@10": 0.2592857995939329,
+    "frac_gt90": 0.14451212229786217,
+    "mean_deg_std": 0.7203996622733618
+  },
+  {
+    "domain": "sunlamp",
+    "estimate": "tree greedy (PoE, EXP-036)",
+    "mean_deg": 36.6693796501645,
+    "median_deg": 12.950401015056778,
+    "acc@10": 0.37358175086587847,
+    "frac_gt90": 0.15382777976830286,
+    "mean_deg_std": 1.0389635917789133
+  },
+  {
+    "domain": "synthetic_val",
+    "estimate": "flow KDE mode (EXP-042)",
+    "mean_deg": 5.192876477341823,
+    "median_deg": 3.765846167177632,
+    "acc@10": 0.9398588182980379,
+    "frac_gt90": 0.0017508754377188595,
+    "mean_deg_std": 0.144711976761907
+  },
+  {
+    "domain": "synthetic_val",
+    "estimate": "flow-mass greedy descent",
+    "mean_deg": 6.21005911152734,
+    "median_deg": 4.582873856258691,
+    "acc@10": 0.914874103718526,
+    "frac_gt90": 0.0017786671113334445,
+    "mean_deg_std": 0.12667763773021617
+  },
+  {
+    "domain": "synthetic_val",
+    "estimate": "tree greedy (PoE, EXP-036)",
+    "mean_deg": 5.541271406071858,
+    "median_deg": 4.623116141247208,
+    "acc@10": 0.9466399866599966,
+    "frac_gt90": 0.0019732088266355397,
+    "mean_deg_std": 0.06336484322314705
+  }
+]

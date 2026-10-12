@@ -37,6 +37,8 @@ ap.add_argument("--base", default=None, help="only load flow runs with this base
 ap.add_argument("--run-exp", default=None, help="experiment dir for this evaluation run (default: --exp)")
 ap.add_argument("--fused-only", action="store_true", help="evaluate only the fused system (skip single-branch rows)")
 ap.add_argument("--save-all-seeds", action="store_true", help="with --save-samples: save fused samples for every seed, not only seed 0")
+ap.add_argument("--feat-cpu", action="store_true", help="keep standardized features in host memory (low-GPU-memory mode)")
+ap.add_argument("--queries", type=int, default=4096, help="flow queries (images x M) per batch; lower = less GPU memory")
 ap.add_argument("--save-samples", action="store_true", help="save fused endpoint samples (EXP-043 input)")
 args = ap.parse_args()
 _re = args.run_exp or args.exp
@@ -53,7 +55,7 @@ try:
     def feat(spec):
         if spec not in feats:
             names, X, _ = featsets.load(spec, "full"); assert names == df.image_relpath.tolist()
-            feats[spec] = featsets.standardize_to_tensor(X, tr, "cpu" if X.nbytes > 12e9 else dev, torch.float16, pin=False)
+            feats[spec] = featsets.standardize_to_tensor(X, tr, "cpu" if (args.feat_cpu or X.nbytes > 12e9) else dev, torch.float16, pin=False)
             del X
         return feats[spec]
 
@@ -86,7 +88,7 @@ try:
         for name, members in ([("fused", [A, B])] if args.fused_only else [("A", [A]), ("B", [B]), ("fused", [A, B])]):
             for g, msk in groups.items():
                 idx = np.flatnonzero(msk); pts, qcs, smps = [], [], []; t0 = time.time()
-                bs = 512 if mode == "residual" else max(8, 4096 // args.m)
+                bs = 512 if mode == "residual" else max(1, args.queries // args.m)
                 with torch.no_grad():
                     for s in range(0, len(idx), bs):
                         b = torch.as_tensor(idx[s:s + bs], device=dev)
