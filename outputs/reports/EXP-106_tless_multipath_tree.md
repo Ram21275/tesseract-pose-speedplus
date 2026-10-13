@@ -1,6 +1,8 @@
 # EXP-106: Symmetry-aware multi-path Tesseract tree and best-fit selection on T-LESS
 
 ## Status
+**On hold (DEC-011, 2026-10-13):** runs in the cross-dataset block together with EXP-064, after the SPEED+ phases. Protocol below unchanged.
+
 **Pre-registered 2026-10-13, before any data was processed** (DEC-010, user request). Runs after EXP-105. Pulls T-LESS work ahead of EXP-064's Phase-6 slot; EXP-064 itself is unchanged.
 
 ## Research question
