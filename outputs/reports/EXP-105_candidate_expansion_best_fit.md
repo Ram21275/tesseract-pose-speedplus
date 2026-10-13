@@ -47,5 +47,13 @@ Requested by the user (DEC-010 addendum). Added next to the other arms; nothing 
 - **What is compared:** K vs the single-path centre tree (EXP-036 recipe, same features, budget and seeds), under each experiment's own metrics and criteria.
 - **Expectation, stated before results:** q and −q are the same rotation, and corners shared between cubes are only a few degrees apart. So the redundancy is not expected by itself to resolve 180° flips (different rotations, far apart on the hypersphere); any gain is expected in precision and at chart seams. Reported whatever the outcome.
 
+## Amendment 2, 2026-10-13 (before any arm-K run; C-arm scoring already started)
+Implementation details and criterion for arm K, fixed before it is trained. The C-arm protocol is unchanged.
+- **Code:** `src/tfpose/kurz8.py` (8-facet cells, corner targets, beam, corner vote), `scripts/train_kurz8.py`, `scripts/exp105_armK_eval.py`, chain `scripts/run_exp105K.sh`. Unit check: every rotation gets 8–16 target leaves (mean 16.0), both q and −q copies are always present, and the corner vote with uniform scores returns exactly the nearest grid corner. Depth-5 corner quantization (mean 2.49°, max 5.80°) is about the same as leaf-centre quantization (mean 2.50°, max 6.20°).
+- **Training:** EXP-036 budget and optimizer (100 epochs, batch 256, AdamW 1e-3, wd 0.05, OneCycle, bf16). Loss = the EXP-044 level-marginal cross-entropy over the target leaves, estimated with 8 of them drawn uniformly per image per step. Checkpoint chosen by the synthetic-val corner-vote mean (single branch), as EXP-036 chooses by its greedy mean.
+- **System:** equal-weight per-level PoE of the two K trees (DINOv3 `tokens8`, MoGe-2 `normals16~and`), beam 8, corner vote. Seeds 0–2.
+- **Criterion:** K helps if its 3-seed PoE synthetic-val mean is below the EXP-036 PoE greedy mean (same seeds, recomputed in the same script) by more than the larger seed std. Single-branch K numbers, K's top-1 leaf centre and lightbox / sunlamp are descriptive.
+- **Engineering only:** the flow scorers are evaluated in chunks of 25 candidates to fit the shared GPU. This does not change the method.
+
 ## Runs / Results / Decision
 Not started.
