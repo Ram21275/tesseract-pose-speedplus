@@ -111,3 +111,14 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 - **Order:** EXP-105 (running, including arm K) → EXP-045 → Phase 5 (EXP-050–055) → Phase 6 SPEED+ experiments (EXP-060–063) → cross-dataset validation: EXP-064 (T-LESS, SYMSOL-T, YCB-Video) together with EXP-106 (T-LESS multi-path tree).
 - **What stays:** EXP-106's pre-registration (with arm K) is unchanged and resumes in the cross-dataset block. Its uncommitted manifest-builder draft (`scripts/exp106_build_manifest.py`, crashed before finishing) is not used until then.
 - **Goal behind it (user):** show that the method generalizes beyond the spacecraft. The recipe is to be locked on SPEED+ first, then applied to other objects, retraining only the heads.
+
+## DEC-012 — Run-order amendments, paper-style visuals/metrics, one-week target (2026-10-13)
+- **Decided by:** the user: "you can add these points and run after the experiment 105 or if I tell"; "we should have visualisations like the ones there in lie pose diffusion to show our flow matching approach and other things, also similar evaluation metrics if we need to compare with other models and also fps, steps and other things. Lets try to complete till generalisation this week. keep 102 cancelled for now".
+- **Adopted (each starts after EXP-105 finishes, or earlier only if the user says):**
+  1. The cross-dataset block (EXP-064 + EXP-106) runs at the **end of Phase 6**, i.e. inside the first rotation milestone, not after Phases 7–8.
+  2. **Recipe lock:** a decision entry after Phase 6 SPEED+ work and before any cross-dataset run. It fixes backbones, features, depth, fusion, flow on/off, any EXP-105 selector, recipe and budget. Nothing is tuned per dataset.
+  3. **Early data pipelines:** CPU-only manifests and conventions for T-LESS, SYMSOL-T and YCB-V (RGB loading, allocentric rotation, symmetry sets, crops). Correctness checks only; no model results.
+  4. **Phase 5 reduced** to the oracle check EXP-050. EXP-051–055 run only if EXP-050 shows a meaningful adaptive-depth headroom. Reason: errors are dominated by 180° flips, not depth (EXP-104, EXP-044).
+- **Added:** paper-style visualizations and comparison metrics in the LiePose style (SO(3) distribution plots, sampling trajectories, accuracy vs steps, FPS/latency), as a separate analysis experiment pre-registered before its first run.
+- **Unchanged:** EXP-102 (LoRA) stays cancelled ("might take too much time and only give us a trivial positive result").
+- **Timeline target:** generalisation done within the week of 2026-10-13. This is tight on a shared GPU; if needed, scope is cut in a pre-stated order (see the next status report), never by dropping pre-registered criteria.
