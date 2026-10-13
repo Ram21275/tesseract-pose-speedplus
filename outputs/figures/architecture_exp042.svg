@@ -1,0 +1,328 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 1050" width="1680" height="1050" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2D3748"/>
+    </marker>
+    <marker id="arA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2B6CB0"/>
+    </marker>
+    <marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#C05621"/>
+    </marker>
+    <marker id="arG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2F855A"/>
+    </marker>
+    <marker id="arP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6B46C1"/>
+    </marker>
+    <pattern id="grid8" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#EBF4FF" stroke="#90CDF4" stroke-width="1"/>
+    </pattern>
+    <pattern id="grid16" width="5" height="5" patternUnits="userSpaceOnUse">
+      <rect width="5" height="5" fill="#FFFAF0" stroke="#F6AD55" stroke-width="0.6"/>
+    </pattern>
+  </defs>
+  <style>
+    .t  { font-size: 15px; fill: #1A202C; }
+    .ts { font-size: 12.5px; fill: #2D3748; }
+    .tx { font-size: 11px; fill: #4A5568; }
+    .h  { font-size: 17px; font-weight: 700; fill: #1A202C; }
+    .hA { font-size: 15px; font-weight: 700; fill: #2B6CB0; }
+    .hB { font-size: 15px; font-weight: 700; fill: #C05621; }
+    .hP { font-size: 15px; font-weight: 700; fill: #6B46C1; }
+    .hG { font-size: 15px; font-weight: 700; fill: #2F855A; }
+    .m  { font-family: "DejaVu Sans Mono", Menlo, monospace; font-size: 12px; fill: #2D3748; }
+    .frozen { fill: #EDF2F7; stroke: #718096; stroke-width: 1.6; stroke-dasharray: 6 4; }
+    .trA { fill: #EBF8FF; stroke: #2B6CB0; stroke-width: 2; }
+    .trB { fill: #FFFAF0; stroke: #C05621; stroke-width: 2; }
+    .fu  { fill: #FAF5FF; stroke: #6B46C1; stroke-width: 2; }
+    .fl  { fill: #F0FFF4; stroke: #2F855A; stroke-width: 2; }
+    .out { fill: #FFFFFF; stroke: #1A202C; stroke-width: 2; }
+    .ln  { stroke: #2D3748; stroke-width: 1.8; fill: none; }
+    .lA  { stroke: #2B6CB0; stroke-width: 2; fill: none; }
+    .lB  { stroke: #C05621; stroke-width: 2; fill: none; }
+    .lG  { stroke: #2F855A; stroke-width: 2; fill: none; }
+    .lP  { stroke: #6B46C1; stroke-width: 2; fill: none; }
+    .band { fill: none; stroke: #CBD5E0; stroke-width: 1.2; }
+  </style>
+
+  <rect x="0" y="0" width="1680" height="1050" fill="#FFFFFF"/>
+
+  <!-- ======================= Title / legend ======================= -->
+  <text x="24" y="34" class="h">Two-branch hierarchical Tesseract predictor with PoE late fusion (Phase 3, EXP-036) and an image-conditioned SO(3) flow posterior (Phase 4, EXP-042)</text>
+  <g transform="translate(24,52)">
+    <rect x="0" y="0" width="34" height="18" class="frozen"/><text x="42" y="14" class="ts">frozen (no gradients)</text>
+    <rect x="200" y="0" width="34" height="18" fill="#EBF8FF" stroke="#2B6CB0" stroke-width="2"/><text x="242" y="14" class="ts">trained, branch A (DINOv3)</text>
+    <rect x="450" y="0" width="34" height="18" fill="#FFFAF0" stroke="#C05621" stroke-width="2"/><text x="492" y="14" class="ts">trained, branch B (MoGe-2)</text>
+    <rect x="700" y="0" width="34" height="18" fill="#FAF5FF" stroke="#6B46C1" stroke-width="2"/><text x="742" y="14" class="ts">training-free fusion</text>
+    <rect x="910" y="0" width="34" height="18" fill="#F0FFF4" stroke="#2F855A" stroke-width="2"/><text x="952" y="14" class="ts">Phase-4 flow (trained; trees frozen)</text>
+  </g>
+
+  <!-- ======================= Phase 3 band ======================= -->
+  <rect x="12" y="86" width="1656" height="520" rx="10" class="band"/>
+  <text x="24" y="108" class="h" fill="#4A5568">Phase 3 — discrete hierarchical prediction</text>
+
+  <!-- input -->
+  <g transform="translate(30,250)">
+    <rect x="0" y="0" width="150" height="150" rx="4" fill="#1A202C"/>
+    <!-- stylised spacecraft -->
+    <g transform="translate(75,75) rotate(-18)">
+      <rect x="-18" y="-14" width="36" height="28" fill="#A0AEC0"/>
+      <rect x="-58" y="-6" width="36" height="12" fill="#4A5568" stroke="#CBD5E0" stroke-width="1"/>
+      <rect x="22" y="-6" width="36" height="12" fill="#4A5568" stroke="#CBD5E0" stroke-width="1"/>
+      <line x1="0" y1="-14" x2="0" y2="-34" stroke="#E2E8F0" stroke-width="2"/>
+      <circle cx="0" cy="-36" r="4" fill="#E2E8F0"/>
+    </g>
+    <rect x="16" y="16" width="118" height="118" fill="none" stroke="#F6E05E" stroke-width="2" stroke-dasharray="5 3"/>
+    <text x="75" y="172" text-anchor="middle" class="t">SPEED+ image</text>
+    <text x="75" y="190" text-anchor="middle" class="tx">square object crop (margin 0.15)</text>
+    <text x="75" y="205" text-anchor="middle" class="tx">gray → 3 channels</text>
+  </g>
+  <path d="M182,325 C205,325 205,200 228,200" class="ln" marker-end="url(#ar)"/>
+  <path d="M182,325 C205,325 205,465 228,465" class="ln" marker-end="url(#ar)"/>
+
+  <!-- ===== branch A ===== -->
+  <rect x="232" y="140" width="170" height="120" rx="8" class="frozen"/>
+  <text x="317" y="172" text-anchor="middle" class="t" font-weight="700">DINOv3 ViT-L/16</text>
+  <text x="317" y="192" text-anchor="middle" class="ts">self-supervised</text>
+  <text x="317" y="210" text-anchor="middle" class="ts">appearance features</text>
+  <text x="317" y="240" text-anchor="middle" class="tx">❄ frozen</text>
+  <path d="M404,200 L440,200" class="lA" marker-end="url(#arA)"/>
+  <rect x="446" y="160" width="80" height="80" fill="url(#grid8)" stroke="#2B6CB0" stroke-width="1.5"/>
+  <text x="486" y="258" text-anchor="middle" class="ts">tokens 8×8</text>
+  <text x="486" y="274" text-anchor="middle" class="tx">64 × 1024</text>
+  <text x="486" y="150" text-anchor="middle" class="tx">last layer, 16×16 → 8×8 pool</text>
+  <path d="M530,200 L566,200" class="lA" marker-end="url(#arA)"/>
+
+  <!-- ===== branch B ===== -->
+  <rect x="232" y="405" width="170" height="120" rx="8" class="frozen"/>
+  <text x="317" y="437" text-anchor="middle" class="t" font-weight="700">MoGe-2 ViT-L</text>
+  <text x="317" y="457" text-anchor="middle" class="ts">monocular geometry</text>
+  <text x="317" y="475" text-anchor="middle" class="ts">surface normals + mask</text>
+  <text x="317" y="505" text-anchor="middle" class="tx">❄ frozen</text>
+  <path d="M404,465 L440,465" class="lB" marker-end="url(#arB)"/>
+  <rect x="446" y="425" width="80" height="80" fill="url(#grid16)" stroke="#C05621" stroke-width="1.5"/>
+  <text x="486" y="523" text-anchor="middle" class="ts">normals 16×16</text>
+  <text x="486" y="539" text-anchor="middle" class="tx">256 × 4</text>
+  <text x="486" y="415" text-anchor="middle" class="tx">mask-weighted pooling</text>
+  <path d="M530,465 L566,465" class="lB" marker-end="url(#arB)"/>
+
+  <!-- ===== tree transformer A (detailed) ===== -->
+  <g transform="translate(570,122)">
+    <rect x="0" y="0" width="420" height="160" rx="8" class="trA"/>
+    <text x="12" y="22" class="hA">Tesseract tree Transformer  A</text>
+    <!-- encoder -->
+    <rect x="12" y="36" width="130" height="108" rx="5" fill="#FFFFFF" stroke="#2B6CB0" stroke-width="1.2"/>
+    <text x="77" y="56" text-anchor="middle" class="ts" font-weight="700">Encoder</text>
+    <text x="77" y="76" text-anchor="middle" class="tx">LN + Linear → d = 256</text>
+    <text x="77" y="92" text-anchor="middle" class="tx">+ 2-D positional enc.</text>
+    <text x="77" y="108" text-anchor="middle" class="tx">1 self-attn layer</text>
+    <text x="77" y="132" text-anchor="middle" class="ts">memory M_A</text>
+    <path d="M144,90 L170,90" class="lA" marker-end="url(#arA)"/>
+    <!-- decoder -->
+    <rect x="174" y="36" width="234" height="108" rx="5" fill="#FFFFFF" stroke="#2B6CB0" stroke-width="1.2"/>
+    <text x="291" y="56" text-anchor="middle" class="ts" font-weight="700">Autoregressive path decoder</text>
+    <g transform="translate(186,66)">
+      <rect x="0" y="0" width="38" height="20" rx="3" fill="#2B6CB0"/><text x="19" y="14" text-anchor="middle" font-size="10.5" fill="#fff">ROOT</text>
+      <rect x="42" y="0" width="30" height="20" rx="3" fill="#90CDF4"/><text x="57" y="14" text-anchor="middle" font-size="10.5" fill="#1A202C">c₀</text>
+      <rect x="76" y="0" width="30" height="20" rx="3" fill="#90CDF4"/><text x="91" y="14" text-anchor="middle" font-size="10.5" fill="#1A202C">c₁</text>
+      <text x="118" y="14" text-anchor="middle" font-size="12" fill="#1A202C">…</text>
+      <rect x="130" y="0" width="30" height="20" rx="3" fill="#90CDF4"/><text x="145" y="14" text-anchor="middle" font-size="10.5" fill="#1A202C">c₄</text>
+    </g>
+    <text x="291" y="104" text-anchor="middle" class="tx">causal self-attn + cross-attn to M_A, 2 layers</text>
+    <text x="291" y="120" text-anchor="middle" class="tx">cell token = level emb + Fourier(cell centre)</text>
+    <text x="291" y="137" text-anchor="middle" class="ts">heads: root → 4 charts, child → 8</text>
+  </g>
+
+  <!-- ===== tree transformer B (compact) ===== -->
+  <g transform="translate(570,387)">
+    <rect x="0" y="0" width="420" height="160" rx="8" class="trB"/>
+    <text x="12" y="22" class="hB">Tesseract tree Transformer  B</text>
+    <text x="12" y="48" class="ts">same architecture, separate weights</text>
+    <rect x="12" y="62" width="130" height="82" rx="5" fill="#FFFFFF" stroke="#C05621" stroke-width="1.2"/>
+    <text x="77" y="88" text-anchor="middle" class="ts" font-weight="700">Encoder</text>
+    <text x="77" y="108" text-anchor="middle" class="tx">256 tokens → d = 256</text>
+    <text x="77" y="130" text-anchor="middle" class="ts">memory M_B</text>
+    <path d="M144,103 L170,103" class="lB" marker-end="url(#arB)"/>
+    <rect x="174" y="62" width="234" height="82" rx="5" fill="#FFFFFF" stroke="#C05621" stroke-width="1.2"/>
+    <text x="291" y="88" text-anchor="middle" class="ts" font-weight="700">Path decoder</text>
+    <text x="291" y="108" text-anchor="middle" class="tx">p_B(chart),  p_B(child | prefix)</text>
+    <text x="291" y="130" text-anchor="middle" class="tx">per level, 6 levels (root + 5)</text>
+  </g>
+
+  <!-- training loss note -->
+  <text x="800" y="344" text-anchor="middle" class="tx">train: cross-entropy per level with geodesic soft targets (synthetic train only)</text>
+  <text x="800" y="360" text-anchor="middle" class="tx">input features standardised with train statistics</text>
+
+  <!-- arrows into fusion -->
+  <path d="M992,202 C1030,202 1030,300 1060,300" class="lA" marker-end="url(#arA)"/>
+  <path d="M992,467 C1030,467 1030,372 1060,372" class="lB" marker-end="url(#arB)"/>
+  <text x="1000" y="190" class="tx" fill="#2B6CB0">log p_A^(l)</text>
+  <text x="1000" y="490" class="tx" fill="#C05621">log p_B^(l)</text>
+
+  <!-- ===== PoE fusion ===== -->
+  <g transform="translate(1064,250)">
+    <rect x="0" y="0" width="250" height="172" rx="8" class="fu"/>
+    <text x="125" y="24" text-anchor="middle" class="hP">Per-level PoE fusion</text>
+    <text x="125" y="54" text-anchor="middle" class="m">log p^(l) = log_softmax(</text>
+    <text x="125" y="72" text-anchor="middle" class="m">  log p_A^(l) + log p_B^(l) )</text>
+    <text x="125" y="98" text-anchor="middle" class="tx">equal weights, renormalised at</text>
+    <text x="125" y="113" text-anchor="middle" class="tx">every level · no trained parameters</text>
+    <text x="125" y="140" text-anchor="middle" class="ts" font-weight="700">greedy descent:</text>
+    <text x="125" y="158" text-anchor="middle" class="tx">argmax chart, then argmax child ×5</text>
+  </g>
+
+  <!-- ===== Tesseract hierarchy inset ===== -->
+  <g transform="translate(1064,118)">
+    <text x="0" y="12" class="ts" font-weight="700" fill="#6B46C1">Tesseract hierarchy of SO(3)</text>
+    <!-- 4 charts -->
+    <g transform="translate(0,22)">
+      <rect x="0"  y="0" width="22" height="22" fill="#D6BCFA" stroke="#6B46C1"/>
+      <rect x="26" y="0" width="22" height="22" fill="#FAF5FF" stroke="#6B46C1"/>
+      <rect x="52" y="0" width="22" height="22" fill="#FAF5FF" stroke="#6B46C1"/>
+      <rect x="78" y="0" width="22" height="22" fill="#FAF5FF" stroke="#6B46C1"/>
+      <text x="50" y="40" text-anchor="middle" class="tx">4 charts</text>
+      <path d="M104,11 L124,11" class="lP" marker-end="url(#arP)"/>
+      <!-- 2x2x2 cube subdivision -->
+      <g transform="translate(130,-6)">
+        <polygon points="0,14 22,4 44,14 22,24" fill="#E9D8FD" stroke="#6B46C1"/>
+        <polygon points="0,14 22,24 22,50 0,40" fill="#D6BCFA" stroke="#6B46C1"/>
+        <polygon points="22,24 44,14 44,40 22,50" fill="#B794F4" stroke="#6B46C1"/>
+        <line x1="11" y1="9" x2="33" y2="19" stroke="#6B46C1"/><line x1="33" y1="9" x2="11" y2="19" stroke="#6B46C1"/>
+        <line x1="0" y1="27" x2="22" y2="37" stroke="#6B46C1"/><line x1="22" y1="37" x2="44" y2="27" stroke="#6B46C1"/>
+        <line x1="11" y1="19" x2="11" y2="45" stroke="#6B46C1"/><line x1="33" y1="19" x2="33" y2="45" stroke="#6B46C1"/>
+      </g>
+      <text x="152" y="62" text-anchor="middle" class="tx">8 children / level</text>
+      <path d="M180,11 L200,11" class="lP" marker-end="url(#arP)"/>
+      <text x="206" y="8" class="tx">depth 5:</text>
+      <text x="206" y="23" class="tx">4·8⁵ = 131,072</text>
+      <text x="206" y="38" class="tx">leaf cells, ≈2.5°</text>
+    </g>
+    <text x="0" y="104" class="tx">q ≡ −q: positive facet of max |qᵢ|; cube → sphere by radial projection</text>
+  </g>
+
+  <!-- output tree -->
+  <path d="M1316,336 L1372,336" class="lP" marker-end="url(#arP)"/>
+  <g transform="translate(1376,262)">
+    <rect x="0" y="0" width="276" height="150" rx="8" class="out"/>
+    <text x="138" y="26" text-anchor="middle" class="t" font-weight="700">Leaf-centre rotation  q̂_tree</text>
+    <text x="138" y="50" text-anchor="middle" class="tx">EXP-036 (3 seeds), mean error</text>
+    <text x="16" y="76" class="ts">synthetic val</text><text x="260" y="76" text-anchor="end" class="ts" font-weight="700">5.54° ± 0.06</text>
+    <text x="16" y="98" class="ts">lightbox (real)</text><text x="260" y="98" text-anchor="end" class="ts" font-weight="700">26.9° (med 9.0°)</text>
+    <text x="16" y="120" class="ts">sunlamp (real)</text><text x="260" y="120" text-anchor="end" class="ts" font-weight="700">36.6° (med 13.0°)</text>
+    <text x="138" y="142" text-anchor="middle" class="tx">≈0.4 ms / image (batched)</text>
+  </g>
+
+  <!-- ======================= Phase 4 band ======================= -->
+  <rect x="12" y="622" width="1656" height="368" rx="10" class="band"/>
+  <text x="800" y="648" class="h" fill="#4A5568">Phase 4 — continuous posterior by Riemannian flow matching on SO(3) (EXP-042)</text>
+
+  <!-- frozen memory taps from the tree encoders -->
+  <path d="M600,268 L600,300 L548,300 L548,660 L360,660 L360,686" class="lA" stroke-dasharray="7 4" marker-end="url(#arA)"/>
+  <path d="M640,533 L640,686" class="lB" stroke-dasharray="7 4" marker-end="url(#arB)"/>
+  <text x="368" y="680" class="tx" fill="#2B6CB0">M_A (frozen)</text>
+  <text x="648" y="612" class="tx" fill="#C05621">M_B (frozen)</text>
+
+  <!-- flow heads -->
+  <g transform="translate(300,690)">
+    <rect x="0" y="0" width="200" height="104" rx="8" class="fl"/>
+    <rect x="0" y="0" width="200" height="6" rx="3" fill="#2B6CB0"/>
+    <text x="100" y="27" text-anchor="middle" class="hG">Flow head A</text>
+    <text x="100" y="48" text-anchor="middle" class="tx">query: Fourier(R_τ) ⊕ Fourier(τ)</text>
+    <text x="100" y="64" text-anchor="middle" class="tx">MLP → 256, 2 cross-attn layers</text>
+    <text x="100" y="90" text-anchor="middle" class="ts">→ ω_A(R_τ, τ | image)</text>
+  </g>
+  <g transform="translate(540,690)">
+    <rect x="0" y="0" width="200" height="104" rx="8" class="fl"/>
+    <rect x="0" y="0" width="200" height="6" rx="3" fill="#C05621"/>
+    <text x="100" y="27" text-anchor="middle" class="hG">Flow head B</text>
+    <text x="100" y="48" text-anchor="middle" class="tx">same design, separate weights</text>
+    <text x="100" y="64" text-anchor="middle" class="tx">cross-attends to M_B</text>
+    <text x="100" y="90" text-anchor="middle" class="ts">→ ω_B(R_τ, τ | image)</text>
+  </g>
+
+  <!-- fused velocity -->
+  <g transform="translate(420,826)">
+    <rect x="0" y="0" width="200" height="72" rx="8" class="fu"/>
+    <text x="100" y="22" text-anchor="middle" class="hP">Fused velocity</text>
+    <text x="100" y="45" text-anchor="middle" class="m">ω = ½(ω_A + ω_B)</text>
+    <text x="100" y="63" text-anchor="middle" class="tx">heuristic, not an exact PoE</text>
+  </g>
+  <path d="M400,796 L400,860 L416,860" class="lG" marker-end="url(#arG)"/>
+  <path d="M640,796 L640,860 L624,860" class="lG" marker-end="url(#arG)"/>
+
+  <!-- Euler integrator -->
+  <g transform="translate(800,680)">
+    <rect x="0" y="0" width="220" height="120" rx="8" class="fl"/>
+    <text x="110" y="24" text-anchor="middle" class="hG">Euler on the group</text>
+    <text x="110" y="52" text-anchor="middle" class="m">R ← R · Exp(Δτ·ω)</text>
+    <text x="110" y="76" text-anchor="middle" class="tx">τ: 0 → 1, Δτ = 0.1 (NFE = 10)</text>
+    <text x="110" y="94" text-anchor="middle" class="tx">stays exactly on SO(3)</text>
+    <text x="110" y="112" text-anchor="middle" class="tx">ω = body-frame velocity ∈ ℝ³</text>
+  </g>
+  <!-- R_tau bus to both heads (hop over M_B) -->
+  <path d="M800,712 L770,712 L770,668 L646,668 M634,668 L460,668 L460,686" class="lG" marker-end="url(#arG)"/>
+  <path d="M700,668 L700,686" class="lG" marker-end="url(#arG)"/>
+  <text x="776" y="660" class="tx" fill="#2F855A">R_τ, τ</text>
+  <!-- feedback omega -->
+  <path d="M624,862 L770,862 L770,770 L796,770" class="lG" marker-end="url(#arG)"/>
+  <text x="636" y="880" class="tx" fill="#2F855A">ω, every step</text>
+
+  <!-- base samples -->
+  <g transform="translate(830,830)">
+    <rect x="0" y="0" width="190" height="130" rx="8" fill="#FFFFFF" stroke="#2D3748" stroke-width="1.5"/>
+    <text x="95" y="22" text-anchor="middle" class="t" font-weight="700">Base samples</text>
+    <circle cx="95" cy="66" r="28" fill="none" stroke="#A0AEC0"/>
+    <g fill="#2D3748">
+      <circle cx="80" cy="52" r="2.5"/><circle cx="108" cy="58" r="2.5"/><circle cx="90" cy="80" r="2.5"/>
+      <circle cx="113" cy="76" r="2.5"/><circle cx="75" cy="69" r="2.5"/><circle cx="98" cy="44" r="2.5"/>
+    </g>
+    <text x="95" y="112" text-anchor="middle" class="tx">R₀ ~ uniform (Haar) on SO(3)</text>
+    <text x="95" y="125" text-anchor="middle" class="tx">M = 32 per image</text>
+  </g>
+  <path d="M925,828 L925,804" class="ln" marker-end="url(#ar)"/>
+  <text x="933" y="822" class="tx">τ = 0</text>
+
+  <!-- posterior samples -->
+  <path d="M1022,740 L1076,740" class="ln" marker-end="url(#ar)"/>
+  <text x="1049" y="730" text-anchor="middle" class="tx">τ = 1</text>
+  <g transform="translate(1080,680)">
+    <rect x="0" y="0" width="210" height="130" rx="8" fill="#FFFFFF" stroke="#2D3748" stroke-width="1.5"/>
+    <text x="105" y="24" text-anchor="middle" class="t" font-weight="700">Posterior samples</text>
+    <circle cx="105" cy="68" r="28" fill="none" stroke="#A0AEC0"/>
+    <g fill="#2F855A">
+      <circle cx="97" cy="60" r="2.5"/><circle cx="101" cy="64" r="2.5"/><circle cx="95" cy="66" r="2.5"/>
+      <circle cx="100" cy="58" r="2.5"/><circle cx="104" cy="61" r="2.5"/>
+    </g>
+    <g fill="#E53E3E"><circle cx="121" cy="82" r="2.5"/><circle cx="118" cy="85" r="2.5"/></g>
+    <text x="105" y="110" text-anchor="middle" class="tx">32 endpoints R₁ per image;</text>
+    <text x="105" y="124" text-anchor="middle" class="tx">may hold a 180° flip mode (red)</text>
+  </g>
+
+  <!-- output -->
+  <path d="M1292,745 L1326,745" class="ln" marker-end="url(#ar)"/>
+  <g transform="translate(1330,668)">
+    <rect x="0" y="0" width="322" height="196" rx="8" class="out"/>
+    <text x="161" y="24" text-anchor="middle" class="t" font-weight="700">q̂_flow + uncertainty</text>
+    <text x="161" y="44" text-anchor="middle" class="tx">KDE mode (5° kernel); 90% region from sample spread</text>
+    <text x="161" y="64" text-anchor="middle" class="tx">EXP-042 (3 seeds), mean error</text>
+    <text x="16" y="88" class="ts">synthetic val</text><text x="306" y="88" text-anchor="end" class="ts" font-weight="700">5.22° ± 0.15</text>
+    <text x="16" y="108" class="ts">lightbox, KDE mode</text><text x="306" y="108" text-anchor="end" class="ts" font-weight="700">29.8°</text>
+    <text x="16" y="128" class="ts">lightbox, best of 32 (oracle)</text><text x="306" y="128" text-anchor="end" class="ts" font-weight="700">9.7°</text>
+    <text x="16" y="148" class="ts">coverage of 90% region</text><text x="306" y="148" text-anchor="end" class="ts" font-weight="700">0.98</text>
+    <text x="161" y="172" text-anchor="middle" class="tx">≈17 ms / image · only the flow heads are trained;</text>
+    <text x="161" y="187" text-anchor="middle" class="tx">backbones and trees stay frozen</text>
+  </g>
+
+  <!-- training objective -->
+  <g transform="translate(36,904)">
+    <text x="0" y="14" class="ts" font-weight="700" fill="#2F855A">Flow-matching training (synthetic train only)</text>
+    <text x="0" y="36" class="m">a = Log(R₀⁻¹R₁*),  R_τ = R₀·Exp(τa),  τ ~ U(0,1),  16 pairs / image</text>
+    <text x="0" y="56" class="m">L_FM = ‖ω_θ(R_τ, τ | image) − a‖²   (geodesic path, constant target)</text>
+    <text x="0" y="74" class="tx">R₁* = ground-truth rotation; pairs within 0.06° of the 180° cut locus are masked</text>
+  </g>
+
+  <!-- footer -->
+  <text x="24" y="1012" class="tx">Rotation only, ground-truth crops. Selection on synthetic validation; lightbox / sunlamp (real) are test-only. The real-domain gain comes from PoE (lightbox: DINOv3 alone 37.1°, MoGe-2 alone 43.7°, PoE 26.9°).</text>
+  <text x="24" y="1030" class="tx">Remaining real-domain error is dominated by ~180° body-axis flips caused by visual near-symmetry (EXP-104); the flow's best-of-32 shows the correct mode is usually among its samples.</text>
+</svg>
