@@ -1,0 +1,125 @@
+>>> 11:01:58 teacher samples (synthetic train)
+fused 0 synthetic_train point 3.97/3.14  leaf 3.57
+fused 1 synthetic_train point 3.79/3.03  leaf 3.53
+fused 2 synthetic_train point 3.78/3.05  leaf 3.54
+| method | domain | mean_deg | mean_deg_std | median_deg | acc@10 | leaf_mean_deg |
+|---|---|---|---|---|---|---|
+| fused | synthetic_train | 3.847 | 0.105 | 3.074 | 0.970 | 3.548 |
+RUN outputs/experiments/EXP-044_distilled_tree/RUN-20261013-110159-seed0
+>>> teacher run outputs/experiments/EXP-044_distilled_tree/RUN-20261013-110159-seed0
+>>> 11:41:06 teacher diagnostic (train masses)
+0 synthetic_train tree 3.57 kde 3.97 flowgreedy 4.99
+1 synthetic_train tree 3.53 kde 3.79 flowgreedy 4.82
+2 synthetic_train tree 3.54 kde 3.78 flowgreedy 4.79
+| domain | level | flow_mass_on_gt | tree_mass_on_gt | flow_recall | flow_top1 | tree_top1_greedy | flow_occupancy | parent_child_max_err | tv_vs_M32_m8 |
+|---|---|---|---|---|---|---|---|---|---|
+| synthetic_train | 0 | 0.910 | 0.955 | 1.000 | 0.970 | 0.981 | 1.915 | 0.000 | 0.053 |
+| synthetic_train | 1 | 0.809 | 0.824 | 0.998 | 0.922 | 0.932 | 3.215 | 0.000 | 0.105 |
+| synthetic_train | 2 | 0.693 | 0.669 | 0.990 | 0.847 | 0.808 | 5.047 | 0.000 | 0.163 |
+| synthetic_train | 3 | 0.549 | 0.535 | 0.964 | 0.730 | 0.704 | 7.593 | 0.000 | 0.235 |
+| synthetic_train | 4 | 0.376 | 0.423 | 0.891 | 0.552 | 0.607 | 10.753 | 0.000 | 0.317 |
+| synthetic_train | 5 | 0.197 | 0.351 | 0.723 | 0.323 | 0.547 | 14.482 | 0.000 | 0.409 |
+| domain | estimate | mean_deg | median_deg | acc@10 | frac_gt90 | mean_deg_std |
+|---|---|---|---|---|---|---|
+| synthetic_train | flow KDE mode (EXP-042) | 3.847 | 3.074 | 0.970 | 0.000 | 0.105 |
+| synthetic_train | flow-mass greedy descent | 4.866 | 3.980 | 0.953 | 0.000 | 0.108 |
+| synthetic_train | tree greedy (PoE, EXP-036) | 3.547 | 3.086 | 0.987 | 0.000 | 0.020 |
+RUN outputs/experiments/EXP-044_distilled_tree/RUN-20261013-114107-seed0
+>>> 11:45:27 train dinov3_vitl16:tokens8 beta=0 seed=0
+dinov3_vitl16:tokens8 transformer/soft/res=False seed 0 synthetic_val: mean 5.45 med 4.88 (disc 5.45) | lightbox: mean 39.12 med 14.51 (disc 39.12) | sunlamp: mean 42.75 med 21.36 (disc 42.75)
+RUN outputs/experiments/EXP-044_distilled_tree/RUN-20261013-114528-seed0
+>>> 12:03:29 train moge2_vitl:normals16~and beta=0 seed=0
+moge2_vitl:normals16~and transformer/soft/res=False seed 0 synthetic_val: mean 16.81 med 5.89 (disc 16.81) | lightbox: mean 43.41 med 10.34 (disc 43.41) | sunlamp: mean 60.28 med 17.63 (disc 60.28)
+RUN outputs/experiments/EXP-044_distilled_tree/RUN-20261013-120330-seed0
+>>> 12:21:58 train dinov3_vitl16:tokens8 beta=0.1 seed=0
+dinov3_vitl16:tokens8 transformer/soft/res=False seed 0 synthetic_val: mean 5.37 med 4.79 (disc 5.37) | lightbox: mean 38.80 med 14.00 (disc 38.80) | sunlamp: mean 41.32 med 20.11 (disc 41.32)
+RUN outputs/experiments/EXP-044_distilled_tree/RUN-20261013-122159-seed0
+>>> 12:57:39 train moge2_vitl:normals16~and beta=0.1 seed=0
+moge2_vitl:normals16~and transformer/soft/res=False seed 0 synthetic_val: mean 16.43 med 5.76 (disc 16.43) | lightbox: mean 42.25 med 10.13 (disc 42.25) | sunlamp: mean 61.09 med 18.18 (disc 61.09)
+RUN outputs/experiments/EXP-044_distilled_tree/RUN-20261013-125739-seed0
+>>> 14:09:49 train dinov3_vitl16:tokens8 beta=0.3 seed=0
+dinov3_vitl16:tokens8 transformer/soft/res=False seed 0 synthetic_val: mean 5.21 med 4.66 (disc 5.21) | lightbox: mean 37.22 med 13.32 (disc 37.22) | sunlamp: mean 42.61 med 20.02 (disc 42.61)
+RUN outputs/experiments/EXP-044_distilled_tree/RUN-20261013-140950-seed0
+>>> 14:45:25 train moge2_vitl:normals16~and beta=0.3 seed=0
+moge2_vitl:normals16~and transformer/soft/res=False seed 0 synthetic_val: mean 15.65 med 5.61 (disc 15.65) | lightbox: mean 41.66 med 9.99 (disc 41.66) | sunlamp: mean 59.70 med 17.70 (disc 59.70)
+RUN outputs/experiments/EXP-044_distilled_tree/RUN-20261013-144526-seed0
+>>> 15:59:05 train dinov3_vitl16:tokens8 beta=1.0 seed=0
+dinov3_vitl16:tokens8 transformer/soft/res=False seed 0 synthetic_val: mean 5.07 med 4.49 (disc 5.07) | lightbox: mean 38.15 med 13.28 (disc 38.15) | sunlamp: mean 40.54 med 19.53 (disc 40.54)
+RUN outputs/experiments/EXP-044_distilled_tree/RUN-20261013-155905-seed0
+>>> 16:38:05 train moge2_vitl:normals16~and beta=1.0 seed=0
+moge2_vitl:normals16~and transformer/soft/res=False seed 0 synthetic_val: mean 14.48 med 5.40 (disc 14.48) | lightbox: mean 39.86 med 9.47 (disc 39.86) | sunlamp: mean 58.13 med 17.18 (disc 58.13)
+RUN outputs/experiments/EXP-044_distilled_tree/RUN-20261013-163806-seed0
+>>> 17:56:30 selection
+beta=0 (EXP-044) 0 synthetic_val 5.589
+beta=0 (EXP-044) 0 lightbox 27.633
+beta=0 (EXP-044) 0 sunlamp 37.750
+beta=0.1 (EXP-044) 0 synthetic_val 5.688
+beta=0.1 (EXP-044) 0 lightbox 27.177
+beta=0.1 (EXP-044) 0 sunlamp 38.147
+beta=0.3 (EXP-044) 0 synthetic_val 5.672
+beta=0.3 (EXP-044) 0 lightbox 26.576
+beta=0.3 (EXP-044) 0 sunlamp 38.156
+beta=1 (EXP-044) 0 synthetic_val 5.622
+beta=1 (EXP-044) 0 lightbox 26.169
+beta=1 (EXP-044) 0 sunlamp 37.675
+beta=0 (EXP-036) 0 synthetic_val 5.567
+beta=0 (EXP-036) 0 lightbox 27.618
+beta=0 (EXP-036) 0 sunlamp 37.531
+| arm | domain | mean_deg | mean_deg_std | median_deg | acc@10 | frac_gt90 | top8_leaf_recall |
+|---|---|---|---|---|---|---|---|
+| beta=0 (EXP-036) | lightbox | 27.618 | nan | 9.361 | 0.537 | 0.109 | 0.282 |
+| beta=0 (EXP-036) | sunlamp | 37.531 | nan | 13.373 | 0.359 | 0.162 | 0.191 |
+| beta=0 (EXP-036) | synthetic_val | 5.567 | nan | 4.656 | 0.945 | 0.002 | 0.693 |
+| beta=0 (EXP-044) | lightbox | 27.633 | nan | 9.322 | 0.537 | 0.109 | 0.283 |
+| beta=0 (EXP-044) | sunlamp | 37.750 | nan | 13.324 | 0.363 | 0.163 | 0.194 |
+| beta=0 (EXP-044) | synthetic_val | 5.589 | nan | 4.659 | 0.944 | 0.002 | 0.694 |
+| beta=0.1 (EXP-044) | lightbox | 27.177 | nan | 8.786 | 0.569 | 0.110 | 0.318 |
+| beta=0.1 (EXP-044) | sunlamp | 38.147 | nan | 12.930 | 0.384 | 0.170 | 0.204 |
+| beta=0.1 (EXP-044) | synthetic_val | 5.688 | nan | 4.594 | 0.945 | 0.004 | 0.711 |
+| beta=0.3 (EXP-044) | lightbox | 26.576 | nan | 8.548 | 0.583 | 0.109 | 0.335 |
+| beta=0.3 (EXP-044) | sunlamp | 38.156 | nan | 12.704 | 0.396 | 0.173 | 0.223 |
+| beta=0.3 (EXP-044) | synthetic_val | 5.672 | nan | 4.438 | 0.953 | 0.004 | 0.731 |
+| beta=1 (EXP-044) | lightbox | 26.169 | nan | 8.192 | 0.596 | 0.107 | 0.369 |
+| beta=1 (EXP-044) | sunlamp | 37.675 | nan | 12.014 | 0.421 | 0.171 | 0.246 |
+| beta=1 (EXP-044) | synthetic_val | 5.622 | nan | 4.334 | 0.955 | 0.005 | 0.768 |
+| arm | level | tree_mass_on_gt | greedy_top1 | distill_fit_ce |
+|---|---|---|---|---|
+| beta=0 (EXP-036) | 0 | 0.939 | 0.962 | 0.638 |
+| beta=0 (EXP-036) | 1 | 0.805 | 0.909 | 1.251 |
+| beta=0 (EXP-036) | 2 | 0.651 | 0.786 | 2.251 |
+| beta=0 (EXP-036) | 3 | 0.504 | 0.656 | 3.985 |
+| beta=0 (EXP-036) | 4 | 0.333 | 0.465 | 6.955 |
+| beta=0 (EXP-036) | 5 | 0.158 | 0.235 | 11.210 |
+| beta=0 (EXP-036) | mean | nan | nan | 4.382 |
+| beta=0 (EXP-044) | 0 | 0.939 | 0.962 | 0.638 |
+| beta=0 (EXP-044) | 1 | 0.804 | 0.908 | 1.251 |
+| beta=0 (EXP-044) | 2 | 0.651 | 0.786 | 2.250 |
+| beta=0 (EXP-044) | 3 | 0.504 | 0.658 | 3.982 |
+| beta=0 (EXP-044) | 4 | 0.332 | 0.466 | 6.944 |
+| beta=0 (EXP-044) | 5 | 0.158 | 0.234 | 11.186 |
+| beta=0 (EXP-044) | mean | nan | nan | 4.375 |
+| beta=0.1 (EXP-044) | 0 | 0.939 | 0.962 | 0.568 |
+| beta=0.1 (EXP-044) | 1 | 0.813 | 0.910 | 1.152 |
+| beta=0.1 (EXP-044) | 2 | 0.664 | 0.797 | 2.073 |
+| beta=0.1 (EXP-044) | 3 | 0.519 | 0.666 | 3.474 |
+| beta=0.1 (EXP-044) | 4 | 0.346 | 0.479 | 5.648 |
+| beta=0.1 (EXP-044) | 5 | 0.165 | 0.240 | 8.762 |
+| beta=0.1 (EXP-044) | mean | nan | nan | 3.613 |
+| beta=0.3 (EXP-044) | 0 | 0.941 | 0.963 | 0.526 |
+| beta=0.3 (EXP-044) | 1 | 0.827 | 0.916 | 1.090 |
+| beta=0.3 (EXP-044) | 2 | 0.686 | 0.811 | 1.928 |
+| beta=0.3 (EXP-044) | 3 | 0.541 | 0.686 | 3.154 |
+| beta=0.3 (EXP-044) | 4 | 0.364 | 0.500 | 5.007 |
+| beta=0.3 (EXP-044) | 5 | 0.177 | 0.262 | 7.681 |
+| beta=0.3 (EXP-044) | mean | nan | nan | 3.231 |
+| beta=1 (EXP-044) | 0 | 0.943 | 0.963 | 0.483 |
+| beta=1 (EXP-044) | 1 | 0.850 | 0.916 | 1.030 |
+| beta=1 (EXP-044) | 2 | 0.728 | 0.828 | 1.781 |
+| beta=1 (EXP-044) | 3 | 0.582 | 0.705 | 2.850 |
+| beta=1 (EXP-044) | 4 | 0.395 | 0.518 | 4.406 |
+| beta=1 (EXP-044) | 5 | 0.194 | 0.272 | 6.627 |
+| beta=1 (EXP-044) | mean | nan | nan | 2.863 |
+BEST_BETA 0
+RUN outputs/experiments/EXP-044_distilled_tree/RUN-20261013-175631-seed0
+BEST_BETA=0
+CHAIN_DONE

@@ -1,0 +1,29 @@
+[
+  {
+    "domain": "synthetic_train",
+    "estimate": "flow KDE mode (EXP-042)",
+    "mean_deg": 3.8469638519729714,
+    "median_deg": 3.0736975692493798,
+    "acc@10": 0.9698744944335571,
+    "frac_gt90": 0.00027102530959429593,
+    "mean_deg_std": 0.10535519675845013
+  },
+  {
+    "domain": "synthetic_train",
+    "estimate": "flow-mass greedy descent",
+    "mean_deg": 4.866085676623076,
+    "median_deg": 3.9801614477576113,
+    "acc@10": 0.9527512543607277,
+    "frac_gt90": 0.00013898733825348512,
+    "mean_deg_std": 0.10827585813899823
+  },
+  {
+    "domain": "synthetic_train",
+    "estimate": "tree greedy (PoE, EXP-036)",
+    "mean_deg": 3.546513981204949,
+    "median_deg": 3.086233367101063,
+    "acc@10": 0.9868240003335697,
+    "frac_gt90": 2.0848100738022766e-05,
+    "mean_deg_std": 0.020135832416518163
+  }
+]

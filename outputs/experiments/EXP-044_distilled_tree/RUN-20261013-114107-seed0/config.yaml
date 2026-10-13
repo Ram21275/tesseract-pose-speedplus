@@ -1,0 +1,7 @@
+samples_run: outputs/experiments/EXP-044_distilled_tree/RUN-20261013-110159-seed0
+tree_exp: EXP-036_transformer_soft_targets
+seeds: 0,1,2
+groups: synthetic_train
+run_exp: EXP-044_distilled_tree
+stage: analysis
+seed: 0

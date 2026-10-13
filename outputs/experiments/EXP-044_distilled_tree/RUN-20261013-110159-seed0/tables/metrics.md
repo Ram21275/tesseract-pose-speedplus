@@ -1,0 +1,3 @@
+| method | domain | latency_ms_per_image | n | mean_deg | median_deg | p95_deg | acc@1 | acc@3 | acc@5 | acc@10 | acc@20 | leaf_mean_deg | leaf_median_deg | best_of_M_mean_deg | sample_mean_deg | any_sample_within_5 | any_sample_within_10 | any_sample_within_20 | spread_deg | coverage@0.5 | coverage@0.8 | coverage@0.9 | coverage@0.95 | mean_deg_std |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| fused | synthetic_train | 15.201 | 47966.000 | 3.847 | 3.074 | 7.917 | 0.038 | 0.482 | 0.826 | 0.970 | 0.990 | 3.548 | 3.087 | 1.990 | 12.667 | 0.963 | 0.995 | 1.000 | 11.353 | 0.414 | 0.913 | 0.988 | 0.998 | 0.105 |

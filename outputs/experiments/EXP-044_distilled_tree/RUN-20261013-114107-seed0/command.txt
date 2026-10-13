@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/exp043_flow_masses.py --samples-run outputs/experiments/EXP-044_distilled_tree/RUN-20261013-110159-seed0 --groups synthetic_train --run-exp EXP-044_distilled_tree

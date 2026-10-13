@@ -1,0 +1,83 @@
+[
+  {
+    "seed": 0,
+    "domain": "synthetic_train",
+    "estimate": "tree greedy (PoE, EXP-036)",
+    "mean_deg": 3.5693485410104104,
+    "median_deg": 3.1062311222258954,
+    "acc@10": 0.9858024433974065,
+    "frac_gt90": 2.0848100738022766e-05
+  },
+  {
+    "seed": 0,
+    "domain": "synthetic_train",
+    "estimate": "flow KDE mode (EXP-042)",
+    "mean_deg": 3.9685501127956537,
+    "median_deg": 3.1408486228551227,
+    "acc@10": 0.9660801400992369,
+    "frac_gt90": 0.00022932910811825042
+  },
+  {
+    "seed": 0,
+    "domain": "synthetic_train",
+    "estimate": "flow-mass greedy descent",
+    "mean_deg": 4.98928266396779,
+    "median_deg": 4.037826410884254,
+    "acc@10": 0.9474836342409206,
+    "frac_gt90": 0.00010424050369011383
+  },
+  {
+    "seed": 1,
+    "domain": "synthetic_train",
+    "estimate": "tree greedy (PoE, EXP-036)",
+    "mean_deg": 3.531303430157915,
+    "median_deg": 3.075297806654987,
+    "acc@10": 0.9881374306800651,
+    "frac_gt90": 4.169620147604553e-05
+  },
+  {
+    "seed": 1,
+    "domain": "synthetic_train",
+    "estimate": "flow KDE mode (EXP-042)",
+    "mean_deg": 3.7896783373303213,
+    "median_deg": 3.0351444203517595,
+    "acc@10": 0.9712921652837426,
+    "frac_gt90": 0.000354417712546387
+  },
+  {
+    "seed": 1,
+    "domain": "synthetic_train",
+    "estimate": "flow-mass greedy descent",
+    "mean_deg": 4.822940859755791,
+    "median_deg": 3.951653253639192,
+    "acc@10": 0.9550514948088229,
+    "frac_gt90": 0.00016678480590418213
+  },
+  {
+    "seed": 2,
+    "domain": "synthetic_train",
+    "estimate": "tree greedy (PoE, EXP-036)",
+    "mean_deg": 3.5388899724465213,
+    "median_deg": 3.0771711724223065,
+    "acc@10": 0.9865321269232373,
+    "frac_gt90": 0.0
+  },
+  {
+    "seed": 2,
+    "domain": "synthetic_train",
+    "estimate": "flow KDE mode (EXP-042)",
+    "mean_deg": 3.782663105792939,
+    "median_deg": 3.0450996645412576,
+    "acc@10": 0.9722511779176917,
+    "frac_gt90": 0.00022932910811825042
+  },
+  {
+    "seed": 2,
+    "domain": "synthetic_train",
+    "estimate": "flow-mass greedy descent",
+    "mean_deg": 4.786033506145645,
+    "median_deg": 3.9510046787493884,
+    "acc@10": 0.9557186340324396,
+    "frac_gt90": 0.00014593670516615937
+  }
+]
