@@ -4,3 +4,7 @@ speedplus_root: /media/kavinder/hdd2/RFO/speed_pose_moe/speedplusv2
 tango_points: /media/kavinder/hdd/Aayushi/speedplusv2/tangoPoints.mat
 # Derived bbox table from an earlier project, used ONLY as a cross-check in EXP-000.
 crosscheck_train_csv: /media/kavinder/hdd2/RFO/speed_pose_moe/speedplusv2/train.csv
+# EXP-064 datasets (DEC-009), read-only.
+tless_root: /media/kavinder/hdd2/liepose_data/bop_datasets/tless
+symsolt_root: /media/kavinder/hdd2/liepose_data/symsolt
+ycbv_root: /media/kavinder/hdd2/FFb6D/datasets/ycb/YCB_Video_Dataset

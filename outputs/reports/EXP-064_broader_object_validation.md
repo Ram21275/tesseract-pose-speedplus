@@ -1,7 +1,8 @@
-# EXP-064: Broader-object validation of the selected Tesseract rotation method (YCB-Video, T-LESS)
+# EXP-064: Broader-object validation of the selected Tesseract rotation method (T-LESS, SYMSOL-T, YCB-Video)
 
 ## Status
-**Planned; paused until the user adds the data.** Neither BOP YCB-V nor BOP T-LESS is on the local disks (searched 2026-10-10; only an LM-O copy exists, in another user's folder, and it is not used). Prerequisites, all in Phase 6: the rotation architecture is selected (Phases 3–4), the adaptive-depth decision is made (Phase 5), and EXP-060–063 are done. ID and placement: DEC-007.
+**Planned; data located (2026-10-13), waiting on the Phase-6 prerequisites.** The user chose T-LESS, SYMSOL-T and YCB-Video (DEC-009).
+- *Correction:* the 2026-10-10 note said neither BOP YCB-V nor BOP T-LESS was on the local disks. That search missed `/media/kavinder/hdd2`, where all three datasets are (details and deviations in DEC-009: YCB-Video is the original PoseCNN release, not BOP; the local T-LESS test set is the BOP19 subset; SYMSOL-T was rendered locally). Prerequisites, all in Phase 6: the rotation architecture is selected (Phases 3–4), the adaptive-depth decision is made (Phase 5), and EXP-060–063 are done. ID and placement: DEC-007.
 
 ## Research question
 Does the selected Tesseract rotation method keep its benefits (fusion gain, accuracy–compute advantage) on objects other than the spacecraft?
@@ -11,7 +12,7 @@ Does the selected Tesseract rotation method keep its benefits (fusion gain, accu
 - **Out of scope:** true held-out-object generalization without retraining. That is separate future work and needs explicit CAD/template or reference-frame conditioning.
 
 ## Protocol to pre-register in full before any result (once the data is present)
-- **Datasets:** BOP versions of YCB-Video (varied everyday objects) and T-LESS (textureless, symmetric). Record the exact versions, the download sources and the camera/model conventions.
+- **Datasets:** T-LESS (BOP; textureless, symmetric), SYMSOL-T (synthetic symmetric shapes with translation; exact symmetry-equivalent rotations annotated) and YCB-Video (original release; varied everyday objects). Record the exact versions, the download sources and the camera/model conventions.
 - **Object subset:**
   - declared **before** any evaluation, with written criteria covering appearance (textured vs textureless), geometry, and symmetry class (none / discrete / continuous);
   - initially a manageable number per dataset, fixed thereafter.
@@ -36,4 +37,4 @@ Does the selected Tesseract rotation method keep its benefits (fusion gain, accu
 - **Decision question:** do the fusion benefit and Tesseract's accuracy–compute advantage persist across objects?
 
 ## Runs / Results / Decision
-Not started (paused for data).
+Not started (data located; waiting on Phase-6 prerequisites).

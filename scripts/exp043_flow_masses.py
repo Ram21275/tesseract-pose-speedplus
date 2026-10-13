@@ -31,8 +31,10 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--samples-run", required=True, help="EXP-043 sample-stage run dir (holds samples/*_fused_seed{s}_fp16.npy)")
 ap.add_argument("--tree-exp", default="EXP-036_transformer_soft_targets")
 ap.add_argument("--seeds", default="0,1,2")
+ap.add_argument("--groups", default="synthetic_val,lightbox,sunlamp")
+ap.add_argument("--run-exp", default="EXP-043_flow_induced_tesseract_masses", help="experiment dir for this analysis run")
 args = ap.parse_args()
-run = Run("EXP-043", "flow_induced_tesseract_masses", dict(vars(args), stage="analysis"), seed=0)
+run = Run(args.run_exp.split("_", 1)[0], args.run_exp.split("_", 1)[1], dict(vars(args), stage="analysis"), seed=0)
 L = 5
 SPECS = ["dinov3_vitl16:tokens8", "moge2_vitl:normals16~and"]
 try:
@@ -42,7 +44,7 @@ try:
     chart, path = T.encode(q, L)
     tr = ((df.domain == "synthetic") & (df.split == "train")).to_numpy()
     sdir = REPO / args.samples_run / "samples"
-    groups = ["synthetic_val", "lightbox", "sunlamp"]
+    groups = args.groups.split(",")
     X = {}
     for sp in SPECS:
         names, x, _ = featsets.load(sp, "full"); assert names == df.image_relpath.tolist()

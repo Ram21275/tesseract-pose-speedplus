@@ -44,6 +44,9 @@ ap.add_argument("--gpu-dtype", default="fp16", choices=["fp32", "fp16"])
 ap.add_argument("--amp", default="none", choices=["none", "bf16"], help="autocast for the probe forward pass (speed); features and losses as before")
 ap.add_argument("--train-frac", type=float, default=1.0, help="fixed seeded (rng 0) fraction of synthetic train, as in train_adapter.py")
 ap.add_argument("--clip", type=float, default=0.0, help="gradient-norm clip (0 = off)")
+ap.add_argument("--kd-samples", default=None, help="EXP-044: run dir with samples/synthetic_train_fused_seed{seed}_fp16.npy (flow teacher)")
+ap.add_argument("--kd-beta", type=float, default=0.0, help="EXP-044: weight of the level-marginal distillation term (0 = off)")
+ap.add_argument("--kd-k", type=int, default=8, help="EXP-044: teacher samples teacher-forced per image per step (of M)")
 ap.add_argument("--seed", type=int, default=0)
 args = ap.parse_args()
 exp_id, short = args.exp.split("_", 1)
@@ -95,6 +98,27 @@ try:
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=args.epochs * int(np.ceil(len(tr_idx) / args.batch)), pct_start=0.05)
     res_scale = np.radians(P.TAU_DEG[args.depth])                     # residual loss in units of the L5 cell size
 
+    if args.kd_beta > 0:   # EXP-044: flow-teacher endpoint samples on synthetic train -> Tesseract paths
+        sdir = REPO / args.kd_samples / "samples"
+        kidx = np.load(sdir / "synthetic_train_index.npy"); smp = np.load(sdir / f"synthetic_train_fused_seed{args.seed}_fp16.npy").astype(np.float64)
+        assert set(kidx) >= set(tr_idx), "teacher samples must cover every training image"
+        KN, KM, _ = smp.shape; smp /= np.linalg.norm(smp, axis=-1, keepdims=True)
+        kc, kp = T.encode(smp.reshape(-1, 4), args.depth); del smp
+        KCt = torch.as_tensor(kc.reshape(KN, KM), device=dev); KPt = torch.as_tensor(kp.reshape(KN, KM, args.depth), device=dev)
+        KROW = torch.full((len(df),), -1, dtype=torch.long, device=dev); KROW[torch.as_tensor(kidx, device=dev)] = torch.arange(KN, device=dev)
+        (run.dir / "source_runs.txt").write_text(f"{args.kd_samples}\n")
+
+    def kd_loss(h, b):
+        """Sum_l KL(stopgrad mu_l || p_l) up to the teacher entropy, as a Monte-Carlo average over K of the M samples:
+        -(1/(L+1)) sum_l log p_l(prefix_l(R_m)); p_l = root x child conditionals along the sample path (teacher forcing)."""
+        B, K = len(b), args.kd_k
+        r = KROW[b][:, None]; m = torch.randint(0, KCt.shape[1], (B, K), device=dev)
+        sc, sp = KCt[r, m].reshape(-1), KPt[r, m].reshape(B * K, -1)
+        rl, cl = model.logits_tf(h.repeat_interleave(K, 0), sc, sp)
+        step = torch.cat([F.log_softmax(rl.float(), -1).gather(1, sc[:, None]),
+                          F.log_softmax(cl.float(), -1).gather(2, sp[:, :, None])[..., 0]], 1)   # (BK, L+1)
+        return -step.cumsum(1).mean()
+
     def losses(b):
         x = getx(b); h = model.encode(x)
         if args.decoder == "transformer":
@@ -114,6 +138,8 @@ try:
             loss = F.cross_entropy(rl, Ct[b]) + sum(F.cross_entropy(cl[:, l], Pt[b][:, l]) for l in range(cl.shape[1]))
         if res is not None:   # teacher-forced on the GT leaf
             loss = loss + args.res_weight * (((res(h, QLt[b]) - Dt[b]) / res_scale) ** 2).sum(-1).mean()
+        if args.kd_beta > 0:
+            loss = loss + args.kd_beta * kd_loss(h, b)
         return loss
 
     @torch.no_grad()

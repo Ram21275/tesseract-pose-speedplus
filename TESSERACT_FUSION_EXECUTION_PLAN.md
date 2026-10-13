@@ -509,9 +509,9 @@ Evaluate entropy, agreement, beam diversity, posterior spread, credible-region c
 
 Profile backbone extraction, fusion, hierarchy, flow solver/sampling, distillation benefit, adaptive controller, and refinement separately.
 
-### EXP-064 — Broader-object validation (YCB-Video, T-LESS; BOP versions)
+### EXP-064 — Broader-object validation (T-LESS, SYMSOL-T, YCB-Video)
 
-*Added 2026-10-10 at the user's request. Runs after the rotation architecture and the adaptive-depth decision are selected, before the milestone closes. It is **paused until the user adds the data**; YCB-V and T-LESS are not on disk.*
+*Added 2026-10-10 at the user's request. Runs after the rotation architecture and the adaptive-depth decision are selected, before the milestone closes. Datasets (DEC-009, 2026-10-13): T-LESS (BOP), SYMSOL-T and YCB-Video (original release), all located on hdd2; waiting only on the Phase-6 prerequisites.*
 
 - **Question:** does the selected Tesseract rotation method keep its benefits on objects beyond spacecraft?
 - **Scope:** cross-object validation **with pose-head retraining**, not zero-shot transfer.

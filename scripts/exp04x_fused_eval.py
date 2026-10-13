@@ -40,6 +40,8 @@ ap.add_argument("--save-all-seeds", action="store_true", help="with --save-sampl
 ap.add_argument("--feat-cpu", action="store_true", help="keep standardized features in host memory (low-GPU-memory mode)")
 ap.add_argument("--queries", type=int, default=4096, help="flow queries (images x M) per batch; lower = less GPU memory")
 ap.add_argument("--save-samples", action="store_true", help="save fused endpoint samples (EXP-043 input)")
+ap.add_argument("--groups", default="synthetic_val,lightbox,sunlamp",
+                help="groups to evaluate; synthetic_train only to build EXP-044 distillation targets (never val/test)")
 args = ap.parse_args()
 _re = args.run_exp or args.exp
 run = Run(_re.split("_", 1)[0], _re.split("_", 1)[1], dict(vars(args), stage="fused_eval"), seed=0)
@@ -48,7 +50,8 @@ try:
     df = pd.read_csv(REPO / "outputs/data_manifests/subset_full.csv")
     q = df[[f"q_can_{k}" for k in "wxyz"]].to_numpy()
     tr = ((df.domain == "synthetic") & (df.split == "train")).to_numpy()
-    groups = {k: v for k, v in eval_groups(df).items() if k in ("synthetic_val", "lightbox", "sunlamp")}   # DEC-006: real domains test-only
+    allg = {**eval_groups(df), "synthetic_train": tr}
+    groups = {k: allg[k] for k in args.groups.split(",")}   # DEC-006: real domains test-only
     Qt = torch.as_tensor(q, dtype=torch.float32, device=dev)
     feats = {}
 
