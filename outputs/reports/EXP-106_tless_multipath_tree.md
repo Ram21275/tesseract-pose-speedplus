@@ -45,5 +45,14 @@ Internal: A0, A1, greedy, oracle. External T-LESS rotation results (e.g. SpyroPo
 ## Resources
 About 84k crops in total. DINO `tokens8` is about 128 KB per crop, about 11 GB in total. Cached on hdd2 (280 GB free), not root. Feature extraction is a GPU job in the guarded queue.
 
+## Amendment 2026-10-13 (before any run): arm K, the original Kurz et al. (2017) corner formulation
+Requested by the user (DEC-010 addendum). Added next to the other arms; nothing else changes.
+- **Representation (as in the original paper):** all **8** facets of the tesseract (±w, ±x, ±y, ±z), so q and −q are both represented, and rotations are represented by the **corners** of the subdivided cubes (radially projected), not by cube centres. A corner is shared by up to 8 neighbouring cubes, so one rotation has many tree paths.
+- **Tree:** the same Transformer, with an 8-way root (one per facet) and 8 children per level, depth 5.
+- **Training target (multi-path):** for each training rotation, the nearest corner representative, for both q (on its facet) and −q (on the opposite facet); the target mass is spread uniformly over every leaf cube that has that corner, in both copies. Implemented with the EXP-044 level-marginal loss, using these paths in place of samples.
+- **Decoding:** beam search (top 8 leaves); each leaf votes its probability to its 8 corners; votes for the same rotation (same corner, either copy) are summed; the prediction is the corner with the largest summed mass.
+- **What is compared:** K vs the single-path centre tree (EXP-036 recipe, same features, budget and seeds), under each experiment's own metrics and criteria.
+- **Expectation, stated before results:** q and −q are the same rotation, and corners shared between cubes are only a few degrees apart. So the redundancy is not expected by itself to resolve 180° flips (different rotations, far apart on the hypersphere); any gain is expected in precision and at chart seams. Reported whatever the outcome.
+
 ## Runs / Results / Decision
 Not started.
