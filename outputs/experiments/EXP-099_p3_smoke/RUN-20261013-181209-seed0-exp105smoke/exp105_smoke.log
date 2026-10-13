@@ -1,0 +1,61 @@
+/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/transformer.py:392: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+seed 0 synthetic_val 0/32
+0 synthetic_val beam8_top1 5.33 | centre-corner deg 4.59
+seed 0 lightbox 0/32
+0 lightbox beam8_top1 33.52 | centre-corner deg 4.71
+seed 0 sunlamp 0/32
+0 sunlamp beam8_top1 48.44 | centre-corner deg 4.81
+| domain | scorer | flip_disc_acc | ms_per_image | flip_disc_std |
+|---|---|---|---|---|
+| lightbox | flow_logp | 0.906 | 172.746 | nan |
+| lightbox | renoise_t0.5 | 0.906 | 471.173 | nan |
+| lightbox | renoise_t0.8 | 0.969 | 185.447 | nan |
+| lightbox | tmpl_dino | 0.375 | 11.473 | nan |
+| lightbox | tmpl_normals | 0.656 | 0.000 | nan |
+| lightbox | tree | 0.875 | 5.247 | nan |
+| sunlamp | flow_logp | 0.938 | 175.109 | nan |
+| sunlamp | renoise_t0.5 | 0.906 | 513.218 | nan |
+| sunlamp | renoise_t0.8 | 0.875 | 208.813 | nan |
+| sunlamp | tmpl_dino | 0.594 | 13.496 | nan |
+| sunlamp | tmpl_normals | 0.594 | 0.000 | nan |
+| sunlamp | tree | 0.875 | 4.812 | nan |
+| synthetic_val | flow_logp | 1.000 | 151.720 | nan |
+| synthetic_val | renoise_t0.5 | 1.000 | 511.357 | nan |
+| synthetic_val | renoise_t0.8 | 1.000 | 208.079 | nan |
+| synthetic_val | tmpl_dino | 0.719 | 14.185 | nan |
+| synthetic_val | tmpl_normals | 0.719 | 0.000 | nan |
+| synthetic_val | tree | 1.000 | 3.487 | nan |
+| arm | scorer | mean_deg | mean_deg_std | frac_gt90 |
+|---|---|---|---|---|
+| C0_centres | ORACLE | 3.228 | nan | 0.000 |
+| C0_centres | flow_logp | 5.672 | nan | 0.000 |
+| C0_centres | renoise_t0.5 | 5.067 | nan | 0.000 |
+| C0_centres | renoise_t0.8 | 4.478 | nan | 0.000 |
+| C0_centres | tmpl_dino | 8.243 | nan | 0.000 |
+| C0_centres | tmpl_normals | 6.078 | nan | 0.000 |
+| C0_centres | tree | 5.334 | nan | 0.000 |
+| C1_flips | ORACLE | 3.228 | nan | 0.000 |
+| C1_flips | flow_logp | 5.672 | nan | 0.000 |
+| C1_flips | renoise_t0.5 | 5.067 | nan | 0.000 |
+| C1_flips | renoise_t0.8 | 4.478 | nan | 0.000 |
+| C1_flips | tmpl_dino | 61.264 | nan | 0.312 |
+| C1_flips | tmpl_normals | 42.762 | nan | 0.219 |
+| C1_flips | tree | 5.334 | nan | 0.000 |
+| C2_centres+corners | ORACLE | 2.294 | nan | 0.000 |
+| C2_centres+corners | flow_logp | 6.413 | nan | 0.000 |
+| C2_centres+corners | renoise_t0.5 | 4.555 | nan | 0.000 |
+| C2_centres+corners | renoise_t0.8 | 4.559 | nan | 0.000 |
+| C2_centres+corners | tmpl_dino | 10.675 | nan | 0.000 |
+| C2_centres+corners | tmpl_normals | 7.281 | nan | 0.000 |
+| C2_centres+corners | tree | 5.334 | nan | 0.000 |
+| C3_all | ORACLE | 2.294 | nan | 0.000 |
+| C3_all | flow_logp | 6.413 | nan | 0.000 |
+| C3_all | renoise_t0.5 | 4.555 | nan | 0.000 |
+| C3_all | renoise_t0.8 | 4.559 | nan | 0.000 |
+| C3_all | tmpl_dino | 37.100 | nan | 0.156 |
+| C3_all | tmpl_normals | 33.248 | nan | 0.156 |
+| C3_all | tree | 5.334 | nan | 0.000 |
+| beam8_top1 | PoE (EXP-036) | 5.334 | nan | 0.000 |
+RUN outputs/experiments/EXP-105_candidate_expansion_best_fit/RUN-20261013-181209-seed0
+SMOKE_DONE

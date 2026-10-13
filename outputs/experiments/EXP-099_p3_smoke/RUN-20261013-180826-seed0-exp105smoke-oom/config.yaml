@@ -1,0 +1,10 @@
+flow_exp: EXP-042_image_conditioned_so3_posterior
+seeds: '0'
+groups: synthetic_val,lightbox,sunlamp
+nfe: 10
+renoise_draws: 16
+taus: 0.5,0.8
+k_tmpl: 8
+batch: 16
+limit: 32
+seed: 0

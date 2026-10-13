@@ -1,0 +1,4 @@
+EXP-036_transformer_soft_targets/RUN-20261009-111708-seed0
+EXP-042_image_conditioned_so3_posterior/RUN-20261010-055931-seed0
+EXP-036_transformer_soft_targets/RUN-20261009-112706-seed0
+EXP-042_image_conditioned_so3_posterior/RUN-20261010-061700-seed0
