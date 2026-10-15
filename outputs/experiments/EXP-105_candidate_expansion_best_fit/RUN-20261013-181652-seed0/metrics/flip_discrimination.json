@@ -1,0 +1,128 @@
+[
+  {
+    "domain": "lightbox",
+    "scorer": "flow_logp",
+    "flip_disc_acc": 0.9192878338278931,
+    "ms_per_image": 71.67379553075125,
+    "flip_disc_std": 0.004740814631652941
+  },
+  {
+    "domain": "lightbox",
+    "scorer": "renoise_t0.5",
+    "flip_disc_acc": 0.9147873392680514,
+    "ms_per_image": 224.74467634093514,
+    "flip_disc_std": 0.0032820296781477867
+  },
+  {
+    "domain": "lightbox",
+    "scorer": "renoise_t0.8",
+    "flip_disc_acc": 0.9070722057368942,
+    "ms_per_image": 92.86478095191404,
+    "flip_disc_std": 0.0037338449234771195
+  },
+  {
+    "domain": "lightbox",
+    "scorer": "tmpl_dino",
+    "flip_disc_acc": 0.5286350148367952,
+    "ms_per_image": 7.96495119494807,
+    "flip_disc_std": 0.0
+  },
+  {
+    "domain": "lightbox",
+    "scorer": "tmpl_normals",
+    "flip_disc_acc": 0.6606824925816024,
+    "ms_per_image": 0.0003996635874702009,
+    "flip_disc_std": 0.0
+  },
+  {
+    "domain": "lightbox",
+    "scorer": "tree",
+    "flip_disc_acc": 0.9048961424332345,
+    "ms_per_image": 1.6970956360904683,
+    "flip_disc_std": 0.002317581506203785
+  },
+  {
+    "domain": "sunlamp",
+    "scorer": "flow_logp",
+    "flip_disc_acc": 0.9136510211393766,
+    "ms_per_image": 70.40822063169499,
+    "flip_disc_std": 0.0053022746639013974
+  },
+  {
+    "domain": "sunlamp",
+    "scorer": "renoise_t0.5",
+    "flip_disc_acc": 0.9092320554162189,
+    "ms_per_image": 221.65961546324408,
+    "flip_disc_std": 0.006452618014685329
+  },
+  {
+    "domain": "sunlamp",
+    "scorer": "renoise_t0.8",
+    "flip_disc_acc": 0.8952585692105578,
+    "ms_per_image": 92.4084311557844,
+    "flip_disc_std": 0.00487772073490077
+  },
+  {
+    "domain": "sunlamp",
+    "scorer": "tmpl_dino",
+    "flip_disc_acc": 0.6116087423862415,
+    "ms_per_image": 8.091438860217261,
+    "flip_disc_std": 0.0
+  },
+  {
+    "domain": "sunlamp",
+    "scorer": "tmpl_normals",
+    "flip_disc_acc": 0.5747044070225725,
+    "ms_per_image": 0.00039753514664241183,
+    "flip_disc_std": 0.0
+  },
+  {
+    "domain": "sunlamp",
+    "scorer": "tree",
+    "flip_disc_acc": 0.8669533022811419,
+    "ms_per_image": 1.7163189141166317,
+    "flip_disc_std": 0.008851639299504466
+  },
+  {
+    "domain": "synthetic_val",
+    "scorer": "flow_logp",
+    "flip_disc_acc": 0.9993607915068646,
+    "ms_per_image": 82.6005573290198,
+    "flip_disc_std": 0.00019254636291135197
+  },
+  {
+    "domain": "synthetic_val",
+    "scorer": "renoise_t0.5",
+    "flip_disc_acc": 0.9992496248124062,
+    "ms_per_image": 254.9975338987217,
+    "flip_disc_std": 0.0001667500416875356
+  },
+  {
+    "domain": "synthetic_val",
+    "scorer": "renoise_t0.8",
+    "flip_disc_acc": 0.9989161247290311,
+    "ms_per_image": 104.14620034459182,
+    "flip_disc_std": 0.00016675004168745233
+  },
+  {
+    "domain": "synthetic_val",
+    "scorer": "tmpl_dino",
+    "flip_disc_acc": 0.6308987827246957,
+    "ms_per_image": 8.528834458461871,
+    "flip_disc_std": 0.0
+  },
+  {
+    "domain": "synthetic_val",
+    "scorer": "tmpl_normals",
+    "flip_disc_acc": 0.7826413206603302,
+    "ms_per_image": 0.0003948132687389973,
+    "flip_disc_std": 0.0
+  },
+  {
+    "domain": "synthetic_val",
+    "scorer": "tree",
+    "flip_disc_acc": 0.9974987493746873,
+    "ms_per_image": 2.0337717442069625,
+    "flip_disc_std": 0.0005002501250625374
+  }
+]

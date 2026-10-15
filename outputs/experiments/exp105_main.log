@@ -1,0 +1,148 @@
+/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/transformer.py:392: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+seed 0 synthetic_val 0/11994
+seed 0 synthetic_val 800/11994
+seed 0 synthetic_val 1600/11994
+seed 0 synthetic_val 2400/11994
+seed 0 synthetic_val 3200/11994
+seed 0 synthetic_val 4000/11994
+seed 0 synthetic_val 4800/11994
+seed 0 synthetic_val 5600/11994
+seed 0 synthetic_val 6400/11994
+seed 0 synthetic_val 7200/11994
+seed 0 synthetic_val 8000/11994
+seed 0 synthetic_val 8800/11994
+seed 0 synthetic_val 9600/11994
+seed 0 synthetic_val 10400/11994
+seed 0 synthetic_val 11200/11994
+0 synthetic_val beam8_top1 5.65 | centre-corner deg 4.48
+seed 0 lightbox 0/6740
+seed 0 lightbox 800/6740
+seed 0 lightbox 1600/6740
+seed 0 lightbox 2400/6740
+seed 0 lightbox 3200/6740
+seed 0 lightbox 4000/6740
+seed 0 lightbox 4800/6740
+seed 0 lightbox 5600/6740
+seed 0 lightbox 6400/6740
+0 lightbox beam8_top1 27.46 | centre-corner deg 4.60
+seed 0 sunlamp 0/2791
+seed 0 sunlamp 800/2791
+seed 0 sunlamp 1600/2791
+seed 0 sunlamp 2400/2791
+0 sunlamp beam8_top1 37.29 | centre-corner deg 4.72
+seed 1 synthetic_val 0/11994
+seed 1 synthetic_val 800/11994
+seed 1 synthetic_val 1600/11994
+seed 1 synthetic_val 2400/11994
+seed 1 synthetic_val 3200/11994
+seed 1 synthetic_val 4000/11994
+seed 1 synthetic_val 4800/11994
+seed 1 synthetic_val 5600/11994
+seed 1 synthetic_val 6400/11994
+seed 1 synthetic_val 7200/11994
+seed 1 synthetic_val 8000/11994
+seed 1 synthetic_val 8800/11994
+seed 1 synthetic_val 9600/11994
+seed 1 synthetic_val 10400/11994
+seed 1 synthetic_val 11200/11994
+1 synthetic_val beam8_top1 5.53 | centre-corner deg 4.48
+seed 1 lightbox 0/6740
+seed 1 lightbox 800/6740
+seed 1 lightbox 1600/6740
+seed 1 lightbox 2400/6740
+seed 1 lightbox 3200/6740
+seed 1 lightbox 4000/6740
+seed 1 lightbox 4800/6740
+seed 1 lightbox 5600/6740
+seed 1 lightbox 6400/6740
+1 lightbox beam8_top1 25.77 | centre-corner deg 4.59
+seed 1 sunlamp 0/2791
+seed 1 sunlamp 800/2791
+seed 1 sunlamp 1600/2791
+seed 1 sunlamp 2400/2791
+1 sunlamp beam8_top1 36.98 | centre-corner deg 4.72
+seed 2 synthetic_val 0/11994
+seed 2 synthetic_val 800/11994
+seed 2 synthetic_val 1600/11994
+seed 2 synthetic_val 2400/11994
+seed 2 synthetic_val 3200/11994
+seed 2 synthetic_val 4000/11994
+seed 2 synthetic_val 4800/11994
+seed 2 synthetic_val 5600/11994
+seed 2 synthetic_val 6400/11994
+seed 2 synthetic_val 7200/11994
+seed 2 synthetic_val 8000/11994
+seed 2 synthetic_val 8800/11994
+seed 2 synthetic_val 9600/11994
+seed 2 synthetic_val 10400/11994
+seed 2 synthetic_val 11200/11994
+2 synthetic_val beam8_top1 5.59 | centre-corner deg 4.48
+seed 2 lightbox 0/6740
+seed 2 lightbox 800/6740
+seed 2 lightbox 1600/6740
+seed 2 lightbox 2400/6740
+seed 2 lightbox 3200/6740
+seed 2 lightbox 4000/6740
+seed 2 lightbox 4800/6740
+seed 2 lightbox 5600/6740
+seed 2 lightbox 6400/6740
+2 lightbox beam8_top1 26.46 | centre-corner deg 4.58
+seed 2 sunlamp 0/2791
+seed 2 sunlamp 800/2791
+seed 2 sunlamp 1600/2791
+seed 2 sunlamp 2400/2791
+2 sunlamp beam8_top1 35.76 | centre-corner deg 4.67
+| domain | scorer | flip_disc_acc | ms_per_image | flip_disc_std |
+|---|---|---|---|---|
+| lightbox | flow_logp | 0.919 | 71.674 | 0.005 |
+| lightbox | renoise_t0.5 | 0.915 | 224.745 | 0.003 |
+| lightbox | renoise_t0.8 | 0.907 | 92.865 | 0.004 |
+| lightbox | tmpl_dino | 0.529 | 7.965 | 0.000 |
+| lightbox | tmpl_normals | 0.661 | 0.000 | 0.000 |
+| lightbox | tree | 0.905 | 1.697 | 0.002 |
+| sunlamp | flow_logp | 0.914 | 70.408 | 0.005 |
+| sunlamp | renoise_t0.5 | 0.909 | 221.660 | 0.006 |
+| sunlamp | renoise_t0.8 | 0.895 | 92.408 | 0.005 |
+| sunlamp | tmpl_dino | 0.612 | 8.091 | 0.000 |
+| sunlamp | tmpl_normals | 0.575 | 0.000 | 0.000 |
+| sunlamp | tree | 0.867 | 1.716 | 0.009 |
+| synthetic_val | flow_logp | 0.999 | 82.601 | 0.000 |
+| synthetic_val | renoise_t0.5 | 0.999 | 254.998 | 0.000 |
+| synthetic_val | renoise_t0.8 | 0.999 | 104.146 | 0.000 |
+| synthetic_val | tmpl_dino | 0.631 | 8.529 | 0.000 |
+| synthetic_val | tmpl_normals | 0.783 | 0.000 | 0.000 |
+| synthetic_val | tree | 0.997 | 2.034 | 0.001 |
+| arm | scorer | mean_deg | mean_deg_std | frac_gt90 |
+|---|---|---|---|---|
+| C0_centres | ORACLE | 3.258 | 0.051 | 0.001 |
+| C0_centres | flow_logp | 5.863 | 0.093 | 0.001 |
+| C0_centres | renoise_t0.5 | 5.155 | 0.079 | 0.001 |
+| C0_centres | renoise_t0.8 | 4.992 | 0.092 | 0.001 |
+| C0_centres | tmpl_dino | 7.914 | 0.111 | 0.002 |
+| C0_centres | tmpl_normals | 6.566 | 0.034 | 0.002 |
+| C0_centres | tree | 5.581 | 0.069 | 0.002 |
+| C1_flips | ORACLE | 3.163 | 0.033 | 0.000 |
+| C1_flips | flow_logp | 5.857 | 0.100 | 0.001 |
+| C1_flips | renoise_t0.5 | 5.137 | 0.075 | 0.001 |
+| C1_flips | renoise_t0.8 | 5.003 | 0.074 | 0.001 |
+| C1_flips | tmpl_dino | 56.031 | 0.088 | 0.289 |
+| C1_flips | tmpl_normals | 38.147 | 0.065 | 0.191 |
+| C1_flips | tree | 5.581 | 0.069 | 0.002 |
+| C2_centres+corners | ORACLE | 2.339 | 0.042 | 0.001 |
+| C2_centres+corners | flow_logp | 6.390 | 0.114 | 0.001 |
+| C2_centres+corners | renoise_t0.5 | 4.967 | 0.115 | 0.001 |
+| C2_centres+corners | renoise_t0.8 | 4.798 | 0.098 | 0.001 |
+| C2_centres+corners | tmpl_dino | 9.577 | 0.112 | 0.002 |
+| C2_centres+corners | tmpl_normals | 7.538 | 0.010 | 0.002 |
+| C2_centres+corners | tree | 5.581 | 0.069 | 0.002 |
+| C3_all | ORACLE | 2.248 | 0.022 | 0.000 |
+| C3_all | flow_logp | 6.386 | 0.133 | 0.001 |
+| C3_all | renoise_t0.5 | 4.943 | 0.127 | 0.001 |
+| C3_all | renoise_t0.8 | 4.777 | 0.106 | 0.001 |
+| C3_all | tmpl_dino | 29.049 | 0.211 | 0.119 |
+| C3_all | tmpl_normals | 25.827 | 0.189 | 0.112 |
+| C3_all | tree | 5.581 | 0.069 | 0.002 |
+| beam8_top1 | PoE (EXP-036) | 5.590 | 0.056 | 0.002 |
+RUN outputs/experiments/EXP-105_candidate_expansion_best_fit/RUN-20261013-181652-seed0
+EXP105_DONE

@@ -1,0 +1,20 @@
+| domain | scorer | flip_disc_acc | ms_per_image | flip_disc_std |
+|---|---|---|---|---|
+| lightbox | flow_logp | 0.919 | 71.674 | 0.005 |
+| lightbox | renoise_t0.5 | 0.915 | 224.745 | 0.003 |
+| lightbox | renoise_t0.8 | 0.907 | 92.865 | 0.004 |
+| lightbox | tmpl_dino | 0.529 | 7.965 | 0.000 |
+| lightbox | tmpl_normals | 0.661 | 0.000 | 0.000 |
+| lightbox | tree | 0.905 | 1.697 | 0.002 |
+| sunlamp | flow_logp | 0.914 | 70.408 | 0.005 |
+| sunlamp | renoise_t0.5 | 0.909 | 221.660 | 0.006 |
+| sunlamp | renoise_t0.8 | 0.895 | 92.408 | 0.005 |
+| sunlamp | tmpl_dino | 0.612 | 8.091 | 0.000 |
+| sunlamp | tmpl_normals | 0.575 | 0.000 | 0.000 |
+| sunlamp | tree | 0.867 | 1.716 | 0.009 |
+| synthetic_val | flow_logp | 0.999 | 82.601 | 0.000 |
+| synthetic_val | renoise_t0.5 | 0.999 | 254.998 | 0.000 |
+| synthetic_val | renoise_t0.8 | 0.999 | 104.146 | 0.000 |
+| synthetic_val | tmpl_dino | 0.631 | 8.529 | 0.000 |
+| synthetic_val | tmpl_normals | 0.783 | 0.000 | 0.000 |
+| synthetic_val | tree | 0.997 | 2.034 | 0.001 |

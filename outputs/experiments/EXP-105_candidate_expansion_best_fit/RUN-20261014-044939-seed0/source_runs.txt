@@ -1,0 +1,12 @@
+EXP-105_candidate_expansion_best_fit/RUN-20261014-020727-seed0
+EXP-036_transformer_soft_targets/RUN-20261009-111708-seed0
+EXP-105_candidate_expansion_best_fit/RUN-20261014-022722-seed0
+EXP-036_transformer_soft_targets/RUN-20261009-112706-seed0
+EXP-105_candidate_expansion_best_fit/RUN-20261014-030004-seed1
+EXP-036_transformer_soft_targets/RUN-20261009-114601-seed1
+EXP-105_candidate_expansion_best_fit/RUN-20261014-031914-seed1
+EXP-036_transformer_soft_targets/RUN-20261009-115549-seed1
+EXP-105_candidate_expansion_best_fit/RUN-20261014-035313-seed2
+EXP-036_transformer_soft_targets/RUN-20261009-121442-seed2
+EXP-105_candidate_expansion_best_fit/RUN-20261014-041153-seed2
+EXP-036_transformer_soft_targets/RUN-20261009-122432-seed2

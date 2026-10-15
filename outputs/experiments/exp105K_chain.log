@@ -1,0 +1,50 @@
+>>> 02:05:14 smoke (1 epoch, EXP-099)
+moge2_vitl:normals16~and K seed 0 synthetic_val: vote 109.08 med 106.80 (top1 centre 109.46) | lightbox: vote 114.82 med 116.60 (top1 centre 115.02) | sunlamp: vote 114.73 med 118.36 (top1 centre 114.72)
+RUN outputs/experiments/EXP-099_p3_smoke/RUN-20261014-020514-seed0
+>>> 02:07:26 train K dinov3_vitl16:tokens8 seed=0
+dinov3_vitl16:tokens8 K seed 0 synthetic_val: vote 5.40 med 4.77 (top1 centre 5.66) | lightbox: vote 43.55 med 16.27 (top1 centre 43.64) | sunlamp: vote 53.29 med 27.87 (top1 centre 53.89)
+RUN outputs/experiments/EXP-105_candidate_expansion_best_fit/RUN-20261014-020727-seed0
+>>> 02:27:21 train K moge2_vitl:normals16~and seed=0
+moge2_vitl:normals16~and K seed 0 synthetic_val: vote 14.20 med 5.41 (top1 centre 14.46) | lightbox: vote 40.27 med 9.32 (top1 centre 40.30) | sunlamp: vote 58.29 med 15.98 (top1 centre 58.26)
+RUN outputs/experiments/EXP-105_candidate_expansion_best_fit/RUN-20261014-022722-seed0
+>>> 03:00:03 train K dinov3_vitl16:tokens8 seed=1
+dinov3_vitl16:tokens8 K seed 1 synthetic_val: vote 5.37 med 4.74 (top1 centre 5.53) | lightbox: vote 45.12 med 15.88 (top1 centre 45.28) | sunlamp: vote 48.55 med 24.97 (top1 centre 48.74)
+RUN outputs/experiments/EXP-105_candidate_expansion_best_fit/RUN-20261014-030004-seed1
+>>> 03:19:13 train K moge2_vitl:normals16~and seed=1
+moge2_vitl:normals16~and K seed 1 synthetic_val: vote 14.02 med 5.36 (top1 centre 14.30) | lightbox: vote 38.99 med 9.01 (top1 centre 39.29) | sunlamp: vote 55.62 med 15.24 (top1 centre 55.96)
+RUN outputs/experiments/EXP-105_candidate_expansion_best_fit/RUN-20261014-031914-seed1
+>>> 03:53:12 train K dinov3_vitl16:tokens8 seed=2
+dinov3_vitl16:tokens8 K seed 2 synthetic_val: vote 5.51 med 4.87 (top1 centre 5.67) | lightbox: vote 40.86 med 14.88 (top1 centre 41.20) | sunlamp: vote 48.48 med 23.37 (top1 centre 48.61)
+RUN outputs/experiments/EXP-105_candidate_expansion_best_fit/RUN-20261014-035313-seed2
+>>> 04:11:52 train K moge2_vitl:normals16~and seed=2
+moge2_vitl:normals16~and K seed 2 synthetic_val: vote 14.20 med 5.38 (top1 centre 14.38) | lightbox: vote 40.73 med 9.38 (top1 centre 40.95) | sunlamp: vote 58.69 med 17.26 (top1 centre 59.48)
+RUN outputs/experiments/EXP-105_candidate_expansion_best_fit/RUN-20261014-041153-seed2
+>>> 04:49:38 arm K eval
+0 synthetic_val K_poe_vote 5.177 | K_poe_top1centre 5.200 | K_dino_vote 5.418 | K_moge_vote 14.218 | EXP036_poe_greedy 5.574
+0 lightbox K_poe_vote 29.040 | K_poe_top1centre 29.033 | K_dino_vote 43.542 | K_moge_vote 40.269 | EXP036_poe_greedy 27.623
+0 sunlamp K_poe_vote 40.645 | K_poe_top1centre 40.782 | K_dino_vote 53.247 | K_moge_vote 58.331 | EXP036_poe_greedy 37.393
+1 synthetic_val K_poe_vote 5.124 | K_poe_top1centre 5.135 | K_dino_vote 5.377 | K_moge_vote 14.034 | EXP036_poe_greedy 5.468
+1 lightbox K_poe_vote 29.545 | K_poe_top1centre 29.374 | K_dino_vote 45.025 | K_moge_vote 39.017 | EXP036_poe_greedy 26.071
+1 sunlamp K_poe_vote 37.552 | K_poe_top1centre 37.938 | K_dino_vote 48.649 | K_moge_vote 55.646 | EXP036_poe_greedy 36.976
+2 synthetic_val K_poe_vote 5.291 | K_poe_top1centre 5.314 | K_dino_vote 5.515 | K_moge_vote 14.216 | EXP036_poe_greedy 5.590
+2 lightbox K_poe_vote 27.701 | K_poe_top1centre 27.757 | K_dino_vote 40.826 | K_moge_vote 40.742 | EXP036_poe_greedy 27.035
+2 sunlamp K_poe_vote 39.128 | K_poe_top1centre 39.147 | K_dino_vote 48.450 | K_moge_vote 58.731 | EXP036_poe_greedy 35.615
+| domain | arm | mean_deg | mean_deg_std | median_deg | acc@10 |
+|---|---|---|---|---|---|
+| lightbox | EXP036_poe_greedy | 26.910 | 0.783 | 8.990 | 0.555 |
+| lightbox | K_dino_vote | 43.131 | 2.130 | 15.650 | 0.303 |
+| lightbox | K_moge_vote | 40.009 | 0.892 | 9.230 | 0.536 |
+| lightbox | K_poe_top1centre | 28.721 | 0.852 | 10.227 | 0.490 |
+| lightbox | K_poe_vote | 28.762 | 0.953 | 10.346 | 0.482 |
+| sunlamp | EXP036_poe_greedy | 36.661 | 0.930 | 12.977 | 0.373 |
+| sunlamp | K_dino_vote | 50.115 | 2.714 | 25.402 | 0.150 |
+| sunlamp | K_moge_vote | 57.569 | 1.677 | 16.143 | 0.349 |
+| sunlamp | K_poe_top1centre | 39.289 | 1.427 | 16.369 | 0.284 |
+| sunlamp | K_poe_vote | 39.108 | 1.546 | 16.241 | 0.284 |
+| synthetic_val | EXP036_poe_greedy | 5.544 | 0.066 | 4.623 | 0.946 |
+| synthetic_val | K_dino_vote | 5.436 | 0.071 | 4.794 | 0.957 |
+| synthetic_val | K_moge_vote | 14.156 | 0.106 | 5.388 | 0.853 |
+| synthetic_val | K_poe_top1centre | 5.216 | 0.091 | 4.411 | 0.963 |
+| synthetic_val | K_poe_vote | 5.197 | 0.085 | 4.433 | 0.967 |
+RUN outputs/experiments/EXP-105_candidate_expansion_best_fit/RUN-20261014-044939-seed0
+CHAIN_DONE

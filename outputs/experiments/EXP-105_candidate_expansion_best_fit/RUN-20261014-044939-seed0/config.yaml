@@ -1,0 +1,6 @@
+k_exp: EXP-105_candidate_expansion_best_fit
+base_exp: EXP-036_transformer_soft_targets
+seeds: 0,1,2
+vote_beam: 8
+stage: armK_eval
+seed: 0
