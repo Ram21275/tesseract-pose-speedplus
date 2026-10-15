@@ -1,0 +1,7 @@
+flow_exp: EXP-042_image_conditioned_so3_posterior
+sweep_exp: EXP-107_paper_visuals_metrics_efficiency
+seeds: 0,1,2
+nfe: 10
+chunk: 2048
+stage: figures
+seed: 0

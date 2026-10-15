@@ -1,0 +1,4 @@
+base_exp: EXP-036_transformer_soft_targets
+seeds: 0,1,2
+lambdas: 0,0.1,0.5,1.0
+seed: 0

@@ -1,0 +1,103 @@
+>>> 11:13:11 nfe=1 m=32
+fused 0 synthetic_val point 15.80/11.28  leaf 5.58
+fused 0 lightbox point 42.78/26.12  leaf 27.64
+fused 0 sunlamp point 52.34/38.26  leaf 37.46
+| method | domain | mean_deg | mean_deg_std | median_deg | acc@10 | leaf_mean_deg |
+|---|---|---|---|---|---|---|
+| fused | lightbox | 42.783 | nan | 26.123 | 0.136 | 27.635 |
+| fused | sunlamp | 52.339 | nan | 38.257 | 0.069 | 37.456 |
+| fused | synthetic_val | 15.799 | nan | 11.276 | 0.420 | 5.575 |
+RUN outputs/experiments/EXP-107_paper_visuals_metrics_efficiency/RUN-20261015-111312-seed0
+>>> 11:16:35 nfe=2 m=32
+fused 0 synthetic_val point 8.97/5.67  leaf 5.58
+fused 0 lightbox point 35.06/16.39  leaf 27.64
+fused 0 sunlamp point 43.42/23.96  leaf 37.46
+| method | domain | mean_deg | mean_deg_std | median_deg | acc@10 | leaf_mean_deg |
+|---|---|---|---|---|---|---|
+| fused | lightbox | 35.063 | nan | 16.386 | 0.292 | 27.635 |
+| fused | sunlamp | 43.424 | nan | 23.957 | 0.167 | 37.456 |
+| fused | synthetic_val | 8.969 | nan | 5.669 | 0.792 | 5.575 |
+RUN outputs/experiments/EXP-107_paper_visuals_metrics_efficiency/RUN-20261015-111636-seed0
+>>> 11:19:39 nfe=5 m=32
+fused 0 synthetic_val point 5.95/4.17  leaf 5.58
+fused 0 lightbox point 31.40/12.23  leaf 27.64
+fused 0 sunlamp point 38.83/17.39  leaf 37.46
+| method | domain | mean_deg | mean_deg_std | median_deg | acc@10 | leaf_mean_deg |
+|---|---|---|---|---|---|---|
+| fused | lightbox | 31.400 | nan | 12.230 | 0.412 | 27.635 |
+| fused | sunlamp | 38.830 | nan | 17.386 | 0.269 | 37.456 |
+| fused | synthetic_val | 5.947 | nan | 4.167 | 0.912 | 5.575 |
+RUN outputs/experiments/EXP-107_paper_visuals_metrics_efficiency/RUN-20261015-111940-seed0
+>>> 11:24:37 nfe=10 m=32
+fused 0 synthetic_val point 5.36/3.85  leaf 5.58
+fused 0 lightbox point 30.95/11.55  leaf 27.64
+fused 0 sunlamp point 38.67/16.85  leaf 37.46
+| method | domain | mean_deg | mean_deg_std | median_deg | acc@10 | leaf_mean_deg |
+|---|---|---|---|---|---|---|
+| fused | lightbox | 30.947 | nan | 11.547 | 0.436 | 27.635 |
+| fused | sunlamp | 38.665 | nan | 16.850 | 0.278 | 37.456 |
+| fused | synthetic_val | 5.357 | nan | 3.845 | 0.932 | 5.575 |
+RUN outputs/experiments/EXP-107_paper_visuals_metrics_efficiency/RUN-20261015-112438-seed0
+>>> 11:31:49 nfe=20 m=32
+fused 0 synthetic_val point 5.18/3.81  leaf 5.58
+fused 0 lightbox point 30.47/11.45  leaf 27.64
+fused 0 sunlamp point 38.41/16.55  leaf 37.46
+| method | domain | mean_deg | mean_deg_std | median_deg | acc@10 | leaf_mean_deg |
+|---|---|---|---|---|---|---|
+| fused | lightbox | 30.473 | nan | 11.452 | 0.441 | 27.635 |
+| fused | sunlamp | 38.407 | nan | 16.552 | 0.283 | 37.456 |
+| fused | synthetic_val | 5.181 | nan | 3.812 | 0.937 | 5.575 |
+RUN outputs/experiments/EXP-107_paper_visuals_metrics_efficiency/RUN-20261015-113150-seed0
+>>> 11:42:38 nfe=50 m=32
+fused 0 synthetic_val point 5.35/3.91  leaf 5.58
+fused 0 lightbox point 30.87/11.56  leaf 27.64
+fused 0 sunlamp point 37.32/16.48  leaf 37.46
+| method | domain | mean_deg | mean_deg_std | median_deg | acc@10 | leaf_mean_deg |
+|---|---|---|---|---|---|---|
+| fused | lightbox | 30.875 | nan | 11.562 | 0.430 | 27.635 |
+| fused | sunlamp | 37.325 | nan | 16.485 | 0.273 | 37.456 |
+| fused | synthetic_val | 5.346 | nan | 3.911 | 0.935 | 5.575 |
+RUN outputs/experiments/EXP-107_paper_visuals_metrics_efficiency/RUN-20261015-114239-seed0
+>>> 12:04:42 nfe=10 m=1
+fused 0 synthetic_val point 15.13/5.64  leaf 5.57
+fused 0 lightbox point 49.30/27.22  leaf 27.62
+fused 0 sunlamp point 61.47/46.47  leaf 37.53
+| method | domain | mean_deg | mean_deg_std | median_deg | acc@10 | leaf_mean_deg |
+|---|---|---|---|---|---|---|
+| fused | lightbox | 49.297 | nan | 27.215 | 0.237 | 27.618 |
+| fused | sunlamp | 61.471 | nan | 46.467 | 0.116 | 37.531 |
+| fused | synthetic_val | 15.129 | nan | 5.637 | 0.692 | 5.567 |
+RUN outputs/experiments/EXP-107_paper_visuals_metrics_efficiency/RUN-20261015-120443-seed0
+>>> 12:07:14 nfe=10 m=4
+fused 0 synthetic_val point 8.41/4.31  leaf 5.57
+fused 0 lightbox point 40.99/17.42  leaf 27.61
+fused 0 sunlamp point 52.18/29.99  leaf 37.43
+| method | domain | mean_deg | mean_deg_std | median_deg | acc@10 | leaf_mean_deg |
+|---|---|---|---|---|---|---|
+| fused | lightbox | 40.991 | nan | 17.423 | 0.318 | 27.609 |
+| fused | sunlamp | 52.184 | nan | 29.992 | 0.180 | 37.432 |
+| fused | synthetic_val | 8.413 | nan | 4.309 | 0.851 | 5.572 |
+RUN outputs/experiments/EXP-107_paper_visuals_metrics_efficiency/RUN-20261015-120715-seed0
+>>> 12:09:49 nfe=10 m=8
+FAILED nfe=10 m=8
+>>> 12:09:49 nfe=10 m=16
+fused 0 synthetic_val point 5.70/3.89  leaf 5.57
+fused 0 lightbox point 32.19/12.38  leaf 27.63
+fused 0 sunlamp point 41.33/18.89  leaf 37.46
+| method | domain | mean_deg | mean_deg_std | median_deg | acc@10 | leaf_mean_deg |
+|---|---|---|---|---|---|---|
+| fused | lightbox | 32.194 | nan | 12.383 | 0.412 | 27.632 |
+| fused | sunlamp | 41.330 | nan | 18.889 | 0.253 | 37.457 |
+| fused | synthetic_val | 5.700 | nan | 3.895 | 0.922 | 5.574 |
+RUN outputs/experiments/EXP-107_paper_visuals_metrics_efficiency/RUN-20261015-120950-seed0
+>>> 12:14:13 nfe=10 m=64
+fused 0 synthetic_val point 5.05/3.83  leaf 5.57
+fused 0 lightbox point 29.63/11.01  leaf 27.65
+fused 0 sunlamp point 35.07/15.21  leaf 37.55
+| method | domain | mean_deg | mean_deg_std | median_deg | acc@10 | leaf_mean_deg |
+|---|---|---|---|---|---|---|
+| fused | lightbox | 29.633 | nan | 11.012 | 0.454 | 27.652 |
+| fused | sunlamp | 35.066 | nan | 15.209 | 0.312 | 37.554 |
+| fused | synthetic_val | 5.046 | nan | 3.825 | 0.940 | 5.568 |
+RUN outputs/experiments/EXP-107_paper_visuals_metrics_efficiency/RUN-20261015-121414-seed0
+SWEEP_DONE

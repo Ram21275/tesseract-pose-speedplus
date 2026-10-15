@@ -1,0 +1,47 @@
+[guarded] 12:28:54 waiting: RAM avail 82 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 12:30:54 waiting: RAM avail 82 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 12:32:54 waiting: RAM avail 82 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 12:34:54 waiting: RAM avail 82 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 12:36:54 waiting: RAM avail 81 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 12:38:55 waiting: RAM avail 82 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 12:40:55 waiting: RAM avail 82 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 12:42:55 waiting: RAM avail 82 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 12:44:55 waiting: RAM avail 82 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 12:46:55 waiting: RAM avail 82 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 12:48:55 waiting: RAM avail 82 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 12:50:55 waiting: RAM avail 82 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 12:52:55 waiting: RAM avail 81 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 12:54:55 waiting: RAM avail 82 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 12:56:55 waiting: RAM avail 82 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 12:58:55 waiting: RAM avail 82 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 13:00:55 waiting: RAM avail 83 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 13:02:55 waiting: RAM avail 83 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 13:04:55 waiting: RAM avail 83 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 13:06:55 waiting: RAM avail 83 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 13:08:55 waiting: RAM avail 83 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 13:10:55 waiting: RAM avail 83 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 13:12:55 waiting: RAM avail 83 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 13:14:55 waiting: RAM avail 83 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 13:16:55 waiting: RAM avail 83 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 13:18:55 waiting: RAM avail 83 GB (need 44), GPU free 3 GB (need 8)
+[guarded] 13:20:55 waiting: RAM avail 83 GB (need 44), GPU free 3 GB (need 8)
+0 synthetic_train e5 3.569 oracle-stop 3.432 beam8 2.492
+0 synthetic_val e5 5.567 oracle-stop 5.070 beam8 3.275
+0 lightbox e5 27.618 oracle-stop 23.301 beam8 17.483
+0 sunlamp e5 37.531 oracle-stop 31.637 beam8 23.290
+1 synthetic_train e5 3.531 oracle-stop 3.395 beam8 2.488
+1 synthetic_val e5 5.469 oracle-stop 4.965 beam8 3.199
+1 lightbox e5 26.002 oracle-stop 21.915 beam8 16.460
+1 sunlamp e5 36.961 oracle-stop 31.097 beam8 22.557
+2 synthetic_train e5 3.539 oracle-stop 3.402 beam8 2.489
+2 synthetic_val e5 5.587 oracle-stop 5.060 beam8 3.295
+2 lightbox e5 27.051 oracle-stop 22.815 beam8 16.676
+2 sunlamp e5 35.516 oracle-stop 29.797 beam8 21.335
+| domain | e5_mean | e5_mean_std | oracle_lam0_mean | headroom_stop_lam0 | headroom_stop_lam0_std | oracle_lam0_mean_depth | branch_beam8_oracle_mean |
+|---|---|---|---|---|---|---|---|
+| lightbox | 26.890 | 0.820 | 22.677 | 4.213 | 0.117 | 3.824 | 16.873 |
+| sunlamp | 36.669 | 1.039 | 30.844 | 5.825 | 0.094 | 3.459 | 22.394 |
+| synthetic_train | 3.547 | 0.020 | 3.410 | 0.137 | 0.001 | 4.847 | 2.489 |
+| synthetic_val | 5.541 | 0.063 | 5.031 | 0.510 | 0.016 | 4.626 | 3.257 |
+RUN outputs/experiments/EXP-050_oracle_adaptive_depth/RUN-20261015-132256-seed0
+EXP050_DONE

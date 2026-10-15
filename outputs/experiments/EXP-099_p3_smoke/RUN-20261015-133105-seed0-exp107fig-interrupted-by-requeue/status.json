@@ -1,0 +1,12 @@
+{
+  "state": "failed",
+  "pid": 2745278,
+  "start": "2026-10-15T13:31:05.143155",
+  "wall_clock_s": 0.36,
+  "peak_cpu_rss_mb": 648.5,
+  "peak_gpu_mb": 0.0,
+  "max_rss_gb": 27.0,
+  "min_avail_gb": 16.0,
+  "end": "2026-10-15T13:32:00.722630",
+  "error": "process 2745278 died without writing a final status; guarded job exit code 130 (137 = SIGKILL, most likely the cgroup memory cap in scripts/guarded.sh)"
+}
