@@ -14,6 +14,14 @@ export TFPOSE_MAX_RSS_GB=${TFPOSE_MAX_RSS_GB:-$((MEM*85/100))}
 # Small per-image linear algebra is far faster single-threaded than with 24 BLAS
 # threads fighting each other (and it leaves cores for other users).
 export OMP_NUM_THREADS=${OMP_NUM_THREADS:-1} OPENBLAS_NUM_THREADS=${OPENBLAS_NUM_THREADS:-1} MKL_NUM_THREADS=${MKL_NUM_THREADS:-1}
+# torch 2.8+cu128 in the shared base env needs CUDA-12 cusolver, but that file was overwritten by a CUDA-11 package
+# (nvidia_cusolver_cu11); preload a private CUDA-12 copy for our jobs only (2026-10-15; base env untouched).
+NV=/home/kavinder/miniconda3/lib/python3.13/site-packages/nvidia
+CUSOLVER12="$(cd "$(dirname "$0")/.." && pwd)/.venv/nvlibs/nvidia/cusolver/lib/libcusolver.so.11"
+if [[ -f "$CUSOLVER12" ]]; then
+  export LD_LIBRARY_PATH="$NV/nvjitlink/lib:$NV/cusparse/lib:$NV/cublas/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+  export LD_PRELOAD="$CUSOLVER12${LD_PRELOAD:+:$LD_PRELOAD}"
+fi
 # Be polite to other users' jobs: do not start until the machine can absorb this
 # job's whole cap plus headroom (RAM) and the GPU has room (GUARD_GPU_GB, 0 = skip),
 # then run at low CPU and I/O priority. Waits, never kills anything.
