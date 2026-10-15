@@ -147,3 +147,4 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 ## DEC-017 — EXP-111: DINOv3-only augmented tree + flow; runs before EXP-108 (2026-10-16)
 - **Decided by:** the user: after the question "are the above results of the same architecture" (answer: the EXP-109 A numbers are the DINOv3 tree alone, without MoGe-2, PoE or flow): "yes pre-register it and run it before 108 it should be a quick experiment."
 - **EXP-111:** a flow head with the EXP-042 recipe on the EXP-109 arm-A DINOv3 tree, trained with the same augmented views, 3 seeds, plus DINOv3-only timing. Queue order: EXP-109 eval (running) → **EXP-111** → EXP-108 → EXP-110 → EXP-107.
+- **Reordered (user, 2026-10-16):** "move experiment 111 after the old scheduled runs". Queue: EXP-109 eval → EXP-108 → EXP-110 → EXP-107 → **EXP-111** (KDE + verifier arms).

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Queue part 2 (DEC-017): after the running EXP-109 eval -> EXP-111 -> EXP-108 -> EXP-110 -> EXP-107. Non-blocking blocks.
+# Queue part 2 (DEC-017, reordered by the user 2026-10-16): after the running EXP-109 eval -> EXP-108 -> EXP-110 -> EXP-107 -> EXP-111. Non-blocking blocks.
 set -u; cd "$(dirname "$0")/.."
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 PY=.venv/bin/python
@@ -19,8 +19,8 @@ b110() { G $PY scripts/exp110_weighted_poe.py; }
 b107() { G $PY scripts/exp04x_fused_eval.py --exp EXP-042_image_conditioned_so3_posterior --run-exp EXP-107_paper_visuals_metrics_efficiency \
            --seeds 0 --fused-only --feat-cpu --queries 1024 --nfe 10 --m 8 || echo "(sweep point failed; continuing)"
          G $PY scripts/exp107_figures.py || echo "(figures failed; continuing)"; }
-block EXP-111 b111
 block EXP-108 b108
 block EXP-110 b110
 block EXP-107 b107
+block EXP-111 b111
 echo "=== $(date +%T) QUEUE2_DONE"
