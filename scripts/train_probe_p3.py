@@ -47,6 +47,9 @@ ap.add_argument("--clip", type=float, default=0.0, help="gradient-norm clip (0 =
 ap.add_argument("--kd-samples", default=None, help="EXP-044: run dir with samples/synthetic_train_fused_seed{seed}_fp16.npy (flow teacher)")
 ap.add_argument("--kd-beta", type=float, default=0.0, help="EXP-044: weight of the level-marginal distillation term (0 = off)")
 ap.add_argument("--kd-k", type=int, default=8, help="EXP-044: teacher samples teacher-forced per image per step (of M)")
+ap.add_argument("--memmap", default=None, help="EXP-109 B: standardized fp16 feature memmap (.npy, subset order) instead of featsets.load")
+ap.add_argument("--aug-tags", default="", help="EXP-109 A: compact-cache tags of augmented synthetic-train views (exp109_syn_train order)")
+ap.add_argument("--aug-convention", default=None, help="EXP-109 A: label convention for in-plane rotation (pre+/pre-/post+/post-)")
 ap.add_argument("--seed", type=int, default=0)
 args = ap.parse_args()
 exp_id, short = args.exp.split("_", 1)
@@ -55,7 +58,12 @@ try:
     torch.manual_seed(args.seed); np.random.seed(args.seed)
     dev = torch.device("cuda")
     df = pd.read_csv(REPO / f"outputs/data_manifests/subset_{args.subset}.csv")
-    names, X, cache_info = featsets.load(args.features, args.subset)
+    if args.memmap:
+        X = np.load(REPO / args.memmap, mmap_mode="r"); names = df.image_relpath.tolist()
+        cache_info = json.loads((REPO / args.memmap).with_suffix(".json").read_text())
+        assert X.shape[0] == len(df), (X.shape, len(df))
+    else:
+        names, X, cache_info = featsets.load(args.features, args.subset)
     if names != df.image_relpath.tolist():
         raise ValueError("feature cache order does not match subset manifest")
     (run.dir / "feature_source.json").write_text(json.dumps(cache_info, indent=2))
@@ -66,16 +74,43 @@ try:
               "synthetic_val": (df.domain == "synthetic") & (df.split == "validation"),
               "lightbox": df.domain == "lightbox", "sunlamp": df.domain == "sunlamp"}
     tr = groups["synthetic_train"].to_numpy()
-    Xt = featsets.standardize_to_tensor(X, tr, dev if args.feat_device == "gpu" else "cpu",
-                                        torch.float16 if args.gpu_dtype == "fp16" else torch.float32, pin=False)  # pinned host memory rounds up to a power of two (9 GB -> 16 GB)
-    d_in = X.shape[1]; del X
+    if args.memmap:                                   # already standardized (train statistics) on disk
+        Xt = X; d_in = X.shape[1]
+    else:
+        stats = featsets.train_stats(X, tr)
+        Xt = featsets.standardize_to_tensor(X, tr, dev if args.feat_device == "gpu" else "cpu",
+                                            torch.float16 if args.gpu_dtype == "fp16" else torch.float32, pin=False, stats=stats)  # pinned host memory rounds up to a power of two (9 GB -> 16 GB)
+        d_in = X.shape[1]; del X
 
     def getx(b):  # b: index tensor on GPU
+        if args.memmap:
+            return torch.from_numpy(np.asarray(Xt[b.cpu().numpy()])).to(dev, non_blocking=True).float()
         return (Xt[b] if args.feat_device == "gpu" else Xt[b.cpu()].to(dev, non_blocking=True)).float()
     Ct, Pt, PQt = torch.as_tensor(chart, device=dev), torch.as_tensor(path, device=dev), torch.as_tensor(pq, dtype=torch.float32, device=dev)
     if args.targets == "soft":
         rs, cs = P.soft_targets(q, chart, path)
         RSt, CSt = torch.as_tensor(rs, device=dev), torch.as_tensor(cs, device=dev)
+    VIEWS = [t for t in args.aug_tags.split(",") if t]
+    if VIEWS:                                       # EXP-109 A: augmented views of synthetic train, labels rotated in-plane
+        import yaml
+        from tfpose import data as D, inplane as IP
+        assert args.targets == "soft" and args.decoder == "transformer" and not args.memmap
+        tr_rows = np.flatnonzero(tr); POS = torch.full((len(df),), -1, dtype=torch.long, device=dev)
+        POS[torch.as_tensor(tr_rows, device=dev)] = torch.arange(len(tr_rows), device=dev)
+        Kc = D.load_camera(Path(yaml.safe_load(open(REPO / "configs/paths.yaml"))["speedplus_root"])).K
+        dray = IP.ray(Kc, df.crop_cx.to_numpy()[tr_rows], df.crop_cy.to_numpy()[tr_rows])
+        VX, vC, vP, vRS, vCS = [], [torch.as_tensor(chart[tr_rows], device=dev)], [torch.as_tensor(path[tr_rows], device=dev)], [RSt[torch.as_tensor(tr_rows, device=dev)]], [CSt[torch.as_tensor(tr_rows, device=dev)]]
+        for tag in VIEWS:
+            vn, vx, vinfo = featsets.load(args.features, tag)
+            assert vn == df.image_relpath.values[tr_rows].tolist(), tag
+            VX.append(featsets.standardize_to_tensor(vx, None, "cpu", torch.float16, stats=stats)); del vx
+            ang = pd.read_csv(REPO / "outputs/shared_cache" / Path(vinfo["cache"]).name / "aug.csv").rot_deg.to_numpy()
+            qv = IP.rotate_label(q[tr_rows], ang, dray, args.aug_convention); cv_, pv_ = T.encode(qv, args.depth)
+            rs_, cs_ = P.soft_targets(qv, cv_, pv_)
+            vC.append(torch.as_tensor(cv_, device=dev)); vP.append(torch.as_tensor(pv_, device=dev))
+            vRS.append(torch.as_tensor(rs_, device=dev)); vCS.append(torch.as_tensor(cs_, device=dev))
+        vC, vP, vRS, vCS = torch.stack(vC), torch.stack(vP), torch.stack(vRS), torch.stack(vCS)
+        (run.dir / "aug_views.json").write_text(json.dumps({"tags": VIEWS, "convention": args.aug_convention}, indent=2))
     if args.residual:
         Dt = torch.as_tensor(P.leaf_rotvec_targets(q, chart, path), device=dev)
         QLt = torch.as_tensor(T.decode(chart, path), dtype=torch.float32, device=dev)
@@ -120,9 +155,20 @@ try:
         return -step.cumsum(1).mean()
 
     def losses(b):
-        x = getx(b); h = model.encode(x)
+        x = getx(b)
+        if VIEWS:                                   # pick one of {clean, view 1, ...} per sample, uniformly
+            pb = POS[b]; v = torch.randint(0, len(VIEWS) + 1, (len(b),), device=dev)
+            for j in range(len(VIEWS)):
+                m = v == j + 1
+                if m.any():
+                    x[m] = VX[j][pb[m].cpu()].to(dev).float()
+            cb, pbth, rsb, csb = vC[v, pb], vP[v, pb], vRS[v, pb], vCS[v, pb]
+        else:
+            cb, pbth = Ct[b], Pt[b]
+            rsb, csb = (RSt[b], CSt[b]) if args.targets == "soft" else (None, None)
+        h = model.encode(x)
         if args.decoder == "transformer":
-            rl, cl = model.logits_tf(h, Ct[b], Pt[b])
+            rl, cl = model.logits_tf(h, cb, pbth)
         elif args.decoder == "mlp":
             B, L = Pt[b].shape
             hl = h[:, None].expand(B, L, h.shape[-1]).reshape(B * L, -1)
@@ -133,7 +179,7 @@ try:
         if args.decoder != "transformer":
             rl = model.root(h)
         if args.targets == "soft":
-            loss = P.soft_ce(rl, RSt[b]) + sum(P.soft_ce(cl[:, l], CSt[b][:, l]) for l in range(cl.shape[1]))
+            loss = P.soft_ce(rl, rsb) + sum(P.soft_ce(cl[:, l], csb[:, l]) for l in range(cl.shape[1]))
         else:
             loss = F.cross_entropy(rl, Ct[b]) + sum(F.cross_entropy(cl[:, l], Pt[b][:, l]) for l in range(cl.shape[1]))
         if res is not None:   # teacher-forced on the GT leaf

@@ -175,16 +175,23 @@ def load_concat(specs: list[str], subset: str):
     return names0, out.reshape(N, -1), {"concat": specs, "channels": Cs, "tokens": T_, "sources": infos}
 
 
-def standardize_to_tensor(X: np.ndarray, train_mask: np.ndarray, device, dtype, pin: bool = False, chunk: int = 4096):
-    """Train-split standardization, chunked (float64 statistics), written into a torch tensor.
-
-    Avoids materializing a full float32 copy of very large feature matrices.
-    """
+def train_stats(X: np.ndarray, train_mask: np.ndarray, chunk: int = 4096):
+    """Per-dimension train mean / std (float64 accumulation, chunked)."""
     tr = np.flatnonzero(train_mask)
     s1 = np.zeros(X.shape[1]); s2 = np.zeros(X.shape[1])
     for i in range(0, len(tr), chunk):
         c = X[tr[i:i + chunk]].astype(np.float64); s1 += c.sum(0); s2 += (c ** 2).sum(0)
     mu = s1 / len(tr); sd = np.sqrt(np.maximum(s2 / len(tr) - mu ** 2, 0)) + 1e-6
+    return mu, sd
+
+
+def standardize_to_tensor(X: np.ndarray, train_mask: np.ndarray, device, dtype, pin: bool = False, chunk: int = 4096, stats=None):
+    """Train-split standardization, chunked (float64 statistics), written into a torch tensor.
+
+    Avoids materializing a full float32 copy of very large feature matrices. `stats` = (mu, sd) from another
+    feature matrix (e.g. augmented views standardized with the clean train statistics); then train_mask is ignored.
+    """
+    mu, sd = stats if stats is not None else train_stats(X, train_mask, chunk)
     out = torch.empty(X.shape, dtype=dtype, device=device, pin_memory=pin and str(device) == "cpu")
     for i in range(0, len(X), chunk):
         out[i:i + chunk] = torch.from_numpy(((X[i:i + chunk].astype(np.float32) - mu) / sd).astype(np.float32)).to(dtype)

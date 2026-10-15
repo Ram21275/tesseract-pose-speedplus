@@ -24,7 +24,7 @@ import yaml
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
-from tfpose import data as D, features as Fx, masks as M  # noqa: E402
+from tfpose import data as D, features as Fx, inplane as IP, masks as M  # noqa: E402
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--manifest", required=True, help="CSV with image_relpath + crop_cx/cy/side (outputs/data_manifests/...)")
@@ -37,6 +37,10 @@ ap.add_argument("--cache-root", default="/media/kavinder/hdd2/tfpose_cache")
 ap.add_argument("--batch", type=int, default=32)
 ap.add_argument("--workers", type=int, default=4)
 ap.add_argument("--limit", type=int, default=0)
+ap.add_argument("--rot-deg", type=float, default=None, help="EXP-109: rotate every crop in-plane by this angle (deg, cv2 sign)")
+ap.add_argument("--rot-random-seed", type=int, default=None, help="EXP-109: per-row angle ~ U(-180,180), rng(seed) in row order")
+ap.add_argument("--store-grid16", action="store_true", help="EXP-109 B: also store the 16x16 DINOv3 grid (fp16)")
+ap.add_argument("--photo-seed", type=int, default=None, help="EXP-109: per-row photometric augmentation, rng([seed, row])")
 args = ap.parse_args()
 
 paths = yaml.safe_load(open(REPO / "configs/paths.yaml"))
@@ -49,7 +53,12 @@ for c in [c for c in args.key_cols.split(",") if c]:
     keys = keys + "#" + df[c].astype(str)
 keys = keys.tolist()
 assert len(set(keys)) == len(keys), "row keys are not unique: pass --key-cols"
-mhash = D.manifest_hash(keys)
+ANG = np.zeros(len(df))
+if args.rot_random_seed is not None:
+    ANG = np.random.default_rng(args.rot_random_seed).uniform(-180, 180, len(df))
+if args.rot_deg is not None:                                   # fixed angle, added to the random one if both are given
+    ANG = ANG + args.rot_deg
+mhash = D.manifest_hash(keys + [f"rot={args.rot_deg}|{args.rot_random_seed}|photo={args.photo_seed}"])
 shared = REPO / "outputs/shared_cache"
 
 
@@ -67,11 +76,17 @@ class Crops(torch.utils.data.Dataset):
             if img is None:
                 raise FileNotFoundError(root / r.image_relpath)
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            c = D.crop_square(img, r.crop_cx, r.crop_cy, r.crop_side, self.size)            # (S,S,3)
-            return torch.from_numpy(c).permute(2, 0, 1).float().div_(255.0)
-        img = D.read_gray(root, r.image_relpath)
-        c = torch.from_numpy(D.crop_square(img, r.crop_cx, r.crop_cy, r.crop_side, self.size)).float().div_(255.0)
-        return c[None].expand(3, -1, -1).contiguous()
+        else:
+            img = D.read_gray(root, r.image_relpath)
+        if ANG[i] != 0:
+            c = IP.crop_rotated(img, r.crop_cx, r.crop_cy, r.crop_side, self.size, ANG[i])
+        else:
+            c = D.crop_square(img, r.crop_cx, r.crop_cy, r.crop_side, self.size)
+        c = c.astype(np.float32) / 255.0
+        if args.photo_seed is not None:
+            c = IP.photometric(c, np.random.default_rng([args.photo_seed, i]))
+        t = torch.from_numpy(np.ascontiguousarray(c))
+        return t.permute(2, 0, 1).contiguous() if t.ndim == 3 else t[None].expand(3, -1, -1).contiguous()
 
 
 def link(out):
@@ -106,7 +121,8 @@ if args.backbone == "dinov3_vitl16":
     ex = Fx.DinoV3("vit_large_patch16_dinov3.lvd1689m", dev)
 else:
     ex = Fx.MoGe2Extractor(dev)
-spec = {**ex.spec, "compact": True, "gray_to_rgb": "rgb" if args.rgb else "replicate"}
+spec = {**ex.spec, "compact": True, "gray_to_rgb": "rgb" if args.rgb else "replicate",
+        "rot_deg": args.rot_deg, "rot_random_seed": args.rot_random_seed, "photo_seed": args.photo_seed}
 out = Path(args.cache_root) / f"{args.backbone}__subset_{args.tag}__{Fx.preprocess_hash(spec)}__{mhash}"
 if (out / "manifest.json").exists():
     print("cache exists", out); link(out); sys.exit(0)
@@ -131,6 +147,8 @@ with h5py.File(out / "features.h5.partial", "w") as f:
             g16h = g16.half().float().cpu().numpy()                                       # as cached fp16 in EXP-015
             fg = np.stack([(lambda sc: (sc > M.otsu(sc)))(M.dino_pca_score(g)) for g in g16h]).astype(np.uint8)
             vals = {"last_grid8": g8.cpu().numpy().astype(np.float16), "dino_fg": fg}
+            if args.store_grid16:
+                vals["last_grid16"] = g16.cpu().numpy().astype(np.float16)
         else:
             vals = {"normal": o["normal"].cpu().numpy().astype(np.float16), "mask": o["mask"].cpu().numpy().astype(np.float16)}
         for k, v in vals.items():
@@ -145,4 +163,5 @@ with h5py.File(out / "features.h5.partial", "w") as f:
                                                "code_version": code, "seconds": round(time.time() - t0, 1),
                                                "ms_per_image": round((time.time() - t0) / N * 1000, 2), "source_manifest": args.manifest,
                                                "peak_gpu_mb": round(torch.cuda.max_memory_allocated() / 2**20, 1)}, indent=2))
+pd.DataFrame({"key": keys, "rot_deg": ANG}).to_csv(out / "aug.csv", index=False)
 link(out); print("done", out)
