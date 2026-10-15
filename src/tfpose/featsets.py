@@ -80,6 +80,11 @@ def load(spec: str, subset: str):
                 unweighted = Gc.mean((2, 4))
                 out.append(np.where(den > 1e-6, num / np.maximum(den, 1e-6), unweighted))  # empty cell -> plain mean
             X = np.concatenate(out).reshape(len(names), -1)
+        elif fs == "tokens8" and "last_grid" not in f:  # compact cache (scripts/extract_compact.py): already pooled to 8x8
+            ds = f["last_grid8"]; N, C = ds.shape[0], ds.shape[-1]
+            X = np.empty((N, 64 * C), np.float16)
+            for s0 in range(0, N, 4096):
+                X[s0:s0 + 4096] = np.asarray(ds[s0:s0 + 4096], dtype=np.float16).reshape(-1, 64 * C)
         elif fs == "tokens8":  # EXP-032/036: 16x16 token grid pooled to 8x8, kept fp16 (N, 64*C)
             ds = f["last_grid"]; N, C = ds.shape[0], ds.shape[-1]
             X = np.empty((N, 64 * C), np.float16)                      # filled chunk-wise: no full float32 copy
