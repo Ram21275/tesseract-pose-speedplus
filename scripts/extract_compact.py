@@ -102,7 +102,8 @@ if args.backbone == "consensus":
         return hits[0]
     dp, mp = one("dinov3_vitl16"), one("moge2_vitl")
     out = Path(args.cache_root) / f"consensus_masks__subset_{args.tag}"
-    assert not (out / "manifest.json").exists(), out
+    if (out / "manifest.json").exists():
+        link(out); print("cache exists", out); sys.exit(0)
     out.mkdir(parents=True, exist_ok=True)
     with h5py.File(dp / "features.h5") as fd, h5py.File(mp / "features.h5") as fm, h5py.File(out / "masks.h5", "w") as fo:
         names = fd["image_relpath"][:]
