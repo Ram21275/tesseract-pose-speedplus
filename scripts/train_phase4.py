@@ -55,6 +55,9 @@ ap.add_argument("--m", type=int, default=32, help="endpoint samples per image at
 ap.add_argument("--val-cap", type=int, default=4000, help="images of synthetic val used for checkpoint selection")
 ap.add_argument("--train-frac", type=float, default=1.0, help="seeded fraction of synthetic train (smoke tests)")
 ap.add_argument("--eval-cap", type=int, default=0, help="cap images per evaluation group (smoke tests; 0 = all)")
+ap.add_argument("--aug-tags", default="", help="EXP-111: compact-cache tags of augmented synthetic-train views (EXP-109 A)")
+ap.add_argument("--aug-convention", default=None, help="EXP-111: in-plane label convention (geometry-derived, EXP-109)")
+ap.add_argument("--feat-cpu", action="store_true", help="keep standardized features in host memory")
 ap.add_argument("--seed", type=int, default=0)
 args = ap.parse_args()
 exp_id, short = args.exp.split("_", 1)
@@ -71,7 +74,24 @@ try:
     chart, path = T.encode(q, 5)
     tr = ((df.domain == "synthetic") & (df.split == "train")).to_numpy()
     groups = eval_groups(df)
-    Xt = featsets.standardize_to_tensor(X, tr, dev, torch.float16, pin=False); del X
+    stats = featsets.train_stats(X, tr)
+    Xt = featsets.standardize_to_tensor(X, tr, "cpu" if args.feat_cpu else dev, torch.float16, pin=False, stats=stats); del X
+    VIEWS = [t for t in args.aug_tags.split(",") if t]
+    if VIEWS:                                   # EXP-111: augmented views with in-plane-rotated labels (EXP-109 A recipe)
+        from tfpose import data as D, inplane as IP
+        assert args.base == "uniform" and args.mode == "flow"
+        tr_rows = np.flatnonzero(tr); POS = torch.full((len(df),), -1, dtype=torch.long, device=dev)
+        POS[torch.as_tensor(tr_rows, device=dev)] = torch.arange(len(tr_rows), device=dev)
+        cam_ = D.load_camera(Path(yaml.safe_load(open(REPO / "configs/paths.yaml"))["speedplus_root"]))
+        dray = IP.ray_undistorted(cam_.K, cam_.dist, df.crop_cx.to_numpy()[tr_rows], df.crop_cy.to_numpy()[tr_rows])
+        VX, VQ = [], [torch.as_tensor(q[tr_rows], dtype=torch.float32, device=dev)]
+        for tag in VIEWS:
+            vn, vx, vinfo = featsets.load(args.features, tag); assert vn == df.image_relpath.values[tr_rows].tolist(), tag
+            VX.append(featsets.standardize_to_tensor(vx, None, "cpu", torch.float16, stats=stats)); del vx
+            ang = pd.read_csv(REPO / "outputs/shared_cache" / Path(vinfo["cache"]).name / "aug.csv").rot_deg.to_numpy()
+            VQ.append(torch.as_tensor(IP.rotate_label(q[tr_rows], ang, dray, args.aug_convention), dtype=torch.float32, device=dev))
+        VQ = torch.stack(VQ)
+        (run.dir / "aug_views.json").write_text(json.dumps({"tags": VIEWS, "convention": args.aug_convention}))
     Qt = torch.as_tensor(q, dtype=torch.float32, device=dev)
     QLt = torch.as_tensor(T.decode(chart, path), dtype=torch.float32, device=dev)
 
@@ -91,9 +111,12 @@ try:
     assert not any(p_.requires_grad for p_ in tree.parameters())
     (run.dir / "source_runs.txt").write_text(d.name + "\n")
 
-    def mem_of(b):
+    def getx(b):
+        return Xt[b.cpu()].to(dev).float() if args.feat_cpu else Xt[b].float()
+
+    def mem_of(b, x=None):
         with torch.no_grad(), torch.autocast("cuda", dtype=torch.bfloat16):
-            return tree.encode(Xt[b].float()).float()
+            return tree.encode(getx(b) if x is None else x).float()
 
     # ---- head ----
     if args.mode == "residual":
@@ -127,13 +150,23 @@ try:
         return qc
 
     def loss_fn(b):
-        mem = mem_of(b); qc = train_centre(b)
+        q1b = Qt[b]
+        if VIEWS:                                       # one of {clean, view 1, ...} per sample, uniformly
+            x = getx(b); pb = POS[b]; v = torch.randint(0, len(VIEWS) + 1, (len(b),), device=dev)
+            for j in range(len(VIEWS)):
+                mk = v == j + 1
+                if mk.any():
+                    x[mk] = VX[j][pb[mk].cpu()].to(dev).float()
+            q1b = VQ[v, pb]; mem = mem_of(b, x)
+        else:
+            mem = mem_of(b)
+        qc = train_centre(b)
         if args.mode == "residual":
             target = S.relative_rotvec(qc, Qt[b])
             ok = target.norm(dim=-1) < S.CUT_LOCUS
             return Fnn.huber_loss(head(mem, qc)[ok] / cell, target[ok] / cell, delta=1.0)
         K = args.k
-        memk = mem.repeat_interleave(K, 0); q1 = Qt[b].repeat_interleave(K, 0); qck = qc.repeat_interleave(K, 0)
+        memk = mem.repeat_interleave(K, 0); q1 = q1b.repeat_interleave(K, 0); qck = qc.repeat_interleave(K, 0)
         q0 = S.uniform_quats(len(q1), dev) if args.base == "uniform" else S.local_quats(qck, sig_b)
         tau = torch.rand(len(q1), device=dev)
         qt, a, ok = S.fm_pairs(q0, q1, tau)
@@ -144,7 +177,7 @@ try:
     @torch.no_grad()
     def greedy_leaf(b):
         with torch.autocast("cuda", dtype=torch.bfloat16):
-            c, p = fused_beam([tree], [Xt[b].float()], "single", 1)
+            c, p = fused_beam([tree], [getx(b)], "single", 1)
         return decode_torch(c, p).float()
 
     @torch.no_grad()

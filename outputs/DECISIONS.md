@@ -143,3 +143,7 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 ## DEC-016 — EXP-110 weighted PoE (2026-10-15)
 - **Decided by:** the user: "you can also test different weights for moge and dino decisions while PoE."
 - **EXP-110:** per-level weighted PoE of the frozen EXP-036 trees, w ∈ {0, 0.2, …, 1}. Selected on the EXP-109 synthetic val-aug proxy, because clean synthetic val is known to favour DINOv3 alone; real domains are descriptive. Runs after EXP-108 in the same chain.
+
+## DEC-017 — EXP-111: DINOv3-only augmented tree + flow; runs before EXP-108 (2026-10-16)
+- **Decided by:** the user: after the question "are the above results of the same architecture" (answer: the EXP-109 A numbers are the DINOv3 tree alone, without MoGe-2, PoE or flow): "yes pre-register it and run it before 108 it should be a quick experiment."
+- **EXP-111:** a flow head with the EXP-042 recipe on the EXP-109 arm-A DINOv3 tree, trained with the same augmented views, 3 seeds, plus DINOv3-only timing. Queue order: EXP-109 eval (running) → **EXP-111** → EXP-108 → EXP-110 → EXP-107.
