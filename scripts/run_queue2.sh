@@ -10,7 +10,8 @@ b111() { local CONV; CONV=$(cat outputs/experiments/exp109_convention.txt) || re
   for s in 0 1 2; do echo ">>> $(date +%T) EXP-111 flow seed=$s"
     G $PY scripts/train_phase4.py --exp EXP-111_dino_aug_flow --features dinov3_vitl16:tokens8 --src-exp EXP-109_real_domain_aug_tokens16_orbit \
       --mode flow --base uniform --feat-cpu --aug-tags exp109_train_aug1,exp109_train_aug2 --aug-convention $CONV --seed $s || return 1; done
-  G $PY scripts/exp111_eval.py; }
+  G $PY scripts/exp111_eval.py || echo "(summary/timing failed; continuing)"
+  echo ">>> $(date +%T) EXP-111 verifier arm (EXP-045 design)"; G $PY scripts/exp111_verifier.py; }
 b108() { echo ">>> $(date +%T) EXP-108 DFM smoke"; G $PY scripts/train_pathdfm.py --exp EXP-099_p3_smoke --epochs 1 --eval-every 1 || return 1
   for s in 0 1 2; do echo ">>> $(date +%T) EXP-108 DFM seed=$s"; G $PY scripts/train_pathdfm.py --seed $s || return 1; done
   G $PY scripts/exp108_eval.py; }

@@ -22,5 +22,14 @@ With the augmentation-trained DINOv3 tree (EXP-109 arm A), does an EXP-042-style
 ## Criterion
 The flow helps if its 3-seed synthetic-val mean is below the same trees' greedy mean by more than the larger seed std. Real domains are descriptive.
 
+## Amendment 2026-10-16 (user, before any EXP-111 run): add the EXP-045 verifier arm
+User: "in the same experiment can we test the 45 approach with the same aetting?"
+- **Arm "verifier":** the EXP-045 / EXP-105-C3 design in the same DINOv3-only setting.
+  - Candidates: the beam-8 leaves of the arm-A DINOv3 tree × {I, 180° about body x, y, z}, plus the 8 corners of each leaf cell (96).
+  - Score: re-noise / return with the EXP-111 flow head of the same seed (τ 0.8, 16 draws, NFE 10).
+  - Prediction: argmax. Code: `scripts/exp111_verifier.py`.
+- **Criterion (added):** the verifier helps if its 3-seed synthetic-val mean is below the same tree's beam-8 top-1 mean by more than the larger seed std. Real domains descriptive, with flip transitions and denominators. Latency reported (tree included).
+- The KDE-mode arm and its criterion are unchanged.
+
 ## Runs / Results / Decision
 Not started.
