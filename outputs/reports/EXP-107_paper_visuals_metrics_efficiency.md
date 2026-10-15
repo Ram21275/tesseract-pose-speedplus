@@ -48,5 +48,8 @@ Example rule: per domain, the image at the 10th, 50th and 90th percentile of PoE
 ## Criteria
 None: this is a descriptive experiment. Everything is reported whatever the outcome. Example images follow the rule above.
 
+## Amendment 2026-10-15 (before any run)
+- The F4 speed–accuracy sweep uses **seed 0 only**, all three domains (`scripts/run_exp107_sweep.sh`, `exp04x_fused_eval.py --fused-only --feat-cpu --queries 1024`). The 3-seed point at NFE 10 / M 32 is EXP-042's. KDE mode at M = 1 is the single sample itself.
+
 ## Runs / Results
 Not started.
