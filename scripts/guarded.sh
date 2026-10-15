@@ -28,9 +28,12 @@ fi
 RAM_HEADROOM=${GUARD_RAM_HEADROOM_GB:-12}
 GPU_NEED=${GUARD_GPU_GB:-8}
 while :; do
-  avail=$(awk '/MemAvailable/{print int($2/1048576)}' /proc/meminfo)
-  gfree=$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits 2>/dev/null | head -1)
-  gfree=$(( ${gfree:-999999} / 1024 ))
+  # never abort while waiting: a failed probe (e.g. nvidia-smi busy) just means "check again later"
+  avail=$(awk '/MemAvailable/{print int($2/1048576)}' /proc/meminfo 2>/dev/null || echo 0)
+  gfree=$(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits 2>/dev/null | head -1 || true)
+  [[ "$gfree" =~ ^[0-9]+$ ]] || gfree=0
+  [[ "$avail" =~ ^[0-9]+$ ]] || avail=0
+  gfree=$(( gfree / 1024 ))
   if (( avail >= MEM + RAM_HEADROOM )) && (( GPU_NEED == 0 || gfree >= GPU_NEED )); then break; fi
   echo "[guarded] $(date +%T) waiting: RAM avail ${avail} GB (need $((MEM + RAM_HEADROOM))), GPU free ${gfree} GB (need ${GPU_NEED})" >&2
   sleep 120
