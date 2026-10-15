@@ -122,3 +122,8 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 - **Added:** paper-style visualizations and comparison metrics in the LiePose style (SO(3) distribution plots, sampling trajectories, accuracy vs steps, FPS/latency), as a separate analysis experiment pre-registered before its first run.
 - **Unchanged:** EXP-102 (LoRA) stays cancelled ("might take too much time and only give us a trivial positive result").
 - **Timeline target:** generalisation done within the week of 2026-10-13. This is tight on a shared GPU; if needed, scope is cut in a pre-stated order (see the next status report), never by dropping pre-registered criteria.
+
+## DEC-013 — Add EXP-108 (direct path flow); real-domain improvement ideas proposed (2026-10-15)
+- **Decided by:** the user: "continue and add an experiment direct path flow that iteratively revises the root and child decisions themselves using image and rotation geometry"; "we can wait" (our queue waits for GPU memory rather than lowering the guard).
+- **EXP-108:** discrete flow matching on the tree path, with a geometry-aware corruption kernel (180° flips, nearby cells, uniform). Revisers per branch, fused by PoE, iterative top-down re-decoding. Runs after the queued EXP-050 / EXP-107 jobs and **before Phase 6**, because it could change the recipe at the lock.
+- **Proposed to the user, not yet added:** to cut real-domain error, (A) style/lighting augmentation of the synthetic training images, (B) 16×16 DINOv3 tokens, (C) in-plane test-time orbit voting, (D) a flip verifier trained on augmented features. Unlabelled real-image adaptation is not proposed for use, because DEC-006 keeps lightbox / sunlamp test-only.
