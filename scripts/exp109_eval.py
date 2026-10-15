@@ -103,10 +103,13 @@ try:
     for seed in (0, 1, 2):
         t036 = [load_tree(find(E036, seed, lambda c, s=sp: c.get("features") == s), tsh) for sp, tsh in ((SD, "64x1024"), (SM, "256x4"))]
         tA = [load_tree(find(E109, seed, lambda c, s=sp: c.get("features") == s and bool(c.get("aug_tags"))), tsh) for sp, tsh in ((SD, "64x1024"), (SM, "256x4"))]
-        tB = load_tree(find(E109, seed, lambda c: bool(c.get("memmap"))), "256x1024")
         systems = {"EXP-036 PoE greedy": (t036, (SD, SM), False), "A PoE greedy": (tA, (SD, SM), False),
-                   "B tokens16 + EXP-036 MoGe PoE greedy": ([tB, t036[1]], ("tok16", SM), False),
                    "C orbit on EXP-036": (t036, (SD, SM), True), "C orbit on A": (tA, (SD, SM), True)}
+        try:                                         # arm B may be missing (reported as not run); never block A / C
+            tB = load_tree(find(E109, seed, lambda c: bool(c.get("memmap"))), "256x1024")
+            systems["B tokens16 + EXP-036 MoGe PoE greedy"] = ([tB, t036[1]], ("tok16", SM), False)
+        except FileNotFoundError:
+            print("arm B missing for seed", seed, "- skipped", flush=True)
         for name, (ms, keys, orbit) in systems.items():
             p3 = predict(ms, keys, "test", np.arange(len(t3)), orbit, np.zeros(len(t3)), d3)
             pv = predict(ms, keys, "valaug", np.arange(len(va)), orbit, ang_va, dv)

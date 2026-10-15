@@ -5,6 +5,7 @@ reports greedy/beam decoding, and (with --residual) both the discrete leaf centr
 """
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -59,7 +60,17 @@ try:
     dev = torch.device("cuda")
     df = pd.read_csv(REPO / f"outputs/data_manifests/subset_{args.subset}.csv")
     if args.memmap:
-        X = np.load(REPO / args.memmap, mmap_mode="r"); names = df.image_relpath.tolist()
+        class _Rows:                                    # pread rows from the .npy (no mmap: mapped pages would count as RSS)
+            def __init__(self, path):
+                mm = np.load(path, mmap_mode="r"); self.shape, self.dtype, self.off = mm.shape, mm.dtype, mm.offset; del mm
+                self.row = int(np.prod(self.shape[1:])) * self.dtype.itemsize; self.fd = os.open(path, os.O_RDONLY)
+            def __getitem__(self, idx):
+                idx = np.atleast_1d(idx); out = np.empty((len(idx),) + self.shape[1:], self.dtype)
+                for j, i in enumerate(idx):
+                    out[j] = np.frombuffer(os.pread(self.fd, self.row, self.off + int(i) * self.row), self.dtype).reshape(self.shape[1:])
+                os.posix_fadvise(self.fd, 0, 0, os.POSIX_FADV_DONTNEED)   # do not let the page cache grow
+                return out
+        X = _Rows(str(REPO / args.memmap)); names = df.image_relpath.tolist()
         cache_info = json.loads((REPO / args.memmap).with_suffix(".json").read_text())
         assert X.shape[0] == len(df), (X.shape, len(df))
     else:
