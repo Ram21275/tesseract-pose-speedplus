@@ -139,3 +139,7 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 - **Change (before any EXP-108 run):** the iterative path denoiser and its no-geometry matched control (review 2026-10-15) are **not run**. Their code is kept and disabled. EXP-108 is now discrete flow matching on the Tesseract path: image-conditional coupling (x0 ~ frozen PoE tree, x1 = GT), factorized mixture probability path κ(t) = t, a time-conditioned posterior model, and a CTMC Euler sampler. Pre-registration amended accordingly.
 - **Consequence, recorded honestly:** the review's matched control is dropped by the user's choice. So whether the geometry token adds value **cannot be tested**, and EXP-108 makes no claim about it.
 - **Next:** cross-dataset runs (EXP-064 / 106) follow the SPEED+ work. They still need the recipe lock (DEC-012), which the user decides.
+
+## DEC-016 — EXP-110 weighted PoE (2026-10-15)
+- **Decided by:** the user: "you can also test different weights for moge and dino decisions while PoE."
+- **EXP-110:** per-level weighted PoE of the frozen EXP-036 trees, w ∈ {0, 0.2, …, 1}. Selected on the EXP-109 synthetic val-aug proxy, because clean synthetic val is known to favour DINOv3 alone; real domains are descriptive. Runs after EXP-108 in the same chain.

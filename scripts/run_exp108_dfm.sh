@@ -12,6 +12,7 @@ G $PY scripts/train_pathdfm.py --exp EXP-099_p3_smoke --epochs 1 --eval-every 1 
 for s in 0 1 2; do echo ">>> $(date +%T) EXP-108 DFM seed=$s"; G $PY scripts/train_pathdfm.py --seed $s || { echo TRAIN_FAILED; exit 1; }; done
 echo ">>> $(date +%T) EXP-108 eval"; G $PY scripts/exp108_eval.py || echo EVAL108_FAILED
 echo CHAIN108_DONE
+echo ">>> $(date +%T) EXP-110 weighted PoE"; G $PY scripts/exp110_weighted_poe.py || echo EXP110_FAILED
 echo ">>> $(date +%T) EXP-107 sweep rerun nfe=10 m=8"
 G $PY scripts/exp04x_fused_eval.py --exp EXP-042_image_conditioned_so3_posterior --run-exp EXP-107_paper_visuals_metrics_efficiency --seeds 0 --fused-only --feat-cpu --queries 1024 --nfe 10 --m 8 || echo SWEEP8_FAILED
 echo ">>> $(date +%T) EXP-107 figures"; G $PY scripts/exp107_figures.py || echo FIGURES_FAILED
