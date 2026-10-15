@@ -1,4 +1,4 @@
-# EXP-108: Geometry-conditioned iterative path denoiser (requested as "direct path flow") — revising root and child decisions from image and rotation geometry
+# EXP-108: Discrete flow matching on the Tesseract path ("direct path flow") — revising root and child decisions from image and rotation geometry
 
 ## Status
 **Pre-registered 2026-10-15, before any code was run** (DEC-013, user request: "add an experiment direct path flow that iteratively revises the root and child decisions themselves using image and rotation geometry").
@@ -66,6 +66,24 @@ Synthetic val has almost no flips, so criterion 1 can only reward precision and 
      - n of initially < 20° images, and the fraction broken to > 150°.
    - The existing metrics are retained.
 5. Selection stays synthetic-only; lightbox / sunlamp remain descriptive.
+
+## Amendment 2 — 2026-10-15, DEC-015 (user; before any EXP-108 run): real discrete flow matching; denoiser and control dropped
+This supersedes the method, arms and criteria above. The earlier text and the review amendment are kept for the record.
+- **Tokens:** x = (root ∈ 4, c₀…c₄ ∈ 8).
+- **Coupling:** image-conditional and independent of x1 given the image. x0 ~ p_tree(path | image), an ancestral sample (temperature 1) of the frozen EXP-036 per-level PoE tree. x1 = GT path. The source is therefore the tree's own predictive distribution, which is samplable at test time (no GT), so training and inference use the same source.
+- **Probability path:** the factorized mixture path (Gat et al., 2024). Each token is x1_i with probability κ(t) = t, else x0_i. Root changes are included. As measured above, token mixing is not geometry-preserving; this is stated, not hidden.
+- **Model:** p_θ(x1_i | x_t, t, image) for every token. This is the reviser architecture (bidirectional Transformer, cell-geometry tokens, geometry token with the 180° flip partners, cross-attention to the frozen tree memory) **plus a time embedding** (Fourier(t), 8 frequencies) added to every token. One model per branch, trained jointly with a shared x0 per image; 1.82 M parameters per branch.
+- **Loss:** the sum over branches and tokens of the cross-entropy of x1_i (the DFM objective for the mixture path).
+- **Sampler:** CTMC Euler with the mixture-path velocity u_t = κ̇/(1−κ)·(p_{1|t} − δ_{x_t}). Per step h, each token jumps with probability min(1, h/(1−t)) to a draw from p_{1|t}, and the final step jumps with probability 1. The branches are combined per token by a normalized product (a heuristic, like the tree PoE; not an exact product of the two CTMCs).
+- **Inference:** M = 8 sources per image; NFE ∈ {1, 2, 4, 8}; point estimate = KDE mode (5°) of the M decoded leaves. **The pre-declared system is NFE 4, M 8.** M = 1 is also reported.
+- **Budget:** 50 epochs, AdamW 1e-3, wd 0.05, OneCycle, batch 256, bf16, seeds 0–2. Checkpoint = lowest synthetic-val mean of the fused sampler (NFE 4, M 1, fixed generator seed).
+- **Criteria:**
+  1. **Helps:** the 3-seed synthetic-val mean of the pre-declared system is below EXP-036 PoE greedy (5.540 ± 0.063°) by more than the larger seed std.
+  2. **Flip repair (descriptive, real):** n of initially > 150° images and the fraction corrected to < 20°; n of initially < 20° images and the fraction broken to > 150° (baseline = EXP-036 greedy, per image).
+  3. Actual root and child changes vs the greedy path; latency.
+  4. Everything is reported whatever the direction.
+- **Dropped by the user's choice:** the matched no-geometry control. The contribution of the geometry token is therefore not identifiable, and no claim is made about it.
+- **Code:** `src/tfpose/pathflow.py` (`PathDFM`, `sample_tree_paths`, `mix_tokens`, `dfm_sample`), `scripts/train_pathdfm.py`, `scripts/exp108_eval.py`, chain `scripts/run_exp108_dfm.sh`. CPU unit test: t = 0 → x0, t = 1 → x1; the sampler runs.
 
 ## Runs / Results / Decision
 Not started.

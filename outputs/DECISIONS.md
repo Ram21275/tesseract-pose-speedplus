@@ -133,3 +133,9 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 - **Clarified by the user (question asked):** order **EXP-050 → EXP-109 → EXP-108 → EXP-107 jobs (last)**. Phase 6, EXP-064 / EXP-106 and anything else wait for the user's go.
 - **Generalisation claim:** produced after the rotation work and the final architecture (recipe lock), as already planned (DEC-011/012).
 - **Selection stays DEC-006-compliant:** EXP-109 selects on a synthetic val-aug proxy and on clean synthetic val; real domains are descriptive.
+
+## DEC-015 — EXP-108 becomes real discrete flow matching; baselines dropped (2026-10-15)
+- **Decided by:** the user: "make 108 as the real flow matching experiments I do not want to give time to other baselines now we already have enough and then we also need to run on other datasets as well."
+- **Change (before any EXP-108 run):** the iterative path denoiser and its no-geometry matched control (review 2026-10-15) are **not run**. Their code is kept and disabled. EXP-108 is now discrete flow matching on the Tesseract path: image-conditional coupling (x0 ~ frozen PoE tree, x1 = GT), factorized mixture probability path κ(t) = t, a time-conditioned posterior model, and a CTMC Euler sampler. Pre-registration amended accordingly.
+- **Consequence, recorded honestly:** the review's matched control is dropped by the user's choice. So whether the geometry token adds value **cannot be tested**, and EXP-108 makes no claim about it.
+- **Next:** cross-dataset runs (EXP-064 / 106) follow the SPEED+ work. They still need the recipe lock (DEC-012), which the user decides.

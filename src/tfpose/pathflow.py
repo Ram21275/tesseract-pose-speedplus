@@ -100,3 +100,76 @@ def revise(revisers, mems, chart, path, K: int, rule: str = "poe"):
         if not ch.any():
             break
     return chart, path, steps
+
+
+# ======================= EXP-108 (DEC-015): discrete flow matching on the Tesseract path =======================
+# Tokens x = (root, c_0..c_4). Coupling (image-conditional, independent of x1 given the image):
+#   x0 ~ p_tree(path | image)  (ancestral sample of the frozen EXP-036 per-level PoE tree, temperature 1),  x1 = GT path.
+# Probability path (factorized mixture, Gat et al. 2024): x_t,i = x1_i with prob kappa(t), else x0_i; kappa(t) = t.
+# Model: posterior p_theta(x1_i | x_t, t, image) for every token (reviser + Fourier(t) embedding). Loss: token CE vs x1.
+# Sampler: CTMC Euler with the mixture-path velocity u_t(x_i) = kappa'/(1-kappa) [p_{1|t}(x_i) - delta_{x_t,i}(x_i)]:
+#   for step h, each token jumps with probability min(1, h*kappa'/(1-kappa)) to a draw from p_{1|t}; the last step
+#   (t+h = 1) jumps with probability 1. Branches are combined per token by a normalized product (heuristic, as in the
+#   tree PoE; not an exact product of the two CTMCs).
+
+class PathDFM(PathReviser):
+    def __init__(self, *a, t_freq: int = 8, **k):
+        super().__init__(*a, **k)
+        d = self.root_head.in_features
+        self.t_freq = t_freq
+        self.t_proj = nn.Sequential(nn.Linear(2 * t_freq, d), nn.GELU(), nn.Linear(d, d))
+
+    def forward(self, mem, chart, path, t):
+        f = 2.0 ** torch.arange(self.t_freq, device=t.device, dtype=torch.float32) * np.pi
+        te = self.t_proj(torch.cat([(t[:, None] * f).sin(), (t[:, None] * f).cos()], -1))      # (B,d)
+        B, L = path.shape
+        dev = path.device
+        toks = [self.root_emb(chart) + self.level_emb.weight[0] + self.cell_proj(fourier(decode_torch(chart, path[:, :0]), self.n_freq))]
+        for l in range(L):
+            toks.append(self.child_emb(path[:, l]) + self.level_emb.weight[l + 1]
+                        + self.cell_proj(fourier(decode_torch(chart, path[:, :l + 1]), self.n_freq)))
+        qleaf = decode_torch(chart, path)
+        fl = torch.as_tensor(FLIPS, dtype=qleaf.dtype, device=dev)
+        hyp = torch.cat([qleaf[:, None], P.qmul(qleaf[:, None].expand(B, 3, 4).reshape(-1, 4), fl.repeat(B, 1)).view(B, 3, 4)], 1)
+        geo = self.geo_proj(rot_features(hyp.reshape(-1, 4), self.r_freq).view(B, -1)) + self.level_emb.weight[L + 1]
+        x = torch.stack(toks + [geo], 1) + te[:, None]
+        h = self.dec(x, mem)
+        return self.root_head(h[:, 0]), self.child_head(h[:, 1:L + 1])
+
+
+@torch.no_grad()
+def sample_tree_paths(trees, mems, temperature: float = 1.0, generator=None):
+    """Ancestral sample of the per-level PoE tree (EXP-036 decoding rule, sampled instead of argmax). mems: per-tree
+    encoder memories (B,T,d). Returns chart (B,), path (B,L)."""
+    B = mems[0].shape[0]; dev = mems[0].device; L = trees[0].depth
+    lp = F.log_softmax(sum(F.log_softmax(m.root(h).float(), -1) for m, h in zip(trees, mems)), -1)
+    chart = torch.multinomial((lp / temperature).softmax(-1), 1, generator=generator)[:, 0]
+    path = torch.zeros(B, 0, dtype=torch.long, device=dev)
+    for _ in range(L):
+        lp = F.log_softmax(sum(F.log_softmax(m.child_logits_prefix(h, chart, path).float(), -1) for m, h in zip(trees, mems)), -1)
+        path = torch.cat([path, torch.multinomial((lp / temperature).softmax(-1), 1, generator=generator)], 1)
+    return chart, path
+
+
+def mix_tokens(c0, p0, c1, p1, t, generator=None):
+    """Factorized mixture path: each token from x1 with probability kappa(t) = t, else from x0."""
+    keep = torch.rand((len(t), p0.shape[1] + 1), device=t.device, generator=generator) < t[:, None]
+    return torch.where(keep[:, 0], c1, c0), torch.where(keep[:, 1:], p1, p0)
+
+
+@torch.no_grad()
+def dfm_sample(models, mems, c, p, nfe: int, rule: str = "poe", generator=None):
+    """CTMC Euler sampler for the mixture path, kappa(t) = t, from x0 = (c, p) at t = 0 to t = 1 in nfe steps."""
+    c, p = c.clone(), p.clone(); B, L = p.shape; dev = p.device; h = 1.0 / nfe
+    for s in range(nfe):
+        t = s * h
+        tt = torch.full((B,), t, device=dev)
+        outs = [m(mem, c, p, tt) for m, mem in zip(models, mems)]
+        lr = combine([F.log_softmax(o[0].float(), -1) for o in outs], rule)
+        lc = combine([F.log_softmax(o[1].float(), -1) for o in outs], rule)                 # (B,L,8)
+        lam = 1.0 if s == nfe - 1 else min(1.0, h / (1.0 - t))                              # h * kappa'/(1-kappa)
+        jump = torch.rand((B, L + 1), device=dev, generator=generator) < lam
+        nr = torch.multinomial(lr.softmax(-1), 1, generator=generator)[:, 0]
+        nc = torch.multinomial(lc.softmax(-1).reshape(-1, 8), 1, generator=generator).view(B, L)
+        c = torch.where(jump[:, 0], nr, c); p = torch.where(jump[:, 1:], nc, p)
+    return c, p

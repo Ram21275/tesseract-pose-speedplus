@@ -30,6 +30,8 @@ ap.add_argument("--eval-every", type=int, default=5)
 ap.add_argument("--no-geo", action="store_true", help="matched control: geometry token features zeroed (same modules / budget)")
 ap.add_argument("--seed", type=int, default=0)
 args = ap.parse_args()
+if args.exp != "EXP-000_never":                     # DEC-015: the denoiser arms of EXP-108 were dropped before any run
+    sys.exit("train_pathflow.py (iterative path denoiser) is superseded by train_pathdfm.py (DEC-015); not run.")
 exp_id, short = args.exp.split("_", 1)
 run = Run(exp_id, short, vars(args), seed=args.seed)
 L = 5
