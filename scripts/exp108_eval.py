@@ -1,5 +1,7 @@
-"""EXP-108 evaluation: per-level PoE of the two branch revisers, K-step top-down revision of the PoE greedy path,
-K in {0,1,2,4,8}; 3 seeds; per-domain metrics, change / improve / harm rates, latency."""
+"""EXP-108 evaluation: geometry-conditioned iterative path denoiser (arm "geo") and its matched no-geometry control
+(arm "nogeo"); per-level PoE of the two branch revisers, K-step top-down revision of the PoE greedy path, K in {0,1,2,4,8};
+3 seeds. Change rates are counted from the actual decisions (root / each child level), not inferred from errors; flip
+transitions are reported with denominators (initial > 150 deg corrected to < 20 deg; initial < 20 deg broken to > 150 deg)."""
 import sys
 import time
 from pathlib import Path
@@ -30,18 +32,20 @@ try:
         names, x, _ = featsets.load(sp, "full"); assert names == df.image_relpath.tolist()
         X[sp] = featsets.standardize_to_tensor(x, tr, "cpu", torch.float16); del x
     rows, used = [], []
-    for seed in (0, 1, 2):
+    for arm, seed in [(a, s_) for a in ("geo", "nogeo") for s_ in (0, 1, 2)]:
         trees, revs = [], []
         for sp in SPECS:
             d = [d for d in sorted((REPO / "outputs/experiments" / E108).glob(f"RUN-*-seed{seed}"))
-                 if yaml.safe_load((d / "config.yaml").read_text()).get("features") == sp and (d / "checkpoints/best.pt").exists()][-1]
+                 if (c_ := yaml.safe_load((d / "config.yaml").read_text())).get("features") == sp and bool(c_.get("no_geo")) == (arm == "nogeo")
+                 and (d / "checkpoints/best.pt").exists()][-1]
             src = (d / "source_runs.txt").read_text().split()[0]; scfg = yaml.safe_load((REPO / "outputs/experiments" / src / "config.yaml").read_text())
             t = P.HierTransformer(tuple(int(v) for v in scfg["token_shape"].split("x")), scfg["depth"], dropout=scfg["dropout"]).to(dev)
             t.load_state_dict(torch.load(REPO / "outputs/experiments" / src / "checkpoints/best.pt", map_location=dev)["model"]); t.eval()
-            r = PF.PathReviser(5).to(dev); r.load_state_dict(torch.load(d / "checkpoints/best.pt", map_location=dev)["reviser"]); r.eval()
+            r = PF.PathReviser(5, geo=arm == "geo").to(dev); r.load_state_dict(torch.load(d / "checkpoints/best.pt", map_location=dev)["reviser"]); r.eval()
             trees.append(t); revs.append(r); used += [src, f"{E108}/{d.name}"]
         for g, msk in groups.items():
             idx = np.flatnonzero(msk); errs = {k: [] for k in KS}; lat = {k: 0.0 for k in KS}
+            rootchg = {k: [] for k in KS}; childchg = {k: [] for k in KS}; anychg = {k: [] for k in KS}
             for s in range(0, len(idx), 1024):
                 b = idx[s:s + 1024]; xs = [X[sp][torch.as_tensor(b)].to(dev).float() for sp in SPECS]
                 with torch.no_grad(), torch.autocast("cuda", dtype=torch.bfloat16):
@@ -51,22 +55,30 @@ try:
                         ck, pk, _ = PF.revise(revs, hs, c, p, k, "poe") if k else (c, p, None)
                         torch.cuda.synchronize(); lat[k] += time.perf_counter() - t0
                         errs[k].append(np.degrees(2 * np.arccos(np.clip(np.abs((T.decode(ck.cpu().numpy(), pk.cpu().numpy()) * q[b]).sum(1)), 0, 1))))
-            e0 = np.concatenate(errs[0])
+                        rootchg[k].append((ck != c).cpu().numpy()); childchg[k].append((pk != p).cpu().numpy())
+                        anychg[k].append(((ck != c) | (pk != p).any(1)).cpu().numpy())
+            e0 = np.concatenate(errs[0]); n150 = int((e0 > 150).sum()); n20 = int((e0 < 20).sum())
             for k in KS:
-                e = np.concatenate(errs[k]); ch = np.abs(e - e0) > 1e-6
-                rows.append({"seed": seed, "domain": g, "K": k, "mean_deg": e.mean(), "median_deg": np.median(e), "p95_deg": np.percentile(e, 95),
-                             "acc@5": float((e <= 5).mean()), "acc@10": float((e <= 10).mean()), "frac_gt90": float((e > 90).mean()),
-                             "frac_gt150": float((e > 150).mean()), "frac_changed": float(ch.mean()),
+                e = np.concatenate(errs[k]); rc = np.concatenate(rootchg[k]); cc = np.concatenate(childchg[k]); ac = np.concatenate(anychg[k])
+                rows.append({"arm": arm, "seed": seed, "domain": g, "K": k, "n": len(e), "mean_deg": e.mean(), "median_deg": np.median(e),
+                             "p95_deg": np.percentile(e, 95), "acc@5": float((e <= 5).mean()), "acc@10": float((e <= 10).mean()),
+                             "frac_gt90": float((e > 90).mean()), "frac_gt150": float((e > 150).mean()),
+                             "frac_path_changed": float(ac.mean()), "frac_root_changed": float(rc.mean()),
+                             **{f"frac_child{l}_changed": float(cc[:, l].mean()) for l in range(cc.shape[1])},
                              "frac_improved": float((e < e0 - 1e-6).mean()), "frac_harmed": float((e > e0 + 1e-6).mean()),
-                             "flips_repaired": float(((e0 > 90) & (e <= 90)).mean()), "flips_created": float(((e0 <= 90) & (e > 90)).mean()),
+                             "n_init_gt150": n150, "n_gt150_to_lt20": int(((e0 > 150) & (e < 20)).sum()),
+                             "frac_gt150_to_lt20": ((e0 > 150) & (e < 20)).sum() / max(n150, 1),
+                             "n_init_lt20": n20, "n_lt20_to_gt150": int(((e0 < 20) & (e > 150)).sum()),
+                             "frac_lt20_to_gt150": ((e0 < 20) & (e > 150)).sum() / max(n20, 1),
                              "added_ms_per_image": 1000 * lat[k] / len(idx)})
-            print(seed, g, " ".join(f"K{r['K']} {r['mean_deg']:.3f}" for r in rows[-len(KS):]), flush=True)
+            print(arm, seed, g, " ".join(f"K{r['K']} {r['mean_deg']:.3f}" for r in rows[-len(KS):]), flush=True)
     per = pd.DataFrame(rows); run.write_metrics(rows, "per_seed")
-    cols = [c for c in per.columns if c not in ("seed", "domain", "K")]
-    agg = per.groupby(["domain", "K"])[cols].mean().join(per.groupby(["domain", "K"])[["mean_deg"]].std().rename(columns={"mean_deg": "mean_deg_std"})).reset_index()
+    cols = [c for c in per.columns if c not in ("arm", "seed", "domain", "K")]
+    agg = per.groupby(["arm", "domain", "K"])[cols].mean().join(per.groupby(["arm", "domain", "K"])[["mean_deg"]].std().rename(columns={"mean_deg": "mean_deg_std"})).reset_index()
     run.write_metrics(agg.to_dict("records"), "metrics"); (run.sub("tables") / "metrics.md").write_text(md_table(agg.to_dict("records")))
     (run.dir / "source_runs.txt").write_text("\n".join(used) + "\n"); run.done()
-    print(md_table(agg.to_dict("records"), ["domain", "K", "mean_deg", "mean_deg_std", "median_deg", "frac_gt90", "frac_changed", "frac_improved", "frac_harmed", "flips_repaired", "flips_created"]))
+    print(md_table(agg.to_dict("records"), ["arm", "domain", "K", "mean_deg", "mean_deg_std", "frac_gt150", "frac_path_changed", "frac_root_changed",
+                                            "n_init_gt150", "frac_gt150_to_lt20", "n_init_lt20", "frac_lt20_to_gt150"]))
     print("RUN", run.rel())
 except Exception:
     import traceback

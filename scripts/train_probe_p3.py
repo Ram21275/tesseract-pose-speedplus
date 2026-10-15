@@ -98,7 +98,8 @@ try:
         tr_rows = np.flatnonzero(tr); POS = torch.full((len(df),), -1, dtype=torch.long, device=dev)
         POS[torch.as_tensor(tr_rows, device=dev)] = torch.arange(len(tr_rows), device=dev)
         Kc = D.load_camera(Path(yaml.safe_load(open(REPO / "configs/paths.yaml"))["speedplus_root"])).K
-        dray = IP.ray(Kc, df.crop_cx.to_numpy()[tr_rows], df.crop_cy.to_numpy()[tr_rows])
+        cam_ = D.load_camera(Path(yaml.safe_load(open(REPO / "configs/paths.yaml"))["speedplus_root"]))
+        dray = IP.ray_undistorted(cam_.K, cam_.dist, df.crop_cx.to_numpy()[tr_rows], df.crop_cy.to_numpy()[tr_rows])
         VX, vC, vP, vRS, vCS = [], [torch.as_tensor(chart[tr_rows], device=dev)], [torch.as_tensor(path[tr_rows], device=dev)], [RSt[torch.as_tensor(tr_rows, device=dev)]], [CSt[torch.as_tensor(tr_rows, device=dev)]]
         for tag in VIEWS:
             vn, vx, vinfo = featsets.load(args.features, tag)

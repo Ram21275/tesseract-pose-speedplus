@@ -27,6 +27,7 @@ ap.add_argument("--lr", type=float, default=1e-3)
 ap.add_argument("--wd", type=float, default=0.05)
 ap.add_argument("--k", type=int, default=4)
 ap.add_argument("--eval-every", type=int, default=5)
+ap.add_argument("--no-geo", action="store_true", help="matched control: geometry token features zeroed (same modules / budget)")
 ap.add_argument("--seed", type=int, default=0)
 args = ap.parse_args()
 exp_id, short = args.exp.split("_", 1)
@@ -48,7 +49,7 @@ try:
             tree.load_state_dict(torch.load(d / "checkpoints/best.pt", map_location=dev)["model"]); tree.eval(); tree.requires_grad_(False)
             (run.dir / "source_runs.txt").write_text(f"{args.base_exp}/{d.name}\n"); break
     assert tree is not None
-    rev = PF.PathReviser(L).to(dev)
+    rev = PF.PathReviser(L, geo=not args.no_geo).to(dev)
     n_params = sum(p.numel() for p in rev.parameters())
     opt = torch.optim.AdamW(rev.parameters(), lr=args.lr, weight_decay=args.wd)
     tr_idx = np.flatnonzero(tr)

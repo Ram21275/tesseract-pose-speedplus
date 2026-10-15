@@ -25,10 +25,10 @@ try:
     full = pd.read_csv(REPO / "outputs/data_manifests/subset_full.csv"); tr = ((full.domain == "synthetic") & (full.split == "train")).to_numpy()
     t3 = pd.read_csv(REPO / "outputs/data_manifests/exp109_test3.csv"); va = pd.read_csv(REPO / "outputs/data_manifests/exp109_syn_val.csv")
     pos3 = pd.Series(np.arange(len(full)), index=full.image_relpath)[t3.image_relpath].to_numpy()
-    K = D.load_camera(Path(yaml.safe_load(open(REPO / "configs/paths.yaml"))["speedplus_root"])).K
-    q3 = t3[[f"q_can_{k}" for k in "wxyz"]].to_numpy(); d3 = IP.ray(K, t3.crop_cx.to_numpy(), t3.crop_cy.to_numpy())
+    CAM = D.load_camera(Path(yaml.safe_load(open(REPO / "configs/paths.yaml"))["speedplus_root"])); K = CAM.K
+    q3 = t3[[f"q_can_{k}" for k in "wxyz"]].to_numpy(); d3 = IP.ray_undistorted(K, CAM.dist, t3.crop_cx.to_numpy(), t3.crop_cy.to_numpy())
     dom3 = np.where(t3.domain == "synthetic", "synthetic_val", t3.domain)
-    qv = va[[f"q_can_{k}" for k in "wxyz"]].to_numpy(); dv = IP.ray(K, va.crop_cx.to_numpy(), va.crop_cy.to_numpy())
+    qv = va[[f"q_can_{k}" for k in "wxyz"]].to_numpy(); dv = IP.ray_undistorted(K, CAM.dist, va.crop_cx.to_numpy(), va.crop_cy.to_numpy())
 
     def tag_dir(bb, tag):
         return featsets.find_cache(bb, tag)
@@ -110,10 +110,18 @@ try:
         for name, (ms, keys, orbit) in systems.items():
             p3 = predict(ms, keys, "test", np.arange(len(t3)), orbit, np.zeros(len(t3)), d3)
             pv = predict(ms, keys, "valaug", np.arange(len(va)), orbit, ang_va, dv)
-            for dn, e in [(g, geo(p3[dom3 == g], q3[dom3 == g])) for g in ("synthetic_val", "lightbox", "sunlamp")] + [("synthetic_val_aug", geo(pv, qva))]:
+            ER = {g: geo(p3[dom3 == g], q3[dom3 == g]) for g in ("synthetic_val", "lightbox", "sunlamp")}; ER["synthetic_val_aug"] = geo(pv, qva)
+            if name == "EXP-036 PoE greedy":
+                BASE = ER                                                    # per-image reference for the flip transitions
+            for dn, e in ER.items():
+                e0 = BASE[dn]; n150 = int((e0 > 150).sum()); n20 = int((e0 < 20).sum())
                 rows_out.append({"seed": seed, "system": name, "domain": dn, "mean_deg": e.mean(), "median_deg": np.median(e), "p95_deg": np.percentile(e, 95),
                                  "acc@5": float((e <= 5).mean()), "acc@10": float((e <= 10).mean()), "acc@20": float((e <= 20).mean()),
-                                 "frac_gt90": float((e > 90).mean()), "frac_gt150": float((e > 150).mean())})
+                                 "frac_gt90": float((e > 90).mean()), "frac_gt150": float((e > 150).mean()),
+                                 "n_base_gt150": n150, "corrected_gt150_to_lt20": int(((e0 > 150) & (e < 20)).sum()),
+                                 "frac_corrected_gt150_to_lt20": ((e0 > 150) & (e < 20)).sum() / max(n150, 1),
+                                 "n_base_lt20": n20, "broken_lt20_to_gt150": int(((e0 < 20) & (e > 150)).sum()),
+                                 "frac_broken_lt20_to_gt150": ((e0 < 20) & (e > 150)).sum() / max(n20, 1)})
             print(seed, name, " | ".join(f"{r['domain']} {r['mean_deg']:.2f}" for r in rows_out[-4:]), flush=True)
     per = pd.DataFrame(rows_out); run.write_metrics(rows_out, "per_seed")
     cols = [c for c in per.columns if c not in ("seed", "system", "domain")]

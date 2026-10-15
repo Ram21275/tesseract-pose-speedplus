@@ -1,6 +1,9 @@
-"""EXP-108: direct path flow. A bidirectional reviser re-predicts every Tesseract decision (root + children) of a current
-path, conditioned on the frozen tree-encoder memory (image) and on the geometry of the hypothesis (its leaf rotation and
-the three 180-degree body-axis flips). Trained by discrete flow matching with a geometry-aware corruption kernel."""
+"""EXP-108: geometry-conditioned iterative path denoiser (renamed after the 2026-10-15 review; NOT a discrete flow-matching
+model: no time conditioning, no defined probability path, argmax re-decoding). A bidirectional reviser re-predicts every
+Tesseract decision (root + children) of a current path, conditioned on the frozen tree-encoder memory (image) and, unless
+geo=False (matched control), on the geometry of the hypothesis (its leaf rotation and the three 180-degree body-axis flips).
+Trained to denoise paths corrupted token-wise towards geometry-aware SOURCE paths (flip / nearby / uniform); token mixing
+is not geometry-preserving (see scripts/exp108_corruption_geometry.py)."""
 from __future__ import annotations
 
 import numpy as np
@@ -19,8 +22,9 @@ FLIPS = np.array([[0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]], np.float64)     # 1
 
 class PathReviser(nn.Module):
     def __init__(self, depth: int = 5, d: int = 256, layers: int = 2, heads: int = 4, ff: int = 512, dropout: float = 0.1,
-                 n_freq: int = 6, r_freq: int = 4):
+                 n_freq: int = 6, r_freq: int = 4, geo: bool = True):
         super().__init__()
+        self.geo = geo                                   # False: same modules, geometry features zeroed (matched control)
         self.depth, self.n_freq, self.r_freq = depth, n_freq, r_freq
         self.root_emb = nn.Embedding(T.N_CHARTS, d)
         self.child_emb = nn.Embedding(T.N_CHILD, d)
@@ -42,13 +46,14 @@ class PathReviser(nn.Module):
         qleaf = decode_torch(chart, path)                                              # (B,4)
         fl = torch.as_tensor(FLIPS, dtype=qleaf.dtype, device=dev)
         hyp = torch.cat([qleaf[:, None], P.qmul(qleaf[:, None].expand(B, 3, 4).reshape(-1, 4), fl.repeat(B, 1)).view(B, 3, 4)], 1)
-        geo = self.geo_proj(rot_features(hyp.reshape(-1, 4), self.r_freq).view(B, -1)) + self.level_emb.weight[L + 1]
+        gf = rot_features(hyp.reshape(-1, 4), self.r_freq).view(B, -1)
+        geo = self.geo_proj(gf if self.geo else torch.zeros_like(gf)) + self.level_emb.weight[L + 1]
         x = torch.stack(toks + [geo], 1)                                               # (B, L+2, d), no causal mask
         h = self.dec(x, mem)
         return self.root_head(h[:, 0]), self.child_head(h[:, 1:L + 1])
 
 
-def corrupt(q: np.ndarray, chart: np.ndarray, path: np.ndarray, t: np.ndarray, rng, p_flip=0.35, p_near=0.25):
+def corrupt(q: np.ndarray, chart: np.ndarray, path: np.ndarray, t: np.ndarray, rng, p_flip=0.35, p_near=0.25, return_info=False):
     """Discrete flow-matching corruption: keep each GT decision with prob t, else take it from a source path
     (180-deg body flip of GT | GT perturbed 3-15 deg | uniform). Any combination is a valid path."""
     N, L = path.shape
@@ -72,6 +77,8 @@ def corrupt(q: np.ndarray, chart: np.ndarray, path: np.ndarray, t: np.ndarray, r
     sc[un] = rng.integers(0, T.N_CHARTS, un.sum()); sp[un] = rng.integers(0, T.N_CHILD, (un.sum(), L))
     keep = rng.random((N, L + 1)) < t[:, None]
     c = np.where(keep[:, 0], chart, sc); p = np.where(keep[:, 1:], path, sp)
+    if return_info:
+        return c, p, {"source": np.where(fl, "flip", np.where(nr, "near", "uniform")), "src_chart": sc, "src_path": sp}
     return c, p
 
 

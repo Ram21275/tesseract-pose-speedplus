@@ -66,3 +66,11 @@ def photometric(x: np.ndarray, rng: np.random.Generator) -> np.ndarray:
         if x.ndim == 2 and x.shape != (H, W):
             x = x.reshape(H, W)
     return x
+
+
+def ray_undistorted(K: np.ndarray, dist: np.ndarray, cx, cy) -> np.ndarray:
+    """Unit camera ray through (distorted) pixel(s) (cx, cy): undistort, then lift (z = 1)."""
+    p = np.stack([np.atleast_1d(cx), np.atleast_1d(cy)], 1).astype(np.float64).reshape(-1, 1, 2)
+    n = cv2.undistortPoints(p, K, dist).reshape(-1, 2)
+    d = np.concatenate([n, np.ones((len(n), 1))], 1)
+    return d / np.linalg.norm(d, axis=1, keepdims=True)

@@ -52,5 +52,20 @@ Can the frozen-backbone Tesseract tree generalise better to real images when the
 - B's features: from the existing full cache (host-memory peak about 30 GB, guard 40).
 - Trainings: 6 (A) + 3 (B, DINOv3 only) + C evaluations. Everything goes through the guarded queue, one job at a time.
 
+## Amendment 2026-10-15 (external review; before any augmented extraction, training or evaluation)
+1. **Label convention derived from geometry, not from a predictor.** The original gate (pick the convention whose mapped-back EXP-036 predictions are closest) is withdrawn as a selection rule.
+   - **Derivation:** pose convention p_cam = R(q)·p_body + r (EXP-000). The crop warp rotates the content by θ (counter-clockwise on screen, cv2) about the crop centre c. With the image y axis down, a camera-frame rotation Rot(d, φ) about the unit ray d through c appears as a clockwise rotation by φ. So φ = −θ, giving R′ = Rot(d, −θ)·R and r′ = Rot(d, −θ)·r, i.e. **q′ = Exp(−θ·d) ⊗ q ("pre−")**.
+   - **d** is computed from the *undistorted* crop centre (the distortion coefficients are now applied; the earlier helper ignored them).
+   - **Verification** (`scripts/exp109_convention_geometry.py`, 512 synthetic-val rows × 4 angles):
+     - The 11 Tango points, projected with the real distorted camera and pushed through the exact crop + rotation warp, match the projection of (q′, r′) to 0.34 px mean, 1.05 px p95, 4.75 px max (224-px crop). The other three transforms are off by 94–242 px.
+     - The exact label error of the derivation (the PnP pose reproducing the warped points vs q′) is 0.06° mean, 0.20° p95, 1.14° max. This is the affine-warp vs homography/distortion approximation, well below the 2.5° leaf size.
+     - The round trip q → q′ → q is within 0.004°.
+   - A first run of that script (`RUN-20261015-134926`) used a pixel threshold (p95 < 1 px) chosen before measuring and reported "not verified" at 1.05 px. Its threshold was replaced, before the degree measurement was taken, by the label-error rule (p95 < 0.5°, round trip < 0.01°, pre− best by ≥ 10×), which passes (`RUN-20261015-134950`). Both runs are kept.
+   - The predictor check (`scripts/exp109_gate.py`) still runs, **descriptively only**.
+2. **Flip metrics added** relative to EXP-036 PoE greedy, per seed and per image:
+   - n of initially > 150° images, and the fraction corrected to < 20°;
+   - n of initially < 20° images, and the fraction broken to > 150°.
+3. Selection rules and criteria are otherwise unchanged (synthetic val-aug + clean synthetic val; real domains descriptive).
+
 ## Runs / Results / Decision
 Not started.

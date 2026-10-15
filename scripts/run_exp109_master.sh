@@ -16,8 +16,9 @@ until [ -f outputs/shared_cache/tokens16_full_std.json ]; do sleep 60; done
 # ---- convention gate
 GM=outputs/data_manifests/exp109_gate512.csv
 X $GM gate512_r0; X $GM gate512_r90 --rot-deg 90; X $GM gate512_r37 --rot-deg 37
-G $PY scripts/exp109_gate.py || { echo GATE_FAILED; exit 1; }
+GUARD_GPU_GB=0 G $PY scripts/exp109_convention_geometry.py || { echo GATE_FAILED; exit 1; }      # derived + verified (no model)
 CONV=$(cat outputs/experiments/exp109_convention.txt); echo "CONVENTION=$CONV"
+G $PY scripts/exp109_gate.py || echo PREDICTOR_CHECK_FAILED                                       # descriptive only
 if [ "$CONV" = "NONE" ]; then echo "GATE_NONE: stop for a decision (pre-registered: drop rotation aug and C)"; exit 1; fi
 # ---- augmented / orbit features
 X outputs/data_manifests/exp109_syn_train.csv exp109_train_aug1 --rot-random-seed 1 --photo-seed 1
@@ -43,9 +44,9 @@ echo EXP109_DONE
 # ---- EXP-108
 echo ">>> $(date +%T) EXP-108 smoke"
 G $PY scripts/train_pathflow.py --exp EXP-099_p3_smoke --features moge2_vitl:normals16~and --epochs 1 --eval-every 1 || { echo SMOKE108_FAILED; exit 1; }
-for s in 0 1 2; do for f in dinov3_vitl16:tokens8 moge2_vitl:normals16~and; do
-  echo ">>> $(date +%T) EXP-108 train $f seed=$s"; G $PY scripts/train_pathflow.py --features $f --seed $s || { echo TRAIN108_FAILED; exit 1; }
-done; done
+for arm in "" "--no-geo"; do for s in 0 1 2; do for f in dinov3_vitl16:tokens8 moge2_vitl:normals16~and; do
+  echo ">>> $(date +%T) EXP-108 train $f seed=$s $arm"; G $PY scripts/train_pathflow.py --features $f --seed $s $arm || { echo TRAIN108_FAILED; exit 1; }
+done; done; done
 echo ">>> $(date +%T) EXP-108 eval"; G $PY scripts/exp108_eval.py || echo EVAL108_FAILED
 echo CHAIN108_DONE
 # ---- EXP-107 jobs (last)

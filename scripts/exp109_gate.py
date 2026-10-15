@@ -1,4 +1,5 @@
-"""EXP-109 convention gate (pre-registered): 512 synthetic-val crops extracted unrotated and rotated by 90 and 37 deg
+"""EXP-109 predictor consistency check (DESCRIPTIVE ONLY since the 2026-10-15 review; the label convention is derived
+from geometry in exp109_convention_geometry.py): 512 synthetic-val crops extracted unrotated and rotated by 90 and 37 deg
 (compact caches gate512_r0 / _r90 / _r37); frozen EXP-036 PoE trees (seed 0) predict on each; the rotated predictions
 are compared with the GT rotated by each candidate label convention. Also checks compact (r0) == full-cache features.
 Writes the chosen convention to outputs/experiments/exp109_convention.txt (or NONE)."""
@@ -23,8 +24,8 @@ try:
     full = pd.read_csv(REPO / "outputs/data_manifests/subset_full.csv"); tr = ((full.domain == "synthetic") & (full.split == "train")).to_numpy()
     g = pd.read_csv(REPO / "outputs/data_manifests/exp109_gate512.csv")
     pos = pd.Series(np.arange(len(full)), index=full.image_relpath)[g.image_relpath].to_numpy()
-    K = D.load_camera(Path(yaml.safe_load(open(REPO / "configs/paths.yaml"))["speedplus_root"])).K
-    d = IP.ray(K, g.crop_cx.to_numpy(), g.crop_cy.to_numpy())
+    CAM = D.load_camera(Path(yaml.safe_load(open(REPO / "configs/paths.yaml"))["speedplus_root"])); K = CAM.K
+    d = IP.ray_undistorted(K, CAM.dist, g.crop_cx.to_numpy(), g.crop_cy.to_numpy())
     qg = g[[f"q_can_{k}" for k in "wxyz"]].to_numpy()
     feats, eq = {}, []
     for sp in SPECS:
@@ -60,12 +61,11 @@ try:
             rows.append({"view": tag[-3:], "mode": m, "mean_deg": geo(qp, IP.rotate_label(qg, th, d, m)).mean(),
                          "median_deg": float(np.median(geo(qp, IP.rotate_label(qg, th, d, m))))})
     run.write_metrics(rows, "gate"); print(md_table(rows))
-    r0 = rows[0]["mean_deg"]; per = pd.DataFrame(rows[1:]).groupby("mode").mean_deg.max()
-    best = per.idxmin()
-    choice = best if per[best] <= 2 * r0 else "NONE"
-    (REPO / "outputs/experiments/exp109_convention.txt").write_text(choice + "\n")
-    run.done(convention=choice, r0_mean=r0, worst_view_mean_for_choice=float(per[best]))
-    print("CONVENTION", choice, "| r0", round(r0, 3), "| per mode (worst view)", per.round(3).to_dict()); print("RUN", run.rel())
+    # Descriptive only (review 2026-10-15): the convention is DERIVED from geometry (exp109_convention_geometry.py) and read
+    # from exp109_convention.txt; this predictor check never selects it.
+    conv = (REPO / "outputs/experiments/exp109_convention.txt").read_text().strip()
+    run.done(derived_convention=conv, r0_mean=float(rows[0]["mean_deg"]))
+    print("DESCRIPTIVE predictor check; derived convention =", conv); print("RUN", run.rel())
 except Exception:
     import traceback
     run.fail(traceback.format_exc()); raise

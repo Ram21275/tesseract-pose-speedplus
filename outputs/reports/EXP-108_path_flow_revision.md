@@ -1,4 +1,4 @@
-# EXP-108: Direct path flow — iterative revision of root and child decisions from image and rotation geometry
+# EXP-108: Geometry-conditioned iterative path denoiser (requested as "direct path flow") — revising root and child decisions from image and rotation geometry
 
 ## Status
 **Pre-registered 2026-10-15, before any code was run** (DEC-013, user request: "add an experiment direct path flow that iteratively revises the root and child decisions themselves using image and rotation geometry").
@@ -46,6 +46,26 @@
 
 ## Expectation (stated before results)
 Synthetic val has almost no flips, so criterion 1 can only reward precision and seam repairs. On real images the reviser reads the same frozen features that EXP-105 found ambiguous between flips, so large flip repair is not expected unless the geometry token gives a cue the tree cannot use. The experiment tests this.
+
+## Amendment 2026-10-15 (external review; before any EXP-108 training or evaluation run)
+1. **Formulation, renamed.** The implementation has no corruption-time input, no defined probability path, and decodes by repeated argmax. It is therefore a **geometry-conditioned iterative path denoiser**, not discrete flow matching, and is reported as such. It is kept as the baseline. A discrete flow-matching variant (defined probability path, time conditioning, a consistent transition sampler) would be a separate, separately pre-registered experiment; it is not run here. The sections above that say "discrete flow matching" / "Euler-like" are superseded by this naming. The method itself is unchanged.
+2. **Corruption geometry, measured** (`scripts/exp108_corruption_geometry.py`, `RUN-20261015-135058-seed0`; no model involved):
+   - The token-wise kernel samples geometry-aware **source** paths, but mixing tokens is **not geometry-preserving**.
+   - At t = 0.3–0.6, 45–53% of corrupted paths are > 30° from *both* GT and source (flip sources 59–69%).
+   - Paths with a changed root average 130–150° from GT.
+   - A prefix-mixing kernel (GT above depth j, source below) degrades smoothly (e.g. t = 0.6: 13° vs 68° mean error).
+   - The pre-registered token-wise kernel is **kept** for the main and control arms. A prefix-mixing arm is listed as a possible follow-up and is not run unless the user asks.
+3. **Matched control added:**
+   - Arm **"nogeo"**: identical modules and parameter count (1,752,076 per branch, checked), with the geometry-token features zeroed, and the same corruption, budget, seeds and checkpoint rule.
+   - Criterion 4 (new): **geometry adds value** if the geo arm's 3-seed synthetic-val mean at K = 4 is below the nogeo arm's by more than the larger seed std.
+   - Criteria 1–3 are unchanged and are applied to the geo arm.
+4. **Metrics added:**
+   - Path changes are counted from the actual decisions: root, each child level, any.
+   - **Flip transitions with denominators**:
+     - n of initially > 150° images, and the fraction corrected to < 20°;
+     - n of initially < 20° images, and the fraction broken to > 150°.
+   - The existing metrics are retained.
+5. Selection stays synthetic-only; lightbox / sunlamp remain descriptive.
 
 ## Runs / Results / Decision
 Not started.

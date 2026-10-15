@@ -1,0 +1,24 @@
+>>> 13:43:00 extract gate512_r0 dinov3_vitl16
+done /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_gate512_r0__46d8740afea9__9284274b5064d38c
+>>> 13:43:24 extract gate512_r0 moge2_vitl
+Traceback (most recent call last):
+  File "/home/kavinder/RAM/pose-estimation/scripts/extract_compact.py", line 139, in <module>
+    o = ex(x); break
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/kavinder/RAM/pose-estimation/src/tfpose/features.py", line 163, in __call__
+    pred = self.model.infer(x, num_tokens=self.num_tokens, apply_mask=False, use_fp16=True)
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/kavinder/RAM/pose-estimation/.venv/lib/python3.13/site-packages/moge/model/v2.py", line 313, in infer
+    points = utils3d.pt.depth_map_to_point_map(depth, intrinsics=intrinsics)
+  File "/home/kavinder/RAM/pose-estimation/.venv/lib/python3.13/site-packages/utils3d_moge/torch/maps.py", line 379, in depth_map_to_point_map
+    pts = unproject_cv(uv, depth, intrinsics=intrinsics[..., None, :, :], extrinsics=extrinsics[..., None, :, :] if extrinsics is not None else None)
+  File "/home/kavinder/RAM/pose-estimation/.venv/lib/python3.13/site-packages/utils3d_moge/torch/transforms.py", line 704, in unproject_cv
+    points = points @ safe_inv(transform).mT
+                      ~~~~~~~~^^^^^^^^^^^
+  File "/home/kavinder/RAM/pose-estimation/.venv/lib/python3.13/site-packages/utils3d_moge/torch/utils.py", line 524, in safe_inv
+    inv, info = torch.linalg.inv_ex(A)
+                ~~~~~~~~~~~~~~~~~~~^^^
+RuntimeError: Error in dlopen: /home/kavinder/miniconda3/lib/python3.13/site-packages/torch/lib/libtorch_cuda_linalg.so: undefined symbol: cusolverDnXsyevBatched_bufferSize, version libcusolver.so.11
+EXTRACT_FAILED gate512_r0
