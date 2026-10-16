@@ -179,11 +179,11 @@ Timing source: EXP-107 `timing` table, RTX-class shared GPU (concurrent load rec
 
 ## 6. Minimum work to finalize the paper (prioritized)
 
-**Essential:**
+**Essential (pre-registered 2026-10-16 as DEC-019 / EXP-112–115; EXP-064 next):**
 1. **Fair timing and memory of the final system** (being done in **EXP-112**: C on A; A; DINOv3-only A; DINOv3-only + orbit) on one GPU, batch 1 and 64, synchronized. *Validates the cost claims in C1 and C3 and the trade-off table.*
-2. **Augmentation ablation:** photometric-only vs photometric + rotation (A) vs rotation-only, each ± orbit. *Validates C3 (that the derived rotation transform, not augmentation in general, drives flip repair).*
-3. **Matched flat baseline under the final recipe:** a flat Hopf-grid classifier (SPACE-HOP-style anchors + offset) on the same frozen features with the same augmentation ± orbit. *Validates C1 (that the tree matters) and gives the closest external method a matched comparison.*
-4. **Cross-object validation (EXP-064, at least SYMSOL-T + T-LESS)** with the locked recipe. *Validates the generality of C1/C3; without it the paper stays SPEED+-only.*
+2. **Augmentation ablation (EXP-115):** photometric-only vs photometric + rotation (A) vs rotation-only, each ± orbit. *Validates C3 (that the derived rotation transform, not augmentation in general, drives flip repair).*
+3. **Matched flat baseline under the final recipe (EXP-113)** and **orbit scoring rules (EXP-114: product vs max-confidence vs cluster voting, same views and candidates)**: a flat Hopf-grid classifier (SPACE-HOP-style anchors + offset) on the same frozen features with the same augmentation ± orbit. *Validates C1 (that the tree matters) and gives the closest external method a matched comparison.*
+4. **Cross-object validation (EXP-064, at least SYMSOL-T + T-LESS; amended to the locked recipe)** with the locked recipe. *Validates the generality of C1/C3; without it the paper stays SPEED+-only.*
 5. **Figures and tables:**
    - the architecture diagram, updated to A + C;
    - the error histogram before/after (W-shape removal);
@@ -212,4 +212,5 @@ Timing source: EXP-107 `timing` table, RTX-class shared GPU (concurrent load rec
 
 ## Changelog
 - 2026-10-16: created. Initial best result stored (EXP-109 C on A). EXP-111 running.
+- 2026-10-16: DEC-019: EXP-113 (tree vs matched flat Hopf), EXP-114 (orbit scoring rules), EXP-115 (augmentation ablation) pre-registered and queued; EXP-064 next.
 - 2026-10-16: DEC-018 recipe lock (EXP-109 methodology, PoE + DINOv3-only variants); final architecture diagram added; EXP-112 pre-registered (DINOv3-only + orbit, end-to-end timing).

@@ -161,3 +161,13 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 - **Consequences:**
   - EXP-112 (new; evaluation only) evaluates both variants with end-to-end timing.
   - EXP-064 / EXP-106 and any later experiment use this recipe.
+
+## DEC-019 — Experiments to strengthen the contribution: EXP-113, 114, 115, then EXP-064 (2026-10-16)
+- **Decided by:** the user: "we need the generalisation claim and comparison of this architecture with Final Tesseract versus matched Hopf/flat classifier, both with identical augmentation and orbit inference … Same four views and candidate pool: your orbit-product score versus maximum confidence and simple rotation-cluster voting … Photometric-only, rotation-only, combined; each with/without orbit inference … And the exp 64 for knowing if this extends beyond tango. Lets focus on these points."
+- **Added:**
+  - EXP-113: Tesseract vs a matched flat Hopf classifier;
+  - EXP-114: orbit scoring rules;
+  - EXP-115: augmentation ablation.
+  - All use the locked recipe (DEC-018) and the shared evaluator `scripts/orbit_eval.py`.
+- **Order:** after EXP-111 / 112: 114 (evaluation only) → 113 (6 flat trainings) → 115 (extraction + 12 trainings) → evaluations → **EXP-064** (cross-dataset; its implementation follows its amended protocol).
+- **Focus:** other optional work (EXP-051–055, EXP-107 re-run, EXP-106) is deferred.
