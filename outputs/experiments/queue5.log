@@ -88,3 +88,33 @@ done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp115_train_photo1_
 done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp115_train_photo1__a89eb830f5f9__986a088bd3cd6bb1
 done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp115_train_photo1
 >>> 15:31:20 extract exp115_train_photo2 dinov3_vitl16
+  1600/47966  25.5 ms/img
+  3200/47966  25.3 ms/img
+  4800/47966  25.3 ms/img
+  6400/47966  25.3 ms/img
+  8000/47966  25.3 ms/img
+  9600/47966  25.3 ms/img
+  11200/47966  25.3 ms/img
+  12800/47966  25.3 ms/img
+  14400/47966  25.3 ms/img
+  16000/47966  25.2 ms/img
+  17600/47966  25.2 ms/img
+  19200/47966  25.2 ms/img
+  20800/47966  25.2 ms/img
+  22400/47966  25.2 ms/img
+  24000/47966  25.1 ms/img
+  25600/47966  25.1 ms/img
+  27200/47966  25.0 ms/img
+  28800/47966  24.8 ms/img
+  30400/47966  24.6 ms/img
+  32000/47966  24.5 ms/img
+  33600/47966  24.4 ms/img
+  35200/47966  24.2 ms/img
+  36800/47966  24.2 ms/img
+  38400/47966  24.2 ms/img
+  40000/47966  24.2 ms/img
+  41600/47966  24.3 ms/img
+  43200/47966  24.3 ms/img
+  44800/47966  24.3 ms/img
+  46400/47966  24.3 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp115_train_photo2__4ad485d2b851__47ffbfe417042f2a

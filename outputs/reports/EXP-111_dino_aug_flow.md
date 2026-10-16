@@ -1,6 +1,8 @@
 # EXP-111: DINOv3-only augmented tree + SO(3) flow head (candidate final architecture)
 
 ## Status
+**Completed 2026-10-16.** **KDE arm: criterion PASS on synthetic val** (4.10 ± 0.04 vs its tree's 4.84 ± 0.05), **but worse on both real domains** (lightbox 25.16 vs 22.55; sunlamp 24.39 vs 22.07). **Verifier arm: PASS on synthetic val** (4.42 vs beam-8 top-1 5.26), about equal on real (22.93 / 21.98 vs 22.97 / 22.37). Neither beats orbit voting on the same tree (EXP-112 A-DINO + orbit: 4.21 / 17.40 / 15.27). Score **2/5 Weak**.
+
 **Pre-registered 2026-10-16, before any run** (DEC-017, user: "yes pre-register it and run it before 108 it should be a quick experiment"). Runs right after the EXP-109 evaluation, before EXP-108.
 
 ## Question
@@ -36,5 +38,22 @@ User: "in the same experiment can we test the 45 approach with the same aetting?
 - The retry (12:49) failed at start-up because the trainer's default `--centre mix` reads an error-distribution file that was not passed. With the Haar (uniform) base used here and in EXP-042, the centre is never used by the loss or the sampler, so `--centre gt` is passed. Nothing in the method changes.
 - Running since 12:49:53 (`scripts/run_queue3.sh`).
 
-## Runs / Results / Decision
-Not started.
+## Runs
+Flow heads: `RUN-20261016-125000…` (seed 0), `RUN-20261016-131622-seed1`, `RUN-20261016-222956-seed2`. Summary / timing: `RUN-20261016-224135-seed0`. Verifier: `RUN-20261016-224147-seed0`.
+
+## Results (3-seed mean ± std, °)
+| system | synth val | lightbox | sunlamp | > 150° (LB / SL) |
+|---|---|---|---|---|
+| tree greedy (EXP-109 A DINOv3) | 4.84 ± 0.05 | 22.55 ± 0.73 | 22.07 ± 0.73 | 0.060 / 0.033 |
+| **tree + flow KDE** | **4.10 ± 0.04** | 25.16 ± 0.60 | 24.39 ± 0.64 | 0.065 / 0.028 |
+| tree beam-8 top-1 | 5.26 ± 0.04 | 22.97 | 22.37 | 0.060 / 0.033 |
+| tree + flow verifier (EXP-045 design) | 4.42 ± 0.03 | 22.93 ± 1.05 | 21.98 ± 0.69 | 0.063 / 0.031 |
+| *reference: A-DINO + orbit (EXP-112)* | *4.21* | *17.40* | *15.27* | *0.048 / 0.020* |
+
+**Timing (batch 1 / 64, ms per image; shared GPU):**
+- DINOv3 6.2 / 2.8; tree greedy 6.9 / 0.12; flow NFE 10 × M 32 8.5 / 1.2.
+- Totals: tree only 13.1 / 2.9; tree + flow 21.6 / 4.1.
+
+## Decision
+- The flow and the verifier help on synthetic data but not on real images. Orbit voting on the same tree is better on every domain.
+- Not adopted. The flow remains a supporting / appendix result (density, uncertainty).

@@ -1,0 +1,74 @@
+[
+  {
+    "batch": 1,
+    "component": "DINOv3-L features",
+    "ms_per_image": 6.195610971190035,
+    "fps_or_img_per_s": 161.40458215502238
+  },
+  {
+    "batch": 1,
+    "component": "DINOv3 tree greedy",
+    "ms_per_image": 6.875600025523454,
+    "fps_or_img_per_s": 145.44185180752538
+  },
+  {
+    "batch": 1,
+    "component": "flow NFE10 M32 (1 head)",
+    "ms_per_image": 8.490105043165386,
+    "fps_or_img_per_s": 117.78417285955837
+  },
+  {
+    "batch": 1,
+    "component": "KDE",
+    "ms_per_image": 0.07486698450520635,
+    "fps_or_img_per_s": 13357.022546172655
+  },
+  {
+    "batch": 1,
+    "component": "TOTAL tree only",
+    "ms_per_image": 13.07121099671349,
+    "fps_or_img_per_s": 76.50400565421454
+  },
+  {
+    "batch": 1,
+    "component": "TOTAL tree + flow",
+    "ms_per_image": 21.63618302438408,
+    "fps_or_img_per_s": 46.218873212201764
+  },
+  {
+    "batch": 64,
+    "component": "DINOv3-L features",
+    "ms_per_image": 2.767196578133735,
+    "fps_or_img_per_s": 361.37656713728103
+  },
+  {
+    "batch": 64,
+    "component": "DINOv3 tree greedy",
+    "ms_per_image": 0.11484712467790814,
+    "fps_or_img_per_s": 8707.227131759084
+  },
+  {
+    "batch": 64,
+    "component": "flow NFE10 M32 (1 head)",
+    "ms_per_image": 1.2021884685964324,
+    "fps_or_img_per_s": 831.8163300697024
+  },
+  {
+    "batch": 64,
+    "component": "KDE",
+    "ms_per_image": 0.001136469109042082,
+    "fps_or_img_per_s": 879918.3295381338
+  },
+  {
+    "batch": 64,
+    "component": "TOTAL tree only",
+    "ms_per_image": 2.882043702811643,
+    "fps_or_img_per_s": 346.97600144800975
+  },
+  {
+    "batch": 64,
+    "component": "TOTAL tree + flow",
+    "ms_per_image": 4.0853686405171175,
+    "fps_or_img_per_s": 244.77595242749553
+  }
+]

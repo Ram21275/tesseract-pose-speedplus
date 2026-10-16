@@ -1,0 +1,10 @@
+{
+  "state": "failed",
+  "pid": 3864835,
+  "start": "2026-10-16T14:03:46.893947",
+  "wall_clock_s": 78.83,
+  "peak_cpu_rss_mb": 10639.3,
+  "peak_gpu_mb": 0.0,
+  "error": "Traceback (most recent call last):\n  File \"/home/kavinder/RAM/pose-estimation/scripts/orbit_eval.py\", line 53, in <module>\n    _, xf, _ = featsets.load(sp, \"full\"); st = featsets.train_stats(xf, tr)\n               ~~~~~~~~~~~~~^^^^^^^^^^^^\n  File \"/home/kavinder/RAM/pose-estimation/src/tfpose/featsets.py\", line 149, in load\n    return names, X, {\"cache\": str(path.relative_to(REPO)), \"cache_manifest\": man}\n                                   ~~~~~~~~~~~~~~~~^^^^^^\n  File \"/home/kavinder/miniconda3/lib/python3.13/pathlib/_local.py\", line 385, in relative_to\n    raise ValueError(f\"{str(self)!r} is not in the subpath of {str(other)!r}\")\nValueError: '/media/kavinder/hdd2/RAM/shared_cache/dinov3_vitl16__subset_full__793c65d370cc__c7c029785fb8458c' is not in the subpath of '/home/kavinder/RAM/pose-estimation'\n",
+  "end": "2026-10-16T14:05:05.726720"
+}

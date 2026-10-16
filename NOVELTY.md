@@ -34,6 +34,15 @@ All further experiments use the **EXP-109 methodology** in two variants, **PoE (
 - **EXP-112** (evaluation only, queued after EXP-111) supplies the missing DINOv3-only + orbit accuracy and the end-to-end timing and memory of all four variants.
 - EXP-064 / 106 are amended to this recipe.
 
+### Update 2026-10-17 (EXP-111 / 112 / 114 completed)
+- **EXP-112 (measured, batch 1):**
+  - PoE + orbit 279 ms (3.6 FPS);
+  - **DINOv3-only + orbit 70 ms (14 FPS): 4.21 / 17.40 / 15.27**;
+  - DINOv3-only greedy 15 ms (68 FPS).
+  - MoGe-2 costs about 41 ms per view (20 ms of it is the CPU mask step).
+- **EXP-114:** on synthetic val, weighted voting over the 32 candidates beats the orbit product (3.46 vs 3.87), so the pre-registered "product beats voting" criterion **fails**. The product is best on val-aug (marginally) and on real (descriptive). **Claim narrowed:** the contribution is multi-view orbit consistency over hierarchical candidates (product or weighted voting), not the product score itself. Max-confidence and top-1 voting are clearly worse.
+- **EXP-111:** a flow on the augmented DINOv3 tree improves synthetic (4.10) but is worse on real. Not adopted.
+
 ## 1. Current evidence and best systems
 
 ### 1.1 Experiment status (verified from artifacts)
@@ -212,5 +221,6 @@ Timing source: EXP-107 `timing` table, RTX-class shared GPU (concurrent load rec
 
 ## Changelog
 - 2026-10-16: created. Initial best result stored (EXP-109 C on A). EXP-111 running.
+- 2026-10-17: EXP-111 / 112 / 114 results; contribution 3 narrowed (orbit consistency, scoring rule open); timing measured.
 - 2026-10-16: DEC-019: EXP-113 (tree vs matched flat Hopf), EXP-114 (orbit scoring rules), EXP-115 (augmentation ablation) pre-registered and queued; EXP-064 next.
 - 2026-10-16: DEC-018 recipe lock (EXP-109 methodology, PoE + DINOv3-only variants); final architecture diagram added; EXP-112 pre-registered (DINOv3-only + orbit, end-to-end timing).

@@ -1,0 +1,15 @@
+ep 5 loss 7.4971 val_mean 19.255 median 13.437
+ep 10 loss 5.1315 val_mean 12.154 median 10.366
+ep 15 loss 4.2964 val_mean 11.074 median 9.660
+ep 20 loss 3.8932 val_mean 10.458 median 9.241
+ep 25 loss 3.6522 val_mean 10.045 median 9.072
+ep 30 loss 3.4894 val_mean 9.724 median 8.760
+ep 35 loss 3.3543 val_mean 9.685 median 8.617
+ep 40 loss 3.2316 val_mean 9.512 median 8.603
+ep 45 loss 3.1206 val_mean 9.304 median 8.469
+ep 50 loss 3.0187 val_mean 9.145 median 8.328
+ep 55 loss 2.9255 val_mean 9.162 median 8.195
+ep 60 loss 2.8363 val_mean 8.993 median 8.105
+ep 65 loss 2.7590 val_mean 8.867 median 8.055
+ep 70 loss 2.6916 val_mean 8.841 median 7.935
+ep 75 loss 2.6378 val_mean 8.797 median 7.918

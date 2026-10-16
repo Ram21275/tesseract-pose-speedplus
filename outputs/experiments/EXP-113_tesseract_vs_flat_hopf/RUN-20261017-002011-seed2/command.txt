@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_flat_tf.py --features dinov3_vitl16:tokens8 --token-shape 64x1024 --aug-convention pre- --seed 2

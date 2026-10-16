@@ -1,0 +1,10 @@
+{
+  "state": "completed",
+  "pid": 4116008,
+  "start": "2026-10-16T22:41:35.965214",
+  "wall_clock_s": 9.01,
+  "peak_cpu_rss_mb": 3357.2,
+  "peak_gpu_mb": 1898.5,
+  "end": "2026-10-16T22:41:44.973682",
+  "gpu_state": "NVIDIA RTX 6000 Ada Generation, 100 %, 3916 MiB\nNVIDIA RTX A400, 0 %, 18 MiB"
+}

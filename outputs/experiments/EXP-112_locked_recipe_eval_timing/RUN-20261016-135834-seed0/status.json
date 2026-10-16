@@ -1,0 +1,10 @@
+{
+  "state": "failed",
+  "pid": 3862474,
+  "start": "2026-10-16T13:58:34.218763",
+  "wall_clock_s": 224.47,
+  "peak_cpu_rss_mb": 10637.1,
+  "peak_gpu_mb": 0.0,
+  "error": "Traceback (most recent call last):\n  File \"/home/kavinder/RAM/pose-estimation/scripts/exp112_eval.py\", line 40, in <module>\n    _, xf, _ = featsets.load(sp, \"full\"); st = featsets.train_stats(xf, tr)\n               ~~~~~~~~~~~~~^^^^^^^^^^^^\n  File \"/home/kavinder/RAM/pose-estimation/src/tfpose/featsets.py\", line 149, in load\n    return names, X, {\"cache\": str(path.relative_to(REPO)), \"cache_manifest\": man}\n                                   ~~~~~~~~~~~~~~~~^^^^^^\n  File \"/home/kavinder/miniconda3/lib/python3.13/pathlib/_local.py\", line 385, in relative_to\n    raise ValueError(f\"{str(self)!r} is not in the subpath of {str(other)!r}\")\nValueError: '/media/kavinder/hdd2/RAM/shared_cache/dinov3_vitl16__subset_full__793c65d370cc__c7c029785fb8458c' is not in the subpath of '/home/kavinder/RAM/pose-estimation'\n",
+  "end": "2026-10-16T14:02:18.685070"
+}
