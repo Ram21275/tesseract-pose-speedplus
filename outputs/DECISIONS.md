@@ -148,3 +148,16 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 - **Decided by:** the user: after the question "are the above results of the same architecture" (answer: the EXP-109 A numbers are the DINOv3 tree alone, without MoGe-2, PoE or flow): "yes pre-register it and run it before 108 it should be a quick experiment."
 - **EXP-111:** a flow head with the EXP-042 recipe on the EXP-109 arm-A DINOv3 tree, trained with the same augmented views, 3 seeds, plus DINOv3-only timing. Queue order: EXP-109 eval (running) → **EXP-111** → EXP-108 → EXP-110 → EXP-107.
 - **Reordered (user, 2026-10-16):** "move experiment 111 after the old scheduled runs". Queue: EXP-109 eval → EXP-108 → EXP-110 → EXP-107 → **EXP-111** (KDE + verifier arms).
+
+## DEC-018 — Recipe lock: EXP-109 methodology, PoE and DINOv3-only variants (2026-10-16)
+- **Decided by:** the user: "for any further pending experiments we will use the architecture or methodology used in 109 best result. and it should contain both poe and single dinov3 as we can show it for comparing time overhead with and without MOGE2."
+- **Locked recipe** (the DEC-012 recipe lock, closing the SPEED+ architecture choice):
+  - frozen DINOv3-L `tokens8` (+ MoGe-2 `normals16~and` in the PoE variant), GT square crop;
+  - one Tesseract tree Transformer per branch (EXP-036 architecture and budget), trained with the EXP-109 arm-A augmentation (2 augmented copies: photometric + in-plane rotation, labels q′ = Exp(−θ·d) ⊗ q);
+  - inference: the per-level PoE across branches (equal weights) in the PoE variant, or the single DINOv3 tree;
+  - followed by the EXP-109 **C** in-plane orbit voting (4 views, beam-8 candidates mapped back, product of tree likelihoods).
+- **Two variants** are reported everywhere: **PoE (DINOv3 + MoGe-2)** and **DINOv3-only**, with and without orbit voting, for the accuracy / time-overhead comparison.
+- **Not part of the recipe:** 16×16 tokens (EXP-109 B), the weighted PoE (EXP-110), DFM (EXP-108), distillation (EXP-044), arm K (EXP-105). The flow / verifier is optional and judged in EXP-111.
+- **Consequences:**
+  - EXP-112 (new; evaluation only) evaluates both variants with end-to-end timing.
+  - EXP-064 / EXP-106 and any later experiment use this recipe.

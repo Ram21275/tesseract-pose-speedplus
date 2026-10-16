@@ -58,3 +58,6 @@ Requested by the user (DEC-010 addendum). Added next to the other arms; nothing 
 
 ## Runs / Results / Decision
 Not started.
+
+## Amendment 2026-10-16 (DEC-018, before any run): locked recipe
+This experiment uses the **EXP-109 methodology** (augmentation-trained trees, with the in-plane rotation label transform derived for the dataset's camera / crop convention; orbit PoE voting at test time). It is reported in **both** variants, PoE (DINOv3 + MoGe-2) and DINOv3-only, each with and without orbit voting. The in-plane label transform for each dataset is derived and verified by projecting its 3-D model points, before any training, as in EXP-109 (`scripts/exp109_convention_geometry.py`). Other protocol details are unchanged.

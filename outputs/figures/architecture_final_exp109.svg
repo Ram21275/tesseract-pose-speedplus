@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 1080" width="1680" height="1080" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2D3748"/></marker>
+    <marker id="arA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2B6CB0"/></marker>
+    <marker id="arB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C05621"/></marker>
+    <marker id="arP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6B46C1"/></marker>
+    <marker id="arG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2F855A"/></marker>
+    <pattern id="g8" width="9" height="9" patternUnits="userSpaceOnUse"><rect width="9" height="9" fill="#EBF8FF" stroke="#90CDF4" stroke-width="1"/></pattern>
+    <pattern id="g16" width="4.5" height="4.5" patternUnits="userSpaceOnUse"><rect width="4.5" height="4.5" fill="#FFFAF0" stroke="#F6AD55" stroke-width="0.6"/></pattern>
+  </defs>
+  <style>
+    .t{font-size:15px;fill:#1A202C}.ts{font-size:12.5px;fill:#2D3748}.tx{font-size:11px;fill:#4A5568}
+    .h{font-size:17px;font-weight:700;fill:#1A202C}.hA{font-size:14.5px;font-weight:700;fill:#2B6CB0}.hB{font-size:14.5px;font-weight:700;fill:#C05621}
+    .hP{font-size:14.5px;font-weight:700;fill:#6B46C1}.hG{font-size:14.5px;font-weight:700;fill:#2F855A}
+    .m{font-family:"DejaVu Sans Mono",Menlo,monospace;font-size:12px;fill:#2D3748}
+    .frozen{fill:#EDF2F7;stroke:#718096;stroke-width:1.6;stroke-dasharray:6 4}
+    .trA{fill:#EBF8FF;stroke:#2B6CB0;stroke-width:2}.trB{fill:#FFFAF0;stroke:#C05621;stroke-width:2;stroke-dasharray:7 3}
+    .fu{fill:#FAF5FF;stroke:#6B46C1;stroke-width:2}.og{fill:#F0FFF4;stroke:#2F855A;stroke-width:2}.out{fill:#fff;stroke:#1A202C;stroke-width:2}
+    .ln{stroke:#2D3748;stroke-width:1.8;fill:none}.lA{stroke:#2B6CB0;stroke-width:2;fill:none}.lB{stroke:#C05621;stroke-width:2;fill:none;stroke-dasharray:7 3}
+    .lP{stroke:#6B46C1;stroke-width:2;fill:none}.lG{stroke:#2F855A;stroke-width:2;fill:none}.band{fill:none;stroke:#CBD5E0;stroke-width:1.2}
+  </style>
+  <rect width="1680" height="1080" fill="#fff"/>
+  <text x="24" y="34" class="h">Locked recipe (DEC-018 / EXP-109 "C on A"): augmentation-trained Tesseract trees on frozen features + in-plane orbit PoE voting</text>
+  <g transform="translate(24,52)">
+    <rect width="34" height="18" class="frozen"/><text x="42" y="14" class="ts">frozen</text>
+    <rect x="130" width="34" height="18" fill="#EBF8FF" stroke="#2B6CB0" stroke-width="2"/><text x="172" y="14" class="ts">trained (DINOv3 branch, both variants)</text>
+    <rect x="470" width="34" height="18" fill="#FFFAF0" stroke="#C05621" stroke-width="2" stroke-dasharray="7 3"/><text x="512" y="14" class="ts">MoGe-2 branch: PoE variant only</text>
+    <rect x="770" width="34" height="18" fill="#FAF5FF" stroke="#6B46C1" stroke-width="2"/><text x="812" y="14" class="ts">training-free fusion</text>
+    <rect x="980" width="34" height="18" fill="#F0FFF4" stroke="#2F855A" stroke-width="2"/><text x="1022" y="14" class="ts">orbit inference (no parameters)</text>
+  </g>
+
+  <!-- ================= TRAINING ================= -->
+  <rect x="12" y="84" width="1656" height="330" rx="10" class="band"/>
+  <text x="24" y="106" class="h" fill="#4A5568">Training (synthetic/train only): arm A augmentation</text>
+  <g transform="translate(30,130)">
+    <rect width="130" height="130" rx="4" fill="#1A202C"/>
+    <g transform="translate(65,65) rotate(-18)"><rect x="-16" y="-12" width="32" height="24" fill="#A0AEC0"/><rect x="-50" y="-5" width="32" height="10" fill="#4A5568" stroke="#CBD5E0"/><rect x="18" y="-5" width="32" height="10" fill="#4A5568" stroke="#CBD5E0"/><line x1="0" y1="-12" x2="0" y2="-30" stroke="#E2E8F0" stroke-width="2"/></g>
+    <text x="65" y="150" text-anchor="middle" class="ts">GT square crop, label q</text>
+  </g>
+  <path d="M164,195 L196,195" class="ln" marker-end="url(#ar)"/>
+  <g transform="translate(200,124)">
+    <rect width="300" height="166" rx="8" fill="#fff" stroke="#2D3748" stroke-width="1.5"/>
+    <text x="150" y="22" text-anchor="middle" class="t" font-weight="700">3 views per image (1 drawn per step)</text>
+    <text x="14" y="46" class="ts">• clean crop, label q</text>
+    <text x="14" y="66" class="ts">• 2 augmented copies (fixed seeds 1, 2):</text>
+    <text x="26" y="84" class="tx">photometric: brightness, contrast, gamma, noise,</text>
+    <text x="26" y="99" class="tx">blur, glare blobs, random erasing, JPEG</text>
+    <text x="26" y="117" class="tx">in-plane rotation θ ~ U(−180°, 180°) about crop centre</text>
+    <text x="26" y="139" class="m">q′ = Exp(−θ·d) ⊗ q</text>
+    <text x="26" y="157" class="tx">d: ray through crop centre (PnP-checked)</text>
+  </g>
+  <path d="M502,170 L540,170" class="lA" marker-end="url(#arA)"/>
+  <path d="M502,250 L540,250" class="lB" marker-end="url(#arB)"/>
+  <rect x="544" y="130" width="170" height="78" rx="8" class="frozen"/>
+  <text x="629" y="158" text-anchor="middle" class="t" font-weight="700">DINOv3 ViT-L/16</text><text x="629" y="178" text-anchor="middle" class="tx">tokens 8×8 × 1024</text><text x="629" y="196" text-anchor="middle" class="tx">❄ frozen · 6.0 ms</text>
+  <rect x="544" y="220" width="170" height="78" rx="8" class="frozen" stroke="#C05621"/>
+  <text x="629" y="248" text-anchor="middle" class="t" font-weight="700">MoGe-2 ViT-L</text><text x="629" y="268" text-anchor="middle" class="tx">normals 16×16 × 4 (+ mask)</text><text x="629" y="286" text-anchor="middle" class="tx">❄ frozen · 20.5 ms</text>
+  <path d="M716,170 L754,170" class="lA" marker-end="url(#arA)"/>
+  <path d="M716,259 L754,259" class="lB" marker-end="url(#arB)"/>
+  <g transform="translate(758,124)">
+    <rect width="420" height="90" rx="8" class="trA"/>
+    <text x="12" y="22" class="hA">Tesseract tree Transformer A (DINOv3)</text>
+    <text x="12" y="44" class="tx">LN+Linear → 256, 2-D pos. enc., 1 encoder layer; path decoder (2 layers)</text>
+    <text x="12" y="62" class="tx">[ROOT, c₀…c₄]: root → 4 charts, child → 8; depth 5 = 131,072 cells</text>
+    <text x="12" y="80" class="tx">loss: per-level cross-entropy with geodesic soft targets</text>
+  </g>
+  <g transform="translate(758,222)">
+    <rect width="420" height="76" rx="8" class="trB"/>
+    <text x="12" y="22" class="hB">Tesseract tree Transformer B (MoGe-2)</text>
+    <text x="12" y="44" class="tx">same architecture, separate weights; same augmented views</text>
+    <text x="12" y="62" class="tx">trained only for the PoE variant</text>
+  </g>
+  <g transform="translate(1210,124)">
+    <rect width="440" height="174" rx="8" class="out"/>
+    <text x="220" y="24" text-anchor="middle" class="t" font-weight="700">Recipe facts</text>
+    <text x="14" y="50" class="ts">trainable params: 2.39 M (tree A) + 2.13 M (tree B)</text>
+    <text x="14" y="72" class="ts">budget: 100 epochs, batch 256, AdamW 1e-3, bf16</text>
+    <text x="14" y="94" class="ts">training time: ≈ 13 min (A) / ≈ 6 min (B) per seed</text>
+    <text x="14" y="116" class="ts">augmented features pre-extracted once (frozen backbones)</text>
+    <text x="14" y="138" class="ts">selection: synthetic val + synthetic val-aug (DEC-006)</text>
+    <text x="14" y="160" class="tx">lightbox / sunlamp never used for training or selection</text>
+  </g>
+  <text x="24" y="398" class="tx">Not in the recipe (tested, rejected): 16×16 tokens (EXP-109 B), weighted PoE (EXP-110), discrete path flow (EXP-108), distillation (EXP-044), Kurz corner tree (EXP-105 K).</text>
+
+  <!-- ================= INFERENCE ================= -->
+  <rect x="12" y="430" width="1656" height="470" rx="10" class="band"/>
+  <text x="24" y="452" class="h" fill="#4A5568">Inference: in-plane orbit PoE voting (C)</text>
+  <g transform="translate(30,478)">
+    <text x="0" y="0" class="ts" font-weight="700">test crop → 4 views</text>
+    <g transform="translate(0,12)">
+      <rect width="62" height="62" fill="#1A202C"/><g transform="translate(31,31) rotate(-18)"><rect x="-8" y="-6" width="16" height="12" fill="#A0AEC0"/><rect x="-24" y="-3" width="14" height="6" fill="#4A5568"/><rect x="10" y="-3" width="14" height="6" fill="#4A5568"/></g>
+      <rect x="70" width="62" height="62" fill="#1A202C"/><g transform="translate(101,31) rotate(72)"><rect x="-8" y="-6" width="16" height="12" fill="#A0AEC0"/><rect x="-24" y="-3" width="14" height="6" fill="#4A5568"/><rect x="10" y="-3" width="14" height="6" fill="#4A5568"/></g>
+      <rect y="70" width="62" height="62" fill="#1A202C"/><g transform="translate(31,101) rotate(162)"><rect x="-8" y="-6" width="16" height="12" fill="#A0AEC0"/><rect x="-24" y="-3" width="14" height="6" fill="#4A5568"/><rect x="10" y="-3" width="14" height="6" fill="#4A5568"/></g>
+      <rect x="70" y="70" width="62" height="62" fill="#1A202C"/><g transform="translate(101,101) rotate(252)"><rect x="-8" y="-6" width="16" height="12" fill="#A0AEC0"/><rect x="-24" y="-3" width="14" height="6" fill="#4A5568"/><rect x="10" y="-3" width="14" height="6" fill="#4A5568"/></g>
+      <text x="5" y="12" class="tx" fill="#F6E05E">0°</text><text x="75" y="12" class="tx" fill="#F6E05E">90°</text><text x="5" y="82" class="tx" fill="#F6E05E">180°</text><text x="75" y="82" class="tx" fill="#F6E05E">270°</text>
+    </g>
+    <text x="66" y="182" text-anchor="middle" class="tx">θ_k ∈ {0°, 90°, 180°, 270°}</text>
+    <text x="66" y="197" text-anchor="middle" class="tx">rotated about the crop centre</text>
+  </g>
+  <path d="M168,560 L200,560" class="ln" marker-end="url(#ar)"/>
+  <g transform="translate(204,478)">
+    <rect width="300" height="170" rx="8" fill="#fff" stroke="#2D3748" stroke-width="1.5"/>
+    <text x="150" y="22" text-anchor="middle" class="t" font-weight="700">per view k (same trained trees)</text>
+    <text x="14" y="48" class="ts" fill="#2B6CB0">DINOv3 → tree A: p_A^(k)(chart, child | prefix)</text>
+    <text x="14" y="70" class="ts" fill="#C05621">MoGe-2 → tree B: p_B^(k)  (PoE variant)</text>
+    <rect x="14" y="84" width="272" height="36" rx="5" class="fu"/>
+    <text x="150" y="99" text-anchor="middle" class="m">log p^(k) = log_softmax(</text>
+    <text x="150" y="114" text-anchor="middle" class="m">log p_A^(k) + log p_B^(k))</text>
+    <text x="150" y="140" text-anchor="middle" class="tx">DINOv3-only variant: p^(k) = p_A^(k)</text>
+    <text x="150" y="160" text-anchor="middle" class="ts">beam search → top-8 leaves</text>
+  </g>
+  <path d="M506,560 L540,560" class="lG" marker-end="url(#arG)"/>
+  <g transform="translate(544,478)">
+    <rect width="300" height="170" rx="8" class="og"/>
+    <text x="150" y="24" text-anchor="middle" class="hG">map back to the original frame</text>
+    <text x="150" y="58" text-anchor="middle" class="m">c = Exp(+θ_k·d) ⊗ q_view</text>
+    <text x="150" y="88" text-anchor="middle" class="ts">4 views × 8 leaves = 32 candidates</text>
+    <text x="150" y="112" text-anchor="middle" class="tx">(the exact inverse of the training label transform)</text>
+    <text x="150" y="140" text-anchor="middle" class="tx">a wrong 180° flip rarely wins in all 4 views;</text>
+    <text x="150" y="156" text-anchor="middle" class="tx">the true pose does</text>
+  </g>
+  <path d="M846,560 L880,560" class="lG" marker-end="url(#arG)"/>
+  <g transform="translate(884,478)">
+    <rect width="330" height="170" rx="8" class="og"/>
+    <text x="165" y="24" text-anchor="middle" class="hG">orbit score (product across views)</text>
+    <text x="165" y="60" text-anchor="middle" class="m">s(c) = Σ_k log p^(k)(leaf(</text>
+    <text x="165" y="78" text-anchor="middle" class="m">         Exp(−θ_k·d) ⊗ c ))</text>
+    <text x="165" y="108" text-anchor="middle" class="ts">teacher-forced tree likelihood of c</text>
+    <text x="165" y="126" text-anchor="middle" class="ts">as seen from each rotated view</text>
+    <text x="165" y="156" text-anchor="middle" class="m">q̂ = argmax_c s(c)</text>
+  </g>
+  <path d="M1216,560 L1250,560" class="ln" marker-end="url(#ar)"/>
+  <g transform="translate(1254,470)">
+    <rect width="404" height="196" rx="8" class="out"/>
+    <text x="202" y="24" text-anchor="middle" class="t" font-weight="700">q̂ (leaf centre) — results, 3 seeds, mean °</text>
+    <text x="14" y="50" class="tx" font-weight="700">variant</text><text x="220" y="50" class="tx" font-weight="700" text-anchor="middle">synth</text><text x="290" y="50" class="tx" font-weight="700" text-anchor="middle">lightbox</text><text x="364" y="50" class="tx" font-weight="700" text-anchor="middle">sunlamp</text>
+    <text x="14" y="74" class="ts" font-weight="700">PoE + orbit (best)</text><text x="220" y="74" class="ts" font-weight="700" text-anchor="middle">3.87</text><text x="290" y="74" class="ts" font-weight="700" text-anchor="middle">12.30</text><text x="364" y="74" class="ts" font-weight="700" text-anchor="middle">12.28</text>
+    <text x="14" y="96" class="ts">PoE greedy (no orbit)</text><text x="220" y="96" class="ts" text-anchor="middle">4.86</text><text x="290" y="96" class="ts" text-anchor="middle">17.35</text><text x="364" y="96" class="ts" text-anchor="middle">20.16</text>
+    <text x="14" y="118" class="ts">DINOv3-only greedy*</text><text x="220" y="118" class="ts" text-anchor="middle">4.84</text><text x="290" y="118" class="ts" text-anchor="middle">22.5</text><text x="364" y="118" class="ts" text-anchor="middle">22.0</text>
+    <text x="14" y="140" class="ts">DINOv3-only + orbit</text><text x="290" y="140" class="ts" text-anchor="middle">EXP-112 (pending)</text>
+    <text x="14" y="162" class="tx">prior frozen EXP-036 (PoE greedy): 5.54 / 26.91 / 36.66</text>
+    <text x="14" y="182" class="tx">* single-branch numbers from the training-run evaluation</text>
+  </g>
+
+  <!-- cost strip -->
+  <g transform="translate(30,690)">
+    <text x="0" y="0" class="ts" font-weight="700">Cost (batch 1, shared GPU, measured components; end-to-end per variant measured in EXP-112)</text>
+    <rect x="0" y="12" width="1610" height="170" rx="8" fill="#F7FAFC" stroke="#CBD5E0"/>
+    <text x="16" y="40" class="ts" font-weight="700">DINOv3-only</text>
+    <rect x="160" y="26" width="24" height="20" fill="#90CDF4"/><text x="192" y="41" class="tx">DINOv3 6.0 ms</text>
+    <rect x="290" y="26" width="26" height="20" fill="#BEE3F8"/><text x="324" y="41" class="tx">tree ≈ 6 ms (one tree, est.)</text>
+    <text x="520" y="41" class="tx">greedy ≈ 12 ms · with orbit ≈ 4× backbone + 4 beams + scoring</text>
+    <text x="16" y="84" class="ts" font-weight="700">PoE (DINOv3 + MoGe-2)</text>
+    <rect x="160" y="70" width="24" height="20" fill="#90CDF4"/><text x="192" y="85" class="tx">DINOv3 6.0 ms</text>
+    <rect x="290" y="70" width="82" height="20" fill="#FBD38D"/><text x="380" y="85" class="tx">MoGe-2 20.5 ms (+ consensus mask)</text>
+    <rect x="600" y="70" width="51" height="20" fill="#BEE3F8"/><text x="659" y="85" class="tx">both trees 12.8 ms</text>
+    <text x="800" y="85" class="tx">greedy ≈ 39 ms · with orbit ≈ 4× (est. 120–150 ms)</text>
+    <text x="16" y="124" class="tx">Batched (64): DINOv3 410 img/s, MoGe-2 41 img/s, both trees 4,489 img/s: MoGe-2 dominates the PoE variant's cost; orbit voting multiplies the backbone cost by 4.</text>
+    <text x="16" y="146" class="tx">Overhead of MoGe-2 = (PoE − DINOv3-only) in ms and in degrees; overhead of orbit = (orbit − greedy). Both are reported per variant in EXP-112.</text>
+    <text x="16" y="166" class="tx">Frozen backbones: 303 M (DINOv3-L) + 331 M (MoGe-2) parameters, not trained; trainable: ≈ 2.4 M (DINOv3-only) / ≈ 4.5 M (PoE).</text>
+  </g>
+  <text x="24" y="925" class="tx">Rotation only, ground-truth crops; selection on synthetic validation (DEC-006); lightbox / sunlamp test-only. Severe flips (> 150°) corrected by PoE + orbit vs EXP-036: 62% (lightbox, of 401) and 80% (sunlamp, of 206); good predictions broken: 0.4%.</text>
+  <text x="24" y="943" class="tx">Sources: EXP-109 RUN-20261016-014754 (accuracy, flip transitions), EXP-107 timing (components), DEC-018 (recipe lock). EXP-112 adds the DINOv3-only + orbit accuracy and end-to-end timing for all four variants.</text>
+</svg>

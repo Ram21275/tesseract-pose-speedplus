@@ -74,3 +74,6 @@ Per dataset, **fusion helps** if the object-balanced PoE val mean (symmetry-awar
 
 ### External context
 LiePose (SYMSOL-T, T-LESS), SpyroPose, Implicit-PDF and PoseCNN rotation numbers are listed as **unmatched**, unless split, crop, symmetry metric and object set all match. SYMSOL-T uses LiePose's own split and image, so it is the closest to matched (differences: frozen features, and our rotation-only target vs their SE(3)).
+
+## Amendment 2026-10-16 (DEC-018, before any run): locked recipe
+This experiment uses the **EXP-109 methodology** (augmentation-trained trees, with the in-plane rotation label transform derived for the dataset's camera / crop convention; orbit PoE voting at test time). It is reported in **both** variants, PoE (DINOv3 + MoGe-2) and DINOv3-only, each with and without orbit voting. The in-plane label transform for each dataset is derived and verified by projecting its 3-D model points, before any training, as in EXP-109 (`scripts/exp109_convention_geometry.py`). Other protocol details are unchanged.

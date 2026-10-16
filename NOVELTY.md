@@ -28,6 +28,12 @@ It is the best system on **every** domain, so the recorded selection policy (syn
 
 ---
 
+### Recipe lock (DEC-018, user, 2026-10-16)
+All further experiments use the **EXP-109 methodology** in two variants, **PoE (DINOv3 + MoGe-2)** and **DINOv3-only**, each with and without orbit voting, so the accuracy / time overhead of MoGe-2 can be shown.
+- Diagram: [`outputs/figures/architecture_final_exp109.svg`](outputs/figures/architecture_final_exp109.svg) (also `.png` and `.pdf`).
+- **EXP-112** (evaluation only, queued after EXP-111) supplies the missing DINOv3-only + orbit accuracy and the end-to-end timing and memory of all four variants.
+- EXP-064 / 106 are amended to this recipe.
+
 ## 1. Current evidence and best systems
 
 ### 1.1 Experiment status (verified from artifacts)
@@ -162,19 +168,19 @@ Timing source: EXP-107 `timing` table, RTX-class shared GPU (concurrent load rec
 | EXP-108 DFM | 7.22 / 29.8 / 39.8 | – | rejected |
 | EXP-111 (A-DINO + flow / verifier) | pending | – | compare against **A-DINO tree** (4.84 / 22.5 / 22.0), not EXP-036 |
 
-- **Recommendation:** **EXP-109 C on A**. It is best on every domain, selected under the recorded synthetic-validation policy, and needs no flow or extra training beyond the augmented trees.
+- **Recommendation:** **EXP-109 C on A**, adopted by the user as the locked recipe (DEC-018), together with its DINOv3-only variant. It is best on every domain, selected under the recorded synthetic-validation policy, and needs no flow or extra training beyond the augmented trees.
 - **Limitations:**
   - 4× inference cost (unmeasured);
   - rotation only; GT crops; one object;
   - the photometric vs rotation-augmentation shares are not separated.
-- **This is a recommendation.** The recipe lock (DEC-012) is the user's decision.
+- **Locked by the user (DEC-018):** PoE and DINOv3-only variants, each ± orbit.
 
 ---
 
 ## 6. Minimum work to finalize the paper (prioritized)
 
 **Essential:**
-1. **Fair timing and memory of the final system** (C on A; A; DINOv3-only A; orbit with 1/2/4 views) on one GPU, batch 1 and 64, synchronized. *Validates the cost claims in C1 and C3 and the trade-off table.*
+1. **Fair timing and memory of the final system** (being done in **EXP-112**: C on A; A; DINOv3-only A; DINOv3-only + orbit) on one GPU, batch 1 and 64, synchronized. *Validates the cost claims in C1 and C3 and the trade-off table.*
 2. **Augmentation ablation:** photometric-only vs photometric + rotation (A) vs rotation-only, each ± orbit. *Validates C3 (that the derived rotation transform, not augmentation in general, drives flip repair).*
 3. **Matched flat baseline under the final recipe:** a flat Hopf-grid classifier (SPACE-HOP-style anchors + offset) on the same frozen features with the same augmentation ± orbit. *Validates C1 (that the tree matters) and gives the closest external method a matched comparison.*
 4. **Cross-object validation (EXP-064, at least SYMSOL-T + T-LESS)** with the locked recipe. *Validates the generality of C1/C3; without it the paper stays SPEED+-only.*
@@ -206,3 +212,4 @@ Timing source: EXP-107 `timing` table, RTX-class shared GPU (concurrent load rec
 
 ## Changelog
 - 2026-10-16: created. Initial best result stored (EXP-109 C on A). EXP-111 running.
+- 2026-10-16: DEC-018 recipe lock (EXP-109 methodology, PoE + DINOv3-only variants); final architecture diagram added; EXP-112 pre-registered (DINOv3-only + orbit, end-to-end timing).
