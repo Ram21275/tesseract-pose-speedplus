@@ -31,5 +31,10 @@ User: "in the same experiment can we test the 45 approach with the same aetting?
 - **Criterion (added):** the verifier helps if its 3-seed synthetic-val mean is below the same tree's beam-8 top-1 mean by more than the larger seed std. Real domains descriptive, with flip transitions and denominators. Latency reported (tree included).
 - The KDE-mode arm and its criterion are unchanged.
 
+## Engineering note 2026-10-16 (before any successful run; no method change)
+- The first launch (02:51) was killed by systemd-oomd (memory pressure).
+- The retry (12:49) failed at start-up because the trainer's default `--centre mix` reads an error-distribution file that was not passed. With the Haar (uniform) base used here and in EXP-042, the centre is never used by the loss or the sampler, so `--centre gt` is passed. Nothing in the method changes.
+- Running since 12:49:53 (`scripts/run_queue3.sh`).
+
 ## Runs / Results / Decision
 Not started.
