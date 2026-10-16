@@ -1,0 +1,8 @@
+stage: eval_dfm
+nfe:
+- 1
+- 2
+- 4
+- 8
+M: 8
+seed: 0

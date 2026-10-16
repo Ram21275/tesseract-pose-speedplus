@@ -1,0 +1,74 @@
+[
+  {
+    "seed": 0,
+    "domain": "synthetic_val",
+    "tree_ll_gt": 5.989947743163579,
+    "flow_ll_gt": 6.330630779266357,
+    "tree_ll_gt_median": 6.776369402057314,
+    "flow_ll_gt_median": 6.581796169281006
+  },
+  {
+    "seed": 0,
+    "domain": "lightbox",
+    "tree_ll_gt": 0.8144369963419709,
+    "flow_ll_gt": 3.7152469158172607,
+    "tree_ll_gt_median": 3.0478818678224533,
+    "flow_ll_gt_median": 4.363379001617432
+  },
+  {
+    "seed": 0,
+    "domain": "sunlamp",
+    "tree_ll_gt": -0.8995669179340611,
+    "flow_ll_gt": 2.989755630493164,
+    "tree_ll_gt_median": 1.2348456344187912,
+    "flow_ll_gt_median": 3.319119453430176
+  },
+  {
+    "seed": 1,
+    "domain": "synthetic_val",
+    "tree_ll_gt": 6.069875375489709,
+    "flow_ll_gt": 6.381166934967041,
+    "tree_ll_gt_median": 6.831720008950038,
+    "flow_ll_gt_median": 6.61710786819458
+  },
+  {
+    "seed": 1,
+    "domain": "lightbox",
+    "tree_ll_gt": 1.053750742813404,
+    "flow_ll_gt": 3.909067153930664,
+    "tree_ll_gt_median": 3.3244050369551843,
+    "flow_ll_gt_median": 4.585353851318359
+  },
+  {
+    "seed": 1,
+    "domain": "sunlamp",
+    "tree_ll_gt": -0.6972208238559388,
+    "flow_ll_gt": 3.1866724491119385,
+    "tree_ll_gt_median": 1.3206109293912114,
+    "flow_ll_gt_median": 3.5293426513671875
+  },
+  {
+    "seed": 2,
+    "domain": "synthetic_val",
+    "tree_ll_gt": 6.009275944396389,
+    "flow_ll_gt": 6.428630352020264,
+    "tree_ll_gt_median": 6.805230629425165,
+    "flow_ll_gt_median": 6.663039207458496
+  },
+  {
+    "seed": 2,
+    "domain": "lightbox",
+    "tree_ll_gt": 1.0563146099366654,
+    "flow_ll_gt": 3.910266876220703,
+    "tree_ll_gt_median": 3.368752712438182,
+    "flow_ll_gt_median": 4.5984086990356445
+  },
+  {
+    "seed": 2,
+    "domain": "sunlamp",
+    "tree_ll_gt": -0.6869118275004606,
+    "flow_ll_gt": 3.1905500888824463,
+    "tree_ll_gt_median": 1.210272301769903,
+    "flow_ll_gt_median": 3.482524871826172
+  }
+]

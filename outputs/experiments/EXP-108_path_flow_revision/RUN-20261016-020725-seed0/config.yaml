@@ -1,0 +1,10 @@
+exp: EXP-108_path_flow_revision
+base_exp: EXP-036_transformer_soft_targets
+epochs: 50
+batch: 256
+lr: 0.001
+wd: 0.05
+nfe_val: 4
+eval_every: 5
+seed: 0
+method: dfm

@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_pathdfm.py --exp EXP-099_p3_smoke --epochs 1 --eval-every 1

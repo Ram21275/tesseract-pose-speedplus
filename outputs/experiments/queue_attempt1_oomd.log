@@ -1,0 +1,382 @@
+=== 15:01:55 BLOCK EXP-109-features
+>>> 15:01:55 extract gate512_r0 dinov3_vitl16
+[guarded] 15:01:55 waiting: RAM avail 72 GB (need 52), GPU free 2 GB (need 8)
+[guarded] 15:03:56 waiting: RAM avail 72 GB (need 52), GPU free 2 GB (need 8)
+[guarded] 15:05:56 waiting: RAM avail 72 GB (need 52), GPU free 2 GB (need 8)
+[guarded] 15:07:56 waiting: RAM avail 72 GB (need 52), GPU free 2 GB (need 8)
+[guarded] 15:09:56 waiting: RAM avail 72 GB (need 52), GPU free 2 GB (need 8)
+[guarded] 15:11:57 waiting: RAM avail 72 GB (need 52), GPU free 2 GB (need 8)
+cache exists /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_gate512_r0__46d8740afea9__9284274b5064d38c
+>>> 15:14:03 extract gate512_r0 moge2_vitl
+cache exists /media/kavinder/hdd2/tfpose_cache/moge2_vitl__subset_gate512_r0__5b82e9ab17e6__9284274b5064d38c
+cache exists /media/kavinder/hdd2/tfpose_cache/consensus_masks__subset_gate512_r0
+>>> 15:14:11 extract gate512_r90 dinov3_vitl16
+cache exists /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_gate512_r90__2bf59248b304__092c082379d0cbd6
+>>> 15:14:16 extract gate512_r90 moge2_vitl
+cache exists /media/kavinder/hdd2/tfpose_cache/moge2_vitl__subset_gate512_r90__15704edc6faf__092c082379d0cbd6
+cache exists /media/kavinder/hdd2/tfpose_cache/consensus_masks__subset_gate512_r90
+>>> 15:14:23 extract gate512_r37 dinov3_vitl16
+cache exists /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_gate512_r37__e5fe45c40b6e__dd1ae964622c759a
+>>> 15:14:29 extract gate512_r37 moge2_vitl
+cache exists /media/kavinder/hdd2/tfpose_cache/moge2_vitl__subset_gate512_r37__e67b4ec41c2c__dd1ae964622c759a
+cache exists /media/kavinder/hdd2/tfpose_cache/consensus_masks__subset_gate512_r37
+| mode | mean | median | max | p95 |
+|---|---|---|---|---|
+| label_err_deg(pre-, PnP) | 0.061 | 0.034 | 1.143 | 0.202 |
+| post+ | 102.675 | 100.002 | 235.378 | 195.002 |
+| post- | 100.532 | 94.450 | 241.702 | 187.885 |
+| pre+ | 155.144 | 164.684 | 242.922 | 221.747 |
+| pre- | 0.341 | 0.214 | 4.751 | 1.045 |
+| roundtrip(pre-) | 0.001 | 0.000 | 0.004 | 0.003 |
+(err_px = max over the 11 Tango points of the crop-pixel distance at 224 px; roundtrip row = degrees)
+DERIVED pre- VERIFIED True
+RUN outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-151436-seed0
+| spec | max_abs_diff_std | mean_abs_diff_std | rel_l2 |
+|---|---|---|---|
+| dinov3_vitl16:tokens8 | 0.011 | 0.000 | 0.000 |
+| moge2_vitl:normals16~and | 0.544 | 0.000 | 0.003 |
+| view | mode | mean_deg |
+|---|---|---|
+| r0 | - | 5.643 |
+| r90 | pre+ | 177.585 |
+| r90 | pre- | 7.239 |
+| r90 | post+ | 114.258 |
+| r90 | post- | 115.364 |
+| r37 | pre+ | 77.702 |
+| r37 | pre- | 21.989 |
+| r37 | post+ | 56.160 |
+| r37 | post- | 57.034 |
+DESCRIPTIVE predictor check; derived convention = pre-
+RUN outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-151441-seed0
+>>> 15:16:37 extract exp109_train_aug1 dinov3_vitl16
+cache exists /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_exp109_train_aug1__8db1da46ec9a__2c5d6d0d9811d3b4
+>>> 15:16:43 extract exp109_train_aug1 moge2_vitl
+  1600/47966  59.2 ms/img
+  3200/47966  58.2 ms/img
+  4800/47966  57.8 ms/img
+  6400/47966  57.7 ms/img
+  8000/47966  57.6 ms/img
+  9600/47966  57.5 ms/img
+  11200/47966  57.5 ms/img
+  12800/47966  57.4 ms/img
+  14400/47966  57.4 ms/img
+  16000/47966  57.4 ms/img
+  17600/47966  57.4 ms/img
+  19200/47966  57.4 ms/img
+  20800/47966  57.4 ms/img
+  22400/47966  57.4 ms/img
+  24000/47966  57.3 ms/img
+  25600/47966  57.4 ms/img
+  27200/47966  57.4 ms/img
+  28800/47966  57.4 ms/img
+  30400/47966  57.4 ms/img
+  32000/47966  57.4 ms/img
+  33600/47966  57.4 ms/img
+  35200/47966  57.4 ms/img
+  36800/47966  56.3 ms/img
+  38400/47966  55.2 ms/img
+  40000/47966  54.1 ms/img
+  41600/47966  53.1 ms/img
+  43200/47966  52.1 ms/img
+  44800/47966  51.2 ms/img
+  46400/47966  50.4 ms/img
+done /media/kavinder/hdd2/tfpose_cache/moge2_vitl__subset_exp109_train_aug1__642551cde68b__2c5d6d0d9811d3b4
+done /media/kavinder/hdd2/tfpose_cache/consensus_masks__subset_exp109_train_aug1
+>>> 15:56:42 extract exp109_train_aug2 dinov3_vitl16
+  1600/47966  22.0 ms/img
+  3200/47966  21.8 ms/img
+  4800/47966  21.7 ms/img
+  6400/47966  21.6 ms/img
+  8000/47966  21.6 ms/img
+  9600/47966  21.6 ms/img
+  11200/47966  21.6 ms/img
+  12800/47966  21.6 ms/img
+  14400/47966  21.6 ms/img
+  16000/47966  21.6 ms/img
+  17600/47966  21.6 ms/img
+  19200/47966  21.6 ms/img
+  20800/47966  21.6 ms/img
+  22400/47966  21.6 ms/img
+  24000/47966  21.6 ms/img
+  25600/47966  21.6 ms/img
+  27200/47966  21.6 ms/img
+  28800/47966  21.6 ms/img
+  30400/47966  21.6 ms/img
+  32000/47966  21.5 ms/img
+  33600/47966  21.5 ms/img
+  35200/47966  21.5 ms/img
+  36800/47966  21.5 ms/img
+  38400/47966  21.5 ms/img
+  40000/47966  21.5 ms/img
+  41600/47966  21.5 ms/img
+  43200/47966  21.5 ms/img
+  44800/47966  21.5 ms/img
+  46400/47966  21.5 ms/img
+done /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_exp109_train_aug2__f662f93e41e6__1ff48d41c929c713
+>>> 16:13:57 extract exp109_train_aug2 moge2_vitl
+  1600/47966  27.1 ms/img
+  3200/47966  27.1 ms/img
+  4800/47966  27.2 ms/img
+  6400/47966  27.3 ms/img
+  8000/47966  27.3 ms/img
+  9600/47966  27.3 ms/img
+  11200/47966  27.3 ms/img
+  12800/47966  27.3 ms/img
+  14400/47966  27.3 ms/img
+  16000/47966  27.3 ms/img
+  17600/47966  27.3 ms/img
+  19200/47966  27.3 ms/img
+  20800/47966  27.3 ms/img
+  22400/47966  27.3 ms/img
+  24000/47966  27.3 ms/img
+  25600/47966  27.4 ms/img
+  27200/47966  27.4 ms/img
+  28800/47966  27.4 ms/img
+  30400/47966  27.4 ms/img
+  32000/47966  27.4 ms/img
+  33600/47966  27.4 ms/img
+  35200/47966  27.4 ms/img
+  36800/47966  27.4 ms/img
+  38400/47966  27.4 ms/img
+  40000/47966  27.4 ms/img
+  41600/47966  27.5 ms/img
+  43200/47966  27.5 ms/img
+  44800/47966  27.5 ms/img
+  46400/47966  27.5 ms/img
+done /media/kavinder/hdd2/tfpose_cache/moge2_vitl__subset_exp109_train_aug2__0e77058bae20__1ff48d41c929c713
+done /media/kavinder/hdd2/tfpose_cache/consensus_masks__subset_exp109_train_aug2
+>>> 16:36:02 extract exp109_valaug dinov3_vitl16
+  1600/11994  23.3 ms/img
+  3200/11994  22.7 ms/img
+  4800/11994  22.6 ms/img
+  6400/11994  22.6 ms/img
+  8000/11994  22.6 ms/img
+  9600/11994  22.5 ms/img
+  11200/11994  22.5 ms/img
+done /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_exp109_valaug__54e3d09c63b4__dde93c9d5214366a
+>>> 16:40:38 extract exp109_valaug moge2_vitl
+  1600/11994  27.2 ms/img
+  3200/11994  27.1 ms/img
+  4800/11994  27.2 ms/img
+  6400/11994  27.3 ms/img
+  8000/11994  27.4 ms/img
+  9600/11994  27.4 ms/img
+  11200/11994  27.4 ms/img
+done /media/kavinder/hdd2/tfpose_cache/moge2_vitl__subset_exp109_valaug__add5c943db35__dde93c9d5214366a
+done /media/kavinder/hdd2/tfpose_cache/consensus_masks__subset_exp109_valaug
+>>> 16:46:17 extract exp109_valaug_r90 dinov3_vitl16
+  1600/11994  21.6 ms/img
+  3200/11994  21.4 ms/img
+  4800/11994  21.3 ms/img
+  6400/11994  21.3 ms/img
+  8000/11994  21.3 ms/img
+  9600/11994  21.3 ms/img
+  11200/11994  21.3 ms/img
+done /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_exp109_valaug_r90__16846d8d321d__15702d8f3b6acb93
+>>> 16:50:37 extract exp109_valaug_r90 moge2_vitl
+  1600/11994  26.9 ms/img
+  3200/11994  27.0 ms/img
+  4800/11994  27.1 ms/img
+  6400/11994  27.2 ms/img
+  8000/11994  27.3 ms/img
+  9600/11994  27.4 ms/img
+  11200/11994  27.4 ms/img
+done /media/kavinder/hdd2/tfpose_cache/moge2_vitl__subset_exp109_valaug_r90__f9e20c058146__15702d8f3b6acb93
+done /media/kavinder/hdd2/tfpose_cache/consensus_masks__subset_exp109_valaug_r90
+>>> 16:56:13 extract exp109_test3_r90 dinov3_vitl16
+  1600/21525  21.5 ms/img
+  3200/21525  21.3 ms/img
+  4800/21525  21.2 ms/img
+  6400/21525  21.2 ms/img
+  8000/21525  21.2 ms/img
+  9600/21525  21.1 ms/img
+  11200/21525  21.1 ms/img
+  12800/21525  21.1 ms/img
+  14400/21525  21.2 ms/img
+  16000/21525  21.2 ms/img
+  17600/21525  21.2 ms/img
+  19200/21525  21.2 ms/img
+  20800/21525  21.2 ms/img
+done /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_exp109_test3_r90__2bf59248b304__01b5494478baa3fa
+>>> 17:03:54 extract exp109_test3_r90 moge2_vitl
+  1600/21525  26.8 ms/img
+  3200/21525  26.9 ms/img
+  4800/21525  27.0 ms/img
+  6400/21525  27.1 ms/img
+  8000/21525  27.3 ms/img
+  9600/21525  27.3 ms/img
+  11200/21525  27.3 ms/img
+  12800/21525  27.4 ms/img
+  14400/21525  27.4 ms/img
+  16000/21525  27.4 ms/img
+  17600/21525  27.4 ms/img
+  19200/21525  27.4 ms/img
+  20800/21525  27.4 ms/img
+done /media/kavinder/hdd2/tfpose_cache/moge2_vitl__subset_exp109_test3_r90__15704edc6faf__01b5494478baa3fa
+done /media/kavinder/hdd2/tfpose_cache/consensus_masks__subset_exp109_test3_r90
+>>> 17:13:52 extract exp109_valaug_r180 dinov3_vitl16
+  1600/11994  21.6 ms/img
+  3200/11994  21.4 ms/img
+  4800/11994  21.3 ms/img
+  6400/11994  21.3 ms/img
+  8000/11994  21.3 ms/img
+  9600/11994  21.2 ms/img
+  11200/11994  21.2 ms/img
+done /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_exp109_valaug_r180__adcde18c748d__ed5fca57059ed0b7
+>>> 17:18:11 extract exp109_valaug_r180 moge2_vitl
+  1600/11994  27.2 ms/img
+  3200/11994  27.1 ms/img
+  4800/11994  27.2 ms/img
+  6400/11994  27.3 ms/img
+  8000/11994  27.4 ms/img
+  9600/11994  27.4 ms/img
+  11200/11994  27.4 ms/img
+done /media/kavinder/hdd2/tfpose_cache/moge2_vitl__subset_exp109_valaug_r180__2897917df9b5__ed5fca57059ed0b7
+done /media/kavinder/hdd2/tfpose_cache/consensus_masks__subset_exp109_valaug_r180
+>>> 17:23:47 extract exp109_test3_r180 dinov3_vitl16
+  1600/21525  21.5 ms/img
+  3200/21525  21.3 ms/img
+  4800/21525  21.3 ms/img
+  6400/21525  21.2 ms/img
+  8000/21525  21.2 ms/img
+  9600/21525  21.2 ms/img
+  11200/21525  21.2 ms/img
+  12800/21525  21.2 ms/img
+  14400/21525  21.3 ms/img
+  16000/21525  21.3 ms/img
+  17600/21525  21.3 ms/img
+  19200/21525  21.3 ms/img
+  20800/21525  21.3 ms/img
+done /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_exp109_test3_r180__83b7cd50bdcd__6608a32a85969bc8
+>>> 17:31:30 extract exp109_test3_r180 moge2_vitl
+  1600/21525  27.0 ms/img
+  3200/21525  27.0 ms/img
+  4800/21525  27.1 ms/img
+  6400/21525  27.2 ms/img
+  8000/21525  27.3 ms/img
+  9600/21525  27.4 ms/img
+  11200/21525  27.4 ms/img
+  12800/21525  27.4 ms/img
+  14400/21525  27.4 ms/img
+  16000/21525  27.5 ms/img
+  17600/21525  27.5 ms/img
+  19200/21525  27.5 ms/img
+  20800/21525  27.5 ms/img
+done /media/kavinder/hdd2/tfpose_cache/moge2_vitl__subset_exp109_test3_r180__90073a9d01e7__6608a32a85969bc8
+done /media/kavinder/hdd2/tfpose_cache/consensus_masks__subset_exp109_test3_r180
+>>> 17:41:30 extract exp109_valaug_r270 dinov3_vitl16
+  1600/11994  21.8 ms/img
+  3200/11994  21.6 ms/img
+  4800/11994  21.5 ms/img
+  6400/11994  21.5 ms/img
+  8000/11994  21.4 ms/img
+  9600/11994  21.4 ms/img
+  11200/11994  21.4 ms/img
+done /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_exp109_valaug_r270__41c2622ff6e4__b8b2c4ff7f730548
+>>> 17:45:52 extract exp109_valaug_r270 moge2_vitl
+  1600/11994  26.9 ms/img
+  3200/11994  26.9 ms/img
+  4800/11994  27.1 ms/img
+  6400/11994  27.2 ms/img
+  8000/11994  27.3 ms/img
+  9600/11994  27.3 ms/img
+  11200/11994  27.4 ms/img
+done /media/kavinder/hdd2/tfpose_cache/moge2_vitl__subset_exp109_valaug_r270__50b5b4ed3a96__b8b2c4ff7f730548
+done /media/kavinder/hdd2/tfpose_cache/consensus_masks__subset_exp109_valaug_r270
+>>> 17:51:27 extract exp109_test3_r270 dinov3_vitl16
+  1600/21525  21.5 ms/img
+  3200/21525  21.3 ms/img
+  4800/21525  21.2 ms/img
+  6400/21525  21.2 ms/img
+  8000/21525  21.2 ms/img
+  9600/21525  21.2 ms/img
+  11200/21525  21.2 ms/img
+  12800/21525  21.2 ms/img
+  14400/21525  21.2 ms/img
+  16000/21525  21.3 ms/img
+  17600/21525  21.3 ms/img
+  19200/21525  21.3 ms/img
+  20800/21525  21.2 ms/img
+done /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_exp109_test3_r270__e167c434d178__af6368af115e7f38
+>>> 17:59:10 extract exp109_test3_r270 moge2_vitl
+  1600/21525  26.9 ms/img
+  3200/21525  26.9 ms/img
+  4800/21525  27.0 ms/img
+  6400/21525  27.1 ms/img
+  8000/21525  27.3 ms/img
+  9600/21525  27.3 ms/img
+  11200/21525  27.4 ms/img
+  12800/21525  27.4 ms/img
+  14400/21525  27.4 ms/img
+  16000/21525  27.4 ms/img
+  17600/21525  27.4 ms/img
+  19200/21525  27.4 ms/img
+  20800/21525  27.4 ms/img
+done /media/kavinder/hdd2/tfpose_cache/moge2_vitl__subset_exp109_test3_r270__c22a59d9bb2e__af6368af115e7f38
+done /media/kavinder/hdd2/tfpose_cache/consensus_masks__subset_exp109_test3_r270
+=== 18:09:08 BLOCK_DONE EXP-109-features
+=== 18:09:08 BLOCK EXP-109-train
+>>> 18:09:08 EXP-109 A dinov3_vitl16:tokens8 seed=0
+dinov3_vitl16:tokens8 transformer/soft/res=False seed 0 synthetic_val: mean 4.90 med 4.46 (disc 4.90) | lightbox: mean 22.37 med 8.54 (disc 22.37) | sunlamp: mean 22.79 med 10.47 (disc 22.79)
+RUN outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-180909-seed0
+>>> 18:22:04 EXP-109 A moge2_vitl:normals16~and seed=0
+moge2_vitl:normals16~and transformer/soft/res=False seed 0 synthetic_val: mean 17.18 med 5.56 (disc 17.18) | lightbox: mean 39.74 med 8.64 (disc 39.74) | sunlamp: mean 57.68 med 14.79 (disc 57.68)
+RUN outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-182205-seed0
+>>> 18:27:51 EXP-109 B tokens16 seed=0
+[memguard] aborting: process RSS 34.5 GB > limit 34.0 GB
+=== 18:45:31 BLOCK_FAILED EXP-109-train
+=== 18:45:31 BLOCK EXP-109-eval
+scripts/guarded.sh: line 42: 2886047 Killed                  nice -n 10 ionice -c 3 systemd-run --user --scope --quiet -p MemoryMax=${MEM}G -p MemorySwapMax=0 -p TasksMax=4096 -- "$@"
+[reap] marked failed: outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-184532-seed0
+=== 18:47:44 BLOCK_FAILED EXP-109-eval
+=== 18:47:44 BLOCK EXP-108
+>>> 18:47:44 EXP-108 DFM smoke
+scripts/guarded.sh: line 42: 2887043 Killed                  nice -n 10 ionice -c 3 systemd-run --user --scope --quiet -p MemoryMax=${MEM}G -p MemorySwapMax=0 -p TasksMax=4096 -- "$@"
+[reap] marked failed: outputs/experiments/EXP-099_p3_smoke/RUN-20261015-184745-seed0
+=== 18:49:44 BLOCK_FAILED EXP-108
+=== 18:49:44 BLOCK EXP-110
+scripts/guarded.sh: line 42: 2887919 Killed                  nice -n 10 ionice -c 3 systemd-run --user --scope --quiet -p MemoryMax=${MEM}G -p MemorySwapMax=0 -p TasksMax=4096 -- "$@"
+[reap] marked failed: outputs/experiments/EXP-110_weighted_poe/RUN-20261015-184945-seed0
+=== 18:51:50 BLOCK_FAILED EXP-110
+=== 18:51:50 BLOCK EXP-107
+scripts/guarded.sh: line 42: 2888955 Killed                  nice -n 10 ionice -c 3 systemd-run --user --scope --quiet -p MemoryMax=${MEM}G -p MemorySwapMax=0 -p TasksMax=4096 -- "$@"
+[reap] marked failed: outputs/experiments/EXP-107_paper_visuals_metrics_efficiency/RUN-20261015-185151-seed0
+(sweep point failed; continuing)
+scripts/guarded.sh: line 42: 2889960 Killed                  nice -n 10 ionice -c 3 systemd-run --user --scope --quiet -p MemoryMax=${MEM}G -p MemorySwapMax=0 -p TasksMax=4096 -- "$@"
+[reap] marked failed: outputs/experiments/EXP-107_paper_visuals_metrics_efficiency/RUN-20261015-185400-seed0
+(figures failed; continuing)
+{'component': 'DINOv3-L features (frozen)', 'batch': 1, 'ms_per_batch': 6.0122759896330535, 'ms_per_image': 6.0122759896330535, 'images_per_s': 166.3263632149117, 'params_M': 303.079424, 'gpu_util_mem_at_start': '6, 3833'}
+{'component': 'MoGe-2 ViT-L features (frozen)', 'batch': 1, 'ms_per_batch': 20.53577604237944, 'ms_per_image': 20.53577604237944, 'images_per_s': 48.69550573283969, 'params_M': 330.901544, 'gpu_util_mem_at_start': '4, 4325'}
+{'component': 'DINOv3-L features (frozen)', 'batch': 64, 'ms_per_batch': 155.9454529779032, 'ms_per_image': 2.4366477027797373, 'images_per_s': 410.39991085260135, 'params_M': 303.079424, 'gpu_util_mem_at_start': '98, 4685'}
+{'component': 'MoGe-2 ViT-L features (frozen)', 'batch': 64, 'ms_per_batch': 1578.7822980200872, 'ms_per_image': 24.668473406563862, 'images_per_s': 40.53757131699592, 'params_M': 330.901544, 'gpu_util_mem_at_start': '52, 32467'}
+{'component': 'tree A+B encode + per-level PoE + greedy decode', 'batch': 1, 'ms_per_batch': 12.753479997627437, 'ms_per_image': 12.753479997627437, 'images_per_s': 78.40997125380936, 'params_M': 4.519968, 'gpu_util_mem_at_start': '14, 4161'}
+{'component': 'tree A+B beam 8 (candidate set)', 'batch': 1, 'ms_per_batch': 13.481030007824302, 'ms_per_image': 13.481030007824302, 'images_per_s': 74.17830829095452, 'params_M': None, 'gpu_util_mem_at_start': '14, 4163'}
+{'component': 'flow: one velocity evaluation (2 heads, M = 32)', 'batch': 1, 'ms_per_batch': 1.3442750205285847, 'ms_per_image': 1.3442750205285847, 'images_per_s': 743.8953969454765, 'params_M': 3.346438, 'gpu_util_mem_at_start': '14, 4203'}
+{'component': 'flow: full sampling NFE 10, M 32', 'batch': 1, 'ms_per_batch': 15.077894960995764, 'ms_per_image': 15.077894960995764, 'images_per_s': 66.32225536700241, 'params_M': None, 'gpu_util_mem_at_start': '23, 4203'}
+{'component': 'KDE mode (M 32)', 'batch': 1, 'ms_per_batch': 0.07611495675519109, 'ms_per_image': 0.07611495675519109, 'images_per_s': 13138.02231033652, 'params_M': None, 'gpu_util_mem_at_start': '23, 4203'}
+{'component': 'tree A+B encode + per-level PoE + greedy decode', 'batch': 64, 'ms_per_batch': 14.257029979489744, 'ms_per_image': 0.22276609342952725, 'images_per_s': 4489.01349664487, 'params_M': 4.519968, 'gpu_util_mem_at_start': '23, 4263'}
+{'component': 'tree A+B beam 8 (candidate set)', 'batch': 64, 'ms_per_batch': 22.31949201086536, 'ms_per_image': 0.34874206266977126, 'images_per_s': 2867.4487738719204, 'params_M': None, 'gpu_util_mem_at_start': '91, 4683'}
+{'component': 'flow: one velocity evaluation (2 heads, M = 32)', 'batch': 64, 'ms_per_batch': 31.60630800994113, 'ms_per_image': 0.49384856265533017, 'images_per_s': 2024.9122415648826, 'params_M': 3.346438, 'gpu_util_mem_at_start': '91, 7823'}
+{'component': 'flow: full sampling NFE 10, M 32', 'batch': 64, 'ms_per_batch': 322.7290080394596, 'ms_per_image': 5.042640750616556, 'images_per_s': 198.30879284385497, 'params_M': None, 'gpu_util_mem_at_start': '100, 7823'}
+{'component': 'KDE mode (M 32)', 'batch': 64, 'ms_per_batch': 0.0775689841248095, 'ms_per_image': 0.0012120153769501485, 'images_per_s': 825072.0403534378, 'params_M': None, 'gpu_util_mem_at_start': '100, 7823'}
+| component | batch | ms_per_batch | ms_per_image | images_per_s | params_M | gpu_util_mem_at_start |
+|---|---|---|---|---|---|---|
+| DINOv3-L features (frozen) | 1 | 6.012 | 6.012 | 166.326 | 303.079 | 6, 3833 |
+| MoGe-2 ViT-L features (frozen) | 1 | 20.536 | 20.536 | 48.696 | 330.902 | 4, 4325 |
+| DINOv3-L features (frozen) | 64 | 155.945 | 2.437 | 410.400 | 303.079 | 98, 4685 |
+| MoGe-2 ViT-L features (frozen) | 64 | 1578.782 | 24.668 | 40.538 | 330.902 | 52, 32467 |
+| tree A+B encode + per-level PoE + greedy decode | 1 | 12.753 | 12.753 | 78.410 | 4.520 | 14, 4161 |
+| tree A+B beam 8 (candidate set) | 1 | 13.481 | 13.481 | 74.178 | None | 14, 4163 |
+| flow: one velocity evaluation (2 heads, M = 32) | 1 | 1.344 | 1.344 | 743.895 | 3.346 | 14, 4203 |
+| flow: full sampling NFE 10, M 32 | 1 | 15.078 | 15.078 | 66.322 | None | 23, 4203 |
+| KDE mode (M 32) | 1 | 0.076 | 0.076 | 13138.022 | None | 23, 4203 |
+| tree A+B encode + per-level PoE + greedy decode | 64 | 14.257 | 0.223 | 4489.013 | 4.520 | 23, 4263 |
+| tree A+B beam 8 (candidate set) | 64 | 22.319 | 0.349 | 2867.449 | None | 91, 4683 |
+| flow: one velocity evaluation (2 heads, M = 32) | 64 | 31.606 | 0.494 | 2024.912 | 3.346 | 91, 7823 |
+| flow: full sampling NFE 10, M 32 | 64 | 322.729 | 5.043 | 198.309 | None | 100, 7823 |
+| KDE mode (M 32) | 64 | 0.078 | 0.001 | 825072.040 | None | 100, 7823 |
+GPU NVIDIA RTX 6000 Ada Generation
+NVIDIA RTX A400
+RUN outputs/experiments/EXP-107_paper_visuals_metrics_efficiency/RUN-20261015-185600-seed0
+=== 18:56:27 BLOCK_DONE EXP-107
+=== 18:56:27 QUEUE_DONE

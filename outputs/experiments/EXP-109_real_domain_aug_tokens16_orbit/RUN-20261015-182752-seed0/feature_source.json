@@ -1,0 +1,8 @@
+{
+  "source_cache": "dinov3_vitl16__subset_full__793c65d370cc__c7c029785fb8458c",
+  "n": 69491,
+  "dim": 262144,
+  "token_shape": "256x1024",
+  "stats": "synthetic train",
+  "order": "subset_full manifest"
+}

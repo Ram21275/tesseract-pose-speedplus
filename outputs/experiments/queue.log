@@ -1,0 +1,64 @@
+=== 19:07:08 BLOCK EXP-109-trainA
+>>> 19:07:08 EXP-109 A dinov3_vitl16:tokens8 seed=1
+dinov3_vitl16:tokens8 transformer/soft/res=False seed 1 synthetic_val: mean 4.80 med 4.41 (disc 4.80) | lightbox: mean 21.89 med 8.31 (disc 21.89) | sunlamp: mean 21.89 med 10.02 (disc 21.89)
+RUN outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-190709-seed1
+>>> 19:23:01 EXP-109 A moge2_vitl:normals16~and seed=1
+moge2_vitl:normals16~and transformer/soft/res=False seed 1 synthetic_val: mean 17.88 med 5.62 (disc 17.88) | lightbox: mean 40.61 med 8.79 (disc 40.61) | sunlamp: mean 60.21 med 16.28 (disc 60.21)
+RUN outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-192302-seed1
+>>> 19:28:51 EXP-109 A dinov3_vitl16:tokens8 seed=2
+dinov3_vitl16:tokens8 transformer/soft/res=False seed 2 synthetic_val: mean 4.83 med 4.43 (disc 4.83) | lightbox: mean 23.38 med 8.29 (disc 23.38) | sunlamp: mean 21.35 med 10.00 (disc 21.35)
+RUN outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-192852-seed2
+>>> 19:42:13 EXP-109 A moge2_vitl:normals16~and seed=2
+moge2_vitl:normals16~and transformer/soft/res=False seed 2 synthetic_val: mean 17.82 med 5.59 (disc 17.82) | lightbox: mean 41.36 med 9.01 (disc 41.36) | sunlamp: mean 60.48 med 15.79 (disc 60.48)
+RUN outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-194214-seed2
+=== 19:48:02 BLOCK_DONE EXP-109-trainA
+=== 19:48:02 BLOCK EXP-109-trainB
+>>> 19:48:02 EXP-109 B tokens16 seed=0
+dinov3_vitl16:tokens16 transformer/soft/res=False seed 0 synthetic_val: mean 5.44 med 4.84 (disc 5.44) | lightbox: mean 38.97 med 14.36 (disc 38.97) | sunlamp: mean 40.92 med 19.95 (disc 40.92)
+RUN outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-194803-seed0
+>>> 21:55:19 EXP-109 B tokens16 seed=1
+dinov3_vitl16:tokens16 transformer/soft/res=False seed 1 synthetic_val: mean 5.36 med 4.80 (disc 5.36) | lightbox: mean 37.08 med 13.90 (disc 37.08) | sunlamp: mean 38.43 med 18.60 (disc 38.43)
+RUN outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-215520-seed1
+>>> 23:51:27 EXP-109 B tokens16 seed=2
+dinov3_vitl16:tokens16 transformer/soft/res=False seed 2 synthetic_val: mean 5.32 med 4.79 (disc 5.32) | lightbox: mean 37.71 med 13.98 (disc 37.71) | sunlamp: mean 39.88 med 19.21 (disc 39.88)
+RUN outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-235128-seed2
+=== 01:47:53 BLOCK_DONE EXP-109-trainB
+=== 01:47:53 BLOCK EXP-109-eval
+0 EXP-036 PoE greedy synthetic_val 5.57 | lightbox 27.62 | sunlamp 37.40 | synthetic_val_aug 31.26
+0 A PoE greedy synthetic_val 4.89 | lightbox 17.47 | sunlamp 20.63 | synthetic_val_aug 9.82
+0 C orbit on EXP-036 synthetic_val 4.66 | lightbox 20.84 | sunlamp 25.03 | synthetic_val_aug 20.19
+0 C orbit on A synthetic_val 3.88 | lightbox 12.13 | sunlamp 12.60 | synthetic_val_aug 5.92
+0 B tokens16 + EXP-036 MoGe PoE greedy synthetic_val 5.59 | lightbox 27.44 | sunlamp 36.12 | synthetic_val_aug 30.68
+1 EXP-036 PoE greedy synthetic_val 5.47 | lightbox 26.07 | sunlamp 36.98 | synthetic_val_aug 30.80
+1 A PoE greedy synthetic_val 4.84 | lightbox 16.99 | sunlamp 20.35 | synthetic_val_aug 9.70
+1 C orbit on EXP-036 synthetic_val 4.58 | lightbox 19.63 | sunlamp 25.59 | synthetic_val_aug 19.49
+1 C orbit on A synthetic_val 3.90 | lightbox 11.96 | sunlamp 12.42 | synthetic_val_aug 5.75
+1 B tokens16 + EXP-036 MoGe PoE greedy synthetic_val 5.55 | lightbox 26.85 | sunlamp 34.94 | synthetic_val_aug 30.28
+2 EXP-036 PoE greedy synthetic_val 5.59 | lightbox 27.03 | sunlamp 35.62 | synthetic_val_aug 30.46
+2 A PoE greedy synthetic_val 4.84 | lightbox 17.60 | sunlamp 19.51 | synthetic_val_aug 9.72
+2 C orbit on EXP-036 synthetic_val 4.63 | lightbox 20.27 | sunlamp 23.88 | synthetic_val_aug 19.83
+2 C orbit on A synthetic_val 3.84 | lightbox 12.82 | sunlamp 11.83 | synthetic_val_aug 5.79
+2 B tokens16 + EXP-036 MoGe PoE greedy synthetic_val 5.54 | lightbox 26.74 | sunlamp 36.85 | synthetic_val_aug 30.57
+| domain | system | mean_deg | mean_deg_std | median_deg | acc@10 | frac_gt90 |
+|---|---|---|---|---|---|---|
+| lightbox | A PoE greedy | 17.349 | 0.322 | 6.755 | 0.730 | 0.059 |
+| lightbox | B tokens16 + EXP-036 MoGe PoE greedy | 27.009 | 0.379 | 9.149 | 0.547 | 0.104 |
+| lightbox | C orbit on A | 12.305 | 0.457 | 5.263 | 0.837 | 0.037 |
+| lightbox | C orbit on EXP-036 | 20.246 | 0.605 | 7.262 | 0.673 | 0.073 |
+| lightbox | EXP-036 PoE greedy | 26.909 | 0.783 | 8.990 | 0.555 | 0.105 |
+| sunlamp | A PoE greedy | 20.163 | 0.578 | 8.426 | 0.601 | 0.064 |
+| sunlamp | B tokens16 + EXP-036 MoGe PoE greedy | 35.968 | 0.964 | 12.951 | 0.377 | 0.151 |
+| sunlamp | C orbit on A | 12.283 | 0.404 | 6.324 | 0.760 | 0.030 |
+| sunlamp | C orbit on EXP-036 | 24.832 | 0.874 | 9.960 | 0.501 | 0.089 |
+| sunlamp | EXP-036 PoE greedy | 36.663 | 0.930 | 12.984 | 0.373 | 0.153 |
+| synthetic_val | A PoE greedy | 4.856 | 0.029 | 4.362 | 0.968 | 0.001 |
+| synthetic_val | B tokens16 + EXP-036 MoGe PoE greedy | 5.563 | 0.028 | 4.629 | 0.947 | 0.002 |
+| synthetic_val | C orbit on A | 3.871 | 0.027 | 3.448 | 0.982 | 0.000 |
+| synthetic_val | C orbit on EXP-036 | 4.624 | 0.042 | 3.911 | 0.956 | 0.001 |
+| synthetic_val | EXP-036 PoE greedy | 5.544 | 0.066 | 4.622 | 0.946 | 0.002 |
+| synthetic_val_aug | A PoE greedy | 9.747 | 0.066 | 5.920 | 0.825 | 0.018 |
+| synthetic_val_aug | B tokens16 + EXP-036 MoGe PoE greedy | 30.512 | 0.205 | 10.901 | 0.457 | 0.105 |
+| synthetic_val_aug | C orbit on A | 5.821 | 0.090 | 3.867 | 0.939 | 0.008 |
+| synthetic_val_aug | C orbit on EXP-036 | 19.836 | 0.350 | 7.707 | 0.632 | 0.054 |
+| synthetic_val_aug | EXP-036 PoE greedy | 30.843 | 0.401 | 10.953 | 0.455 | 0.107 |
+RUN outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261016-014754-seed0

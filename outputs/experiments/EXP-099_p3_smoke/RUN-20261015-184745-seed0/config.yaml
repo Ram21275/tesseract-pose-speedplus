@@ -1,0 +1,10 @@
+exp: EXP-099_p3_smoke
+base_exp: EXP-036_transformer_soft_targets
+epochs: 1
+batch: 256
+lr: 0.001
+wd: 0.05
+nfe_val: 4
+eval_every: 1
+seed: 0
+method: dfm

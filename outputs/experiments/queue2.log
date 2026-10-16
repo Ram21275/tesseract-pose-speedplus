@@ -1,0 +1,135 @@
+=== 02:04:52 BLOCK EXP-108
+>>> 02:04:52 EXP-108 DFM smoke
+seed 0 best epoch 1 val mean 9.703
+RUN outputs/experiments/EXP-099_p3_smoke/RUN-20261016-020453-seed0
+>>> 02:07:24 EXP-108 DFM seed=0
+seed 0 best epoch 40 val mean 11.074
+RUN outputs/experiments/EXP-108_path_flow_revision/RUN-20261016-020725-seed0
+>>> 02:17:41 EXP-108 DFM seed=1
+seed 1 best epoch 50 val mean 10.926
+RUN outputs/experiments/EXP-108_path_flow_revision/RUN-20261016-021742-seed1
+>>> 02:27:39 EXP-108 DFM seed=2
+seed 2 best epoch 45 val mean 11.217
+RUN outputs/experiments/EXP-108_path_flow_revision/RUN-20261016-022740-seed2
+0 synthetic_val greedy 5.574 | nfe1/M8 11.575 nfe2/M8 8.092 nfe4/M8 7.238 nfe8/M8 6.796
+0 lightbox greedy 27.623 | nfe1/M8 36.336 nfe2/M8 32.101 nfe4/M8 30.771 nfe8/M8 30.322
+0 sunlamp greedy 37.393 | nfe1/M8 46.504 nfe2/M8 41.089 nfe4/M8 40.215 nfe8/M8 39.177
+1 synthetic_val greedy 5.468 | nfe1/M8 11.339 nfe2/M8 8.004 nfe4/M8 7.098 nfe8/M8 6.735
+1 lightbox greedy 26.071 | nfe1/M8 34.832 nfe2/M8 30.526 nfe4/M8 28.866 nfe8/M8 28.299
+1 sunlamp greedy 36.976 | nfe1/M8 46.103 nfe2/M8 41.123 nfe4/M8 39.864 nfe8/M8 39.409
+2 synthetic_val greedy 5.590 | nfe1/M8 11.685 nfe2/M8 8.169 nfe4/M8 7.338 nfe8/M8 7.061
+2 lightbox greedy 27.035 | nfe1/M8 35.472 nfe2/M8 31.553 nfe4/M8 29.752 nfe8/M8 29.483
+2 sunlamp greedy 35.615 | nfe1/M8 45.585 nfe2/M8 40.233 nfe4/M8 39.432 nfe8/M8 38.295
+| domain | nfe | M | mean_deg | mean_deg_std | greedy_mean_deg | frac_gt150 | frac_path_changed | frac_root_changed | n_init_gt150 | frac_gt150_to_lt20 | n_init_lt20 | frac_lt20_to_gt150 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| lightbox | 1 | 1 | 41.258 | 1.097 | 26.910 | 0.063 | nan | nan | 401.000 | 0.035 | 5227.000 | 0.012 |
+| lightbox | 1 | 8 | 35.547 | 0.755 | 26.910 | 0.061 | 0.825 | 0.062 | 401.000 | 0.035 | 5227.000 | 0.006 |
+| lightbox | 2 | 1 | 37.713 | 0.873 | 26.910 | 0.065 | nan | nan | 401.000 | 0.040 | 5227.000 | 0.012 |
+| lightbox | 2 | 8 | 31.393 | 0.799 | 26.910 | 0.064 | 0.776 | 0.060 | 401.000 | 0.043 | 5227.000 | 0.006 |
+| lightbox | 4 | 1 | 36.172 | 0.874 | 26.910 | 0.066 | nan | nan | 401.000 | 0.046 | 5227.000 | 0.013 |
+| lightbox | 4 | 8 | 29.796 | 0.954 | 26.910 | 0.062 | 0.754 | 0.058 | 401.000 | 0.049 | 5227.000 | 0.005 |
+| lightbox | 8 | 1 | 35.234 | 1.098 | 26.910 | 0.065 | nan | nan | 401.000 | 0.046 | 5227.000 | 0.012 |
+| lightbox | 8 | 8 | 29.368 | 1.016 | 26.910 | 0.063 | 0.748 | 0.059 | 401.000 | 0.049 | 5227.000 | 0.004 |
+| sunlamp | 1 | 1 | 51.302 | 1.057 | 36.661 | 0.076 | nan | nan | 206.000 | 0.032 | 1820.000 | 0.013 |
+| sunlamp | 1 | 8 | 46.064 | 0.461 | 36.661 | 0.076 | 0.864 | 0.078 | 206.000 | 0.039 | 1820.000 | 0.007 |
+| sunlamp | 2 | 1 | 47.602 | 0.577 | 36.661 | 0.077 | nan | nan | 206.000 | 0.039 | 1820.000 | 0.012 |
+| sunlamp | 2 | 8 | 40.815 | 0.504 | 36.661 | 0.073 | 0.813 | 0.073 | 206.000 | 0.042 | 1820.000 | 0.005 |
+| sunlamp | 4 | 1 | 45.850 | 0.834 | 36.661 | 0.078 | nan | nan | 206.000 | 0.040 | 1820.000 | 0.013 |
+| sunlamp | 4 | 8 | 39.837 | 0.393 | 36.661 | 0.073 | 0.795 | 0.073 | 206.000 | 0.040 | 1820.000 | 0.004 |
+| sunlamp | 8 | 1 | 45.065 | 1.009 | 36.661 | 0.078 | nan | nan | 206.000 | 0.040 | 1820.000 | 0.011 |
+| sunlamp | 8 | 8 | 38.960 | 0.588 | 36.661 | 0.074 | 0.788 | 0.071 | 206.000 | 0.057 | 1820.000 | 0.006 |
+| synthetic_val | 1 | 1 | 15.700 | 0.214 | 5.544 | 0.004 | nan | nan | 12.000 | 0.070 | 11875.667 | 0.003 |
+| synthetic_val | 1 | 8 | 11.533 | 0.177 | 5.544 | 0.003 | 0.728 | 0.028 | 12.000 | 0.172 | 11875.667 | 0.002 |
+| synthetic_val | 2 | 1 | 12.865 | 0.310 | 5.544 | 0.004 | nan | nan | 12.000 | 0.178 | 11875.667 | 0.003 |
+| synthetic_val | 2 | 8 | 8.088 | 0.083 | 5.544 | 0.002 | 0.680 | 0.028 | 12.000 | 0.222 | 11875.667 | 0.001 |
+| synthetic_val | 4 | 1 | 11.093 | 0.227 | 5.544 | 0.003 | nan | nan | 12.000 | 0.150 | 11875.667 | 0.002 |
+| synthetic_val | 4 | 8 | 7.225 | 0.121 | 5.544 | 0.002 | 0.662 | 0.027 | 12.000 | 0.141 | 11875.667 | 0.001 |
+| synthetic_val | 8 | 1 | 10.394 | 0.123 | 5.544 | 0.003 | nan | nan | 12.000 | 0.139 | 11875.667 | 0.002 |
+| synthetic_val | 8 | 8 | 6.864 | 0.173 | 5.544 | 0.001 | 0.654 | 0.026 | 12.000 | 0.244 | 11875.667 | 0.000 |
+RUN outputs/experiments/EXP-108_path_flow_revision/RUN-20261016-023741-seed0
+=== 02:41:27 BLOCK_DONE EXP-108
+=== 02:41:27 BLOCK EXP-110
+0 w0.0: aug 75.43 clean 16.81 lb 43.41 | w0.2: aug 57.81 clean 10.39 lb 34.25 | w0.3: aug 48.00 clean 7.80 lb 30.89 | w0.4: aug 38.62 clean 6.30 lb 28.45 | w0.5: aug 31.27 clean 5.57 lb 27.62 | w0.6: aug 26.79 clean 5.30 lb 29.01 | w0.7: aug 24.96 clean 5.20 lb 30.94 | w0.8: aug 24.62 clean 5.22 lb 33.76 | w1.0: aug 25.52 clean 5.46 lb 38.87
+1 w0.0: aug 76.46 clean 16.70 lb 44.84 | w0.2: aug 58.28 clean 10.33 lb 34.24 | w0.3: aug 48.36 clean 8.06 lb 30.00 | w0.4: aug 38.64 clean 6.34 lb 27.17 | w0.5: aug 30.82 clean 5.47 lb 26.00 | w0.6: aug 25.77 clean 5.16 lb 26.56 | w0.7: aug 23.35 clean 5.06 lb 28.11 | w0.8: aug 22.77 clean 5.04 lb 30.41 | w1.0: aug 23.90 clean 5.25 lb 34.85
+2 w0.0: aug 74.61 clean 16.63 lb 42.87 | w0.2: aug 56.34 clean 10.14 lb 34.23 | w0.3: aug 46.67 clean 7.84 lb 30.53 | w0.4: aug 37.52 clean 6.43 lb 28.21 | w0.5: aug 30.44 clean 5.59 lb 27.05 | w0.6: aug 25.86 clean 5.28 lb 27.65 | w0.7: aug 23.93 clean 5.16 lb 29.42 | w0.8: aug 23.56 clean 5.16 lb 31.94 | w1.0: aug 24.77 clean 5.33 lb 37.53
+w* (val-aug) = 0.8
+| domain | w_dino | mean_deg | mean_deg_std | median_deg | frac_gt150 |
+|---|---|---|---|---|---|
+| lightbox | 0.000 | 43.707 | 1.018 | 10.379 | 0.116 |
+| lightbox | 0.200 | 34.239 | 0.007 | 8.928 | 0.083 |
+| lightbox | 0.300 | 30.472 | 0.447 | 8.694 | 0.070 |
+| lightbox | 0.400 | 27.943 | 0.683 | 8.707 | 0.061 |
+| lightbox | 0.500 | 26.890 | 0.820 | 9.004 | 0.059 |
+| lightbox | 0.600 | 27.741 | 1.224 | 9.572 | 0.063 |
+| lightbox | 0.700 | 29.487 | 1.419 | 10.331 | 0.072 |
+| lightbox | 0.800 | 32.039 | 1.680 | 11.241 | 0.080 |
+| lightbox | 1.000 | 37.085 | 2.050 | 13.476 | 0.093 |
+| sunlamp | 0.000 | 60.576 | 0.273 | 18.340 | 0.184 |
+| sunlamp | 0.200 | 49.724 | 0.284 | 14.082 | 0.135 |
+| sunlamp | 0.300 | 44.468 | 0.808 | 13.108 | 0.112 |
+| sunlamp | 0.400 | 39.988 | 0.934 | 12.839 | 0.091 |
+| sunlamp | 0.500 | 36.669 | 1.039 | 12.950 | 0.074 |
+| sunlamp | 0.600 | 35.553 | 0.509 | 13.753 | 0.064 |
+| sunlamp | 0.700 | 35.118 | 0.428 | 14.936 | 0.057 |
+| sunlamp | 0.800 | 36.741 | 0.713 | 16.360 | 0.057 |
+| sunlamp | 1.000 | 41.438 | 0.988 | 20.460 | 0.062 |
+| synthetic_val | 0.000 | 16.714 | 0.091 | 5.884 | 0.032 |
+| synthetic_val | 0.200 | 10.286 | 0.134 | 5.156 | 0.012 |
+| synthetic_val | 0.300 | 7.902 | 0.141 | 4.920 | 0.006 |
+| synthetic_val | 0.400 | 6.355 | 0.069 | 4.739 | 0.003 |
+| synthetic_val | 0.500 | 5.541 | 0.064 | 4.623 | 0.001 |
+| synthetic_val | 0.600 | 5.245 | 0.076 | 4.563 | 0.001 |
+| synthetic_val | 0.700 | 5.140 | 0.069 | 4.560 | 0.001 |
+| synthetic_val | 0.800 | 5.141 | 0.090 | 4.599 | 0.000 |
+| synthetic_val | 1.000 | 5.348 | 0.103 | 4.800 | 0.000 |
+| synthetic_val_aug | 0.000 | 75.498 | 0.930 | 73.786 | 0.254 |
+| synthetic_val_aug | 0.200 | 57.477 | 1.009 | 17.459 | 0.167 |
+| synthetic_val_aug | 0.300 | 47.677 | 0.889 | 13.784 | 0.123 |
+| synthetic_val_aug | 0.400 | 38.260 | 0.644 | 11.962 | 0.083 |
+| synthetic_val_aug | 0.500 | 30.842 | 0.419 | 10.952 | 0.055 |
+| synthetic_val_aug | 0.600 | 26.139 | 0.563 | 10.424 | 0.039 |
+| synthetic_val_aug | 0.700 | 24.079 | 0.812 | 10.245 | 0.033 |
+| synthetic_val_aug | 0.800 | 23.650 | 0.929 | 10.275 | 0.031 |
+| synthetic_val_aug | 1.000 | 24.732 | 0.814 | 10.786 | 0.032 |
+RUN outputs/experiments/EXP-110_weighted_poe/RUN-20261016-024128-seed0
+=== 02:45:47 BLOCK_DONE EXP-110
+=== 02:45:47 BLOCK EXP-107
+fused 0 synthetic_val point 6.48/4.02  leaf 5.57
+fused 0 lightbox point 35.30/13.89  leaf 27.60
+fused 0 sunlamp point 45.09/21.93  leaf 37.49
+| method | domain | mean_deg | mean_deg_std | median_deg | acc@10 | leaf_mean_deg |
+|---|---|---|---|---|---|---|
+| fused | lightbox | 35.298 | nan | 13.888 | 0.375 | 27.602 |
+| fused | sunlamp | 45.093 | nan | 21.926 | 0.217 | 37.490 |
+| fused | synthetic_val | 6.482 | nan | 4.019 | 0.903 | 5.574 |
+RUN outputs/experiments/EXP-107_paper_visuals_metrics_efficiency/RUN-20261016-024548-seed0
+0 synthetic_val LL tree 5.990 flow 6.331
+0 lightbox LL tree 0.814 flow 3.715
+0 sunlamp LL tree -0.900 flow 2.990
+1 synthetic_val LL tree 6.070 flow 6.381
+1 lightbox LL tree 1.054 flow 3.909
+1 sunlamp LL tree -0.697 flow 3.187
+2 synthetic_val LL tree 6.009 flow 6.429
+2 lightbox LL tree 1.056 flow 3.910
+2 sunlamp LL tree -0.687 flow 3.191
+| domain | method | E_R_mean | E_R_median | E_R_p95 | acc@2 | acc@5 | acc@10 | acc@15 | acc@30 | frac_gt90 | frac_gt150 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| synthetic_val | tree (PoE greedy) | 5.568 | 4.655 | 10.261 | 0.072 | 0.558 | 0.945 | 0.983 | 0.995 | 0.002 | 0.001 |
+| synthetic_val | flow (KDE mode) | 5.357 | 3.845 | 11.999 | 0.135 | 0.686 | 0.932 | 0.965 | 0.985 | 0.002 | 0.001 |
+| lightbox | tree (PoE greedy) | 27.637 | 9.365 | 158.900 | 0.016 | 0.178 | 0.536 | 0.700 | 0.814 | 0.109 | 0.059 |
+| lightbox | flow (KDE mode) | 30.947 | 11.547 | 152.006 | 0.014 | 0.149 | 0.436 | 0.604 | 0.759 | 0.116 | 0.052 |
+| sunlamp | tree (PoE greedy) | 37.446 | 13.331 | 162.307 | 0.010 | 0.105 | 0.360 | 0.544 | 0.722 | 0.162 | 0.073 |
+| sunlamp | flow (KDE mode) | 38.665 | 16.850 | 149.115 | 0.006 | 0.068 | 0.278 | 0.447 | 0.665 | 0.144 | 0.050 |
+| domain | seed_mean | seed_std | tree_ll_gt_mean | tree_ll_gt_std | flow_ll_gt_mean | flow_ll_gt_std | tree_ll_gt_median_mean | tree_ll_gt_median_std | flow_ll_gt_median_mean | flow_ll_gt_median_std |
+|---|---|---|---|---|---|---|---|---|---|---|
+| lightbox | 1.000 | 1.000 | 0.975 | 0.139 | 3.845 | 0.112 | 3.247 | 0.174 | 4.516 | 0.132 |
+| sunlamp | 1.000 | 1.000 | -0.761 | 0.120 | 3.122 | 0.115 | 1.255 | 0.058 | 3.444 | 0.110 |
+| synthetic_val | 1.000 | 1.000 | 6.023 | 0.042 | 6.380 | 0.049 | 6.804 | 0.028 | 6.621 | 0.041 |
+RUN outputs/experiments/EXP-107_paper_visuals_metrics_efficiency/RUN-20261016-024840-seed0
+=== 02:51:41 BLOCK_DONE EXP-107
+=== 02:51:41 BLOCK EXP-111
+>>> 02:51:41 EXP-111 flow seed=0
+scripts/guarded.sh: line 42: 3358632 Killed                  nice -n 10 ionice -c 3 systemd-run --user --scope --quiet -p MemoryMax=${MEM}G -p MemorySwapMax=0 -p TasksMax=4096 -- "$@"
+[reap] marked failed: outputs/experiments/EXP-111_dino_aug_flow/RUN-20261016-025143-seed0
+=== 02:55:07 BLOCK_FAILED EXP-111
+=== 02:55:07 QUEUE2_DONE

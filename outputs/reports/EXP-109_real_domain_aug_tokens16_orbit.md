@@ -1,6 +1,8 @@
 # EXP-109: Real-domain generalisation: training-time augmentation (A), 16×16 DINOv3 tokens (B), in-plane orbit voting (C)
 
 ## Status
+**Completed 2026-10-16. A PASS, C PASS (on both bases), B FAIL.** Augmentation-trained trees + in-plane orbit voting (A + C) is the best system so far: synthetic 3.87°, lightbox 12.3°, sunlamp 12.3° (EXP-036: 5.54 / 26.9 / 36.7). Score **5/5 Strong support**.
+
 **Pre-registered 2026-10-15, before any code was run** (DEC-014, user: "add these A+B+C as an experiment … as soon as 050 finishes we should test transformer once with augmentations"). Order: EXP-050 → **EXP-109** → EXP-108 → EXP-107 jobs. Training on synthetic/train only; lightbox / sunlamp test-only (DEC-006).
 
 ## Question
@@ -67,5 +69,49 @@ Can the frozen-backbone Tesseract tree generalise better to real images when the
    - n of initially < 20° images, and the fraction broken to > 150°.
 3. Selection rules and criteria are otherwise unchanged (synthetic val-aug + clean synthetic val; real domains descriptive).
 
-## Runs / Results / Decision
-Not started.
+## Runs
+- Features (compact, hdd2): `exp109_train_aug1/2`, `exp109_valaug`, `exp109_valaug_r{90,180,270}`, `exp109_test3_r{90,180,270}`, gate crops.
+- Convention: `RUN-20261015-134950` (derived "pre−", verified); predictor check `RUN-20261015-151441` (descriptive).
+- Trainings:
+  - A: DINOv3 `180909` / `190708…` / `192852…`; MoGe-2 `182205` / `192302…` / `194214…` (seeds 0–2, queue logs).
+  - B: `194803`, `215520`, `235128`. B seed 0 first attempt `182752` killed by the memory watchdog (memmap RSS), fixed with pread.
+- Evaluation: `RUN-20261016-014754-seed0`. Queue logs: `queue_attempt1_oomd.log`, `queue.log`.
+
+## Results (3-seed mean ± std; flip transitions per image vs EXP-036 PoE greedy, with denominators)
+| system | synth val (clean) | **synth val-aug (selection)** | lightbox | sunlamp |
+|---|---|---|---|---|
+| EXP-036 PoE greedy | 5.54 ± 0.07 | 30.84 ± 0.40 | 26.91 ± 0.78 | 36.66 ± 0.93 |
+| **A** PoE greedy | 4.86 ± 0.03 | 9.75 ± 0.07 | 17.35 ± 0.32 | 20.16 ± 0.58 |
+| B tokens16 + EXP-036 MoGe-2 | 5.56 ± 0.03 | 30.51 ± 0.20 | 27.01 ± 0.38 | 35.97 ± 0.96 |
+| C orbit on EXP-036 | 4.62 ± 0.04 | 19.84 ± 0.35 | 20.25 ± 0.60 | 24.83 ± 0.87 |
+| **C orbit on A** | **3.87 ± 0.03** | **5.82 ± 0.09** | **12.30 ± 0.46** | **12.28 ± 0.40** |
+
+| system | lightbox > 150° frac. | corrected > 150° → < 20° (of 401) | broken < 20° → > 150° | sunlamp > 150° | corrected (of 206) | broken |
+|---|---|---|---|---|---|---|
+| EXP-036 | 0.059 | – | – | 0.074 | – | – |
+| A | 0.042 | 0.51 | 0.010 | 0.033 | 0.59 | 0.010 |
+| B | 0.057 | 0.14 | 0.011 | 0.073 | 0.13 | 0.012 |
+| C on EXP-036 | 0.048 | 0.36 | 0.008 | 0.043 | 0.46 | 0.009 |
+| **C on A** | **0.030** | **0.62** | **0.004** | **0.017** | **0.80** | **0.004** |
+
+Single branches (training-run evaluation, greedy):
+- DINOv3 + augmentation: 4.84 / 22.5 / 22.0, against 5.34 / 37.1 / 41.5 without.
+- MoGe-2 + augmentation: 17.6 / 40.6 / 59.5, against 16.7 / 43.7 / 60.6.
+- B DINOv3 tokens16: 5.37 / 37.9 / 39.7.
+
+## Criteria
+1. **A: PASS.** Val-aug 9.75 vs 30.84 (−21.1°, std ≤ 0.40); clean 4.86 vs 5.54, not worse (better).
+2. **B: FAIL.** Val-aug 30.51 vs 30.84 (−0.33° against a std of 0.40); clean 5.56 vs 5.54.
+3. **C: PASS** on both bases.
+   - On A: val-aug 5.82 vs 9.75; clean 3.87 vs 4.86.
+   - On EXP-036: 19.84 vs 30.84; clean 4.62 vs 5.54.
+4. **Real (descriptive):** A + C lowers lightbox by 14.6° and sunlamp by 24.4° relative to EXP-036. It corrects 62% / 80% of the > 150° failures and breaks 0.4% of the good predictions. The user's 8–10° target is exceeded, and not by selection on real data.
+
+## Interpretation
+- **Augmentation** (photometric + in-plane rotation, with geometry-correct labels) is what moves real-domain error. It acts mainly on the DINOv3 branch; MoGe-2 changes little.
+- **Orbit voting** turns the rotation augmentation into a test-time consistency check. A 180° flip is rarely the most probable answer in all four rotated views, while the true pose is.
+- **Finer tokens (B)** add nothing at 4× the cost.
+- **Cost:** C needs 4 backbone passes per image (estimated 120–150 ms at batch 1 with both backbones; to be timed). EXP-111 tests whether a DINOv3-only variant is close enough to be the fast version.
+
+## Decision (proposed for the recipe lock; the user decides)
+Adopt **A + C** (augmentation-trained trees, equal-weight PoE, in-plane orbit PoE voting) as the rotation recipe. B is rejected.

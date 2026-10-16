@@ -1,6 +1,8 @@
 # EXP-108: Discrete flow matching on the Tesseract path ("direct path flow") — revising root and child decisions from image and rotation geometry
 
 ## Status
+**Completed 2026-10-16. Criterion 1 FAIL** (discrete flow matching, NFE 4 / M 8: synthetic 7.22 ± 0.12° vs EXP-036 5.54°). Worse on real domains; repairs about 5% of the > 150° failures. Score **1/5 Not supported**.
+
 **Pre-registered 2026-10-15, before any code was run** (DEC-013, user request: "add an experiment direct path flow that iteratively revises the root and child decisions themselves using image and rotation geometry").
 
 ## Motivation
@@ -85,5 +87,25 @@ This supersedes the method, arms and criteria above. The earlier text and the re
 - **Dropped by the user's choice:** the matched no-geometry control. The contribution of the geometry token is therefore not identifiable, and no claim is made about it.
 - **Code:** `src/tfpose/pathflow.py` (`PathDFM`, `sample_tree_paths`, `mix_tokens`, `dfm_sample`), `scripts/train_pathdfm.py`, `scripts/exp108_eval.py`, chain `scripts/run_exp108_dfm.sh`. CPU unit test: t = 0 → x0, t = 1 → x1; the sampler runs.
 
-## Runs / Results / Decision
-Not started.
+## Runs
+Trainings `RUN-*` (method dfm, seeds 0–2; best val (NFE 4, M 1) about 11.2°, plateaued from epoch 40); smoke `EXP-099_p3_smoke`. Evaluation: latest `EXP-108` RUN (`scripts/exp108_eval.py`). Queue log `queue2.log`.
+
+## Results (3-seed mean ± std; M = 8, KDE mode; baseline = EXP-036 PoE greedy, the same images)
+| domain | NFE 1 | NFE 2 | **NFE 4 (pre-declared)** | NFE 8 | greedy | > 150° (NFE 4) | path changed / root changed | > 150° → < 20° | < 20° → > 150° |
+|---|---|---|---|---|---|---|---|---|---|
+| synthetic val | 11.53 | 8.09 | **7.22 ± 0.12** | 6.86 ± 0.17 | 5.54 | 0.002 | 0.66 / 0.027 | 0.14 (of 12) | 0.001 |
+| lightbox | 35.55 | 31.39 | 29.80 ± 0.95 | 29.37 | 26.91 | 0.062 | 0.75 / 0.058 | 0.049 (of 401) | 0.005 |
+| sunlamp | 46.06 | 40.81 | 39.84 ± 0.39 | 38.96 | 36.66 | 0.073 | 0.80 / 0.073 | 0.040 (of 206) | 0.004 |
+
+## Criteria
+1. **FAIL:** 7.22 vs 5.54.
+2. **Flip repair (descriptive):** no. Only 4–5% of the > 150° failures are corrected, and the > 150° fraction is unchanged.
+3. The sampler changes most paths (66–80%), almost always at the fine levels. Root changes are rare (3–7%).
+
+## Interpretation
+- The coupling starts from **samples** of the tree, which are noisier than its greedy path (EXP-044: train-set leaf mass on GT is about 0.35).
+- The flow learns to move towards the GT distribution, but with a token-wise mixture path and a heuristic per-token PoE across branches, it does not concentrate better than the tree's greedy decoding. More steps help monotonically, but stay above greedy.
+- The flips are not repaired, consistent with EXP-105: the frozen clean-trained features are ambiguous between flip modes. EXP-109 shows that augmentation plus orbit consistency, not path revision, is what resolves them.
+
+## Decision
+Not adopted. The negative result is kept. No further path-flow variants are planned unless the user asks.

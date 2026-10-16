@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_probe_p3.py --exp EXP-109_real_domain_aug_tokens16_orbit --features dinov3_vitl16:tokens8 --decoder transformer --token-shape 64x1024 --feat-device cpu --amp bf16 --targets soft --aug-tags exp109_train_aug1,exp109_train_aug2 --aug-convention pre- --seed 2

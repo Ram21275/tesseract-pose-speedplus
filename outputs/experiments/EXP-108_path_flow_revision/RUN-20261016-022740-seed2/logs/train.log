@@ -1,0 +1,10 @@
+ep 5 loss 7.4579 val_mean_nfe4 12.3220
+ep 10 loss 6.9315 val_mean_nfe4 13.5475
+ep 15 loss 6.5013 val_mean_nfe4 12.2951
+ep 20 loss 6.1568 val_mean_nfe4 12.1011
+ep 25 loss 5.9202 val_mean_nfe4 12.1032
+ep 30 loss 5.6686 val_mean_nfe4 11.9633
+ep 35 loss 5.4301 val_mean_nfe4 11.6387
+ep 40 loss 5.2100 val_mean_nfe4 11.2755
+ep 45 loss 5.1459 val_mean_nfe4 11.2173
+ep 50 loss 5.1157 val_mean_nfe4 11.2765

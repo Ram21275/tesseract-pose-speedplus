@@ -1,0 +1,128 @@
+[
+  {
+    "component": "DINOv3-L features (frozen)",
+    "batch": 1,
+    "ms_per_batch": 6.0122759896330535,
+    "ms_per_image": 6.0122759896330535,
+    "images_per_s": 166.3263632149117,
+    "params_M": 303.079424,
+    "gpu_util_mem_at_start": "6, 3833"
+  },
+  {
+    "component": "MoGe-2 ViT-L features (frozen)",
+    "batch": 1,
+    "ms_per_batch": 20.53577604237944,
+    "ms_per_image": 20.53577604237944,
+    "images_per_s": 48.69550573283969,
+    "params_M": 330.901544,
+    "gpu_util_mem_at_start": "4, 4325"
+  },
+  {
+    "component": "DINOv3-L features (frozen)",
+    "batch": 64,
+    "ms_per_batch": 155.9454529779032,
+    "ms_per_image": 2.4366477027797373,
+    "images_per_s": 410.39991085260135,
+    "params_M": 303.079424,
+    "gpu_util_mem_at_start": "98, 4685"
+  },
+  {
+    "component": "MoGe-2 ViT-L features (frozen)",
+    "batch": 64,
+    "ms_per_batch": 1578.7822980200872,
+    "ms_per_image": 24.668473406563862,
+    "images_per_s": 40.53757131699592,
+    "params_M": 330.901544,
+    "gpu_util_mem_at_start": "52, 32467"
+  },
+  {
+    "component": "tree A+B encode + per-level PoE + greedy decode",
+    "batch": 1,
+    "ms_per_batch": 12.753479997627437,
+    "ms_per_image": 12.753479997627437,
+    "images_per_s": 78.40997125380936,
+    "params_M": 4.519968,
+    "gpu_util_mem_at_start": "14, 4161"
+  },
+  {
+    "component": "tree A+B beam 8 (candidate set)",
+    "batch": 1,
+    "ms_per_batch": 13.481030007824302,
+    "ms_per_image": 13.481030007824302,
+    "images_per_s": 74.17830829095452,
+    "params_M": null,
+    "gpu_util_mem_at_start": "14, 4163"
+  },
+  {
+    "component": "flow: one velocity evaluation (2 heads, M = 32)",
+    "batch": 1,
+    "ms_per_batch": 1.3442750205285847,
+    "ms_per_image": 1.3442750205285847,
+    "images_per_s": 743.8953969454765,
+    "params_M": 3.346438,
+    "gpu_util_mem_at_start": "14, 4203"
+  },
+  {
+    "component": "flow: full sampling NFE 10, M 32",
+    "batch": 1,
+    "ms_per_batch": 15.077894960995764,
+    "ms_per_image": 15.077894960995764,
+    "images_per_s": 66.32225536700241,
+    "params_M": null,
+    "gpu_util_mem_at_start": "23, 4203"
+  },
+  {
+    "component": "KDE mode (M 32)",
+    "batch": 1,
+    "ms_per_batch": 0.07611495675519109,
+    "ms_per_image": 0.07611495675519109,
+    "images_per_s": 13138.02231033652,
+    "params_M": null,
+    "gpu_util_mem_at_start": "23, 4203"
+  },
+  {
+    "component": "tree A+B encode + per-level PoE + greedy decode",
+    "batch": 64,
+    "ms_per_batch": 14.257029979489744,
+    "ms_per_image": 0.22276609342952725,
+    "images_per_s": 4489.01349664487,
+    "params_M": 4.519968,
+    "gpu_util_mem_at_start": "23, 4263"
+  },
+  {
+    "component": "tree A+B beam 8 (candidate set)",
+    "batch": 64,
+    "ms_per_batch": 22.31949201086536,
+    "ms_per_image": 0.34874206266977126,
+    "images_per_s": 2867.4487738719204,
+    "params_M": null,
+    "gpu_util_mem_at_start": "91, 4683"
+  },
+  {
+    "component": "flow: one velocity evaluation (2 heads, M = 32)",
+    "batch": 64,
+    "ms_per_batch": 31.60630800994113,
+    "ms_per_image": 0.49384856265533017,
+    "images_per_s": 2024.9122415648826,
+    "params_M": 3.346438,
+    "gpu_util_mem_at_start": "91, 7823"
+  },
+  {
+    "component": "flow: full sampling NFE 10, M 32",
+    "batch": 64,
+    "ms_per_batch": 322.7290080394596,
+    "ms_per_image": 5.042640750616556,
+    "images_per_s": 198.30879284385497,
+    "params_M": null,
+    "gpu_util_mem_at_start": "100, 7823"
+  },
+  {
+    "component": "KDE mode (M 32)",
+    "batch": 64,
+    "ms_per_batch": 0.0775689841248095,
+    "ms_per_image": 0.0012120153769501485,
+    "images_per_s": 825072.0403534378,
+    "params_M": null,
+    "gpu_util_mem_at_start": "100, 7823"
+  }
+]

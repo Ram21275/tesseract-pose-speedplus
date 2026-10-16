@@ -1,0 +1,10 @@
+{
+  "state": "completed",
+  "pid": 3353017,
+  "start": "2026-10-16T02:41:28.311250",
+  "wall_clock_s": 258.55,
+  "peak_cpu_rss_mb": 23178.8,
+  "peak_gpu_mb": 1631.9,
+  "end": "2026-10-16T02:45:46.862768",
+  "w_star_valaug": 0.8
+}

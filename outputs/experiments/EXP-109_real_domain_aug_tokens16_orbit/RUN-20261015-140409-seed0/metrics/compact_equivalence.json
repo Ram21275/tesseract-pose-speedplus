@@ -1,0 +1,14 @@
+[
+  {
+    "spec": "dinov3_vitl16:tokens8",
+    "max_abs_diff_std": 0.010574579238891602,
+    "mean_abs_diff_std": 0.0001344480406260118,
+    "rel_l2": 0.00042649335227906704
+  },
+  {
+    "spec": "moge2_vitl:normals16~and",
+    "max_abs_diff_std": 0.5442500710487366,
+    "mean_abs_diff_std": 0.00023961739498190582,
+    "rel_l2": 0.0028665594290941954
+  }
+]
