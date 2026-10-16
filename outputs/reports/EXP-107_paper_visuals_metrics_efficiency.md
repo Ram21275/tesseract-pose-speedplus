@@ -1,6 +1,8 @@
 # EXP-107: Paper visualizations, comparison-ready metrics, and efficiency (steps, samples, FPS)
 
 ## Status
+**Completed 2026-10-16 (descriptive).** Figures F1–F6 and the comparison / log-likelihood / timing tables are produced. They show the EXP-036 + EXP-042 system; the final recipe (EXP-109 A + C) still needs its own figures and timing, as a follow-up.
+
 **Pre-registered 2026-10-13, before any figure or number** (DEC-012, user request). Analysis only: no model is trained and nothing is selected here. Runs after EXP-105. CPU parts read saved outputs; GPU parts (NFE sweep, timing, trajectories) go through the guarded queue, one job at a time.
 
 ## Purpose
@@ -51,5 +53,40 @@ None: this is a descriptive experiment. Everything is reported whatever the outc
 ## Amendment 2026-10-15 (before any run)
 - The F4 speed–accuracy sweep uses **seed 0 only**, all three domains (`scripts/run_exp107_sweep.sh`, `exp04x_fused_eval.py --fused-only --feat-cpu --queries 1024`). The 3-seed point at NFE 10 / M 32 is EXP-042's. KDE mode at M = 1 is the single sample itself.
 
-## Runs / Results
-Not started.
+## Runs
+- Sweep (seed 0): `RUN-20261015-111312` … `121414`, plus M = 8 from queue2.
+- Timing: completed in queue1.
+- Figures, tables and log-likelihood: `RUN-20261016-024840-seed0` (`figures/`: F1–F3 for each example image by the fixed rule, F2 mp4s, F4–F6).
+
+## Results
+**Speed–accuracy (fused flow, seed 0; mean °, synth / lightbox / sunlamp):**
+- NFE 1: 15.8 / 42.8 / 52.3 (2.5 ms)
+- NFE 5: 5.95 / 31.4 / 38.8 (7 ms)
+- NFE 10: 5.36 / 31.0 / 38.7 (13 ms)
+- NFE 20: 5.18 / 30.5 / 38.4
+- NFE 50: 5.35 / 30.9 / 37.3
+- M 64: 5.05 / 29.6 / 35.1 (32–39 ms)
+
+**Comparison table (seed 0, E_R = 2·arccos|⟨q̂, q⟩|):**
+- Tree: 5.57 / 27.6 / 37.4 mean; acc@10 0.945 / 0.536 / 0.360.
+- Flow (KDE mode): 5.36 / 30.9 / 38.7; acc@2 0.135 vs 0.072 synthetic.
+
+**Log-likelihood of GT (nats, Haar normalized to π², uniform = −2.29; 3 seeds):**
+
+| | tree | flow |
+|---|---|---|
+| synthetic | 6.02 | 6.38 |
+| lightbox | 0.98 | 3.85 |
+| sunlamp | −0.76 | 3.12 |
+
+The flow's density is much better calibrated on real images, although its point estimate is worse.
+
+**Timing (batch 1 / batch 64, shared GPU, upper bounds):**
+- DINOv3-L: 6.0 ms (166 FPS) / 410 img/s.
+- MoGe-2: 20.5 ms (49 FPS) / 41 img/s.
+- Both trees with PoE and greedy decoding: 12.8 ms / 0.22 ms per image.
+- Flow, NFE 10 × M 32: 15 ms.
+
+## Decision
+- Use these as the figure templates.
+- **Follow-up (pre-registration needed):** regenerate F1–F6 and the timing for the final recipe (EXP-109 A + C, and the EXP-111 DINOv3-only variant), so the paper's figures show the adopted method.
