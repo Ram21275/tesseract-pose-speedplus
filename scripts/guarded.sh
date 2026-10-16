@@ -25,6 +25,11 @@ fi
 # Be polite to other users' jobs: do not start until the machine can absorb this
 # job's whole cap plus headroom (RAM) and the GPU has room (GUARD_GPU_GB, 0 = skip),
 # then run at low CPU and I/O priority. Waits, never kills anything.
+# Maintenance pause: while outputs/experiments/QUEUE_PAUSE exists, new jobs wait here (running jobs are untouched).
+PAUSE="$(cd "$(dirname "$0")/.." && pwd)/outputs/experiments/QUEUE_PAUSE"
+while [[ -f "$PAUSE" && -z "${GUARD_IGNORE_PAUSE:-}" ]]; do
+  echo "[guarded] $(date +%T) paused for maintenance ($PAUSE)" >&2; sleep 60
+done
 RAM_HEADROOM=${GUARD_RAM_HEADROOM_GB:-12}
 GPU_NEED=${GUARD_GPU_GB:-8}
 while :; do

@@ -17,6 +17,7 @@ import yaml
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
+from tfpose.cachepaths import CACHE  # noqa: E402
 from tfpose import data as D, featsets, masks as M, spectral as S  # noqa: E402
 from tfpose.runlog import Run, md_table  # noqa: E402
 
@@ -68,7 +69,7 @@ try:
     per = pd.DataFrame(rows).merge(base.drop(columns=["domain"]), on="idx")
     per.to_csv(run.sub("predictions") / "per_image_mask_metrics.csv", index=False, float_format="%.5g")
 
-    out = REPO / f"outputs/shared_cache/spectral_parts__subset_{args.subset}"
+    out = CACHE / f"spectral_parts__subset_{args.subset}"
     if (out / "manifest.json").exists():
         raise FileExistsError(out)
     out.mkdir(parents=True)

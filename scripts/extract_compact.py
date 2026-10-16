@@ -4,7 +4,7 @@ Stores only what the locked recipe reads (about 175 KB per crop instead of about
   dinov3_vitl16 : last_grid8 (8x8x1024, = featsets `tokens8`), dino_fg (74x74 uint8, EXP-015 per-image PCA-1 Otsu)
   moge2_vitl    : normal (74x74x3), mask (74x74x1)   (= the inputs of `normals16`)
 `build_consensus` then writes consensus_masks__subset_<tag> (MoGe-2 mask > 0.5 AND dino_fg), as EXP-015 did.
-Caches live under --cache-root (hdd2) and are symlinked into outputs/shared_cache so featsets.find_cache sees them.
+Caches live under --cache-root (compact_cache_root, hdd2) and are symlinked into the featsets cache root (cache_root).
 Row key = image_relpath (+ "#obj#inst" when an image has several targets). RGB datasets are read in colour (--rgb).
 """
 import argparse
@@ -24,6 +24,7 @@ import yaml
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
+from tfpose.cachepaths import CACHE, COMPACT  # noqa: E402
 from tfpose import data as D, features as Fx, inplane as IP, masks as M  # noqa: E402
 
 ap = argparse.ArgumentParser()
@@ -33,7 +34,7 @@ ap.add_argument("--tag", required=True, help="subset name used by featsets.load(
 ap.add_argument("--backbone", choices=["dinov3_vitl16", "moge2_vitl", "consensus"], required=True)
 ap.add_argument("--rgb", action="store_true")
 ap.add_argument("--key-cols", default="", help="extra columns appended to image_relpath to make a unique row key, e.g. obj_id,inst_id")
-ap.add_argument("--cache-root", default="/media/kavinder/hdd2/tfpose_cache")
+ap.add_argument("--cache-root", default=None, help="default: configs/paths.yaml compact_cache_root")
 ap.add_argument("--batch", type=int, default=32)
 ap.add_argument("--workers", type=int, default=4)
 ap.add_argument("--limit", type=int, default=0)
@@ -42,6 +43,7 @@ ap.add_argument("--rot-random-seed", type=int, default=None, help="EXP-109: per-
 ap.add_argument("--store-grid16", action="store_true", help="EXP-109 B: also store the 16x16 DINOv3 grid (fp16)")
 ap.add_argument("--photo-seed", type=int, default=None, help="EXP-109: per-row photometric augmentation, rng([seed, row])")
 args = ap.parse_args()
+args.cache_root = args.cache_root or str(COMPACT)
 
 paths = yaml.safe_load(open(REPO / "configs/paths.yaml"))
 root = Path(paths[args.root_key])
@@ -59,7 +61,7 @@ if args.rot_random_seed is not None:
 if args.rot_deg is not None:                                   # fixed angle, added to the random one if both are given
     ANG = ANG + args.rot_deg
 mhash = D.manifest_hash(keys + [f"rot={args.rot_deg}|{args.rot_random_seed}|photo={args.photo_seed}"])
-shared = REPO / "outputs/shared_cache"
+shared = CACHE
 
 
 class Crops(torch.utils.data.Dataset):

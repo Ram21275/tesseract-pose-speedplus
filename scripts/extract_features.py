@@ -10,6 +10,7 @@ import yaml
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
+from tfpose.cachepaths import CACHE  # noqa: E402
 from tfpose import features as Fx  # noqa: E402
 
 ap = argparse.ArgumentParser()
@@ -32,7 +33,7 @@ elif args.backbone == "vggt_1b":
 else:
     ex = Fx.MoGe2Extractor(dev)
 code = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip()
-out = Fx.cache_path(REPO / "outputs/shared_cache", f"{args.backbone}__subset_{args.subset}", ex.spec, mhash)
+out = Fx.cache_path(CACHE, f"{args.backbone}__subset_{args.subset}", ex.spec, mhash)
 print("->", out, flush=True)
 Fx.extract_to_cache(ex, root, df, out, args.batch, code, mhash, log=lambda s: print(s, flush=True))
 print("done", out)

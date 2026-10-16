@@ -27,6 +27,7 @@ import yaml
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
+from tfpose.cachepaths import CACHE  # noqa: E402
 from tfpose import featsets, phase3 as P, so3flow as S, tesseract as T  # noqa: E402
 from tfpose.data import eval_groups  # noqa: E402
 from tfpose.fusion import fused_beam  # noqa: E402
@@ -88,7 +89,7 @@ try:
         for tag in VIEWS:
             vn, vx, vinfo = featsets.load(args.features, tag); assert vn == df.image_relpath.values[tr_rows].tolist(), tag
             VX.append(featsets.standardize_to_tensor(vx, None, "cpu", torch.float16, stats=stats)); del vx
-            ang = pd.read_csv(REPO / "outputs/shared_cache" / Path(vinfo["cache"]).name / "aug.csv").rot_deg.to_numpy()
+            ang = pd.read_csv(CACHE / Path(vinfo["cache"]).name / "aug.csv").rot_deg.to_numpy()
             VQ.append(torch.as_tensor(IP.rotate_label(q[tr_rows], ang, dray, args.aug_convention), dtype=torch.float32, device=dev))
         VQ = torch.stack(VQ)
         (run.dir / "aug_views.json").write_text(json.dumps({"tags": VIEWS, "convention": args.aug_convention}))

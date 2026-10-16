@@ -20,6 +20,7 @@ import yaml
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
+from tfpose.cachepaths import CACHE  # noqa: E402
 from tfpose import cass, features as Fx  # noqa: E402
 
 ap = argparse.ArgumentParser()
@@ -47,12 +48,12 @@ spec_b = dict(dino.spec, cass_injection="MoGe-2 block23 keys -> DINOv3-L block23
 outs = {}
 if not args.limit:
     for tag, spec in [("moge2_vitl_cassdino", spec_a), ("dinov3_vitl16_cassmoge", spec_b)]:
-        p = Fx.cache_path(REPO / "outputs/shared_cache", f"{tag}__subset_{args.subset}", spec, mhash)
+        p = Fx.cache_path(CACHE, f"{tag}__subset_{args.subset}", spec, mhash)
         if (p / "manifest.json").exists():
             raise FileExistsError(p)
         p.mkdir(parents=True, exist_ok=True)
         outs[tag] = (p, spec)
-    sp_dir = REPO / f"outputs/shared_cache/cass_spectra__subset_{args.subset}"
+    sp_dir = CACHE / f"cass_spectra__subset_{args.subset}"
     if (sp_dir / "manifest.json").exists():
         raise FileExistsError(sp_dir)
     sp_dir.mkdir(parents=True, exist_ok=True)

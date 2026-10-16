@@ -22,6 +22,7 @@ import json
 from pathlib import Path
 
 import h5py
+from .cachepaths import CACHE
 import numpy as np
 import torch
 import torch.nn.functional as F
@@ -30,7 +31,7 @@ REPO = Path(__file__).resolve().parents[2]
 
 
 def find_cache(backbone: str, subset: str) -> Path:
-    hits = sorted((REPO / "outputs/shared_cache").glob(f"{backbone}__subset_{subset}__*"))
+    hits = sorted((CACHE).glob(f"{backbone}__subset_{subset}__*"))
     hits = [h for h in hits if (h / "manifest.json").exists()]
     if len(hits) != 1:
         raise FileNotFoundError(f"expected exactly one complete cache for {backbone}/{subset}, found {hits}")
@@ -48,7 +49,7 @@ def _pool(a, r: int, chunk: int = 256) -> np.ndarray:
 
 def consensus_mask(subset: str, names: list[str]) -> np.ndarray:
     """EXP-015 training-free AND mask (MoGe-2 mask AND DINOv3 PCA foreground), (N,74,74,1) float32."""
-    p = REPO / f"outputs/shared_cache/consensus_masks__subset_{subset}"
+    p = CACHE / f"consensus_masks__subset_{subset}"
     if not (p / "manifest.json").exists():
         raise FileNotFoundError(p)
     with h5py.File(p / "masks.h5", "r") as f:
@@ -94,7 +95,7 @@ def load(spec: str, subset: str):
             key = "last_grid" if "last_grid" in f else "last_grid8"
             X = _pool(f[key], int(fs[-1])).reshape(len(names), -1)
         elif fs == "parts4":  # EXP-019: spectral part pooling (fused-graph eigvecs 2-5, weights v^2)
-            pp = REPO / f"outputs/shared_cache/spectral_parts__subset_{subset}"
+            pp = CACHE / f"spectral_parts__subset_{subset}"
             with h5py.File(pp / "parts.h5", "r") as fp:
                 if [s.decode() for s in fp["image_relpath"][:]] != names:
                     raise ValueError("parts cache order does not match feature cache")

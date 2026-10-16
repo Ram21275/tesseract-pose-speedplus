@@ -16,6 +16,7 @@ from sklearn.metrics import roc_auc_score
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
+from tfpose.cachepaths import CACHE  # noqa: E402
 from tfpose.runlog import Run, md_table  # noqa: E402
 
 ap = argparse.ArgumentParser()
@@ -25,7 +26,7 @@ args = ap.parse_args()
 run = Run("EXP-020", "spectral_head_complementarity", vars(args), seed=args.seed)
 try:
     df = pd.read_csv(REPO / f"outputs/data_manifests/subset_{args.subset}.csv")
-    with h5py.File(REPO / f"outputs/shared_cache/cass_spectra__subset_{args.subset}/spectra.h5") as f:
+    with h5py.File(CACHE / f"cass_spectra__subset_{args.subset}/spectra.h5") as f:
         assert [s.decode() for s in f["image_relpath"][:]] == df.image_relpath.tolist()
         cost = f["cost"][:]; pairs = f["pairs"][:]
     W = 1.0 - cost                                                  # Wasserstein distance per (dino head, moge head)

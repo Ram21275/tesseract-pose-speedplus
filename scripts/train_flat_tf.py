@@ -15,6 +15,7 @@ import yaml
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
+from tfpose.cachepaths import CACHE  # noqa: E402
 from tfpose import data as D, featsets, flatgrid as FG, inplane as IP  # noqa: E402
 from tfpose.metrics import rotation_metrics  # noqa: E402
 from tfpose.runlog import Run  # noqa: E402
@@ -53,7 +54,7 @@ try:
     for tag in VIEWS:
         vn, vx, vinfo = featsets.load(args.features, tag); assert vn == df.image_relpath.values[tr_rows].tolist(), tag
         VX.append(featsets.standardize_to_tensor(vx, None, "cpu", torch.float16, stats=stats)); del vx
-        ang = pd.read_csv(REPO / "outputs/shared_cache" / Path(vinfo["cache"]).name / "aug.csv").rot_deg.to_numpy()
+        ang = pd.read_csv(CACHE / Path(vinfo["cache"]).name / "aug.csv").rot_deg.to_numpy()
         VQ.append(torch.as_tensor(IP.rotate_label(q[tr_rows], ang, dray, args.aug_convention), dtype=torch.float32, device=dev))
     VQ = torch.stack(VQ)
     ts = tuple(int(v) for v in args.token_shape.split("x")); assert ts[0] * ts[1] == d_in

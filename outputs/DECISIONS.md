@@ -171,3 +171,16 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
   - All use the locked recipe (DEC-018) and the shared evaluator `scripts/orbit_eval.py`.
 - **Order:** after EXP-111 / 112: 114 (evaluation only) → 113 (6 flat trainings) → 115 (extraction + 12 trainings) → evaluations → **EXP-064** (cross-dataset; its implementation follows its amended protocol).
 - **Focus:** other optional work (EXP-051–055, EXP-107 re-run, EXP-106) is deferred.
+
+## DEC-020 — Caches moved to the 8 TB drive; obsolete caches deleted (2026-10-16)
+- **Decided by:** the user: "move the cache embeddings or tokens that are taking space in the main ssd to 8 tb drive inside a folder name it RAM … and change the paths wherever they are used"; "/media/kavinder/hdd2/RAM this is the directory you can use this for the space intensive things"; deletion approved ("yes you can delete them").
+- **Done** between jobs (queue paused via `outputs/experiments/QUEUE_PAUSE`, no job interrupted):
+  - `outputs/shared_cache` (105 GB) → `/media/kavinder/hdd2/RAM/shared_cache`;
+  - compact caches → `/media/kavinder/hdd2/RAM/compact`;
+  - verified (identical file sizes, no broken links, a real read check).
+  - Paths are now set in `configs/paths.yaml` (`cache_root`, `compact_cache_root`) and read through `src/tfpose/cachepaths.py`. `outputs/shared_cache` remains as a link for old commands. Script: `scripts/migrate_cache_to_hdd2.sh`, log `outputs/experiments/migrate_cache.log`.
+- **Deleted (55 GB):**
+  - `tokens16_full_std.npy` (rejected EXP-109 arm B; re-creatable with `scripts/build_tokens16_memmap.py`);
+  - all `subset_v1` caches (Phase 1–2 sanity runs: VGGT, DINOv3-B / L, MoGe-2, CaSS, spectral parts, consensus masks v1; re-creatable with `scripts/extract_features.py --subset v1` and the EXP-015 / 017 / 018 scripts).
+  - Consequence: EXP-109's B arm and Phase 1–2 cannot be re-evaluated without re-extracting. Their results and run records are unchanged.
+- **Free space after:** SSD 145 GB, 8 TB drive 104 GB.

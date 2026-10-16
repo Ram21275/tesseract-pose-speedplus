@@ -12,6 +12,7 @@ import yaml
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
+from tfpose.cachepaths import CACHE  # noqa: E402
 from tfpose import data as D, featsets, inplane as IP, phase3 as P, tesseract as T  # noqa: E402
 from tfpose.fusion import fused_beam  # noqa: E402
 from tfpose.runlog import Run, md_table  # noqa: E402
@@ -45,8 +46,8 @@ try:
         for k in (0, 90, 180, 270):
             n, x, _ = featsets.load(sp, "exp109_valaug" if k == 0 else f"exp109_valaug_r{k}"); assert n == va.image_relpath.tolist()
             F_[(sp, "valaug", k)] = featsets.standardize_to_tensor(x, None, "cpu", torch.float16, stats=st)
-    mm = np.load(REPO / "outputs/shared_cache/tokens16_full_std.npy", mmap_mode="r")
-    s16 = np.load(REPO / "outputs/shared_cache/tokens16_full_stats.npz")
+    mm = np.load(CACHE / "tokens16_full_std.npy", mmap_mode="r")
+    s16 = np.load(CACHE / "tokens16_full_stats.npz")
     import h5py
     h16 = h5py.File(tag_dir("dinov3_vitl16", "exp109_valaug") / "features.h5", "r")
     F_[("tok16", "test", 0)] = lambda r: torch.from_numpy(np.asarray(mm[pos3[r]]))          # streamed (memory guard)

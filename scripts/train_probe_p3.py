@@ -16,6 +16,7 @@ import torch.nn.functional as F
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
+from tfpose.cachepaths import CACHE  # noqa: E402
 from tfpose import featsets, phase3 as P, tesseract as T  # noqa: E402
 from tfpose.metrics import path_metrics, rotation_metrics  # noqa: E402
 from tfpose.predictor import HierMLP, decode_torch, parent_centres  # noqa: E402
@@ -116,7 +117,7 @@ try:
             vn, vx, vinfo = featsets.load(args.features, tag)
             assert vn == df.image_relpath.values[tr_rows].tolist(), tag
             VX.append(featsets.standardize_to_tensor(vx, None, "cpu", torch.float16, stats=stats)); del vx
-            ang = pd.read_csv(REPO / "outputs/shared_cache" / Path(vinfo["cache"]).name / "aug.csv").rot_deg.to_numpy()
+            ang = pd.read_csv(CACHE / Path(vinfo["cache"]).name / "aug.csv").rot_deg.to_numpy()
             qv = IP.rotate_label(q[tr_rows], ang, dray, args.aug_convention); cv_, pv_ = T.encode(qv, args.depth)
             rs_, cs_ = P.soft_targets(qv, cv_, pv_)
             vC.append(torch.as_tensor(cv_, device=dev)); vP.append(torch.as_tensor(pv_, device=dev))

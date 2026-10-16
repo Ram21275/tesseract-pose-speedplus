@@ -10,12 +10,13 @@ import pandas as pd
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
+from tfpose.cachepaths import CACHE  # noqa: E402
 from tfpose import featsets  # noqa: E402
 
 df = pd.read_csv(REPO / "outputs/data_manifests/subset_full.csv")
 tr = np.flatnonzero(((df.domain == "synthetic") & (df.split == "train")).to_numpy())
 path = featsets.find_cache("dinov3_vitl16", "full")
-out = REPO / "outputs/shared_cache/tokens16_full_std.npy"
+out = CACHE / "tokens16_full_std.npy"
 STATS_ONLY = "--stats-only" in sys.argv
 with h5py.File(path / "features.h5", "r") as f:
     assert [s.decode() for s in f["image_relpath"][:]] == df.image_relpath.tolist()

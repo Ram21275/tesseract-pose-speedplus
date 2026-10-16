@@ -16,6 +16,7 @@ import yaml
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
+from tfpose.cachepaths import CACHE  # noqa: E402
 from tfpose import data as D, featsets, masks as M  # noqa: E402
 from tfpose.runlog import Run, md_table  # noqa: E402
 
@@ -70,7 +71,7 @@ try:
     per.to_csv(pred_dir / "per_image_mask_metrics.csv", index=False, float_format="%.5g")
 
     # derived consensus masks for EXP-016 (immutable cache with manifest)
-    out = REPO / f"outputs/shared_cache/consensus_masks__subset_{args.subset}"
+    out = CACHE / f"consensus_masks__subset_{args.subset}"
     if (out / "manifest.json").exists():
         raise FileExistsError(out)
     out.mkdir(parents=True)

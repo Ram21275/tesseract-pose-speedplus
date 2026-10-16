@@ -8,3 +8,6 @@ crosscheck_train_csv: /media/kavinder/hdd2/RFO/speed_pose_moe/speedplusv2/train.
 tless_root: /media/kavinder/hdd2/liepose_data/bop_datasets/tless
 symsolt_root: /media/kavinder/hdd2/liepose_data/symsolt
 ycbv_root: /media/kavinder/hdd2/FFb6D/datasets/ycb/YCB_Video_Dataset
+# Large derived caches (moved off the main SSD 2026-10-16).
+cache_root: /media/kavinder/hdd2/RAM/shared_cache
+compact_cache_root: /media/kavinder/hdd2/RAM/compact

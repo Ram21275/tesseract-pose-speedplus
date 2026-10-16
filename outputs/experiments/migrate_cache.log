@@ -1,0 +1,7 @@
+[migrate] 13:43:54 waiting for running jobs to finish
+[migrate] 13:43:54 start; free:  154G
+[migrate] compact caches moved (rename)
+[migrate] verify: differing entries=0 broken links=0
+[migrate] read check dinov3_vitl16__subset_full__793c65d370cc__c7c029785fb8458c (69491,)
+[migrate] compact link ok /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp109_valaug__add5c943db35__dde93c9d5214366a
+[migrate] 13:53:54 DONE; SSD free:  145G; hdd2 free:   49G

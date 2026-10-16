@@ -21,6 +21,7 @@ import yaml
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
+from tfpose.cachepaths import CACHE  # noqa: E402
 from tfpose import data as D, featsets, tesseract as T  # noqa: E402
 from tfpose.adapters import inject_lora, lora_parameters, lora_state_dict  # noqa: E402
 from tfpose.features import DinoV3, MoGe2Extractor  # noqa: E402
@@ -159,7 +160,7 @@ try:
     bb.load_state_dict(best[1][0], strict=False); head.load_state_dict(best[1][1])
     torch.save({"lora": best[1][0], "head": best[1][1]}, run.sub("checkpoints") / "best.pt")
     rows = []
-    cache = REPO / f"outputs/shared_cache/adapted__{run.exp}__{args.branch}__seed{args.seed}__{run.dir.name}"
+    cache = CACHE / f"adapted__{run.exp}__{args.branch}__seed{args.seed}__{run.dir.name}"
     cache.mkdir(parents=True, exist_ok=False)
     with h5py.File(cache / "features.h5", "w") as fh:
         for g in ["synthetic_val", "lightbox", "sunlamp"]:
