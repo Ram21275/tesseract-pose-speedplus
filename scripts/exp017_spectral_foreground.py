@@ -98,7 +98,7 @@ try:
     run.write_metrics(diffs, "paired_differences")
     t = run.sub("tables")
     (t / "metrics.md").write_text(md_table(agg)); (t / "paired_differences.md").write_text(md_table(diffs))
-    run.done(parts_cache=str(out.relative_to(REPO)))
+    run.done(parts_cache=str(out))
     print((t / "metrics.md").read_text()); print("RUN", run.rel())
 except Exception:
     import traceback

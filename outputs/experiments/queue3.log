@@ -1,2 +1,31 @@
 === 12:49:53 BLOCK EXP-111
 >>> 12:49:53 EXP-111 flow seed=0
+dinov3_vitl16:tokens8 flow/uniform seed 0 synthetic_val: 4.15/3.66 (leaf 4.89) | lightbox_val: 24.22/9.95 (leaf 23.26) | lightbox_test: 24.84/9.37 (leaf 22.14) | sunlamp: 25.08/12.84 (leaf 22.87)
+RUN outputs/experiments/EXP-111_dino_aug_flow/RUN-20261016-124954-seed0
+>>> 13:16:21 EXP-111 flow seed=1
+dinov3_vitl16:tokens8 flow/uniform seed 1 synthetic_val: 4.06/3.67 (leaf 4.79) | lightbox_val: 24.54/9.22 (leaf 22.81) | lightbox_test: 25.02/9.04 (leaf 21.70) | sunlamp: 24.26/12.18 (leaf 21.90)
+RUN outputs/experiments/EXP-111_dino_aug_flow/RUN-20261016-131622-seed1
+>>> 13:43:30 EXP-111 flow seed=2
+[guarded] 13:43:30 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:44:30 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:45:30 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:46:31 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:47:32 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:48:32 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:49:32 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:50:32 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:51:32 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:52:32 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:53:32 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+Traceback (most recent call last):
+  File "/home/kavinder/RAM/pose-estimation/scripts/train_phase4.py", line 70, in <module>
+    names, X, cache_info = featsets.load(args.features, "full")
+                           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/RAM/pose-estimation/src/tfpose/featsets.py", line 149, in load
+    return names, X, {"cache": str(path.relative_to(REPO)), "cache_manifest": man}
+                                   ~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/pathlib/_local.py", line 385, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: '/media/kavinder/hdd2/RAM/shared_cache/dinov3_vitl16__subset_full__793c65d370cc__c7c029785fb8458c' is not in the subpath of '/home/kavinder/RAM/pose-estimation'
+=== 13:58:22 BLOCK_FAILED EXP-111
+=== 13:58:22 QUEUE3_DONE

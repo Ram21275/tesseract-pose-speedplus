@@ -184,3 +184,9 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
   - all `subset_v1` caches (Phase 1–2 sanity runs: VGGT, DINOv3-B / L, MoGe-2, CaSS, spectral parts, consensus masks v1; re-creatable with `scripts/extract_features.py --subset v1` and the EXP-015 / 017 / 018 scripts).
   - Consequence: EXP-109's B arm and Phase 1–2 cannot be re-evaluated without re-extracting. Their results and run records are unchanged.
 - **Free space after:** SSD 145 GB, 8 TB drive 104 GB.
+- **Follow-up fix (2026-10-16 15:40):**
+  - After the move, `featsets.load` failed: it recorded the cache path relative to the repository, and the new location is outside it.
+  - That broke EXP-111 seed 2, EXP-112 (both blocks), EXP-114 and the EXP-113 trainings (about 14:00). The failed runs are kept as records.
+  - **Fixed** (absolute path when outside the repo; the same pattern was removed from three metadata writers).
+  - All loader paths were verified (full caches, augmented and rotated views, `aug.csv`).
+  - The failed blocks are re-queued in `scripts/run_queue6.sh`. EXP-115 feature extraction was unaffected and continues.

@@ -1,0 +1,90 @@
+=== 14:03:45 BLOCK EXP-114
+Traceback (most recent call last):
+  File "/home/kavinder/RAM/pose-estimation/scripts/orbit_eval.py", line 53, in <module>
+    _, xf, _ = featsets.load(sp, "full"); st = featsets.train_stats(xf, tr)
+               ~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/kavinder/RAM/pose-estimation/src/tfpose/featsets.py", line 149, in load
+    return names, X, {"cache": str(path.relative_to(REPO)), "cache_manifest": man}
+                                   ~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/pathlib/_local.py", line 385, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: '/media/kavinder/hdd2/RAM/shared_cache/dinov3_vitl16__subset_full__793c65d370cc__c7c029785fb8458c' is not in the subpath of '/home/kavinder/RAM/pose-estimation'
+=== 14:05:06 BLOCK_FAILED EXP-114
+=== 14:05:06 BLOCK EXP-113-train
+>>> 14:05:06 EXP-113 flat dinov3_vitl16:tokens8 seed=0
+Traceback (most recent call last):
+  File "/home/kavinder/RAM/pose-estimation/scripts/train_flat_tf.py", line 45, in <module>
+    names, X, info = featsets.load(args.features, "full"); assert names == df.image_relpath.tolist()
+                     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/RAM/pose-estimation/src/tfpose/featsets.py", line 149, in load
+    return names, X, {"cache": str(path.relative_to(REPO)), "cache_manifest": man}
+                                   ~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/pathlib/_local.py", line 385, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: '/media/kavinder/hdd2/RAM/shared_cache/dinov3_vitl16__subset_full__793c65d370cc__c7c029785fb8458c' is not in the subpath of '/home/kavinder/RAM/pose-estimation'
+=== 14:06:25 BLOCK_FAILED EXP-113-train
+=== 14:06:25 BLOCK EXP-115-features
+>>> 14:06:25 extract exp115_train_photo1 dinov3_vitl16
+  1600/47966  28.6 ms/img
+  3200/47966  28.0 ms/img
+  4800/47966  27.8 ms/img
+  6400/47966  27.7 ms/img
+  8000/47966  27.7 ms/img
+  9600/47966  27.6 ms/img
+  11200/47966  27.6 ms/img
+  12800/47966  27.6 ms/img
+  14400/47966  27.6 ms/img
+  16000/47966  27.6 ms/img
+  17600/47966  27.6 ms/img
+  19200/47966  27.6 ms/img
+  20800/47966  27.6 ms/img
+  22400/47966  27.6 ms/img
+  24000/47966  27.6 ms/img
+  25600/47966  27.6 ms/img
+  27200/47966  27.6 ms/img
+  28800/47966  27.6 ms/img
+  30400/47966  27.6 ms/img
+  32000/47966  27.6 ms/img
+  33600/47966  27.6 ms/img
+  35200/47966  27.6 ms/img
+  36800/47966  27.6 ms/img
+  38400/47966  27.6 ms/img
+  40000/47966  27.6 ms/img
+  41600/47966  27.6 ms/img
+  43200/47966  27.6 ms/img
+  44800/47966  27.6 ms/img
+  46400/47966  27.6 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp115_train_photo1__13591a90ccb3__986a088bd3cd6bb1
+>>> 14:28:36 extract exp115_train_photo1 moge2_vitl
+  1600/47966  83.9 ms/img
+  3200/47966  83.0 ms/img
+  4800/47966  82.9 ms/img
+  6400/47966  82.8 ms/img
+  8000/47966  82.8 ms/img
+  9600/47966  82.8 ms/img
+  11200/47966  82.8 ms/img
+  12800/47966  82.8 ms/img
+  14400/47966  82.8 ms/img
+  16000/47966  82.8 ms/img
+  17600/47966  82.8 ms/img
+  19200/47966  82.8 ms/img
+  20800/47966  82.8 ms/img
+  22400/47966  82.8 ms/img
+  24000/47966  82.8 ms/img
+  25600/47966  82.8 ms/img
+  27200/47966  82.8 ms/img
+  28800/47966  82.8 ms/img
+  30400/47966  82.8 ms/img
+  32000/47966  82.8 ms/img
+  33600/47966  82.8 ms/img
+  35200/47966  82.8 ms/img
+  36800/47966  82.8 ms/img
+  38400/47966  82.8 ms/img
+  40000/47966  82.5 ms/img
+  41600/47966  81.5 ms/img
+  43200/47966  80.6 ms/img
+  44800/47966  79.8 ms/img
+  46400/47966  79.0 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp115_train_photo1__a89eb830f5f9__986a088bd3cd6bb1
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp115_train_photo1
+>>> 15:31:20 extract exp115_train_photo2 dinov3_vitl16

@@ -146,7 +146,8 @@ def load(spec: str, subset: str):
             X = np.concatenate([f[f"{layer}_{p}"][:].astype(np.float32) for p in parts.split("+")], 1)
     man = json.loads((path / "manifest.json").read_text())
     X = X if X.dtype == np.float16 else X.astype(np.float32)
-    return names, X, {"cache": str(path.relative_to(REPO)), "cache_manifest": man}
+    rel = str(path.relative_to(REPO)) if path.is_relative_to(REPO) else str(path)        # caches live off-repo since DEC-020
+    return names, X, {"cache": rel, "cache_manifest": man}
 
 
 TOKENS = {"tokens8": 64, "normals8": 64, "normals16": 256}

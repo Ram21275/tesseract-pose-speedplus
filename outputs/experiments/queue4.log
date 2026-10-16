@@ -1,0 +1,25 @@
+=== 13:58:33 BLOCK EXP-112-accuracy
+Traceback (most recent call last):
+  File "/home/kavinder/RAM/pose-estimation/scripts/exp112_eval.py", line 40, in <module>
+    _, xf, _ = featsets.load(sp, "full"); st = featsets.train_stats(xf, tr)
+               ~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/kavinder/RAM/pose-estimation/src/tfpose/featsets.py", line 149, in load
+    return names, X, {"cache": str(path.relative_to(REPO)), "cache_manifest": man}
+                                   ~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/pathlib/_local.py", line 385, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: '/media/kavinder/hdd2/RAM/shared_cache/dinov3_vitl16__subset_full__793c65d370cc__c7c029785fb8458c' is not in the subpath of '/home/kavinder/RAM/pose-estimation'
+=== 14:02:19 BLOCK_FAILED EXP-112-accuracy
+=== 14:02:19 BLOCK EXP-112-timing
+Traceback (most recent call last):
+  File "/home/kavinder/RAM/pose-estimation/scripts/exp112_timing.py", line 32, in <module>
+    _, x, _ = featsets.load(sp, "full"); mu, sd = featsets.train_stats(x, tr); del x
+              ~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/kavinder/RAM/pose-estimation/src/tfpose/featsets.py", line 149, in load
+    return names, X, {"cache": str(path.relative_to(REPO)), "cache_manifest": man}
+                                   ~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/pathlib/_local.py", line 385, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: '/media/kavinder/hdd2/RAM/shared_cache/dinov3_vitl16__subset_full__793c65d370cc__c7c029785fb8458c' is not in the subpath of '/home/kavinder/RAM/pose-estimation'
+=== 14:03:41 BLOCK_FAILED EXP-112-timing
+=== 14:03:41 QUEUE4_DONE

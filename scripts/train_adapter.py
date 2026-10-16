@@ -171,7 +171,7 @@ try:
     (cache / "manifest.json").write_text(json.dumps({"what": "adapted, frozen-standardized features for eval splits", "spec": spec,
                                                      "producer_run": run.rel()}, indent=2))
     run.write_metrics(rows, "metrics")
-    run.done(best_epoch=best[2], lora_params=n_lora, head_params=sum(p.numel() for p in head.parameters()), adapted_cache=str(cache.relative_to(REPO)))
+    run.done(best_epoch=best[2], lora_params=n_lora, head_params=sum(p.numel() for p in head.parameters()), adapted_cache=str(cache))
     print(f"adapter {args.branch} seed {args.seed} " + " | ".join(f"{r['domain']}: mean {r['mean_deg']:.2f} med {r['median_deg']:.2f}" for r in rows))
     print("RUN", run.rel())
 except Exception:

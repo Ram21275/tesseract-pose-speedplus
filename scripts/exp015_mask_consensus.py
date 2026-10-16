@@ -115,7 +115,7 @@ try:
     (t / "metrics.md").write_text(md_table(agg))
     (t / "paired_differences.md").write_text(md_table(diffs))
     (t / "case_table.md").write_text(md_table(case))
-    run.done(consensus_cache=str(out.relative_to(REPO)))
+    run.done(consensus_cache=str(out))
     print((t / "metrics.md").read_text()); print((t / "case_table.md").read_text())
     print("RUN", run.rel())
 except Exception:
