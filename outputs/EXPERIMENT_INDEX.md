@@ -1,5 +1,7 @@
 # Experiment index
 
+**Paper contributions, current best system and claim boundaries: [`NOVELTY.md`](../NOVELTY.md)** (current best: EXP-109 C on A: synth 3.87°, lightbox 12.30°, sunlamp 12.28°).
+
 Phase-1/2 numbers (EXP-010–026, 101) come from the **subset v1** sanity runs; EXP-030 onward uses the **full** splits. The subset has 6,000 synthetic-train, 1,500 synthetic-val, 1,000 lightbox and 1,000 sunlamp images, all with GT crops.
 - **Train:** synthetic/train only.
 - **Model selection:** synthetic/validation only.
@@ -51,7 +53,7 @@ Phase-1/2 numbers (EXP-010–026, 101) come from the **subset v1** sanity runs; 
 | EXP-108 | Discrete flow matching on the Tesseract path (tree-sample coupling, mixture path, time-conditioned posterior, CTMC sampler) | Trainable predictor (flow) | Completed | NFE4/M8 synth 7.22±0.12° vs 5.54 (FAIL); lightbox 29.8, sunlamp 39.8 (worse); repairs ~5% of >150° failures | Not adopted; negative result kept | **1/5** Not supported | [report](reports/EXP-108_path_flow_revision.md) |
 | EXP-109 | Real-domain generalisation: augmentation incl. in-plane rotation (A), 16×16 tokens (B), in-plane orbit PoE voting (C) | Trainable predictor + inference | Completed | **A+C: synth 3.87, val-aug 5.82, lightbox 12.30, sunlamp 12.28** (EXP-036 5.54/30.84/26.91/36.66); A alone 4.86/9.75/17.35/20.16; B FAIL (30.51 vs 30.84); C on EXP-036 4.62/19.84/20.25/24.83; A+C corrects 62%/80% of >150° failures, breaks 0.4% | Proposed recipe: A + C (user decides at lock); B rejected | **5/5** Strong support | [report](reports/EXP-109_real_domain_aug_tokens16_orbit.md) |
 | EXP-110 | Weighted per-level PoE of DINOv3 / MoGe-2 (EXP-036 trees), w ∈ [0,1] | Fusion (training-free) | Completed | w*=0.8 on val-aug (23.65 vs 30.84, PASS on proxy; clean 5.14) but lightbox 32.0 vs 26.9 (real best w≈0.5–0.7) | Not adopted standalone; decide weights on the final trees if wanted | **2/5** Weak | [report](reports/EXP-110_weighted_poe.md) |
-| EXP-111 | DINOv3-only augmented tree (EXP-109 A) + SO(3) flow head (EXP-042 recipe, same augmented views): KDE arm + EXP-045 verifier arm; DINOv3-only timing | RFM (candidate final architecture) | **Pre-registered** (DEC-017; runs last, after EXP-108 / 110 / 107) | – | Flow helps if 3-seed synth mean < tree greedy by > seed std; real descriptive with flip transitions | – | [report](reports/EXP-111_dino_aug_flow.md) |
+| EXP-111 | DINOv3-only augmented tree (EXP-109 A) + SO(3) flow head (EXP-042 recipe, same augmented views): KDE arm + EXP-045 verifier arm; DINOv3-only timing | RFM (candidate final architecture) | **Running** since 2026-10-16 12:49 (attempts 02:51 oomd-killed, 12:49 `--centre` launch bug; both recorded) | – | Flow helps if 3-seed synth mean < tree greedy by > seed std; real descriptive with flip transitions | – | [report](reports/EXP-111_dino_aug_flow.md) |
 
 Branch and complementarity summaries: `comparisons/branch_summary.csv`, `comparisons/complementarity_summary.csv`.
 Decision log: `DECISIONS.md` (DEC-005 real-domain val split withdrawn by DEC-006; DEC-001: MoGe-2 replaces VGGT; DEC-002: experiment numbering; DEC-003: Phase-2 gate; DEC-004: Phase-3 gate).

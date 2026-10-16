@@ -1,0 +1,10 @@
+{
+  "state": "failed",
+  "pid": 3791580,
+  "start": "2026-10-16T12:44:30.334150",
+  "wall_clock_s": 270.33,
+  "peak_cpu_rss_mb": 31005.9,
+  "peak_gpu_mb": 23.2,
+  "error": "Traceback (most recent call last):\n  File \"/home/kavinder/RAM/pose-estimation/scripts/train_phase4.py\", line 137, in <module>\n    errs = torch.as_tensor(np.radians(pd.read_csv(args.err_dist).err_deg.to_numpy()), dtype=torch.float32, device=dev)\n                                      ~~~~~~~~~~~^^^^^^^^^^^^^^^\n  File \"/home/kavinder/miniconda3/lib/python3.13/site-packages/pandas/io/parsers/readers.py\", line 1026, in read_csv\n    return _read(filepath_or_buffer, kwds)\n  File \"/home/kavinder/miniconda3/lib/python3.13/site-packages/pandas/io/parsers/readers.py\", line 620, in _read\n    parser = TextFileReader(filepath_or_buffer, **kwds)\n  File \"/home/kavinder/miniconda3/lib/python3.13/site-packages/pandas/io/parsers/readers.py\", line 1620, in __init__\n    self._engine = self._make_engine(f, self.engine)\n                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^\n  File \"/home/kavinder/miniconda3/lib/python3.13/site-packages/pandas/io/parsers/readers.py\", line 1880, in _make_engine\n    self.handles = get_handle(\n                   ~~~~~~~~~~^\n        f,\n        ^^\n    ...<6 lines>...\n        storage_options=self.options.get(\"storage_options\", None),\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/kavinder/miniconda3/lib/python3.13/site-packages/pandas/io/common.py\", line 728, in get_handle\n    ioargs = _get_filepath_or_buffer(\n        path_or_buf,\n    ...<3 lines>...\n        storage_options=storage_options,\n    )\n  File \"/home/kavinder/miniconda3/lib/python3.13/site-packages/pandas/io/common.py\", line 472, in _get_filepath_or_buffer\n    raise ValueError(msg)\nValueError: Invalid file path or buffer object type: <class 'NoneType'>\n",
+  "end": "2026-10-16T12:49:00.662717"
+}

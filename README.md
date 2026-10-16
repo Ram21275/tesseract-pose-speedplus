@@ -5,6 +5,7 @@ Spacecraft rotation estimation from frozen foundation-model features, predicted 
 The Tesseract follows the recursive tesseract subdivision of Kurz, Pfaff & Hanebeck, MFI 2017. This project uses cell centres and 4 antipodal charts so that every rotation has a unique root-to-leaf path. See `outputs/reports/EXP-001_gt_tesseract_paths.md`.
 
 - **Plan and rules:** `TESSERACT_FUSION_EXECUTION_PLAN.md`, `TESSERACT_FUSION_AGENT_GROUND_RULES.md`
+- **Contributions and current best system:** [`NOVELTY.md`](NOVELTY.md) (best: EXP-109 augmentation-trained trees + orbit voting; lightbox 12.3°, sunlamp 12.3°)
 - **Results:** `outputs/EXPERIMENT_INDEX.md`, with one report per experiment in `outputs/reports/`
 - **Decisions:** `outputs/DECISIONS.md`. Current branches are set in `configs/branches.yaml`:
   - **primary:** DINOv3 ViT-L/16, 4×4 patch grid;

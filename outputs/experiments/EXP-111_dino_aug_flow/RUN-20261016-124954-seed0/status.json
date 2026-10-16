@@ -1,0 +1,10 @@
+{
+  "state": "running",
+  "pid": 3797545,
+  "start": "2026-10-16T12:49:54.345332",
+  "wall_clock_s": 1.3,
+  "peak_cpu_rss_mb": 843.1,
+  "peak_gpu_mb": 0.0,
+  "max_rss_gb": 40.0,
+  "min_avail_gb": 16.0
+}
