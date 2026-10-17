@@ -190,3 +190,10 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
   - **Fixed** (absolute path when outside the repo; the same pattern was removed from three metadata writers).
   - All loader paths were verified (full caches, augmented and rotated views, `aug.csv`).
   - The failed blocks are re-queued in `scripts/run_queue6.sh`. EXP-115 feature extraction was unaffected and continues.
+
+## DEC-021 — Pre-register EXP-116 (roll-consistent tree) and EXP-117 (orbit distillation); EXP-064 paused for disk (2026-10-17)
+- **Decided by:** the user: "you can pre register idea 1 and 2 also we will be using the 8tb drive so either I will free up some space or need to delete some cache will let you know keep it paused for now."
+- **EXP-116:** geometry-transported hierarchical consistency under known camera roll, with controls (paired-view augmentation λ = 0; leaf-only equivariance).
+- **EXP-117:** single-view student distilled from the orbit teacher over the existing training views.
+- Neither needs new features or disk. They run after EXP-115.
+- **EXP-064** stays paused until the user frees space on the 8 TB drive (its caches must go there).
