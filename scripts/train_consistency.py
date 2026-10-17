@@ -63,7 +63,7 @@ try:
     cam = D.load_camera(Path(yaml.safe_load(open(REPO / "configs/paths.yaml"))["speedplus_root"]))
     dray = IP.ray_undistorted(cam.K, cam.dist, df.crop_cx.to_numpy()[tr_rows], df.crop_cy.to_numpy()[tr_rows])
     VIEWS = [t for t in args.aug_tags.split(",") if t]
-    VX = [Xc[torch.as_tensor(tr_rows)]]; ANG = [np.zeros(NT)]
+    VX = [None]; ANG = [np.zeros(NT)]                    # view 0 = clean, read from Xc via tr_rows (no duplicate copy)
     for tag in VIEWS:
         vn, vx, vinfo = featsets.load(args.features, tag); assert vn == df.image_relpath.values[tr_rows].tolist(), tag
         VX.append(featsets.standardize_to_tensor(vx, None, "cpu", torch.float16, stats=stats)); del vx
@@ -88,11 +88,12 @@ try:
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=args.epochs * int(np.ceil(NT / args.batch)), pct_start=0.05)
 
     def view_x(vsel, pb):
-        x = torch.empty((len(pb),) + tuple(VX[0].shape[1:]), dtype=torch.float32, device=dev)
+        x = torch.empty((len(pb),) + tuple(Xc.shape[1:]), dtype=torch.float32, device=dev)
         for v in range(V):
             m = vsel == v
             if m.any():
-                x[torch.as_tensor(m, device=dev)] = VX[v][torch.as_tensor(pb[m])].to(dev).float()
+                src = Xc[torch.as_tensor(tr_rows[pb[m]])] if v == 0 else VX[v][torch.as_tensor(pb[m])]
+                x[torch.as_tensor(m, device=dev)] = src.to(dev).float()
         return x
 
     def gt_loss(h, vsel, pb):

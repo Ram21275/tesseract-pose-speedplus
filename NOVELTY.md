@@ -34,6 +34,14 @@ All further experiments use the **EXP-109 methodology** in two variants, **PoE (
 - **EXP-112** (evaluation only, queued after EXP-111) supplies the missing DINOv3-only + orbit accuracy and the end-to-end timing and memory of all four variants.
 - EXP-064 / 106 are amended to this recipe.
 
+### Update 2026-10-17 (EXP-115 completed): what actually fixes real flips
+- **Photometric augmentation + orbit voting carry the real-domain gain:** photometric-only + orbit 12.29 / 12.37 (lightbox / sunlamp) ≈ combined 12.30 / 12.25.
+- **The in-plane rotation augmentation** (with the derived label transform) does **not** help real images: rotation-only + orbit gets 18.69 / 20.70. It only improves synthetic precision (best synthetic, 3.78) and the rotated val-aug proxy, which over-rewards it by construction.
+- **Orbit voting alone, on clean trees,** already gives −6.7 / −11.8°.
+- **Claim update:**
+  - Contribution 3 becomes **"lighting-robust training + multi-hypothesis orbit voting"**. The derived roll transform is needed for orbit voting itself, at inference, but its training-time use is not what removes real flips.
+  - Together with EXP-113 (tree vs flat), the real-domain story is: the tree gives precision; photometric robustness + orbit voting give flip repair.
+
 ### Update 2026-10-17 (EXP-113 completed) — discretization claim now supported
 EXP-113 compares the Tesseract tree against a count-matched flat Hopf classifier (131,076 anchors, the SPACE-HOP grid), with identical features, augmentation, budget and orbit inference:
 - **The tree is far better:** synth 3.87 vs 7.53 (PoE + orbit), val-aug 5.82 vs 9.80, greedy 4.85 vs 8.95.
@@ -229,6 +237,7 @@ Timing source: EXP-107 `timing` table, RTX-class shared GPU (concurrent load rec
 
 ## Changelog
 - 2026-10-16: created. Initial best result stored (EXP-109 C on A). EXP-111 running.
+- 2026-10-17: EXP-115: photometric aug + orbit drive real flip recovery; rotation aug only helps synthetic precision. EXP-116 re-queued (memguard), EXP-117 running.
 - 2026-10-17: EXP-113 tree vs matched flat Hopf: tree strongly better (synth 3.87 vs 7.53); EXP-115 re-running.
 - 2026-10-17: EXP-111 / 112 / 114 results; contribution 3 narrowed (orbit consistency, scoring rule open); timing measured.
 - 2026-10-16: DEC-019: EXP-113 (tree vs matched flat Hopf), EXP-114 (orbit scoring rules), EXP-115 (augmentation ablation) pre-registered and queued; EXP-064 next.

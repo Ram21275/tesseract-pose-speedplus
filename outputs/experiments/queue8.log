@@ -1,0 +1,70 @@
+=== 13:21:08 BLOCK EXP-116
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  tot += loss.item() * B; tc += float(cons) * B
+moge2_vitl:normals16~and T seed 0 synthetic_val: 124.98 | lightbox: 126.05 | sunlamp: 125.13
+RUN outputs/experiments/EXP-099_p3_smoke/RUN-20261017-132111-seed0
+>>> 13:23:36 EXP-116 T dinov3_vitl16:tokens8 seed=0
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  tot += loss.item() * B; tc += float(cons) * B
+[memguard] aborting: system available memory 16.0 GB < floor 16.0 GB (process RSS 27.9 GB)
+=== 14:30:41 BLOCK_FAILED EXP-116
+=== 14:30:41 BLOCK EXP-117
+>>> 14:30:41 EXP-117 teacher DINO seed=0
+[guarded] 14:30:41 waiting: RAM avail 42 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 14:32:42 waiting: RAM avail 48 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 14:34:42 waiting: RAM avail 51 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 14:36:42 waiting: RAM avail 50 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 14:38:43 waiting: RAM avail 51 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 14:40:43 waiting: RAM avail 57 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 14:42:43 waiting: RAM avail 55 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 14:44:44 waiting: RAM avail 45 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 14:46:44 waiting: RAM avail 43 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 14:48:44 waiting: RAM avail 53 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 14:50:45 waiting: RAM avail 52 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 14:52:45 waiting: RAM avail 52 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 14:54:45 waiting: RAM avail 46 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 14:56:46 waiting: RAM avail 49 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 14:58:46 waiting: RAM avail 51 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:00:46 waiting: RAM avail 49 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:02:47 waiting: RAM avail 51 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:04:47 waiting: RAM avail 48 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:06:48 waiting: RAM avail 49 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:08:48 waiting: RAM avail 55 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:10:49 waiting: RAM avail 47 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:12:49 waiting: RAM avail 52 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:14:49 waiting: RAM avail 49 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:16:49 waiting: RAM avail 52 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:18:50 waiting: RAM avail 51 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:20:50 waiting: RAM avail 51 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:22:50 waiting: RAM avail 50 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:24:51 waiting: RAM avail 55 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:26:51 waiting: RAM avail 55 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:28:51 waiting: RAM avail 54 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:30:51 waiting: RAM avail 53 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:32:52 waiting: RAM avail 52 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:34:52 waiting: RAM avail 42 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:36:53 waiting: RAM avail 42 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:38:53 waiting: RAM avail 48 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:40:53 waiting: RAM avail 49 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:42:54 waiting: RAM avail 42 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:44:54 waiting: RAM avail 43 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:46:54 waiting: RAM avail 56 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:48:55 waiting: RAM avail 51 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:50:55 waiting: RAM avail 52 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:52:56 waiting: RAM avail 46 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:54:56 waiting: RAM avail 50 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 15:56:56 waiting: RAM avail 52 GB (need 68), GPU free 5 GB (need 8)
+0/47966
+10240/47966
+20480/47966
+30720/47966
+40960/47966
+saved /home/kavinder/RAM/pose-estimation/outputs/experiments/EXP-117_orbit_distillation/teacher_DINO_seed0.npz mean max weight 0.33853254
+>>> 16:12:40 EXP-117 teacher DINO seed=1
+0/47966
+10240/47966
+20480/47966
+30720/47966
+40960/47966
+saved /home/kavinder/RAM/pose-estimation/outputs/experiments/EXP-117_orbit_distillation/teacher_DINO_seed1.npz mean max weight 0.34054938
+>>> 16:27:52 EXP-117 teacher DINO seed=2

@@ -1,10 +1,13 @@
 {
-  "state": "running",
+  "state": "completed",
   "pid": 521273,
   "start": "2026-10-17T10:00:21.962901",
-  "wall_clock_s": 2.04,
-  "peak_cpu_rss_mb": 857.6,
-  "peak_gpu_mb": 0.0,
-  "max_rss_gb": 47.0,
-  "min_avail_gb": 16.0
+  "wall_clock_s": 1004.57,
+  "peak_cpu_rss_mb": 31116.4,
+  "peak_gpu_mb": 1314.0,
+  "end": "2026-10-17T10:17:06.535504",
+  "best_epoch": 100,
+  "n_params": 2391564,
+  "trainable_params": 2391564,
+  "feature_dim": 65536
 }

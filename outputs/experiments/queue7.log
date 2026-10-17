@@ -1,0 +1,164 @@
+=== 10:00:20 BLOCK EXP-115-train
+>>> 10:00:20 EXP-115 photo dinov3_vitl16:tokens8 seed=0
+dinov3_vitl16:tokens8 transformer/soft/res=False seed 0 synthetic_val: mean 4.95 med 4.57 (disc 4.95) | lightbox: mean 23.10 med 8.64 (disc 23.10) | sunlamp: mean 23.65 med 10.39 (disc 23.65)
+RUN outputs/experiments/EXP-115_augmentation_ablation/RUN-20261017-100021-seed0
+>>> 10:17:08 EXP-115 photo moge2_vitl:normals16~and seed=0
+moge2_vitl:normals16~and transformer/soft/res=False seed 0 synthetic_val: mean 15.28 med 5.69 (disc 15.28) | lightbox: mean 34.97 med 8.54 (disc 34.97) | sunlamp: mean 51.10 med 12.81 (disc 51.10)
+RUN outputs/experiments/EXP-115_augmentation_ablation/RUN-20261017-101709-seed0
+>>> 10:23:18 EXP-115 photo dinov3_vitl16:tokens8 seed=1
+dinov3_vitl16:tokens8 transformer/soft/res=False seed 1 synthetic_val: mean 4.86 med 4.47 (disc 4.86) | lightbox: mean 21.38 med 7.92 (disc 21.38) | sunlamp: mean 20.87 med 9.52 (disc 20.87)
+RUN outputs/experiments/EXP-115_augmentation_ablation/RUN-20261017-102319-seed1
+>>> 10:42:40 EXP-115 photo moge2_vitl:normals16~and seed=1
+moge2_vitl:normals16~and transformer/soft/res=False seed 1 synthetic_val: mean 15.63 med 5.79 (disc 15.63) | lightbox: mean 36.48 med 8.61 (disc 36.48) | sunlamp: mean 52.95 med 13.45 (disc 52.95)
+RUN outputs/experiments/EXP-115_augmentation_ablation/RUN-20261017-104241-seed1
+>>> 10:49:07 EXP-115 photo dinov3_vitl16:tokens8 seed=2
+dinov3_vitl16:tokens8 transformer/soft/res=False seed 2 synthetic_val: mean 4.92 med 4.52 (disc 4.92) | lightbox: mean 23.93 med 8.41 (disc 23.93) | sunlamp: mean 22.53 med 9.99 (disc 22.53)
+RUN outputs/experiments/EXP-115_augmentation_ablation/RUN-20261017-104909-seed2
+>>> 11:02:57 EXP-115 photo moge2_vitl:normals16~and seed=2
+moge2_vitl:normals16~and transformer/soft/res=False seed 2 synthetic_val: mean 15.92 med 5.74 (disc 15.92) | lightbox: mean 36.71 med 8.66 (disc 36.71) | sunlamp: mean 53.49 med 13.59 (disc 53.49)
+RUN outputs/experiments/EXP-115_augmentation_ablation/RUN-20261017-110259-seed2
+>>> 11:09:29 EXP-115 rot dinov3_vitl16:tokens8 seed=0
+dinov3_vitl16:tokens8 transformer/soft/res=False seed 0 synthetic_val: mean 4.95 med 4.48 (disc 4.95) | lightbox: mean 36.14 med 11.73 (disc 36.14) | sunlamp: mean 37.92 med 17.18 (disc 37.92)
+RUN outputs/experiments/EXP-115_augmentation_ablation/RUN-20261017-110930-seed0
+>>> 11:23:33 EXP-115 rot moge2_vitl:normals16~and seed=0
+moge2_vitl:normals16~and transformer/soft/res=False seed 0 synthetic_val: mean 16.65 med 5.41 (disc 16.65) | lightbox: mean 42.19 med 9.11 (disc 42.19) | sunlamp: mean 62.39 med 17.52 (disc 62.39)
+RUN outputs/experiments/EXP-115_augmentation_ablation/RUN-20261017-112335-seed0
+>>> 11:30:09 EXP-115 rot dinov3_vitl16:tokens8 seed=1
+dinov3_vitl16:tokens8 transformer/soft/res=False seed 1 synthetic_val: mean 4.83 med 4.39 (disc 4.83) | lightbox: mean 33.84 med 10.75 (disc 33.84) | sunlamp: mean 37.32 med 16.71 (disc 37.32)
+RUN outputs/experiments/EXP-115_augmentation_ablation/RUN-20261017-113011-seed1
+>>> 11:44:29 EXP-115 rot moge2_vitl:normals16~and seed=1
+moge2_vitl:normals16~and transformer/soft/res=False seed 1 synthetic_val: mean 16.47 med 5.47 (disc 16.47) | lightbox: mean 41.48 med 9.17 (disc 41.48) | sunlamp: mean 61.78 med 18.28 (disc 61.78)
+RUN outputs/experiments/EXP-115_augmentation_ablation/RUN-20261017-114430-seed1
+>>> 11:51:00 EXP-115 rot dinov3_vitl16:tokens8 seed=2
+dinov3_vitl16:tokens8 transformer/soft/res=False seed 2 synthetic_val: mean 4.88 med 4.42 (disc 4.88) | lightbox: mean 35.34 med 11.21 (disc 35.34) | sunlamp: mean 37.62 med 16.72 (disc 37.62)
+RUN outputs/experiments/EXP-115_augmentation_ablation/RUN-20261017-115101-seed2
+>>> 12:09:12 EXP-115 rot moge2_vitl:normals16~and seed=2
+moge2_vitl:normals16~and transformer/soft/res=False seed 2 synthetic_val: mean 16.37 med 5.44 (disc 16.37) | lightbox: mean 41.92 med 9.07 (disc 41.92) | sunlamp: mean 61.55 med 16.91 (disc 61.55)
+RUN outputs/experiments/EXP-115_augmentation_ablation/RUN-20261017-120913-seed2
+=== 12:15:52 BLOCK_DONE EXP-115-train
+=== 12:15:52 BLOCK EXP-115-eval
+tree  0 PoE greedy: 5.57/27.61/37.43 | orbit_product: 4.66/20.80/25.10 | orbit_vote32: 4.26/21.75/28.21
+tree  0 DINO greedy: 5.46/38.85/42.59 | orbit_product: 5.07/32.32/32.36 | orbit_vote32: 4.46/33.71/37.33
+tree  1 PoE greedy: 5.47/26.04/36.93 | orbit_product: 4.58/19.68/25.63 | orbit_vote32: 4.22/20.10/28.11
+tree  1 DINO greedy: 5.25/34.82/41.01 | orbit_product: 4.91/29.66/33.63 | orbit_vote32: 4.24/30.22/35.33
+tree  2 PoE greedy: 5.59/27.05/35.61 | orbit_product: 4.62/20.26/23.76 | orbit_vote32: 4.33/20.60/26.55
+tree  2 DINO greedy: 5.34/37.53/40.77 | orbit_product: 4.97/30.95/30.37 | orbit_vote32: 4.38/32.77/33.92
+tree exp109_train_aug1,exp109_train 0 PoE greedy: 4.89/17.44/20.59 | orbit_product: 3.87/12.18/12.50 | orbit_vote32: 3.48/12.42/13.45
+tree exp109_train_aug1,exp109_train 0 DINO greedy: 4.89/22.37/22.75 | orbit_product: 4.21/17.24/15.76 | orbit_vote32: 3.75/18.37/16.47
+tree exp109_train_aug1,exp109_train 1 PoE greedy: 4.84/16.98/20.35 | orbit_product: 3.90/11.87/12.43 | orbit_vote32: 3.48/12.26/12.64
+tree exp109_train_aug1,exp109_train 1 DINO greedy: 4.80/21.92/21.89 | orbit_product: 4.25/16.82/15.51 | orbit_vote32: 3.72/17.56/16.13
+tree exp109_train_aug1,exp109_train 2 PoE greedy: 4.84/17.58/19.52 | orbit_product: 3.84/12.85/11.83 | orbit_vote32: 3.43/13.06/12.56
+tree exp109_train_aug1,exp109_train 2 DINO greedy: 4.83/23.36/21.37 | orbit_product: 4.17/18.15/14.55 | orbit_vote32: 3.66/18.89/14.88
+tree exp115_train_photo1,exp115_tra 0 PoE greedy: 5.01/17.42/21.09 | orbit_product: 4.30/12.48/13.07 | orbit_vote32: 3.78/12.64/13.69
+tree exp115_train_photo1,exp115_tra 0 DINO greedy: 4.95/23.14/23.52 | orbit_product: 4.54/17.43/16.61 | orbit_vote32: 3.99/18.33/16.96
+tree exp115_train_photo1,exp115_tra 1 PoE greedy: 5.01/16.95/18.42 | orbit_product: 4.19/11.85/11.52 | orbit_vote32: 3.75/12.13/11.72
+tree exp115_train_photo1,exp115_tra 1 DINO greedy: 4.86/21.34/20.91 | orbit_product: 4.46/16.95/14.01 | orbit_vote32: 3.88/17.18/14.27
+tree exp115_train_photo1,exp115_tra 2 PoE greedy: 4.96/17.76/19.55 | orbit_product: 4.27/12.55/12.52 | orbit_vote32: 3.76/12.92/13.31
+tree exp115_train_photo1,exp115_tra 2 DINO greedy: 4.91/23.92/22.49 | orbit_product: 4.50/18.38/15.64 | orbit_vote32: 3.91/18.64/16.22
+tree exp115_train_rot1,exp115_train 0 PoE greedy: 4.91/24.75/32.18 | orbit_product: 3.79/18.73/20.99 | orbit_vote32: 3.43/19.43/23.51
+tree exp115_train_rot1,exp115_train 0 DINO greedy: 4.94/36.13/37.96 | orbit_product: 4.12/29.51/29.62 | orbit_vote32: 3.60/31.50/30.88
+tree exp115_train_rot1,exp115_train 1 PoE greedy: 4.91/23.53/31.05 | orbit_product: 3.75/17.91/20.64 | orbit_vote32: 3.30/18.20/21.34
+tree exp115_train_rot1,exp115_train 1 DINO greedy: 4.84/33.76/37.34 | orbit_product: 4.03/27.63/26.87 | orbit_vote32: 3.50/29.24/28.92
+tree exp115_train_rot1,exp115_train 2 PoE greedy: 4.90/24.63/31.33 | orbit_product: 3.80/19.45/20.49 | orbit_vote32: 3.34/19.42/23.04
+tree exp115_train_rot1,exp115_train 2 DINO greedy: 4.88/35.33/37.62 | orbit_product: 4.07/29.45/28.74 | orbit_vote32: 3.51/30.30/31.05
+| domain | family | train_aug | variant | mode | mean_deg | mean_deg_std | median_deg | frac_gt150 | frac_gt150_to_lt20 | frac_lt20_to_gt150 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| lightbox | tree |  | DINO | greedy | 37.067 | 2.053 | 13.478 | 0.093 | 0.000 | 0.000 |
+| lightbox | tree |  | DINO | orbit_product | 30.977 | 1.330 | 11.222 | 0.086 | 0.172 | 0.008 |
+| lightbox | tree |  | DINO | orbit_vote32 | 32.233 | 1.807 | 11.067 | 0.087 | 0.149 | 0.009 |
+| lightbox | tree |  | PoE | greedy | 26.898 | 0.796 | 8.991 | 0.059 | 0.000 | 0.000 |
+| lightbox | tree |  | PoE | orbit_product | 20.248 | 0.562 | 7.276 | 0.048 | 0.356 | 0.008 |
+| lightbox | tree |  | PoE | orbit_vote32 | 20.817 | 0.843 | 7.021 | 0.049 | 0.337 | 0.009 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 22.550 | 0.733 | 8.378 | 0.060 | 0.000 | 0.000 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 17.403 | 0.676 | 6.877 | 0.048 | 0.341 | 0.007 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 18.272 | 0.668 | 6.589 | 0.051 | 0.299 | 0.009 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 17.332 | 0.310 | 6.753 | 0.042 | 0.000 | 0.000 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 12.303 | 0.502 | 5.263 | 0.030 | 0.437 | 0.005 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 12.581 | 0.423 | 4.978 | 0.031 | 0.402 | 0.006 |
+| lightbox | tree | exp115_train_photo1,exp115_train_photo2 | DINO | greedy | 22.801 | 1.323 | 8.327 | 0.060 | 0.000 | 0.000 |
+| lightbox | tree | exp115_train_photo1,exp115_train_photo2 | DINO | orbit_product | 17.587 | 0.731 | 7.086 | 0.045 | 0.358 | 0.008 |
+| lightbox | tree | exp115_train_photo1,exp115_train_photo2 | DINO | orbit_vote32 | 18.050 | 0.774 | 6.677 | 0.048 | 0.321 | 0.008 |
+| lightbox | tree | exp115_train_photo1,exp115_train_photo2 | PoE | greedy | 17.379 | 0.406 | 6.759 | 0.039 | 0.000 | 0.000 |
+| lightbox | tree | exp115_train_photo1,exp115_train_photo2 | PoE | orbit_product | 12.293 | 0.383 | 5.474 | 0.027 | 0.438 | 0.005 |
+| lightbox | tree | exp115_train_photo1,exp115_train_photo2 | PoE | orbit_vote32 | 12.562 | 0.402 | 5.115 | 0.029 | 0.414 | 0.006 |
+| lightbox | tree | exp115_train_rot1,exp115_train_rot2 | DINO | greedy | 35.075 | 1.204 | 11.226 | 0.099 | 0.000 | 0.000 |
+| lightbox | tree | exp115_train_rot1,exp115_train_rot2 | DINO | orbit_product | 28.864 | 1.071 | 9.338 | 0.086 | 0.213 | 0.008 |
+| lightbox | tree | exp115_train_rot1,exp115_train_rot2 | DINO | orbit_vote32 | 30.346 | 1.128 | 9.126 | 0.091 | 0.167 | 0.010 |
+| lightbox | tree | exp115_train_rot1,exp115_train_rot2 | PoE | greedy | 24.301 | 0.674 | 7.934 | 0.060 | 0.000 | 0.000 |
+| lightbox | tree | exp115_train_rot1,exp115_train_rot2 | PoE | orbit_product | 18.695 | 0.773 | 6.313 | 0.052 | 0.349 | 0.007 |
+| lightbox | tree | exp115_train_rot1,exp115_train_rot2 | PoE | orbit_vote32 | 19.017 | 0.710 | 6.047 | 0.052 | 0.336 | 0.009 |
+| sunlamp | tree |  | DINO | greedy | 41.458 | 0.990 | 20.464 | 0.062 | 0.000 | 0.000 |
+| sunlamp | tree |  | DINO | orbit_product | 32.117 | 1.646 | 15.708 | 0.049 | 0.180 | 0.005 |
+| sunlamp | tree |  | DINO | orbit_vote32 | 35.527 | 1.716 | 16.351 | 0.054 | 0.148 | 0.007 |
+| sunlamp | tree |  | PoE | greedy | 36.661 | 0.941 | 12.979 | 0.074 | 0.000 | 0.000 |
+| sunlamp | tree |  | PoE | orbit_product | 24.830 | 0.962 | 9.981 | 0.043 | 0.458 | 0.009 |
+| sunlamp | tree |  | PoE | orbit_vote32 | 27.623 | 0.933 | 9.927 | 0.054 | 0.398 | 0.012 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 22.002 | 0.699 | 10.171 | 0.032 | 0.000 | 0.000 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 15.273 | 0.638 | 8.193 | 0.020 | 0.529 | 0.005 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 15.827 | 0.834 | 7.887 | 0.023 | 0.467 | 0.007 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 20.154 | 0.565 | 8.417 | 0.033 | 0.000 | 0.000 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 12.254 | 0.371 | 6.322 | 0.017 | 0.656 | 0.005 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 12.884 | 0.493 | 6.081 | 0.018 | 0.601 | 0.005 |
+| sunlamp | tree | exp115_train_photo1,exp115_train_photo2 | DINO | greedy | 22.306 | 1.314 | 9.964 | 0.037 | 0.000 | 0.000 |
+| sunlamp | tree | exp115_train_photo1,exp115_train_photo2 | DINO | orbit_product | 15.420 | 1.311 | 8.312 | 0.021 | 0.503 | 0.005 |
+| sunlamp | tree | exp115_train_photo1,exp115_train_photo2 | DINO | orbit_vote32 | 15.818 | 1.388 | 7.848 | 0.022 | 0.461 | 0.006 |
+| sunlamp | tree | exp115_train_photo1,exp115_train_photo2 | PoE | greedy | 19.684 | 1.341 | 8.219 | 0.032 | 0.000 | 0.000 |
+| sunlamp | tree | exp115_train_photo1,exp115_train_photo2 | PoE | orbit_product | 12.372 | 0.787 | 6.475 | 0.015 | 0.639 | 0.004 |
+| sunlamp | tree | exp115_train_photo1,exp115_train_photo2 | PoE | orbit_vote32 | 12.907 | 1.045 | 6.170 | 0.017 | 0.584 | 0.005 |
+| sunlamp | tree | exp115_train_rot1,exp115_train_rot2 | DINO | greedy | 37.640 | 0.308 | 16.834 | 0.060 | 0.000 | 0.000 |
+| sunlamp | tree | exp115_train_rot1,exp115_train_rot2 | DINO | orbit_product | 28.407 | 1.404 | 13.084 | 0.048 | 0.238 | 0.005 |
+| sunlamp | tree | exp115_train_rot1,exp115_train_rot2 | DINO | orbit_vote32 | 30.284 | 1.184 | 13.333 | 0.051 | 0.191 | 0.007 |
+| sunlamp | tree | exp115_train_rot1,exp115_train_rot2 | PoE | greedy | 31.518 | 0.588 | 11.346 | 0.062 | 0.000 | 0.000 |
+| sunlamp | tree | exp115_train_rot1,exp115_train_rot2 | PoE | orbit_product | 20.704 | 0.259 | 8.387 | 0.038 | 0.454 | 0.007 |
+| sunlamp | tree | exp115_train_rot1,exp115_train_rot2 | PoE | orbit_vote32 | 22.629 | 1.142 | 8.346 | 0.045 | 0.399 | 0.011 |
+| synthetic_val | tree |  | DINO | greedy | 5.347 | 0.107 | 4.799 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree |  | DINO | orbit_product | 4.982 | 0.080 | 4.266 | 0.000 | 0.511 | 0.000 |
+| synthetic_val | tree |  | DINO | orbit_vote32 | 4.360 | 0.107 | 3.593 | 0.000 | 0.633 | 0.000 |
+| synthetic_val | tree |  | PoE | greedy | 5.543 | 0.066 | 4.622 | 0.001 | 0.000 | 0.000 |
+| synthetic_val | tree |  | PoE | orbit_product | 4.621 | 0.042 | 3.914 | 0.000 | 0.595 | 0.000 |
+| synthetic_val | tree |  | PoE | orbit_vote32 | 4.269 | 0.058 | 3.368 | 0.001 | 0.497 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 4.840 | 0.049 | 4.434 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 4.212 | 0.041 | 3.724 | 0.000 | 0.667 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 3.707 | 0.047 | 3.198 | 0.000 | 0.583 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 4.854 | 0.028 | 4.362 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 3.867 | 0.029 | 3.444 | 0.000 | 0.849 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 3.463 | 0.028 | 2.969 | 0.000 | 0.802 | 0.000 |
+| synthetic_val | tree | exp115_train_photo1,exp115_train_photo2 | DINO | greedy | 4.910 | 0.045 | 4.519 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree | exp115_train_photo1,exp115_train_photo2 | DINO | orbit_product | 4.500 | 0.039 | 3.966 | 0.000 | 0.750 | 0.000 |
+| synthetic_val | tree | exp115_train_photo1,exp115_train_photo2 | DINO | orbit_vote32 | 3.924 | 0.057 | 3.375 | 0.000 | 0.750 | 0.000 |
+| synthetic_val | tree | exp115_train_photo1,exp115_train_photo2 | PoE | greedy | 4.995 | 0.030 | 4.460 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree | exp115_train_photo1,exp115_train_photo2 | PoE | orbit_product | 4.254 | 0.056 | 3.761 | 0.000 | 0.667 | 0.000 |
+| synthetic_val | tree | exp115_train_photo1,exp115_train_photo2 | PoE | orbit_vote32 | 3.765 | 0.014 | 3.231 | 0.000 | 0.750 | 0.000 |
+| synthetic_val | tree | exp115_train_rot1,exp115_train_rot2 | DINO | greedy | 4.887 | 0.054 | 4.427 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree | exp115_train_rot1,exp115_train_rot2 | DINO | orbit_product | 4.074 | 0.048 | 3.571 | 0.000 | 0.617 | 0.000 |
+| synthetic_val | tree | exp115_train_rot1,exp115_train_rot2 | DINO | orbit_vote32 | 3.534 | 0.053 | 3.033 | 0.000 | 0.467 | 0.000 |
+| synthetic_val | tree | exp115_train_rot1,exp115_train_rot2 | PoE | greedy | 4.908 | 0.005 | 4.313 | 0.001 | 0.000 | 0.000 |
+| synthetic_val | tree | exp115_train_rot1,exp115_train_rot2 | PoE | orbit_product | 3.783 | 0.028 | 3.326 | 0.000 | 0.597 | 0.000 |
+| synthetic_val | tree | exp115_train_rot1,exp115_train_rot2 | PoE | orbit_vote32 | 3.355 | 0.066 | 2.838 | 0.000 | 0.486 | 0.000 |
+| synthetic_val_aug | tree |  | DINO | greedy | 24.727 | 0.839 | 10.793 | 0.032 | 0.000 | 0.000 |
+| synthetic_val_aug | tree |  | DINO | orbit_product | 17.222 | 0.518 | 8.499 | 0.016 | 0.326 | 0.001 |
+| synthetic_val_aug | tree |  | DINO | orbit_vote32 | 19.533 | 0.695 | 7.991 | 0.026 | 0.264 | 0.003 |
+| synthetic_val_aug | tree |  | PoE | greedy | 30.840 | 0.438 | 10.952 | 0.055 | 0.000 | 0.000 |
+| synthetic_val_aug | tree |  | PoE | orbit_product | 19.844 | 0.336 | 7.708 | 0.026 | 0.471 | 0.004 |
+| synthetic_val_aug | tree |  | PoE | orbit_vote32 | 22.352 | 0.410 | 7.572 | 0.038 | 0.404 | 0.006 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 9.879 | 0.218 | 6.129 | 0.010 | 0.000 | 0.000 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 6.246 | 0.116 | 4.201 | 0.004 | 0.586 | 0.000 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 6.305 | 0.064 | 3.684 | 0.006 | 0.479 | 0.001 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 9.746 | 0.065 | 5.920 | 0.009 | 0.000 | 0.000 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 5.821 | 0.096 | 3.868 | 0.004 | 0.631 | 0.000 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 5.981 | 0.127 | 3.427 | 0.005 | 0.510 | 0.001 |
+| synthetic_val_aug | tree | exp115_train_photo1,exp115_train_photo2 | DINO | greedy | 12.332 | 0.256 | 7.666 | 0.010 | 0.000 | 0.000 |
+| synthetic_val_aug | tree | exp115_train_photo1,exp115_train_photo2 | DINO | orbit_product | 8.681 | 0.191 | 6.062 | 0.004 | 0.575 | 0.000 |
+| synthetic_val_aug | tree | exp115_train_photo1,exp115_train_photo2 | DINO | orbit_vote32 | 8.716 | 0.271 | 5.558 | 0.006 | 0.515 | 0.001 |
+| synthetic_val_aug | tree | exp115_train_photo1,exp115_train_photo2 | PoE | greedy | 17.069 | 0.075 | 7.993 | 0.020 | 0.000 | 0.000 |
+| synthetic_val_aug | tree | exp115_train_photo1,exp115_train_photo2 | PoE | orbit_product | 11.164 | 0.077 | 5.936 | 0.008 | 0.598 | 0.001 |
+| synthetic_val_aug | tree | exp115_train_photo1,exp115_train_photo2 | PoE | orbit_vote32 | 11.838 | 0.007 | 5.664 | 0.012 | 0.531 | 0.002 |
+| synthetic_val_aug | tree | exp115_train_rot1,exp115_train_rot2 | DINO | greedy | 19.171 | 0.343 | 7.911 | 0.028 | 0.000 | 0.000 |
+| synthetic_val_aug | tree | exp115_train_rot1,exp115_train_rot2 | DINO | orbit_product | 12.578 | 0.028 | 5.675 | 0.013 | 0.384 | 0.001 |
+| synthetic_val_aug | tree | exp115_train_rot1,exp115_train_rot2 | DINO | orbit_vote32 | 13.947 | 0.128 | 5.127 | 0.019 | 0.324 | 0.002 |
+| synthetic_val_aug | tree | exp115_train_rot1,exp115_train_rot2 | PoE | greedy | 17.547 | 0.148 | 7.007 | 0.028 | 0.000 | 0.000 |
+| synthetic_val_aug | tree | exp115_train_rot1,exp115_train_rot2 | PoE | orbit_product | 10.489 | 0.174 | 4.649 | 0.012 | 0.512 | 0.001 |
+| synthetic_val_aug | tree | exp115_train_rot1,exp115_train_rot2 | PoE | orbit_vote32 | 11.475 | 0.066 | 4.252 | 0.016 | 0.443 | 0.002 |
+RUN outputs/experiments/EXP-115_augmentation_ablation/RUN-20261017-121554-seed0
+=== 13:20:22 BLOCK_DONE EXP-115-eval
+=== 13:20:22 QUEUE7_DONE
