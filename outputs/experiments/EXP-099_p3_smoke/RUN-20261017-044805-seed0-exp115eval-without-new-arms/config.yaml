@@ -1,0 +1,6 @@
+exp: EXP-115_augmentation_ablation
+families: tree:EXP-036_transformer_soft_targets:,tree:EXP-109_real_domain_aug_tokens16_orbit:exp109_train_aug1+exp109_train_aug2,tree:EXP-115_augmentation_ablation:exp115_train_photo1+exp115_train_photo2,tree:EXP-115_augmentation_ablation:exp115_train_rot1+exp115_train_rot2
+modes: greedy,orbit_product
+variants: PoE,DINO
+seeds: 0,1,2
+seed: 0

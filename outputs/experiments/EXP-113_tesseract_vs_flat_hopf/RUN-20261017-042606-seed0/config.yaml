@@ -1,0 +1,6 @@
+exp: EXP-113_tesseract_vs_flat_hopf
+families: tree:EXP-109_real_domain_aug_tokens16_orbit:exp109_train_aug1+exp109_train_aug2,flat:EXP-113_tesseract_vs_flat_hopf:exp109_train_aug1+exp109_train_aug2
+modes: greedy,orbit_product
+variants: PoE,DINO
+seeds: 0,1,2
+seed: 0

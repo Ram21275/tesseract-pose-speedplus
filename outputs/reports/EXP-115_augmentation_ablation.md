@@ -22,5 +22,11 @@ Synthetic val, val-aug, lightbox, sunlamp: mean / median, fraction > 150°, flip
 
 Evaluator: `scripts/orbit_eval.py`. Trainer: `scripts/train_probe_p3.py --aug-tags`.
 
+## Amendment 2026-10-17 (before any EXP-115 model was trained or evaluated)
+- The first training attempt (00:46) was stopped by memguard: system available RAM fell below the 16 GB floor (other users' load). Its evaluation ran without the new arms and is archived to `EXP-099_p3_smoke/…-exp115eval-without-new-arms`, not used.
+- Re-run: `scripts/run_queue7.sh`.
+- The evaluation also reports **weighted voting (vote32)** next to the orbit product. The user decided to keep multi-hypothesis orbit inference with either rule (EXP-114 found them comparable).
+- Criteria are unchanged; they are applied to the orbit product, with vote32 reported alongside.
+
 ## Runs / Results / Decision
 Not started.

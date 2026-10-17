@@ -451,3 +451,206 @@ RUN outputs/experiments/EXP-113_tesseract_vs_flat_hopf/RUN-20261016-235433-seed1
 moge2_vitl:normals16~and flat seed 1 synthetic_val: 21.00 | lightbox: 45.93 | sunlamp: 63.07
 RUN outputs/experiments/EXP-113_tesseract_vs_flat_hopf/RUN-20261017-001154-seed1
 >>> 00:20:09 EXP-113 flat dinov3_vitl16:tokens8 seed=2
+dinov3_vitl16:tokens8 flat seed 2 synthetic_val: 8.67 | lightbox: 28.46 | sunlamp: 33.18
+RUN outputs/experiments/EXP-113_tesseract_vs_flat_hopf/RUN-20261017-002011-seed2
+>>> 00:37:43 EXP-113 flat moge2_vitl:normals16~and seed=2
+moge2_vitl:normals16~and flat seed 2 synthetic_val: 19.67 | lightbox: 44.60 | sunlamp: 62.94
+RUN outputs/experiments/EXP-113_tesseract_vs_flat_hopf/RUN-20261017-003744-seed2
+=== 00:46:03 BLOCK_DONE EXP-113-train
+=== 00:46:03 BLOCK EXP-115-train
+>>> 00:46:03 EXP-115 photo dinov3_vitl16:tokens8 seed=0
+[memguard] aborting: system available memory 15.9 GB < floor 16.0 GB (process RSS 22.1 GB)
+=== 01:41:39 BLOCK_FAILED EXP-115-train
+=== 01:41:39 BLOCK EXP-113-eval
+[guarded] 01:41:39 waiting: RAM avail 39 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 01:43:39 waiting: RAM avail 59 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 01:45:40 waiting: RAM avail 57 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 01:47:40 waiting: RAM avail 48 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 01:49:41 waiting: RAM avail 44 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 01:51:41 waiting: RAM avail 51 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 01:53:42 waiting: RAM avail 43 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 01:55:42 waiting: RAM avail 54 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 01:57:42 waiting: RAM avail 45 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 01:59:43 waiting: RAM avail 40 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:01:43 waiting: RAM avail 49 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:03:43 waiting: RAM avail 46 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:05:44 waiting: RAM avail 47 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:07:44 waiting: RAM avail 51 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:09:44 waiting: RAM avail 49 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:11:45 waiting: RAM avail 55 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:13:45 waiting: RAM avail 45 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:15:45 waiting: RAM avail 51 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:17:46 waiting: RAM avail 49 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:19:46 waiting: RAM avail 48 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:21:46 waiting: RAM avail 45 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:23:47 waiting: RAM avail 59 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:25:47 waiting: RAM avail 57 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:27:47 waiting: RAM avail 54 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:29:47 waiting: RAM avail 52 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:31:48 waiting: RAM avail 49 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:33:48 waiting: RAM avail 48 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:35:48 waiting: RAM avail 54 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:37:48 waiting: RAM avail 50 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:39:49 waiting: RAM avail 47 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:41:49 waiting: RAM avail 53 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:43:49 waiting: RAM avail 51 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:45:50 waiting: RAM avail 48 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:47:50 waiting: RAM avail 44 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:49:50 waiting: RAM avail 50 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:51:50 waiting: RAM avail 48 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:53:51 waiting: RAM avail 45 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:55:51 waiting: RAM avail 43 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:57:51 waiting: RAM avail 41 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 02:59:52 waiting: RAM avail 43 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:01:52 waiting: RAM avail 37 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:03:52 waiting: RAM avail 45 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:05:53 waiting: RAM avail 51 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:07:53 waiting: RAM avail 43 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:09:53 waiting: RAM avail 48 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:11:53 waiting: RAM avail 45 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:13:54 waiting: RAM avail 45 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:15:54 waiting: RAM avail 44 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:17:54 waiting: RAM avail 42 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:19:55 waiting: RAM avail 47 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:21:55 waiting: RAM avail 52 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:23:55 waiting: RAM avail 50 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:25:55 waiting: RAM avail 47 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:27:56 waiting: RAM avail 46 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:29:56 waiting: RAM avail 44 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:31:56 waiting: RAM avail 42 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:33:56 waiting: RAM avail 40 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:35:57 waiting: RAM avail 54 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:37:57 waiting: RAM avail 48 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:39:57 waiting: RAM avail 49 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:41:58 waiting: RAM avail 37 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:43:58 waiting: RAM avail 42 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:45:58 waiting: RAM avail 34 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:47:59 waiting: RAM avail 37 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:49:59 waiting: RAM avail 44 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:51:59 waiting: RAM avail 44 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:54:00 waiting: RAM avail 38 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:56:00 waiting: RAM avail 47 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 03:58:00 waiting: RAM avail 37 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 04:00:01 waiting: RAM avail 43 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 04:02:01 waiting: RAM avail 35 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 04:04:02 waiting: RAM avail 41 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 04:06:02 waiting: RAM avail 36 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 04:08:02 waiting: RAM avail 42 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 04:10:03 waiting: RAM avail 40 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 04:12:03 waiting: RAM avail 39 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 04:14:03 waiting: RAM avail 31 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 04:16:04 waiting: RAM avail 44 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 04:18:04 waiting: RAM avail 40 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 04:20:04 waiting: RAM avail 48 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 04:22:04 waiting: RAM avail 54 GB (need 68), GPU free 5 GB (need 8)
+[guarded] 04:24:05 waiting: RAM avail 54 GB (need 68), GPU free 5 GB (need 8)
+tree exp109_train_aug1,exp109_train 0 PoE greedy: 4.89/17.44/20.59 | orbit_product: 3.87/12.18/12.50
+tree exp109_train_aug1,exp109_train 0 DINO greedy: 4.89/22.37/22.75 | orbit_product: 4.21/17.24/15.76
+tree exp109_train_aug1,exp109_train 1 PoE greedy: 4.84/16.98/20.35 | orbit_product: 3.90/11.87/12.43
+tree exp109_train_aug1,exp109_train 1 DINO greedy: 4.80/21.92/21.89 | orbit_product: 4.25/16.82/15.51
+tree exp109_train_aug1,exp109_train 2 PoE greedy: 4.84/17.58/19.52 | orbit_product: 3.84/12.85/11.83
+tree exp109_train_aug1,exp109_train 2 DINO greedy: 4.83/23.36/21.37 | orbit_product: 4.17/18.15/14.55
+flat exp109_train_aug1,exp109_train 0 PoE greedy: 8.88/19.75/25.99 | orbit_product: 7.51/12.87/15.64
+flat exp109_train_aug1,exp109_train 0 DINO greedy: 8.64/26.44/29.77 | orbit_product: 7.58/17.42/18.08
+flat exp109_train_aug1,exp109_train 1 PoE greedy: 9.00/21.05/27.98 | orbit_product: 7.53/13.01/16.76
+flat exp109_train_aug1,exp109_train 1 DINO greedy: 8.51/26.76/34.58 | orbit_product: 7.53/17.13/18.99
+flat exp109_train_aug1,exp109_train 2 PoE greedy: 8.96/20.87/27.52 | orbit_product: 7.54/13.57/16.54
+flat exp109_train_aug1,exp109_train 2 DINO greedy: 8.68/28.66/33.08 | orbit_product: 7.52/18.59/18.75
+| domain | family | train_aug | variant | mode | mean_deg | mean_deg_std | median_deg | frac_gt150 | frac_gt150_to_lt20 | frac_lt20_to_gt150 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| lightbox | flat | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 27.289 | 1.199 | 11.346 | 0.063 | 0.000 | 0.000 |
+| lightbox | flat | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 17.711 | 0.771 | 8.987 | 0.033 | 0.548 | 0.008 |
+| lightbox | flat | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 20.557 | 0.704 | 9.788 | 0.041 | 0.000 | 0.000 |
+| lightbox | flat | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 13.151 | 0.374 | 8.065 | 0.017 | 0.654 | 0.005 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 22.550 | 0.733 | 8.378 | 0.060 | 0.000 | 0.000 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 17.403 | 0.676 | 6.877 | 0.048 | 0.341 | 0.007 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 17.332 | 0.310 | 6.753 | 0.042 | 0.000 | 0.000 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 12.303 | 0.502 | 5.263 | 0.030 | 0.437 | 0.005 |
+| sunlamp | flat | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 32.477 | 2.460 | 12.800 | 0.063 | 0.000 | 0.000 |
+| sunlamp | flat | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 18.608 | 0.474 | 9.624 | 0.027 | 0.655 | 0.007 |
+| sunlamp | flat | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 27.164 | 1.043 | 11.072 | 0.057 | 0.000 | 0.000 |
+| sunlamp | flat | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 16.313 | 0.591 | 8.684 | 0.024 | 0.657 | 0.007 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 22.002 | 0.699 | 10.171 | 0.032 | 0.000 | 0.000 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 15.273 | 0.638 | 8.193 | 0.020 | 0.529 | 0.005 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 20.154 | 0.565 | 8.417 | 0.033 | 0.000 | 0.000 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 12.254 | 0.371 | 6.322 | 0.017 | 0.656 | 0.005 |
+| synthetic_val | flat | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 8.609 | 0.085 | 7.817 | 0.001 | 0.000 | 0.000 |
+| synthetic_val | flat | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 7.541 | 0.032 | 6.735 | 0.000 | 0.594 | 0.000 |
+| synthetic_val | flat | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 8.950 | 0.060 | 7.743 | 0.003 | 0.000 | 0.000 |
+| synthetic_val | flat | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 7.527 | 0.013 | 6.662 | 0.001 | 0.787 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 4.840 | 0.049 | 4.434 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 4.212 | 0.041 | 3.724 | 0.000 | 0.667 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 4.854 | 0.028 | 4.362 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 3.867 | 0.029 | 3.444 | 0.000 | 0.849 | 0.000 |
+| synthetic_val_aug | flat | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 13.973 | 0.167 | 9.375 | 0.014 | 0.000 | 0.000 |
+| synthetic_val_aug | flat | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 9.550 | 0.062 | 7.406 | 0.005 | 0.638 | 0.001 |
+| synthetic_val_aug | flat | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 15.059 | 0.196 | 9.222 | 0.021 | 0.000 | 0.000 |
+| synthetic_val_aug | flat | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 9.797 | 0.093 | 7.339 | 0.006 | 0.715 | 0.001 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 9.879 | 0.218 | 6.129 | 0.010 | 0.000 | 0.000 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 6.246 | 0.116 | 4.201 | 0.004 | 0.586 | 0.000 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 9.746 | 0.065 | 5.920 | 0.009 | 0.000 | 0.000 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 5.821 | 0.096 | 3.868 | 0.004 | 0.631 | 0.000 |
+RUN outputs/experiments/EXP-113_tesseract_vs_flat_hopf/RUN-20261017-042606-seed0
+=== 04:48:04 BLOCK_DONE EXP-113-eval
+=== 04:48:04 BLOCK EXP-115-eval
+tree  0 PoE greedy: 5.57/27.61/37.43 | orbit_product: 4.66/20.80/25.10
+tree  0 DINO greedy: 5.46/38.85/42.59 | orbit_product: 5.07/32.32/32.36
+tree  1 PoE greedy: 5.47/26.04/36.93 | orbit_product: 4.58/19.68/25.63
+tree  1 DINO greedy: 5.25/34.82/41.01 | orbit_product: 4.91/29.66/33.63
+tree  2 PoE greedy: 5.59/27.05/35.61 | orbit_product: 4.62/20.26/23.76
+tree  2 DINO greedy: 5.34/37.53/40.77 | orbit_product: 4.97/30.95/30.37
+tree exp109_train_aug1,exp109_train 0 PoE greedy: 4.89/17.44/20.59 | orbit_product: 3.87/12.18/12.50
+tree exp109_train_aug1,exp109_train 0 DINO greedy: 4.89/22.37/22.75 | orbit_product: 4.21/17.24/15.76
+tree exp109_train_aug1,exp109_train 1 PoE greedy: 4.84/16.98/20.35 | orbit_product: 3.90/11.87/12.43
+tree exp109_train_aug1,exp109_train 1 DINO greedy: 4.80/21.92/21.89 | orbit_product: 4.25/16.82/15.51
+tree exp109_train_aug1,exp109_train 2 PoE greedy: 4.84/17.58/19.52 | orbit_product: 3.84/12.85/11.83
+tree exp109_train_aug1,exp109_train 2 DINO greedy: 4.83/23.36/21.37 | orbit_product: 4.17/18.15/14.55
+missing runs tree EXP-115_augmentation_ablation exp115_train_photo1,exp115_train_photo2 0 PoE - skipped
+missing runs tree EXP-115_augmentation_ablation exp115_train_photo1,exp115_train_photo2 0 DINO - skipped
+missing runs tree EXP-115_augmentation_ablation exp115_train_photo1,exp115_train_photo2 1 PoE - skipped
+missing runs tree EXP-115_augmentation_ablation exp115_train_photo1,exp115_train_photo2 1 DINO - skipped
+missing runs tree EXP-115_augmentation_ablation exp115_train_photo1,exp115_train_photo2 2 PoE - skipped
+missing runs tree EXP-115_augmentation_ablation exp115_train_photo1,exp115_train_photo2 2 DINO - skipped
+missing runs tree EXP-115_augmentation_ablation exp115_train_rot1,exp115_train_rot2 0 PoE - skipped
+missing runs tree EXP-115_augmentation_ablation exp115_train_rot1,exp115_train_rot2 0 DINO - skipped
+missing runs tree EXP-115_augmentation_ablation exp115_train_rot1,exp115_train_rot2 1 PoE - skipped
+missing runs tree EXP-115_augmentation_ablation exp115_train_rot1,exp115_train_rot2 1 DINO - skipped
+missing runs tree EXP-115_augmentation_ablation exp115_train_rot1,exp115_train_rot2 2 PoE - skipped
+missing runs tree EXP-115_augmentation_ablation exp115_train_rot1,exp115_train_rot2 2 DINO - skipped
+| domain | family | train_aug | variant | mode | mean_deg | mean_deg_std | median_deg | frac_gt150 | frac_gt150_to_lt20 | frac_lt20_to_gt150 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| lightbox | tree |  | DINO | greedy | 37.067 | 2.053 | 13.478 | 0.093 | 0.000 | 0.000 |
+| lightbox | tree |  | DINO | orbit_product | 30.977 | 1.330 | 11.222 | 0.086 | 0.172 | 0.008 |
+| lightbox | tree |  | PoE | greedy | 26.898 | 0.796 | 8.991 | 0.059 | 0.000 | 0.000 |
+| lightbox | tree |  | PoE | orbit_product | 20.248 | 0.562 | 7.276 | 0.048 | 0.356 | 0.008 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 22.550 | 0.733 | 8.378 | 0.060 | 0.000 | 0.000 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 17.403 | 0.676 | 6.877 | 0.048 | 0.341 | 0.007 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 17.332 | 0.310 | 6.753 | 0.042 | 0.000 | 0.000 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 12.303 | 0.502 | 5.263 | 0.030 | 0.437 | 0.005 |
+| sunlamp | tree |  | DINO | greedy | 41.458 | 0.990 | 20.464 | 0.062 | 0.000 | 0.000 |
+| sunlamp | tree |  | DINO | orbit_product | 32.117 | 1.646 | 15.708 | 0.049 | 0.180 | 0.005 |
+| sunlamp | tree |  | PoE | greedy | 36.661 | 0.941 | 12.979 | 0.074 | 0.000 | 0.000 |
+| sunlamp | tree |  | PoE | orbit_product | 24.830 | 0.962 | 9.981 | 0.043 | 0.458 | 0.009 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 22.002 | 0.699 | 10.171 | 0.032 | 0.000 | 0.000 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 15.273 | 0.638 | 8.193 | 0.020 | 0.529 | 0.005 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 20.154 | 0.565 | 8.417 | 0.033 | 0.000 | 0.000 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 12.254 | 0.371 | 6.322 | 0.017 | 0.656 | 0.005 |
+| synthetic_val | tree |  | DINO | greedy | 5.347 | 0.107 | 4.799 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree |  | DINO | orbit_product | 4.982 | 0.080 | 4.266 | 0.000 | 0.511 | 0.000 |
+| synthetic_val | tree |  | PoE | greedy | 5.543 | 0.066 | 4.622 | 0.001 | 0.000 | 0.000 |
+| synthetic_val | tree |  | PoE | orbit_product | 4.621 | 0.042 | 3.914 | 0.000 | 0.595 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 4.840 | 0.049 | 4.434 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 4.212 | 0.041 | 3.724 | 0.000 | 0.667 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 4.854 | 0.028 | 4.362 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 3.867 | 0.029 | 3.444 | 0.000 | 0.849 | 0.000 |
+| synthetic_val_aug | tree |  | DINO | greedy | 24.727 | 0.839 | 10.793 | 0.032 | 0.000 | 0.000 |
+| synthetic_val_aug | tree |  | DINO | orbit_product | 17.222 | 0.518 | 8.499 | 0.016 | 0.326 | 0.001 |
+| synthetic_val_aug | tree |  | PoE | greedy | 30.840 | 0.438 | 10.952 | 0.055 | 0.000 | 0.000 |
+| synthetic_val_aug | tree |  | PoE | orbit_product | 19.844 | 0.336 | 7.708 | 0.026 | 0.471 | 0.004 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 9.879 | 0.218 | 6.129 | 0.010 | 0.000 | 0.000 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 6.246 | 0.116 | 4.201 | 0.004 | 0.586 | 0.000 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 9.746 | 0.065 | 5.920 | 0.009 | 0.000 | 0.000 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 5.821 | 0.096 | 3.868 | 0.004 | 0.631 | 0.000 |
+RUN outputs/experiments/EXP-115_augmentation_ablation/RUN-20261017-044805-seed0
+=== 05:15:39 BLOCK_DONE EXP-115-eval
+=== 05:15:39 QUEUE6_DONE

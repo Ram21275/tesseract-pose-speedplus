@@ -34,6 +34,14 @@ All further experiments use the **EXP-109 methodology** in two variants, **PoE (
 - **EXP-112** (evaluation only, queued after EXP-111) supplies the missing DINOv3-only + orbit accuracy and the end-to-end timing and memory of all four variants.
 - EXP-064 / 106 are amended to this recipe.
 
+### Update 2026-10-17 (EXP-113 completed) — discretization claim now supported
+EXP-113 compares the Tesseract tree against a count-matched flat Hopf classifier (131,076 anchors, the SPACE-HOP grid), with identical features, augmentation, budget and orbit inference:
+- **The tree is far better:** synth 3.87 vs 7.53 (PoE + orbit), val-aug 5.82 vs 9.80, greedy 4.85 vs 8.95.
+- **Better on real in all 8 comparisons:** lightbox 12.30 vs 13.15, sunlamp 12.25 vs 16.31.
+- **15× fewer parameters** (2.4 M vs 36.1 M per branch).
+- **Reading:** precision comes from the tree; flip avoidance comes mostly from augmentation + orbit voting (the flat model + orbit even has fewer lightbox > 150° flips: 0.017 vs 0.030).
+- Contribution 1 (hierarchical tree) moves from "modest" to **supported by a matched baseline**.
+
 ### Update 2026-10-17 (EXP-111 / 112 / 114 completed)
 - **EXP-112 (measured, batch 1):**
   - PoE + orbit 279 ms (3.6 FPS);
@@ -221,6 +229,7 @@ Timing source: EXP-107 `timing` table, RTX-class shared GPU (concurrent load rec
 
 ## Changelog
 - 2026-10-16: created. Initial best result stored (EXP-109 C on A). EXP-111 running.
+- 2026-10-17: EXP-113 tree vs matched flat Hopf: tree strongly better (synth 3.87 vs 7.53); EXP-115 re-running.
 - 2026-10-17: EXP-111 / 112 / 114 results; contribution 3 narrowed (orbit consistency, scoring rule open); timing measured.
 - 2026-10-16: DEC-019: EXP-113 (tree vs matched flat Hopf), EXP-114 (orbit scoring rules), EXP-115 (augmentation ablation) pre-registered and queued; EXP-064 next.
 - 2026-10-16: DEC-018 recipe lock (EXP-109 methodology, PoE + DINOv3-only variants); final architecture diagram added; EXP-112 pre-registered (DINOv3-only + orbit, end-to-end timing).

@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_probe_p3.py --exp EXP-115_augmentation_ablation --features dinov3_vitl16:tokens8 --decoder transformer --token-shape 64x1024 --feat-device cpu --amp bf16 --targets soft --aug-tags exp115_train_photo1,exp115_train_photo2 --aug-convention pre- --seed 0

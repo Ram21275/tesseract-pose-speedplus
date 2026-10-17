@@ -1,0 +1,10 @@
+{
+  "state": "failed",
+  "pid": 4174821,
+  "start": "2026-10-17T00:46:04.686138",
+  "wall_clock_s": 3325.96,
+  "peak_cpu_rss_mb": 30910.2,
+  "peak_gpu_mb": 787.0,
+  "error": "[memguard] aborting: system available memory 15.9 GB < floor 16.0 GB (process RSS 22.1 GB)",
+  "end": "2026-10-17T01:41:30.641145"
+}

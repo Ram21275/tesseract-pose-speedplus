@@ -13,3 +13,8 @@ ep 60 loss 2.8363 val_mean 8.993 median 8.105
 ep 65 loss 2.7590 val_mean 8.867 median 8.055
 ep 70 loss 2.6916 val_mean 8.841 median 7.935
 ep 75 loss 2.6378 val_mean 8.797 median 7.918
+ep 80 loss 2.5965 val_mean 8.744 median 7.879
+ep 85 loss 2.5697 val_mean 8.713 median 7.880
+ep 90 loss 2.5527 val_mean 8.666 median 7.796
+ep 95 loss 2.5442 val_mean 8.684 median 7.781
+ep 100 loss 2.5419 val_mean 8.701 median 7.790
