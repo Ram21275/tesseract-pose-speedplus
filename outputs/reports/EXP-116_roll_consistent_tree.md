@@ -39,5 +39,10 @@ H(q → p) = −Σ_j w_j · (1/(L+1)) Σ_l log p^(l)(prefix_l(path_j)) is the EX
 ## Cost
 No new features. 3 new arms × 2 branches × 3 seeds = 18 trainings (about 15–25 min each; two views per step plus beam), plus evaluation, about 6–8 GPU-hours.
 
+## Amendment 2026-10-17 (before any EXP-116 run)
+- Trees are trained **per branch** (as in EXP-109 A), so the transported distribution p_u is that branch's own beam-8 distribution, not the PoE. The PoE is used only at evaluation.
+- The transformation-consistency metric is implemented in `scripts/orbit_eval.py` as `view_consistency@10`: the mean over images of the fraction of views 90/180/270 whose back-mapped top-1 is within 10° of view 0's top-1.
+- Trainer: `scripts/train_consistency.py --mode T|C1|C2`.
+
 ## Runs / Results / Decision
 Not started.

@@ -33,5 +33,12 @@ Pose / distribution distillation is established. The interest is practical (one-
 ## Cost
 Teacher targets about 0.5 GPU-hour; 6 trainings (2 branches × 3 seeds, about 15–20 min each); evaluation. About 3–4 GPU-hours. No new features.
 
+## Amendment 2026-10-17 (before any EXP-117 run)
+- Variant-specific teachers (as pre-registered), giving 3 students per seed:
+  - DINOv3 student ← DINO-only orbit teacher (for the DINOv3-only system);
+  - DINOv3 and MoGe-2 students ← PoE orbit teacher (for the PoE system).
+  - 9 trainings.
+- Teacher targets: `scripts/exp117_teacher.py` → `outputs/experiments/EXP-117_orbit_distillation/teacher_{PoE,DINO}_seed{s}.npz`. Trainer: `scripts/train_consistency.py --mode distill --teacher-variant`.
+
 ## Runs / Results / Decision
 Not started.

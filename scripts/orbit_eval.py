@@ -60,13 +60,15 @@ try:
             Fz[(sp, "valaug", k)] = featsets.standardize_to_tensor(x, None, "cpu", torch.float16, stats=st)
     G = torch.as_tensor(FG.matched_hopf_grid(), dtype=torch.float32, device=dev)
 
-    def find_runs(exp, seed, family, tags):
+    def find_runs(exp, seed, family, tags, cfgfilter=None):
         out = {}
         for d in sorted((REPO / "outputs/experiments" / exp).glob(f"RUN-*-seed{seed}")):
             cfg = yaml.safe_load((d / "config.yaml").read_text())
             if not (d / "checkpoints/best.pt").exists() or cfg.get("features") not in SHAPE:
                 continue
             if (cfg.get("aug_tags") or "") != tags or (family == "flat") != (cfg.get("model") == "flat_hopf"):
+                continue
+            if cfgfilter and any(str(cfg.get(k)) != v for k, v in cfgfilter.items()):
                 continue
             out[cfg["features"]] = d
         return out
@@ -133,13 +135,16 @@ try:
                 w = np.exp(conf.reshape(B, 4, 8) - conf.reshape(B, 4, 8).max(-1, keepdims=True)); w = (w / w.sum(-1, keepdims=True)).reshape(B, 32)
                 dd = geo(cand[:, :, None], cand[:, None]); sup = (np.exp(-0.5 * (dd / 5.0) ** 2) * w[:, None, :]).sum(-1)
                 res["orbit_vote32"].append(cand[np.arange(B), sup.argmax(1)])
+            v0 = cand[:, 0]; vk = cand[:, 8::8]                                             # view top-1s, back-mapped
+            res.setdefault("_consistency", []).append((geo(vk, v0[:, None]) <= 10).mean(1))
         return {m: np.concatenate(v) for m, v in res.items()}
 
     rows = []
     for spec in args.families.split(","):
-        family, exp, tags = spec.split(":"); tags = tags.replace("+", ",")
+        parts = spec.split(":"); family, exp, tags = parts[:3]; tags = tags.replace("+", ",")
+        cfgfilter = dict(kv.split("=") for kv in parts[3].split(";")) if len(parts) > 3 and parts[3] else None    # e.g. mode=T
         for seed in [int(x) for x in args.seeds.split(",")]:
-            runs = find_runs(exp, seed, family, tags)
+            runs = find_runs(exp, seed, family, tags, cfgfilter)
             for variant in args.variants.split(","):
                 keys = (SD, SM) if variant == "PoE" else (SD,)
                 if any(k not in runs for k in keys):
@@ -147,17 +152,19 @@ try:
                 ms = [load(family, runs[k], k) for k in keys]
                 P3 = evaluate(family, ms, keys, "test", len(t3), np.zeros(len(t3)), d3)
                 PV = evaluate(family, ms, keys, "valaug", len(va), ang_va, dv)
+                cons3, consv = P3.pop("_consistency"), PV.pop("_consistency")
                 for mode in MODES:
                     ERR = {g: geo(P3[mode][dom3 == g], q3[dom3 == g]) for g in ("synthetic_val", "lightbox", "sunlamp")}
                     ERR["synthetic_val_aug"] = geo(PV[mode], qva)
                     BASE = {g: (geo(P3["greedy"][dom3 == g], q3[dom3 == g]) if g != "synthetic_val_aug" else geo(PV["greedy"], qva)) for g in ERR} if "greedy" in MODES else ERR
                     for g, e in ERR.items():
                         e0 = BASE[g]; n150, n20 = int((e0 > 150).sum()), int((e0 < 20).sum())
-                        rows.append({"family": family, "train_aug": tags, "variant": variant, "mode": mode, "seed": seed, "domain": g,
+                        rows.append({"family": family + (":" + parts[3] if len(parts) > 3 and parts[3] else ""), "train_aug": tags, "variant": variant, "mode": mode, "seed": seed, "domain": g,
                                      "mean_deg": e.mean(), "median_deg": np.median(e), "acc@10": float((e <= 10).mean()),
                                      "frac_gt90": float((e > 90).mean()), "frac_gt150": float((e > 150).mean()),
                                      "n_greedy_gt150": n150, "frac_gt150_to_lt20": ((e0 > 150) & (e < 20)).sum() / max(n150, 1),
-                                     "n_greedy_lt20": n20, "frac_lt20_to_gt150": ((e0 < 20) & (e > 150)).sum() / max(n20, 1)})
+                                     "n_greedy_lt20": n20, "frac_lt20_to_gt150": ((e0 < 20) & (e > 150)).sum() / max(n20, 1),
+                                     "view_consistency@10": float((consv if g == "synthetic_val_aug" else cons3[dom3 == g]).mean())})
                 print(family, tags[:30], seed, variant, " | ".join(f"{m}: " + "/".join(f"{np.mean(geo(P3[m][dom3 == g], q3[dom3 == g])):.2f}" for g in ("synthetic_val", "lightbox", "sunlamp")) for m in MODES), flush=True)
                 del ms; torch.cuda.empty_cache()
     per = pd.DataFrame(rows); run.write_metrics(rows, "per_seed")
