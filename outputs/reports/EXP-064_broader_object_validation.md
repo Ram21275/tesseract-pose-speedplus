@@ -77,3 +77,17 @@ LiePose (SYMSOL-T, T-LESS), SpyroPose, Implicit-PDF and PoseCNN rotation numbers
 
 ## Amendment 2026-10-16 (DEC-018, before any run): locked recipe
 This experiment uses the **EXP-109 methodology** (augmentation-trained trees, with the in-plane rotation label transform derived for the dataset's camera / crop convention; orbit PoE voting at test time). It is reported in **both** variants, PoE (DINOv3 + MoGe-2) and DINOv3-only, each with and without orbit voting. The in-plane label transform for each dataset is derived and verified by projecting its 3-D model points, before any training, as in EXP-109 (`scripts/exp109_convention_geometry.py`). Other protocol details are unchanged.
+
+## Amendment 2026-10-18 (before any EXP-064 feature extraction, training or evaluation)
+1. **Label convention, derived and verified** (`scripts/exp064_convention.py`, `RUN-20261018-160444`):
+   - **SYMSOL-T:** full 224² frame, principal point at the centre, no distortion, so the in-plane rotation about the image centre is an exact camera roll. Label error 0.000°.
+   - **T-LESS / YCB-V:** the first check with the SPEED+-style affine crop rotation **failed** the pre-set rule (`RUN-20261018-160329`: label error p95 1.43° / 2.40°, max 2.5° / 6.7°; objects far off-axis). The augmented and orbit views therefore use the **exact camera-roll homography** K·Rot(d, −θ)·K⁻¹ about the crop-centre ray (`inplane.crop_rolled_homography`, extractor `--roll-homography`). Labels follow exactly: egocentric R′ = Rot(d, −θ)R, t′ = Rot(d, −θ)t, then the allocentric target recomputed from t′ (`tfpose.xobj`). Verified label error 0.000° and pixel error 0.000; mapping round trip ≤ 0.004°.
+2. **SYMSOL-T training cap:** 20,000 per shape (the first 20k by the manifest's seeded rank), instead of 43k, for the GPU budget. Validation (2k per shape) and test-5k are unchanged.
+3. **Recipe (DEC-018):**
+   - per-object (per-shape) trees, 2 branches × seeds 0–2, EXP-036 architecture and budget;
+   - clean + 2 augmented copies (photometric + in-plane roll, seeds 1 / 2);
+   - normalization statistics from the object's clean train rows;
+   - **checkpoint by the symmetry-aware validation greedy mean** (the raw mean is ill-defined for symmetric objects).
+4. **Inference:** both variants (PoE, DINOv3-only); greedy, orbit product and orbit weighted vote (4 views). For allocentric datasets, candidates are mapped between views using the GT translation, consistent with the GT-crop protocol.
+5. **Comparisons kept:** DINOv3-only vs PoE (criterion unchanged), and greedy vs orbit (descriptive). Flat-Hopf and flow stages are **not run** here (cut order, DEC-012). The val-aug proxy is not used.
+6. Code: `scripts/run_exp064.sh`, `train_xobj.py`, `exp064_eval.py`, `src/tfpose/xobj.py`, `featsets.load_rows`. Caches on `/media/kavinder/hdd2/RAM/compact` (about 170 GB).

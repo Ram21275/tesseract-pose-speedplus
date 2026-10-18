@@ -198,3 +198,28 @@ def standardize_to_tensor(X: np.ndarray, train_mask: np.ndarray, device, dtype, 
     for i in range(0, len(X), chunk):
         out[i:i + chunk] = torch.from_numpy(((X[i:i + chunk].astype(np.float32) - mu) / sd).astype(np.float32)).to(dtype)
     return out
+
+
+def load_rows(spec: str, subset: str, rows) -> tuple[list[str], np.ndarray]:
+    """EXP-064: read only `rows` (ascending indices) of a compact cache, for the locked-recipe featsets
+    (`dinov3_vitl16:tokens8`, `moge2_vitl:normals16~and`). Keeps memory per object small."""
+    rows = np.asarray(rows, dtype=np.int64); assert (np.diff(rows) > 0).all(), "rows must be strictly increasing"
+    backbone, fs = spec.split(":"); fs, _, mask_src = fs.partition("~")
+    path = find_cache(backbone, subset)
+    with h5py.File(path / "features.h5", "r") as f:
+        names = [s.decode() for s in f["image_relpath"][rows]]
+        if fs == "tokens8":
+            ds = f["last_grid8"] if "last_grid8" in f else None
+            if ds is None:
+                X = _pool(f["last_grid"][rows], 8).astype(np.float16).reshape(len(rows), -1)
+            else:
+                X = np.asarray(ds[rows], dtype=np.float16).reshape(len(rows), -1)
+        elif fs == "normals16" and mask_src == "and":
+            nrm = np.asarray(f["normal"][rows], dtype=np.float32)
+            with h5py.File(CACHE / f"consensus_masks__subset_{subset}" / "masks.h5", "r") as fm:
+                assert [s.decode() for s in fm["image_relpath"][rows]] == names
+                m = fm["and_mask"][rows].astype(np.float32)[..., None]
+            X = np.concatenate([_pool(nrm * m, 16), _pool(m, 16)], -1).reshape(len(rows), -1).astype(np.float32)
+        else:
+            raise ValueError(f"load_rows: unsupported featset {spec}")
+    return names, X

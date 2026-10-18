@@ -40,6 +40,7 @@ ap.add_argument("--workers", type=int, default=4)
 ap.add_argument("--limit", type=int, default=0)
 ap.add_argument("--rot-deg", type=float, default=None, help="EXP-109: rotate every crop in-plane by this angle (deg, cv2 sign)")
 ap.add_argument("--rot-random-seed", type=int, default=None, help="EXP-109: per-row angle ~ U(-180,180), rng(seed) in row order")
+ap.add_argument("--roll-homography", action="store_true", help="EXP-064: exact camera-roll homography (needs cam_fx/fy/cx/cy columns)")
 ap.add_argument("--store-grid16", action="store_true", help="EXP-109 B: also store the 16x16 DINOv3 grid (fp16)")
 ap.add_argument("--photo-seed", type=int, default=None, help="EXP-109: per-row photometric augmentation, rng([seed, row])")
 args = ap.parse_args()
@@ -80,7 +81,10 @@ class Crops(torch.utils.data.Dataset):
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         else:
             img = D.read_gray(root, r.image_relpath)
-        if ANG[i] != 0:
+        if ANG[i] != 0 and args.roll_homography:
+            Km = np.array([[r.cam_fx, 0, r.cam_cx], [0, r.cam_fy, r.cam_cy], [0, 0, 1.0]])
+            c = IP.crop_rolled_homography(img, r.crop_cx, r.crop_cy, r.crop_side, self.size, ANG[i], Km)
+        elif ANG[i] != 0:
             c = IP.crop_rotated(img, r.crop_cx, r.crop_cy, r.crop_side, self.size, ANG[i])
         else:
             c = D.crop_square(img, r.crop_cx, r.crop_cy, r.crop_side, self.size)
@@ -125,7 +129,8 @@ if args.backbone == "dinov3_vitl16":
 else:
     ex = Fx.MoGe2Extractor(dev)
 spec = {**ex.spec, "compact": True, "gray_to_rgb": "rgb" if args.rgb else "replicate",
-        "rot_deg": args.rot_deg, "rot_random_seed": args.rot_random_seed, "photo_seed": args.photo_seed}
+        "rot_deg": args.rot_deg, "rot_random_seed": args.rot_random_seed, "photo_seed": args.photo_seed,
+        "roll_homography": args.roll_homography}
 out = Path(args.cache_root) / f"{args.backbone}__subset_{args.tag}__{Fx.preprocess_hash(spec)}__{mhash}"
 if (out / "manifest.json").exists():
     print("cache exists", out); link(out); sys.exit(0)

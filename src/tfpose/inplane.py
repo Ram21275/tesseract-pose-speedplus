@@ -74,3 +74,16 @@ def ray_undistorted(K: np.ndarray, dist: np.ndarray, cx, cy) -> np.ndarray:
     n = cv2.undistortPoints(p, K, dist).reshape(-1, 2)
     d = np.concatenate([n, np.ones((len(n), 1))], 1)
     return d / np.linalg.norm(d, axis=1, keepdims=True)
+
+
+def crop_rolled_homography(img: np.ndarray, cx: float, cy: float, side: float, out: int, theta_deg: float, K: np.ndarray) -> np.ndarray:
+    """EXP-064: exact camera roll by Rot(d, -theta) about the ray d through the crop centre (pinhole, no distortion):
+    x' ~ K Rot(d, -theta) K^-1 x, then the same square crop. The crop centre is a fixed point, so labels follow exactly."""
+    d = np.linalg.solve(K, np.array([cx, cy, 1.0])); d /= np.linalg.norm(d)
+    th = -np.radians(theta_deg)
+    Kx = np.array([[0, -d[2], d[1]], [d[2], 0, -d[0]], [-d[1], d[0], 0]])
+    Rs = np.eye(3) + np.sin(th) * Kx + (1 - np.cos(th)) * Kx @ Kx
+    s = out / side
+    C = np.array([[s, 0, out / 2 - s * cx], [0, s, out / 2 - s * cy], [0, 0, 1.0]])
+    M = C @ K @ Rs @ np.linalg.inv(K)
+    return cv2.warpPerspective(img, M, (out, out), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT, borderValue=0)
