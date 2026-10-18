@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# EXP-117 resume after queue10 (EXP-116). The PoE teacher was stopped by memguard (RSS 34.2 GB > 34 GB watchdog of the
-# lowered 40 GB cap); PoE teachers now run with the 56 GB cap. Finished teachers are kept. Then EXP-064 if ready.
+# After queue10 (EXP-116): EXP-064 (user: first), then EXP-117 resume. The PoE teacher was stopped by memguard (RSS 34.2 GB > 34 GB watchdog of the
+# lowered 40 GB cap); PoE teachers now run with the 56 GB cap. Finished teachers are kept.
 set -u; cd "$(dirname "$0")/.."
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 PY=.venv/bin/python; CONV=$(cat outputs/experiments/exp109_convention.txt)
@@ -22,6 +22,7 @@ b117() { for v in DINO PoE; do for s in 0 1 2; do
     --families $A109,tree:EXP-117_orbit_distillation:$TG:teacher_variant=DINO || echo "(DINO-only eval failed; continuing)"
   G $PY scripts/orbit_eval.py --exp EXP-117_orbit_distillation --modes greedy,orbit_product,orbit_vote32 --variants PoE \
     --families $A109,tree:EXP-117_orbit_distillation:$TG:teacher_variant=PoE; }
+# user 2026-10-18: "run 117 after 64" -> EXP-064 first, then EXP-117
+block EXP-064 bash scripts/run_exp064.sh
 block EXP-117 b117
-if [ -x scripts/run_exp064.sh ]; then block EXP-064 bash scripts/run_exp064.sh; else echo "=== $(date +%T) EXP-064 code not ready"; fi
 echo "=== $(date +%T) QUEUE11_DONE"
