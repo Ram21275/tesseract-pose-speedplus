@@ -34,6 +34,11 @@ All further experiments use the **EXP-109 methodology** in two variants, **PoE (
 - **EXP-112** (evaluation only, queued after EXP-111) supplies the missing DINOv3-only + orbit accuracy and the end-to-end timing and memory of all four variants.
 - EXP-064 / 106 are amended to this recipe.
 
+### Update 2026-10-18 (EXP-116 completed): hierarchical transport adds nothing over leaf-level equivariance
+- **Pre-registered criterion fails:** the hierarchical transported consistency loss (T) beats the EXP-109 arm A and paired-view augmentation (C1), but not the leaf-only equivariance loss (C2). DINO greedy val-aug: C2 9.43, T 9.57, A 9.88.
+- **C2 improves synthetic precision** at zero inference cost: PoE + orbit synth 3.71 vs 3.87; greedy 4.52 vs 4.85. Real domains are unchanged within seed std (lightbox 12.41 vs 12.30, sunlamp 11.74 vs 12.25).
+- **Claim:** no hierarchical-transport contribution. A transported equivariance regularizer is a known technique and is an optional recipe refinement only (user decision pending).
+
 ### Update 2026-10-17 (EXP-115 completed): what actually fixes real flips
 - **Photometric augmentation + orbit voting carry the real-domain gain:** photometric-only + orbit 12.29 / 12.37 (lightbox / sunlamp) ≈ combined 12.30 / 12.25.
 - **The in-plane rotation augmentation** (with the derived label transform) does **not** help real images: rotation-only + orbit gets 18.69 / 20.70. It only improves synthetic precision (best synthetic, 3.78) and the rotated val-aug proxy, which over-rewards it by construction.
@@ -236,6 +241,7 @@ Timing source: EXP-107 `timing` table, RTX-class shared GPU (concurrent load rec
 - **Minimum evidence before freezing:** essential items 1–3, plus at least one cross-object dataset (item 4).
 
 ## Changelog
+- 2026-10-18: EXP-116: hierarchical transport FAIL vs leaf-only equivariance (C2); C2 helps synthetic only. EXP-064 running (user: before EXP-117).
 - 2026-10-16: created. Initial best result stored (EXP-109 C on A). EXP-111 running.
 - 2026-10-17: EXP-115: photometric aug + orbit drive real flip recovery; rotation aug only helps synthetic precision. EXP-116 re-queued (memguard), EXP-117 running.
 - 2026-10-17: EXP-113 tree vs matched flat Hopf: tree strongly better (synth 3.87 vs 7.53); EXP-115 re-running.

@@ -1,0 +1,6 @@
+exp: EXP-116_roll_consistent_tree
+families: tree:EXP-109_real_domain_aug_tokens16_orbit:exp109_train_aug1+exp109_train_aug2,tree:EXP-116_roll_consistent_tree:exp109_train_aug1+exp109_train_aug2:mode=T,tree:EXP-116_roll_consistent_tree:exp109_train_aug1+exp109_train_aug2:mode=C1,tree:EXP-116_roll_consistent_tree:exp109_train_aug1+exp109_train_aug2:mode=C2
+modes: greedy,orbit_product,orbit_vote32
+variants: PoE,DINO
+seeds: 0,1,2
+seed: 0

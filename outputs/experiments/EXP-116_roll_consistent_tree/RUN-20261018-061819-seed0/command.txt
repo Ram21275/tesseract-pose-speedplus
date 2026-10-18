@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_consistency.py --exp EXP-116_roll_consistent_tree --features dinov3_vitl16:tokens8 --token-shape 64x1024 --mode C2 --aug-convention pre- --seed 0
