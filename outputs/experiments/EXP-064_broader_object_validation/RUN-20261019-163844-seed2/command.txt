@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_xobj.py --dataset symsolt --obj cone --features moge2_vitl:normals16~and --token-shape 256x4 --seed 2

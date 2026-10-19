@@ -1,0 +1,5 @@
+dataset: tless
+threads: 12
+val_cap: 1000
+stage: zeroshot
+seed: 0

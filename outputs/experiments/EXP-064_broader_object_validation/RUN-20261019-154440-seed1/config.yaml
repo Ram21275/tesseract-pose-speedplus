@@ -1,0 +1,12 @@
+dataset: symsolt
+obj: cyl
+features: moge2_vitl:normals16~and
+token_shape: 256x4
+epochs: 100
+batch: 256
+lr: 0.001
+wd: 0.05
+dropout: 0.1
+eval_every: 5
+seed: 1
+stage: train

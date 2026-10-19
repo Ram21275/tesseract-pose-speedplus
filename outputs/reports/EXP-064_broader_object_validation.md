@@ -154,3 +154,26 @@ This experiment uses the **EXP-109 methodology** (augmentation-trained trees, wi
   - (d) 3-DOF calibrated: one constant offset A per object chosen on validation (from candidates R̂ᵢᵀRᵢS, lowest mean symmetry-aware error), reported on test only and labelled calibrated, not zero-shot.
 - **Expectation stated now:** object frames are arbitrary, so (a) should be near chance. (c) is the measure of any transferable sense of rotation. Zero-shot transfer is claimed only if (c) is below its chance level by more than the seed std.
 - **Execution:** separate guarded CPU job (`scripts/exp064_zeroshot.py`); the GPU queue is untouched.
+
+### Zero-shot arm: T-LESS (frozen SPEED+ EXP-109 arm-A trees, no retraining; `RUN-20261019-142923`)
+Two earlier attempts were stopped by memguard while computing the SPEED+ statistics (20 GB and 34 GB caps; the full cache stores the 16×16 grid). The script now computes them in chunks; same statistics. Logs: `exp064_zeroshot_tless_attempt{1,2}_*.log`.
+
+Object-balanced, 3-seed mean ± seed std, degrees, real test split; SPEED+ statistics unless stated:
+| variant | mode | (a) raw sym. error | (b) chance (uniform) | (c) pair error | (c) chance (uniform) | (d) 3-DOF calibrated |
+|---|---|---|---|---|---|---|
+| DINOv3 | greedy | 106.0 ± 4.5 | 103.6 | 96.4 ± 1.5 | 104.5 | 104.9 |
+| DINOv3 | orbit product | 110.3 ± 7.0 | 103.6 | 96.6 ± 2.7 | 104.5 | 104.7 |
+| PoE | greedy | 113.8 ± 1.7 | 103.6 | 95.6 ± 3.5 | 104.5 | 106.5 |
+| PoE | orbit product | 117.5 ± 3.7 | 103.6 | 95.4 ± 3.0 | 104.5 | 107.2 |
+| DINOv3, target-own stats | greedy | 107.7 ± 3.8 | 103.6 | 97.8 ± 0.4 | 104.5 | 102.8 |
+| PoE, target-own stats | greedy | 116.0 ± 2.3 | 103.6 | 97.0 ± 0.9 | 104.5 | 108.1 |
+
+Validation (synthetic PBR) raw error 103.6–105.2 against a chance level of 104.2.
+
+**Pre-set rule:** (c) below its uniform chance by more than the seed std. Literally met: PoE greedy 95.6 vs 104.5, Δ 8.9 > 3.5.
+
+**However, a post-hoc control shows this comes from the pose prior, not transfer.** It is reported as post hoc and computed on the same pairs (same rng sequence): predicting one **constant** rotation for every image gives an object-balanced pair error of **88.7°**. Per object: 1: 80.6, 4: 81.6, 5: 71.7, 11: 100.8, 18: 126.6, 21: 124.3, 27: 35.5. T-LESS test objects rest on a table and are viewed from above, so relative rotations are far from uniform. The frozen trees (95.4–98.3) are **worse than a constant prediction**.
+
+**Reading:**
+- **No zero-shot transfer.** The frozen SPEED+ trees carry no transferable sense of rotation to T-LESS objects: raw error is at chance, pair error is above the constant-prediction level, and calibration does not help. Per-object retraining (the main EXP-064 result) is required.
+- **For SYMSOL-T and YCB-V,** the constant-prediction pair baseline is added as a reported control (same rule).

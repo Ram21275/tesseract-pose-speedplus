@@ -1,0 +1,1 @@
+[memguard] aborting: process RSS 20.0 GB > limit 20.0 GB

@@ -1,0 +1,12 @@
+dataset: symsolt
+obj: cyl
+features: dinov3_vitl16:tokens8
+token_shape: 64x1024
+epochs: 100
+batch: 256
+lr: 0.001
+wd: 0.05
+dropout: 0.1
+eval_every: 5
+seed: 2
+stage: train
