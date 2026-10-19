@@ -6,7 +6,7 @@ export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 PY=.venv/bin/python; CONV=$(cat outputs/experiments/exp109_convention.txt)
 G() { scripts/guarded.sh ${GMEM:-56} -- "$@" 2>&1 | grep -v -i warn | grep -v nn.Transformer; return ${PIPESTATUS[0]}; }
 block() { local name=$1; shift; echo "=== $(date +%T) BLOCK $name"; if "$@"; then echo "=== $(date +%T) BLOCK_DONE $name"; else echo "=== $(date +%T) BLOCK_FAILED $name"; fi; }
-while pgrep -f '^bash scripts/run_exp064.sh' >/dev/null; do sleep 60; done
+sleep 120; while pgrep -f '^bash scripts/run_exp064' >/dev/null; do sleep 60; done   # run_exp064.sh and run_exp064_symfix.sh
 A=outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit
 declare -A AD=( [0]=$A/RUN-20261015-180909-seed0 [1]=$A/RUN-20261015-190709-seed1 [2]=$A/RUN-20261015-192852-seed2 )
 declare -A AM=( [0]=$A/RUN-20261015-182205-seed0 [1]=$A/RUN-20261015-192302-seed1 [2]=$A/RUN-20261015-194214-seed2 )

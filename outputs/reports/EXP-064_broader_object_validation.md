@@ -177,3 +177,12 @@ Validation (synthetic PBR) raw error 103.6–105.2 against a chance level of 104
 **Reading:**
 - **No zero-shot transfer.** The frozen SPEED+ trees carry no transferable sense of rotation to T-LESS objects: raw error is at chance, pair error is above the constant-prediction level, and calibration does not help. Per-object retraining (the main EXP-064 result) is required.
 - **For SYMSOL-T and YCB-V,** the constant-prediction pair baseline is added as a reported control (same rule).
+
+### SYMSOL-T: first evaluation invalid (bug), fix queued (2026-10-19)
+- **Evaluation `RUN-20261019-165420` is not valid for PoE.** It gave DINOv3-only + orbit 2.61 / 2.62° (val / test) but PoE 26.5°.
+- **Cause:** all 9 MoGe-2 trees for cube, cyl and icosa trained to **NaN loss** from epoch 5 and output a constant (identical errors across seeds: 40.64 / 56.80 / 29.72°).
+  - In the clean SYMSOL-T renders some 16×16 border cells are always empty. Their per-object train sd is about 1e-6 (42 of 1,024 dims below 1e-4 for cube).
+  - The rolled augmented views and validation images put the object there, so the standardized values reach 1.6e5 and overflow float16, giving inf and then NaN.
+  - tet, cone, every DINOv3 tree and all T-LESS trees are unaffected (no NaN epochs).
+- **Fix (bug fix, not a recipe change):** `train_xobj.py --sd-floor 1e-2` (sd = max(sd, 0.01); the features lie in [−1, 1]). Only the 9 affected trees are re-trained. Their old runs are marked superseded in `status.json`.
+- **Re-evaluation:** SYMSOL-T is re-evaluated after the YCB-V block, before EXP-118 (`scripts/run_exp064_symfix.sh`). Results are reported then; the DINOv3-only numbers above are unaffected.

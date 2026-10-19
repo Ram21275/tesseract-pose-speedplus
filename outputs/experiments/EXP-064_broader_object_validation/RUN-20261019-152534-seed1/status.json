@@ -11,5 +11,6 @@
   "n_train": 20000,
   "n_val": 2000,
   "n_params": 2128404,
-  "trainable_params": 2128404
+  "trainable_params": 2128404,
+  "superseded": "NaN training loss (sd~1e-6 dims, fp16 overflow); re-trained with --sd-floor 1e-2 (run_exp064_symfix.sh)"
 }
