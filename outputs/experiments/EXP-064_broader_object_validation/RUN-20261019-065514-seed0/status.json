@@ -1,0 +1,10 @@
+{
+  "state": "failed",
+  "pid": 2908227,
+  "start": "2026-10-19T06:55:14.123634",
+  "wall_clock_s": 1.61,
+  "peak_cpu_rss_mb": 834.7,
+  "peak_gpu_mb": 0.0,
+  "error": "Traceback (most recent call last):\n  File \"/home/kavinder/RAM/pose-estimation/scripts/exp064_compact_gate.py\", line 27, in <module>\n    _, Xg = featsets.load_rows(spec, \"gate512_r0\", np.arange(len(gn))[order])\n            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/kavinder/RAM/pose-estimation/src/tfpose/featsets.py\", line 206, in load_rows\n    rows = np.asarray(rows, dtype=np.int64); assert (np.diff(rows) > 0).all(), \"rows must be strictly increasing\"\n                                                    ~~~~~~~~~~~~~~~~~~~~~~~^^\nAssertionError: rows must be strictly increasing\n",
+  "end": "2026-10-19T06:55:15.737996"
+}

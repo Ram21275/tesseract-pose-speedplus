@@ -34,6 +34,18 @@ All further experiments use the **EXP-109 methodology** in two variants, **PoE (
 - **EXP-112** (evaluation only, queued after EXP-111) supplies the missing DINOv3-only + orbit accuracy and the end-to-end timing and memory of all four variants.
 - EXP-064 / 106 are amended to this recipe.
 
+### Update 2026-10-19 (EXP-064, T-LESS completed): the recipe transfers to a second dataset
+- **T-LESS:** 7 objects, per-object trees, locked recipe, symmetry-aware error. Validation is synthetic PBR; test is BOP19 real.
+  - PoE + orbit: **9.25 / 16.57**;
+  - DINOv3 + orbit: 9.94 / 17.88;
+  - PoE greedy: 12.31 / 17.92.
+- **Fusion criterion PASS** (more than the seed std, every seed). Orbit voting transfers: about −3° on val, about −1.3° on real test.
+- **Limits:**
+  - real-test gross errors (> 90°) are barely reduced (0.055 → 0.051), unlike SPEED+;
+  - object 21 (no symmetry metadata) is the outlier at 34.8°.
+  - Claim: "transfers to T-LESS"; no flip-repair claim beyond SPEED+.
+- **Compact-feature gate** (pre-registered, run late): strict FAIL (MoGe-2 max diff 0.51 std, p99 0.004). No prediction impact: 0 / 512 PoE changes. SPEED+ results stand.
+
 ### Update 2026-10-18 (EXP-116 completed): hierarchical transport adds nothing over leaf-level equivariance
 - **Pre-registered criterion fails:** the hierarchical transported consistency loss (T) beats the EXP-109 arm A and paired-view augmentation (C1), but not the leaf-only equivariance loss (C2). DINO greedy val-aug: C2 9.43, T 9.57, A 9.88.
 - **C2 improves synthetic precision** at zero inference cost: PoE + orbit synth 3.71 vs 3.87; greedy 4.52 vs 4.85. Real domains are unchanged within seed std (lightbox 12.41 vs 12.30, sunlamp 11.74 vs 12.25).
@@ -241,6 +253,7 @@ Timing source: EXP-107 `timing` table, RTX-class shared GPU (concurrent load rec
 - **Minimum evidence before freezing:** essential items 1–3, plus at least one cross-object dataset (item 4).
 
 ## Changelog
+- 2026-10-19: EXP-064 T-LESS: fusion PASS, orbit transfers (PoE+orbit 9.25 val / 16.57 real test); compact gate strict FAIL, no prediction impact.
 - 2026-10-18: EXP-116: hierarchical transport FAIL vs leaf-only equivariance (C2); C2 helps synthetic only. EXP-064 running (user: before EXP-117).
 - 2026-10-16: created. Initial best result stored (EXP-109 C on A). EXP-111 running.
 - 2026-10-17: EXP-115: photometric aug + orbit drive real flip recovery; rotation aug only helps synthetic precision. EXP-116 re-queued (memguard), EXP-117 running.

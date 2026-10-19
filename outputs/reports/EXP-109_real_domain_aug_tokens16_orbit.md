@@ -115,3 +115,9 @@ Single branches (training-run evaluation, greedy):
 
 ## Decision (proposed for the recipe lock; the user decides)
 Adopt **A + C** (augmentation-trained trees, equal-weight PoE, in-plane orbit PoE voting) as the rotation recipe. B is rejected.
+
+## Note 2026-10-19: compact-feature gate (recorded in EXP-064)
+The compact extractor used for this experiment's augmented and orbit views was not checked against the full caches before use. The check was run on 2026-10-19 (`EXP-064 RUN-20261019-065522`). It fails the strict max-difference tolerance:
+- MoGe-2: 1,196 of 524 k elements > 1e-2 std; p99 0.004.
+- DINOv3: max 0.011.
+The pre-registered functional follow-up (`RUN-20261019-065802`, arm-A seed 0, 512 crops) shows no impact on predictions: PoE greedy unchanged on 512 / 512 crops; single-branch greedy leaf changes 1 / 512 (DINOv3) and 3 / 512 (MoGe-2). The results above stand. Details are in the EXP-064 report.

@@ -1,0 +1,12 @@
+{
+  "state": "completed",
+  "pid": 2643111,
+  "start": "2026-10-18T21:10:31.395756",
+  "wall_clock_s": 6.72,
+  "peak_cpu_rss_mb": 960.3,
+  "peak_gpu_mb": 0.0,
+  "end": "2026-10-18T21:10:38.119228",
+  "verified_tless": true,
+  "verified_ycbv": true,
+  "verified_symsolt": true
+}

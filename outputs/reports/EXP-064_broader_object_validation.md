@@ -1,6 +1,7 @@
 # EXP-064: Broader-object validation of the selected Tesseract rotation method (T-LESS, SYMSOL-T, YCB-Video)
 
 ## Status
+**Running** (T-LESS completed 2026-10-19; SYMSOL-T and YCB-V in progress).
 **Planned; data located (2026-10-13), waiting on the Phase-6 prerequisites.** The user chose T-LESS, SYMSOL-T and YCB-Video (DEC-009).
 - *Correction:* the 2026-10-10 note said neither BOP YCB-V nor BOP T-LESS was on the local disks. That search missed `/media/kavinder/hdd2`, where all three datasets are (details and deviations in DEC-009: YCB-Video is the original PoseCNN release, not BOP; the local T-LESS test set is the BOP19 subset; SYMSOL-T was rendered locally). Prerequisites, all in Phase 6: the rotation architecture is selected (Phases 3–4), the adaptive-depth decision is made (Phase 5), and EXP-060–063 are done. ID and placement: DEC-007.
 
@@ -37,7 +38,57 @@ Does the selected Tesseract rotation method keep its benefits (fusion gain, accu
 - **Decision question:** do the fusion benefit and Tesseract's accuracy–compute advantage persist across objects?
 
 ## Runs / Results / Decision
-Not started (data located; waiting on Phase-6 prerequisites).
+Running since 2026-10-18 21:10 (`scripts/run_exp064.sh` via queue11; user: EXP-064 before EXP-117). Results are added per dataset as each block finishes. Full T-LESS results are below; SYMSOL-T and YCB-V follow.
+
+### Runs
+- Convention gate: `RUN-20261018-211031` (all three datasets verified, label error 0.000°).
+- T-LESS: 42 trainings (7 objects × 2 branches × seeds 0–2; `stage: train`, 2026-10-18 23:xx – 2026-10-19 06:32), evaluation `RUN-20261019-063238` (`tables/object_balanced.md`, `tables/per_object.md`, `metrics/per_object_seed.csv`).
+- Compact-feature gate: `RUN-20261019-065522` (strict), functional follow-up `RUN-20261019-065802`. See "Deviation" below.
+
+### Deviation: compact-feature gate ran late and FAILED as written
+- The pre-registered "gate before use" (512 SPEED+ crops, compact vs full caches, max abs diff ≤ 1e-2 after standardization, mask agreement ≥ 0.99) was **not run before use**, neither for EXP-109 (whose augmented and orbit views come from the same compact extractor) nor for EXP-064. It was run on 2026-10-19, **after** the T-LESS results.
+- **Strict result: FAIL.** `scripts/exp064_compact_gate.py` (standardized by the gate rows' own sd):
+  - DINOv3 `tokens8`: max 0.0108 (11 of 33.5 M elements > 1e-2; p99 0.002; corr 0.99999996);
+  - MoGe-2 `normals16~and`: max 0.51 (1,196 of 524 k elements > 1e-2, in 97 of 512 images; p99 0.004; corr 0.999998). 34 of those 97 images have a consensus-mask difference; the rest are small MoGe-2 output differences;
+  - consensus-mask pixel agreement 0.99998 (passes).
+  - Standardized instead with the models' synthetic-train statistics (`exp064_compact_functional.py`, 20 k-row subsample): DINOv3 max 0.011 (48 elements > 1e-2), MoGe-2 max 0.55 (1,197). Still FAIL.
+- **Functional follow-up** (reading fixed in the script before running: mean angle < 0.1° and ≤ 1% changed leaves ⇒ no impact). EXP-109 arm-A trees (seed 0) on the same 512 crops, compact vs full features, same statistics:
+  | predictor | mean angle | p99 | max | changed greedy leaves |
+  |---|---|---|---|---|
+  | DINOv3 greedy | 0.010° | 0.000° | 5.10° | 1 / 512 |
+  | MoGe-2 greedy | 0.031° | 0.000° | 6.91° | 3 / 512 |
+  | PoE greedy | 0.000° | 0.000° | 0.000° | 0 / 512 |
+  **No impact** by the pre-set reading. The gate FAIL is kept on record. EXP-064 is internally consistent anyway (all its features come from the compact extractor). For EXP-109 / 113–116, mixing full-cache view 0 with compact augmented / orbit views changes at most a few single-branch predictions per thousand and no PoE prediction on this sample.
+
+### T-LESS results (7 objects, object-balanced, symmetry-aware error, 3-seed mean ± seed std, degrees)
+Validation is `train_pbr` scenes 45–49 (synthetic, PBR); test is the BOP19 targets (real Primesense images).
+
+| variant | inference | val mean | val median | val acc@10 | test mean | test median | test acc@10 | test > 90° |
+|---|---|---|---|---|---|---|---|---|
+| DINOv3 | greedy | 12.67 ± 0.06 | 8.07 | 0.660 | 18.59 ± 0.18 | 8.43 | 0.620 | 0.052 |
+| DINOv3 | orbit product | 9.94 ± 0.06 | 6.45 | 0.766 | 17.88 ± 0.35 | 7.43 | 0.674 | 0.053 |
+| DINOv3 | orbit vote32 | 10.10 ± 0.12 | 6.15 | 0.769 | 17.90 ± 0.47 | 7.10 | 0.687 | 0.054 |
+| PoE | greedy | 12.31 ± 0.13 | 7.37 | 0.702 | 17.92 ± 0.16 | 7.38 | 0.681 | 0.055 |
+| PoE | **orbit product** | **9.25 ± 0.07** | 5.80 | **0.808** | **16.57 ± 0.25** | 6.33 | 0.735 | 0.051 |
+| PoE | orbit vote32 | 9.65 ± 0.11 | **5.61** | 0.805 | 16.65 ± 0.34 | **6.08** | **0.736** | 0.053 |
+
+Per object, PoE + orbit product (val / test): obj 1 5.36 / 23.82; obj 4 5.42 / 14.50; obj 5 7.04 / 6.22; obj 11 9.49 / 11.90; obj 18 16.81 / 14.38; obj 21 13.33 / 34.78; obj 27 7.31 / 10.36.
+
+**Criterion (fusion helps on T-LESS): PASS.**
+- PoE val mean is below DINOv3-only by more than the larger seed std: greedy 12.31 vs 12.67 (Δ 0.37 > 0.13). With the locked orbit inference: 9.25 vs 9.94 (Δ 0.69 > 0.07). PoE is better in every seed.
+- **Test, reported as is:** PoE is better in every mode (orbit product 16.57 vs 17.88).
+
+**Descriptive:**
+- **Orbit voting transfers.** It lowers val by about 3° for both variants (PoE 12.31 → 9.25) and test by about 1.3° (PoE 17.92 → 16.57). The orbit product and the weighted vote are within noise of each other, as on SPEED+ (EXP-114).
+- **Synthetic-to-real gap.** Test is much worse than val (16.6 vs 9.3) and dominated by tails:
+  - test median 6.3° and acc@10 0.74, but > 90° fraction 0.05 overall;
+  - obj 21 (no symmetry metadata): test 34.8°, 18% of predictions > 90°;
+  - obj 1 (continuous symmetry): test 23.8°, 8.6% > 90°.
+  Unlike SPEED+, orbit voting removes few of the test-domain gross errors (> 90° fraction 0.055 → 0.051).
+- **The MoGe-2 branch alone is weak on T-LESS:** own-val greedy 19–63° vs DINOv3 7–22°. Yet PoE with it still helps every seed.
+- Raw (non-symmetry-aware) means are 38–47°, which confirms that the symmetry-aware metric is required for these objects.
+- **External numbers are unmatched** (GT crops, rotation only, 7 objects, frozen features).
+
 
 ## Full protocol (pre-registered 2026-10-15, before any cross-dataset feature extraction or model result)
 Schedule: the end of Phase 6, after the recipe lock (DEC-011/012). The "locked recipe" means the decision entry that closes Phase 6 SPEED+ work. Below it is written for the current frozen predictor (EXP-036 tree, both branches, equal-weight per-level PoE, greedy). Whatever the lock adds is applied unchanged.

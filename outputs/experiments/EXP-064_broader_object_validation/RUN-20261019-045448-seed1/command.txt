@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_xobj.py --dataset tless --obj 11 --features dinov3_vitl16:tokens8 --token-shape 64x1024 --seed 1

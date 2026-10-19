@@ -1,0 +1,10 @@
+{
+  "state": "failed",
+  "pid": 2909660,
+  "start": "2026-10-19T06:57:48.620122",
+  "wall_clock_s": 1.35,
+  "peak_cpu_rss_mb": 878.7,
+  "peak_gpu_mb": 0.0,
+  "error": "Traceback (most recent call last):\n  File \"/home/kavinder/RAM/pose-estimation/scripts/exp064_compact_functional.py\", line 33, in <module>\n    assert set(runs) == {SD, SM}, runs\n           ^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {}\n",
+  "end": "2026-10-19T06:57:49.967653"
+}

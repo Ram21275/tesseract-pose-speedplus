@@ -1,0 +1,5 @@
+dataset: tless
+seeds: 0,1,2
+modes: greedy,orbit_product,orbit_vote32
+stage: eval
+seed: 0
