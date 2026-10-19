@@ -34,6 +34,16 @@ All further experiments use the **EXP-109 methodology** in two variants, **PoE (
 - **EXP-112** (evaluation only, queued after EXP-111) supplies the missing DINOv3-only + orbit accuracy and the end-to-end timing and memory of all four variants.
 - EXP-064 / 106 are amended to this recipe.
 
+### Update 2026-10-20 (EXP-064 completed): what transfers beyond SPEED+
+- **SYMSOL-T** (LiePose split): DINOv3 + orbit **2.62°** test, 100% within 10°. PoE no better (2.67), so the fusion criterion FAILS. LiePose reports about 0.4–0.6°; we are 4–5× worse.
+- **YCB-V:** 69° test, a generalization failure. The trees fit training (about 4°) but memorize the real training videos. Labels, crops and pose coverage were verified. No synthetic `data_syn` was used (not in the protocol). No evidence for or against the method.
+- **T-LESS:** fusion PASS, PoE + orbit 16.57 test.
+- **Claim narrowed:**
+  - The tree + orbit recipe transfers to other objects when the base model generalizes; orbit voting is the consistent gain.
+  - **MoGe-2 fusion is not general:** it helps on SPEED+ and T-LESS only.
+  - Absolute accuracy is well below fine-tuned SOTA.
+  - Zero-shot from SPEED+: none on T-LESS.
+
 ### Update 2026-10-19 (EXP-064, T-LESS completed): the recipe transfers to a second dataset
 - **T-LESS:** 7 objects, per-object trees, locked recipe, symmetry-aware error. Validation is synthetic PBR; test is BOP19 real.
   - PoE + orbit: **9.25 / 16.57**;
@@ -253,6 +263,7 @@ Timing source: EXP-107 `timing` table, RTX-class shared GPU (concurrent load rec
 - **Minimum evidence before freezing:** essential items 1–3, plus at least one cross-object dataset (item 4).
 
 ## Changelog
+- 2026-10-20: EXP-064 complete: SYMSOL-T DINO+orbit 2.62 (fusion FAIL), YCB-V generalization failure (labels verified), T-LESS fusion PASS; claim narrowed.
 - 2026-10-19: EXP-064 T-LESS: fusion PASS, orbit transfers (PoE+orbit 9.25 val / 16.57 real test); compact gate strict FAIL, no prediction impact.
 - 2026-10-18: EXP-116: hierarchical transport FAIL vs leaf-only equivariance (C2); C2 helps synthetic only. EXP-064 running (user: before EXP-117).
 - 2026-10-16: created. Initial best result stored (EXP-109 C on A). EXP-111 running.

@@ -186,3 +186,54 @@ Validation (synthetic PBR) raw error 103.6–105.2 against a chance level of 104
   - tet, cone, every DINOv3 tree and all T-LESS trees are unaffected (no NaN epochs).
 - **Fix (bug fix, not a recipe change):** `train_xobj.py --sd-floor 1e-2` (sd = max(sd, 0.01); the features lie in [−1, 1]). Only the 9 affected trees are re-trained. Their old runs are marked superseded in `status.json`.
 - **Re-evaluation:** SYMSOL-T is re-evaluated after the YCB-V block, before EXP-118 (`scripts/run_exp064_symfix.sh`). Results are reported then; the DINOv3-only numbers above are unaffected.
+
+### SYMSOL-T results (corrected; evaluation `RUN-20261019-233710`, after re-training the 9 NaN MoGe-2 trees with `--sd-floor 1e-2`; no NaN epochs)
+Object-balanced, symmetry-aware, 3-seed mean ± seed std, degrees. Validation is 2k per shape held out of `train-45k`; test is `test-5k`, synthetic, the LiePose split.
+| variant | inference | val mean | test mean | test median | test acc@2 / @5 / @10 |
+|---|---|---|---|---|---|
+| DINOv3 | greedy | 3.78 ± 0.03 | 3.82 ± 0.03 | 3.51 | 0.25 / 0.75 / 0.97 |
+| DINOv3 | **orbit product** | **2.61 ± 0.00** | **2.62 ± 0.01** | 2.49 | 0.39 / 0.93 / 1.00 |
+| DINOv3 | orbit vote32 | 2.85 ± 0.02 | 2.86 ± 0.01 | 2.68 | 0.34 / 0.90 / 1.00 |
+| PoE | greedy | 3.87 ± 0.03 | 3.88 ± 0.01 | 3.57 | 0.25 / 0.74 / 0.97 |
+| PoE | orbit product | 2.65 ± 0.01 | 2.67 ± 0.00 | 2.54 | 0.39 / 0.92 / 1.00 |
+
+Per shape, test, DINOv3 + orbit product: cone 1.79, cyl 1.65, tet 3.06, cube 2.90, icosa 3.71. No error above 90°.
+
+**Criterion (fusion helps): FAIL on SYMSOL-T.** PoE val is not below DINOv3-only (greedy 3.87 vs 3.78; orbit 2.65 vs 2.61). The non-colour, textureless renders give MoGe-2 normals nothing that DINOv3 lacks.
+
+**Descriptive:**
+- Orbit voting transfers strongly (−1.2°, DINOv3 3.82 → 2.62).
+- **External context, near-matched** (LiePose split and images; differences: frozen features, rotation-only target, GT frame): LiePose SE(3) reports about 0.4–0.6° per shape (Hsiao et al., CVPR 2024, Table 3). We are about 4–5× worse. The tree's depth-5 leaf (about 1.2° quantization) and the 10°-step continuous-symmetry metric for cone / cyl explain part of the gap, not all.
+
+### YCB-V results (evaluation `RUN-20261019-224920`; re-run after the manifest path fix)
+Raw error (no symmetry metadata in this release), object-balanced, 3-seed mean ± seed std, degrees. Validation is one held-out real training sequence per object; test is the real keyframes.
+| variant | inference | val mean | test mean | test median | test acc@10 | test > 90° |
+|---|---|---|---|---|---|---|
+| DINOv3 | greedy | 64.3 ± 11.6 | 71.2 ± 7.0 | 63.1 | 0.08 | 0.33 |
+| DINOv3 | orbit product | 63.0 ± 2.4 | 69.4 ± 5.2 | 63.3 | 0.09 | 0.31 |
+| PoE | greedy | 73.5 ± 6.8 | 81.1 ± 7.3 | 78.5 | 0.16 | 0.42 |
+| PoE | orbit product | 74.1 ± 7.4 | 79.9 ± 3.2 | 72.8 | 0.18 | 0.42 |
+
+Per object, test, DINOv3 + orbit product: cracker box 74.6, mustard bottle 87.3, banana 83.2, mug 22.8, power drill 25.1, scissors 123.7. Random rotations give about 126°.
+
+**Criterion (fusion helps): FAIL on YCB-V** (PoE val 73.5 vs DINOv3 64.3).
+
+**Diagnosis: a generalization failure, not a pipeline bug.** Checks run 2026-10-20, all CPU:
+1. **The trees fit their training images:** mustard 3.8° and mug 3.9° mean on train rows.
+2. **Test poses are covered by training:** the nearest training rotation is a median of about 5° away for cracker box, mustard and banana. Yet test errors are 75–87°, so this is not missing viewpoints. Validation has some uncovered poses (cracker-box val about 77° from any training pose).
+3. **Crops contain the object:** 100% of the object's label pixels lie inside the crop.
+4. **GT rotations match the images:** 65–98% of the projected model points land on the object mask, against 28–83% for a transposed-rotation control.
+
+**Reading:** with only real YCB-V training videos (16–20 sequences per object, every 3rd frame, cluttered scenes where the object fills 5–40% of the crop and the DINOv3 tokens are unmasked), the per-object trees memorize video context and do not generalize to new sequences. Standard YCB-V training adds the synthetic `data_syn` renders. That was not part of this protocol and is not run here (it would be a new decision). YCB-V therefore gives **no evidence for or against the method's accuracy**; it shows the frozen-feature + small-tree recipe needs view-diverse training data.
+
+### EXP-064 decision (all three datasets)
+| dataset | fusion criterion | best system (test) | orbit vs greedy |
+|---|---|---|---|
+| T-LESS | **PASS** | PoE + orbit 16.57 (median 6.3) | helps (−1.3) |
+| SYMSOL-T | FAIL (PoE ≈ DINOv3) | DINOv3 + orbit 2.62 | helps (−1.2) |
+| YCB-V | FAIL (PoE worse) | DINOv3 + orbit 69.4 | small |
+
+- **Transfers:** orbit voting, wherever the base model generalizes (T-LESS, SYMSOL-T), and the tree recipe itself.
+- **Does not transfer:** MoGe-2 fusion (helps only on T-LESS, where geometry cues exist in real images).
+- **Accuracy is well behind fine-tuned SOTA** (LiePose) on T-LESS and SYMSOL-T.
+- The paper claim is narrowed accordingly (NOVELTY.md).

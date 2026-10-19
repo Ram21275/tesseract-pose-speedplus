@@ -1,0 +1,13 @@
+dataset: ycbv
+obj: 037_scissors
+features: dinov3_vitl16:tokens8
+token_shape: 64x1024
+epochs: 100
+batch: 256
+lr: 0.001
+wd: 0.05
+dropout: 0.1
+eval_every: 5
+sd_floor: 0.0
+seed: 0
+stage: train

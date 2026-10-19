@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_xobj.py --dataset symsolt --obj icosa --features moge2_vitl:normals16~and --token-shape 256x4 --sd-floor 1e-2 --seed 2
