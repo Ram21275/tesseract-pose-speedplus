@@ -103,7 +103,8 @@ try:
         if pairs is not None:
             pairs = pairs[pairs[:, 0] != pairs[:, 1]]
         g = np.random.default_rng(1); qr = rand_q(len(de), g)
-        chance = {"sym": symerr(qr, Req), "pair": pair_err(qr, Rg, S, pairs) if pairs is not None else None}
+        chance = {"sym": symerr(qr, Req), "pair": pair_err(qr, Rg, S, pairs) if pairs is not None else None,
+                  "const_pair": pair_err(np.tile([1.0, 0, 0, 0], (len(de), 1)), Rg, S, pairs) if pairs is not None else None}   # post-hoc control (T-LESS write-up)
         # features per view (raw), standardized per stats source
         RAW = {}
         for sp in (SD, SM):
@@ -167,12 +168,13 @@ try:
                                          "acc10": float((es[msk] <= 10).mean()), "chance_sym_mean": float(chance["sym"][msk].mean()),
                                          "pair_mean": float(pe.mean()) if split == "test" else np.nan,
                                          "chance_pair_mean": float(chance["pair"].mean()) if (split == "test" and chance["pair"] is not None) else np.nan,
+                                         "const_pair_mean": float(chance["const_pair"].mean()) if (split == "test" and chance["const_pair"] is not None) else np.nan,
                                          "calibrated_test_mean": cal if split == "test" else np.nan})
                         print(ds, obj, stats_src, seed, variant, mode, f"test sym {es[~isv].mean():.1f} (chance {chance['sym'][~isv].mean():.1f}) "
                               f"pair {pe.mean():.1f} (chance {np.nanmean(chance['pair']) if chance['pair'] is not None else np.nan:.1f}) cal {cal:.1f}", flush=True)
         del RAW, X
     per = pd.DataFrame(rows); run.write_metrics(rows, "per_object_seed")
-    cols = ["sym_mean", "sym_median", "acc10", "chance_sym_mean", "pair_mean", "chance_pair_mean", "calibrated_test_mean"]
+    cols = ["sym_mean", "sym_median", "acc10", "chance_sym_mean", "pair_mean", "chance_pair_mean", "const_pair_mean", "calibrated_test_mean"]
     ob = per.groupby(["stats", "split", "variant", "mode", "seed"])[cols].mean().reset_index()
     agg = ob.groupby(["stats", "split", "variant", "mode"]).agg(**{c: (c, "mean") for c in cols}, sym_mean_std=("sym_mean", "std"), pair_mean_std=("pair_mean", "std")).reset_index()
     run.write_metrics(agg.to_dict("records"), "object_balanced"); (run.sub("tables") / "object_balanced.md").write_text(md_table(agg.to_dict("records")))
