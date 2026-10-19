@@ -210,3 +210,4 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 - **EXP-118 (pre-registered):** SPACE-HOP translation formulation kept identical (normalized box offsets U_x, U_y; depth U_z with α = 1.6; MSE). Translation block on the tree's token encoder, per branch.
   - Arms: joint, frozen tree, and a box-only baseline that measures the ground-truth crop's own translation content.
   - Queued after EXP-117.
+- **Order update (user, 2026-10-19: "do 117 after 118"):** EXP-064 → EXP-118 → EXP-117 (`scripts/run_queue12.sh`).
