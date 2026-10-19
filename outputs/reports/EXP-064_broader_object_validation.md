@@ -142,3 +142,15 @@ This experiment uses the **EXP-109 methodology** (augmentation-trained trees, wi
 4. **Inference:** both variants (PoE, DINOv3-only); greedy, orbit product and orbit weighted vote (4 views). For allocentric datasets, candidates are mapped between views using the GT translation, consistent with the GT-crop protocol.
 5. **Comparisons kept:** DINOv3-only vs PoE (criterion unchanged), and greedy vs orbit (descriptive). Flat-Hopf and flow stages are **not run** here (cut order, DEC-012). The val-aug proxy is not used.
 6. Code: `scripts/run_exp064.sh`, `train_xobj.py`, `exp064_eval.py`, `src/tfpose/xobj.py`, `featsets.load_rows`. Caches on `/media/kavinder/hdd2/RAM/compact` (about 170 GB).
+
+## Amendment 2026-10-19 (user: "test also on the frozen tesseract transformer to test zero shot accuracies"), before any zero-shot run
+**Zero-shot arm.** The frozen SPEED+ trees (EXP-109 arm A: DINOv3 and MoGe-2 branches, seeds 0–2; no retraining or fine-tuning) are evaluated on the EXP-064 validation and test rows of each dataset (T-LESS, then SYMSOL-T and YCB-V once their features exist). Per-object EXP-064 training continues unchanged. A shared one-model-per-dataset variant is parked (user decision pending).
+- **Inputs:** the same compact features as EXP-064. Primary standardization uses the SPEED+ statistics (synthetic-train rows of subset `full`, exactly as `orbit_eval.py`), computed once and saved. Secondary: the target dataset's own training statistics (label-free, still zero-shot).
+- **Convention:** the trees were trained on SPEED+ camera-frame labels, so they are scored against the dataset's camera-frame GT (T-LESS / YCB-V `q_ego`; SYMSOL-T egocentric). Orbit candidates are mapped with the camera-frame roll about the crop ray (no GT translation needed).
+- **Metrics (pre-set):**
+  - (a) raw symmetry-aware error per object and object-balanced (greedy primary; orbit secondary; PoE and DINOv3-only);
+  - (b) the chance reference: uniformly random rotations through the same symmetry-aware error, per object;
+  - (c) frame-free relative-rotation error over 2,000 random same-object pairs (i, j): min over S of angle(R̂ᵢR̂ⱼᵀ, RᵢSRⱼᵀ), which cancels the unknown constant offset between object frames, plus its chance level;
+  - (d) 3-DOF calibrated: one constant offset A per object chosen on validation (from candidates R̂ᵢᵀRᵢS, lowest mean symmetry-aware error), reported on test only and labelled calibrated, not zero-shot.
+- **Expectation stated now:** object frames are arbitrary, so (a) should be near chance. (c) is the measure of any transferable sense of rotation. Zero-shot transfer is claimed only if (c) is below its chance level by more than the seed std.
+- **Execution:** separate guarded CPU job (`scripts/exp064_zeroshot.py`); the GPU queue is untouched.
