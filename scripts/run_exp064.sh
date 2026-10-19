@@ -27,7 +27,5 @@ dataset() { local ds=$1
     G $PY scripts/train_xobj.py --dataset $ds --obj $o --features $1 --token-shape $2 --seed $s || return 1
   done; done; done
   G $PY scripts/exp064_eval.py --dataset $ds; }
-block EXP-064-tless dataset tless
-block EXP-064-symsolt dataset symsolt
-block EXP-064-ycbv dataset ycbv
+for ds in ${EXP064_DATASETS:-tless symsolt ycbv}; do block EXP-064-$ds dataset $ds; done   # 2026-10-19: YCB-V re-run after the manifest path fix (.png -> .jpg)
 echo "=== $(date +%T) EXP064_DONE"
