@@ -197,3 +197,16 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 - **EXP-117:** single-view student distilled from the orbit teacher over the existing training views.
 - Neither needs new features or disk. They run after EXP-115.
 - **EXP-064** stays paused until the user frees space on the 8 TB drive (its caches must go there).
+
+## DEC-022 — Queue order EXP-064 → EXP-117; EXP-064 zero-shot arm; EXP-118 6-DoF translation (2026-10-19)
+- **Decided by:** the user, in three messages:
+  - "run 117 after 64 first write it and complete it."
+  - "you can keep the same recipe but do one thing test also on the frozen tessaract transformer to test zero shot accuracies. resume the tasks that we paused."
+  - "after all these queue the translation test with the space-hop formulation keep it same … it will make the paper for 6dof."
+- **EXP-064:**
+  - per-object trees, unchanged recipe;
+  - added a zero-shot arm: the frozen SPEED+ EXP-109 trees with no retraining, metrics pre-set (raw, chance, frame-free pair error, 3-DOF calibrated), CPU job;
+  - a shared one-model-per-dataset variant was discussed and is parked (the user kept the recipe).
+- **EXP-118 (pre-registered):** SPACE-HOP translation formulation kept identical (normalized box offsets U_x, U_y; depth U_z with α = 1.6; MSE). Translation block on the tree's token encoder, per branch.
+  - Arms: joint, frozen tree, and a box-only baseline that measures the ground-truth crop's own translation content.
+  - Queued after EXP-117.
