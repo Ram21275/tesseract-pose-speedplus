@@ -51,7 +51,10 @@ try:
     for sp in (SD, SM):
         f = COMPACT / f"speedplus_trainstats__{sp.replace(':', '_').replace('~', '-')}.npz"
         if not f.exists():
-            _, x = featsets.load_rows(sp, "full", tr); mu, sd = featsets.train_stats(x, np.ones(len(x), bool)); del x
+            s1 = s2 = 0.0                          # chunked (the full cache stores the 16x16 grid: ~25 GB if loaded at once)
+            for c0 in range(0, len(tr), 2000):
+                _, x = featsets.load_rows(sp, "full", tr[c0:c0 + 2000]); x = x.astype(np.float64); s1 = s1 + x.sum(0); s2 = s2 + (x ** 2).sum(0); del x
+            mu = s1 / len(tr); sd = np.sqrt(np.maximum(s2 / len(tr) - mu ** 2, 0)) + 1e-6       # = featsets.train_stats
             np.savez(f, mu=mu, sd=sd)
         z = np.load(f); SPS[sp] = (z["mu"], z["sd"])
     ALL = pd.read_csv(REPO / f"outputs/data_manifests/exp064_{ds}_all.csv"); EV = pd.read_csv(REPO / f"outputs/data_manifests/exp064_{ds}_eval.csv")

@@ -52,6 +52,8 @@ ap.add_argument("--kd-k", type=int, default=8, help="EXP-044: teacher samples te
 ap.add_argument("--memmap", default=None, help="EXP-109 B: standardized fp16 feature memmap (.npy, subset order) instead of featsets.load")
 ap.add_argument("--aug-tags", default="", help="EXP-109 A: compact-cache tags of augmented synthetic-train views (exp109_syn_train order)")
 ap.add_argument("--aug-convention", default=None, help="EXP-109 A: label convention for in-plane rotation (pre+/pre-/post+/post-)")
+ap.add_argument("--trans", default="none", choices=["none", "joint", "frozen"], help="EXP-118: SPACE-HOP translation block on the encoded tokens")
+ap.add_argument("--init-from", default=None, help="EXP-118 frozen arm: run dir whose checkpoint initializes (and freezes) the tree")
 ap.add_argument("--seed", type=int, default=0)
 args = ap.parse_args()
 exp_id, short = args.exp.split("_", 1)
@@ -124,6 +126,20 @@ try:
             vRS.append(torch.as_tensor(rs_, device=dev)); vCS.append(torch.as_tensor(cs_, device=dev))
         vC, vP, vRS, vCS = torch.stack(vC), torch.stack(vP), torch.stack(vRS), torch.stack(vCS)
         (run.dir / "aug_views.json").write_text(json.dumps({"tags": VIEWS, "convention": args.aug_convention}, indent=2))
+    if args.trans != "none":                       # EXP-118: SPACE-HOP translation targets u (clean + augmented views)
+        import yaml
+        from tfpose import data as D, inplane as IP, trans as TR
+        camT = D.load_camera(Path(yaml.safe_load(open(REPO / "configs/paths.yaml"))["speedplus_root"]))
+        tvec = df[["t_x", "t_y", "t_z"]].to_numpy(); BOX = (df.crop_cx.to_numpy(), df.crop_cy.to_numpy(), df.crop_side.to_numpy(), df.crop_side.to_numpy())
+        Ut = torch.as_tensor(TR.to_u(tvec, camT.K, *BOX), dtype=torch.float32, device=dev)
+        if VIEWS:
+            vU = [Ut[torch.as_tensor(tr_rows, device=dev)]]
+            box_tr = tuple(b[tr_rows] for b in BOX)
+            for tag in VIEWS:
+                ang = pd.read_csv(featsets.find_cache(args.features.split(":")[0], tag) / "aug.csv").rot_deg.to_numpy()
+                rq = IP.rotate_label(np.tile([1.0, 0, 0, 0], (len(tr_rows), 1)), ang, dray, args.aug_convention)   # camera roll as a quaternion
+                vU.append(torch.as_tensor(TR.to_u(TR.quat_rotate(rq, tvec[tr_rows]), camT.K, *box_tr), dtype=torch.float32, device=dev))
+            vU = torch.stack(vU)
     if args.residual:
         Dt = torch.as_tensor(P.leaf_rotvec_targets(q, chart, path), device=dev)
         QLt = torch.as_tensor(T.decode(chart, path), dtype=torch.float32, device=dev)
@@ -137,7 +153,16 @@ try:
     else:
         model = HierMLP(d_in, args.depth, hidden=args.hidden, dropout=args.dropout).to(dev)
     res = P.ResidualHead(args.hidden).to(dev) if args.residual else None
-    params = list(model.parameters()) + (list(res.parameters()) if res else [])
+    head = None
+    if args.trans != "none":
+        assert args.decoder == "transformer"
+        head = TR.TransHead(model.root_tok.shape[-1], dropout=args.dropout).to(dev)
+        if args.trans == "frozen":
+            model.load_state_dict(torch.load(REPO / args.init_from / "checkpoints/best.pt", map_location=dev)["model"])
+            for p_ in model.parameters():
+                p_.requires_grad_(False)
+            (run.dir / "source_runs.txt").write_text(f"{args.init_from}\n")
+    params = ([] if args.trans == "frozen" else list(model.parameters())) + (list(res.parameters()) if res else []) + (list(head.parameters()) if head else [])
     n_params = sum(p.numel() for p in params)
     opt = torch.optim.AdamW(params, lr=args.lr, weight_decay=args.wd)
     tr_idx = np.flatnonzero(tr)
@@ -176,9 +201,15 @@ try:
                 if m.any():
                     x[m] = VX[j][pb[m].cpu()].to(dev).float()
             cb, pbth, rsb, csb = vC[v, pb], vP[v, pb], vRS[v, pb], vCS[v, pb]
+            ub = vU[v, pb] if head is not None else None
         else:
             cb, pbth = Ct[b], Pt[b]
             rsb, csb = (RSt[b], CSt[b]) if args.targets == "soft" else (None, None)
+            ub = Ut[b] if head is not None else None
+        if args.trans == "frozen":                  # EXP-118 F: translation block only, on the frozen encoder
+            with torch.no_grad():
+                h = model.encode(x)
+            return ((head(h).float() - ub) ** 2).sum(-1).mean()
         h = model.encode(x)
         if args.decoder == "transformer":
             rl, cl = model.logits_tf(h, cb, pbth)
@@ -199,12 +230,14 @@ try:
             loss = loss + args.res_weight * (((res(h, QLt[b]) - Dt[b]) / res_scale) ** 2).sum(-1).mean()
         if args.kd_beta > 0:
             loss = loss + args.kd_beta * kd_loss(h, b)
+        if head is not None:                        # EXP-118 J: L = L_tree + L_trans (SPACE-HOP eq 18, unweighted)
+            loss = loss + ((head(h).float() - ub) ** 2).sum(-1).mean()
         return loss
 
     @torch.no_grad()
     def evaluate(mask, beam):
-        model.eval(); res is not None and res.eval()
-        idx = np.flatnonzero(mask); cs_, ps_, qr_, hits = [], [], [], []
+        model.eval(); res is not None and res.eval(); head is not None and head.eval()
+        idx = np.flatnonzero(mask); cs_, ps_, qr_, hits, up_ = [], [], [], [], []
         for s in range(0, len(idx), 1024):
             b = torch.as_tensor(idx[s:s + 1024], device=dev); x = getx(b)
             with torch.autocast("cuda", dtype=torch.bfloat16, enabled=args.amp == "bf16"):
@@ -213,6 +246,8 @@ try:
                 else:
                     c, p, _ = model.beam_search(x, beam=beam)
             c0, p0 = c[:, 0], p[:, 0]
+            if head is not None:
+                up_.append(head(model.encode(x)).float().cpu().numpy())
             if res is not None:
                 ql = decode_torch(c0, p0)
                 qr_.append(P.qmul(ql, P.rotvec_to_quat(res(model.encode(x), ql))).cpu().numpy())
@@ -228,12 +263,19 @@ try:
             out.update(rotation_metrics(np.concatenate(qr_), q[idx]))
         else:
             out.update(disc)
+        tp = None
+        if head is not None:
+            tp = TR.from_u(np.concatenate(up_), camT.K, *(bb[idx] for bb in BOX)); et = np.linalg.norm(tp - tvec[idx], axis=1)
+            out.update({"et_mean_m": float(et.mean()), "et_median_m": float(np.median(et)), "et_norm_mean": float((et / np.linalg.norm(tvec[idx], axis=1)).mean())})
+        evaluate.tp = tp
         return out, cp, pp, (np.concatenate(qr_) if res is not None else T.decode(cp, pp))
 
     log = open(run.sub("logs") / "train.log", "w")
     best = (np.inf, None, 0)
     for ep in range(1, args.epochs + 1):
-        model.train(); res is not None and res.train()
+        model.train(); res is not None and res.train(); head is not None and head.train()
+        if args.trans == "frozen":
+            model.eval()
         perm = np.random.permutation(tr_idx); tot = 0.0
         for s in range(0, len(perm), args.batch):
             b = torch.as_tensor(perm[s:s + args.batch], device=dev)
@@ -247,14 +289,18 @@ try:
         if ep % args.eval_every == 0 or ep == args.epochs:
             vm, _, _, _ = evaluate(groups["synthetic_val"].to_numpy(), 1)
             print(f"ep {ep} train_loss {tot / len(perm):.4f} val_mean_deg {vm['mean_deg']:.3f} val_median {vm['median_deg']:.3f} "
-                  f"discrete_mean {vm['discrete_mean_deg']:.3f}", file=log, flush=True)
-            if vm["mean_deg"] < best[0]:
-                best = (vm["mean_deg"], ({k: v.detach().clone() for k, v in model.state_dict().items()},
-                                         {k: v.detach().clone() for k, v in res.state_dict().items()} if res else None), ep)
+                  f"discrete_mean {vm['discrete_mean_deg']:.3f}" + (f" val_et_m {vm['et_mean_m']:.4f}" if head is not None else ""), file=log, flush=True)
+            crit = vm["et_mean_m"] if args.trans == "frozen" else vm["mean_deg"]     # F: translation only is trained
+            if crit < best[0]:
+                best = (crit, ({k: v.detach().clone() for k, v in model.state_dict().items()},
+                               {k: v.detach().clone() for k, v in res.state_dict().items()} if res else None,
+                               {k: v.detach().clone() for k, v in head.state_dict().items()} if head is not None else None), ep)
     model.load_state_dict(best[1][0])
     if res is not None:
         res.load_state_dict(best[1][1])
-    torch.save({"model": best[1][0], "residual": best[1][1]}, run.sub("checkpoints") / "best.pt")
+    if head is not None:
+        head.load_state_dict(best[1][2])
+    torch.save({"model": best[1][0], "residual": best[1][1], "trans": best[1][2]}, run.sub("checkpoints") / "best.pt")
     rows, pred_rows = [], []
     for beam in [int(b) for b in args.beams.split(",")]:
         for g, m in groups.items():
@@ -266,15 +312,16 @@ try:
             if beam == 1:
                 idx = np.flatnonzero(m.to_numpy())
                 err = np.degrees(2 * np.arccos(np.clip(np.abs((qp * q[idx]).sum(1)), 0, 1)))
+                tpc = {f"t_pred_{k}": evaluate.tp[:, i] for i, k in enumerate("xyz")} if head is not None else {}
                 pred_rows.append(pd.DataFrame({"image_relpath": df.image_relpath.values[idx], "domain": g, "chart_pred": cp,
                                                "path_pred": ["".join(map(str, x)) for x in pp],
-                                               **{f"q_pred_{k}": qp[:, i] for i, k in enumerate("wxyz")}, "err_deg": err}))
+                                               **{f"q_pred_{k}": qp[:, i] for i, k in enumerate("wxyz")}, "err_deg": err, **tpc}))
     run.write_metrics(rows, "metrics")
     pd.concat(pred_rows).to_csv(run.sub("predictions") / "predictions_greedy.csv", index=False, float_format="%.6g")
     run.done(best_epoch=best[2], n_params=n_params, trainable_params=n_params, feature_dim=int(d_in))
     g1 = [r for r in rows if r["beam"] == 1]
     print(f"{args.features} {args.decoder}/{args.targets}/res={args.residual} seed {args.seed} " +
-          " | ".join(f"{r['domain']}: mean {r['mean_deg']:.2f} med {r['median_deg']:.2f} (disc {r['discrete_mean_deg']:.2f})" for r in g1))
+          " | ".join(f"{r['domain']}: mean {r['mean_deg']:.2f} med {r['median_deg']:.2f} (disc {r['discrete_mean_deg']:.2f})" + (f" E_T {r['et_mean_m']:.3f} m" if head is not None else "") for r in g1))
     print("RUN", run.rel())
 except Exception:
     import traceback
