@@ -42,7 +42,7 @@ Running since 2026-10-18 21:10 (`scripts/run_exp064.sh` via queue11; user: EXP-0
 
 ### Runs
 - Convention gate: `RUN-20261018-211031` (all three datasets verified, label error 0.000°).
-- T-LESS: 42 trainings (7 objects × 2 branches × seeds 0–2; `stage: train`, 2026-10-18 23:xx – 2026-10-19 06:32), evaluation `RUN-20261019-063238` (`tables/object_balanced.md`, `tables/per_object.md`, `metrics/per_object_seed.csv`).
+- T-LESS: 42 trainings (7 objects × 2 branches × seeds 0–2; `stage: train`, 2026-10-19 03:01 – 06:32), evaluation `RUN-20261019-063238` (`tables/object_balanced.md`, `tables/per_object.md`, `metrics/per_object_seed.csv`).
 - Compact-feature gate: `RUN-20261019-065522` (strict), functional follow-up `RUN-20261019-065802`. See "Deviation" below.
 
 ### Deviation: compact-feature gate ran late and FAILED as written
