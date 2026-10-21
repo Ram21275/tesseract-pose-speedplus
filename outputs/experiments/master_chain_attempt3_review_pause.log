@@ -1,0 +1,8 @@
+>>> 13:46:46 extract gate512_r0 dinov3_vitl16
+cache exists /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_gate512_r0__46d8740afea9__9284274b5064d38c
+>>> 13:46:52 extract gate512_r0 moge2_vitl
+done /media/kavinder/hdd2/tfpose_cache/moge2_vitl__subset_gate512_r0__5b82e9ab17e6__9284274b5064d38c
+done /media/kavinder/hdd2/tfpose_cache/consensus_masks__subset_gate512_r0
+>>> 13:47:46 extract gate512_r90 dinov3_vitl16
+done /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_gate512_r90__2bf59248b304__092c082379d0cbd6
+>>> 13:48:07 extract gate512_r90 moge2_vitl

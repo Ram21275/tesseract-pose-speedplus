@@ -237,3 +237,19 @@ Per object, test, DINOv3 + orbit product: cracker box 74.6, mustard bottle 87.3,
 - **Does not transfer:** MoGe-2 fusion (helps only on T-LESS, where geometry cues exist in real images).
 - **Accuracy is well behind fine-tuned SOTA** (LiePose) on T-LESS and SYMSOL-T.
 - The paper claim is narrowed accordingly (NOVELTY.md).
+
+### Zero-shot arm: SYMSOL-T (`RUN-20261019-173435`) and YCB-V (`RUN-20261020-003420`)
+Object-balanced test means, degrees, SPEED+ statistics, 3 seeds. The constant-prediction control was computed post hoc for SYMSOL-T, on the same pairs, and in-script for YCB-V.
+| dataset | variant / mode | (a) raw | (b) chance | (c) pair | uniform chance | constant prediction | (d) calibrated |
+|---|---|---|---|---|---|---|---|
+| SYMSOL-T | DINOv3 greedy | 51.9 | 53.7 | 52.5 ± 0.4 | 53.7 | 53.8 | 46.7 |
+| SYMSOL-T | PoE orbit product | 49.4 | 53.7 | **47.8 ± 0.5** | 53.7 | 53.8 | 40.9 |
+| YCB-V | DINOv3 greedy | 119.5 | 125.8 | 95.9 ± 4.0 | 125.8 | **57.8** | 126.7 |
+| YCB-V | PoE orbit product | 115.6 | 125.8 | 101.6 ± 2.8 | 125.8 | 57.8 | 127.6 |
+
+- **SYMSOL-T, a weak, shape-specific signal.** Rotations are uniform, so the constant control equals chance (53.8). PoE + orbit pair error 47.8 is below it by more than the seed std, so the pre-set rule is met.
+  - **It comes entirely from the cube:** PoE greedy pair 27.8 vs 41.2 constant, raw 19.9 vs chance 40.5.
+  - All other shapes are at chance: cone 87.8 / 90.4, cyl 54.5 / 57.0, icosa 29.6 / 29.6, tet 50.0 / 51.0.
+  - **Reading:** the SPEED+ trees learned something like the orientation of a box-like body (Tango is a cuboid), which partly transfers to a cube and to nothing else.
+- **YCB-V: no transfer.** The pair error (92.6–109.2) is far worse than the constant-prediction control (57.8; YCB-V videos have a strong pose prior).
+- **Zero-shot overall:** no general transfer from SPEED+ (T-LESS and YCB-V worse than a constant prediction). The only partial transfer is to the SYMSOL-T cube. Retraining per dataset is required.

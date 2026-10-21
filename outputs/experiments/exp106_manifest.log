@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/kavinder/RAM/pose-estimation/scripts/exp106_build_manifest.py", line 149, in <module>
+    (Path(f"{p}.sha256.txt")).write_text(D.manifest_hash(out.image_relpath + "#" + out.obj_id.astype(str) + "#" + out.inst_id.astype(str)).tolist() + "\n")
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'tolist'
+MAN_DONE

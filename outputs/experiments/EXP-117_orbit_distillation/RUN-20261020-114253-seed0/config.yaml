@@ -1,0 +1,6 @@
+exp: EXP-117_orbit_distillation
+families: tree:EXP-109_real_domain_aug_tokens16_orbit:exp109_train_aug1+exp109_train_aug2,tree:EXP-117_orbit_distillation:exp109_train_aug1+exp109_train_aug2:teacher_variant=PoE
+modes: greedy,orbit_product,orbit_vote32
+variants: PoE
+seeds: 0,1,2
+seed: 0

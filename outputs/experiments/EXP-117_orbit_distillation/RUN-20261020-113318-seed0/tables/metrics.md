@@ -1,0 +1,26 @@
+| domain | family | train_aug | variant | mode | mean_deg | median_deg | acc@10 | frac_gt90 | frac_gt150 | n_greedy_gt150 | frac_gt150_to_lt20 | n_greedy_lt20 | frac_lt20_to_gt150 | view_consistency@10 | mean_deg_std |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 22.550 | 8.378 | 0.607 | 0.083 | 0.060 | 402.667 | 0.000 | 5676.667 | 0.000 | 0.391 | 0.733 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 17.403 | 6.877 | 0.708 | 0.058 | 0.048 | 402.667 | 0.341 | 5676.667 | 0.007 | 0.391 | 0.676 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 18.272 | 6.589 | 0.718 | 0.065 | 0.051 | 402.667 | 0.299 | 5676.667 | 0.009 | 0.391 | 0.668 |
+| lightbox | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 21.611 | 7.908 | 0.640 | 0.079 | 0.058 | 392.000 | 0.000 | 5763.667 | 0.000 | 0.456 | 0.823 |
+| lightbox | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 16.431 | 6.494 | 0.743 | 0.056 | 0.045 | 392.000 | 0.356 | 5763.667 | 0.007 | 0.456 | 0.751 |
+| lightbox | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 16.898 | 6.120 | 0.749 | 0.059 | 0.048 | 392.000 | 0.321 | 5763.667 | 0.007 | 0.456 | 0.785 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 22.002 | 10.171 | 0.489 | 0.067 | 0.032 | 90.333 | 0.000 | 2236.333 | 0.000 | 0.295 | 0.699 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 15.273 | 8.193 | 0.626 | 0.036 | 0.020 | 90.333 | 0.529 | 2236.333 | 0.005 | 0.295 | 0.638 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 15.827 | 7.887 | 0.636 | 0.042 | 0.023 | 90.333 | 0.467 | 2236.333 | 0.007 | 0.295 | 0.834 |
+| sunlamp | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 20.549 | 9.575 | 0.530 | 0.061 | 0.031 | 86.333 | 0.000 | 2296.667 | 0.000 | 0.357 | 0.941 |
+| sunlamp | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 13.636 | 7.566 | 0.671 | 0.030 | 0.016 | 86.333 | 0.535 | 2296.667 | 0.004 | 0.357 | 0.573 |
+| sunlamp | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 14.331 | 7.250 | 0.674 | 0.036 | 0.019 | 86.333 | 0.533 | 2296.667 | 0.006 | 0.357 | 0.409 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 4.840 | 4.434 | 0.972 | 0.000 | 0.000 | 2.667 | 0.000 | 11977.667 | 0.000 | 0.701 | 0.049 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 4.212 | 3.724 | 0.974 | 0.000 | 0.000 | 2.667 | 0.667 | 11977.667 | 0.000 | 0.701 | 0.041 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 3.707 | 3.198 | 0.983 | 0.001 | 0.000 | 2.667 | 0.583 | 11977.667 | 0.000 | 0.701 | 0.047 |
+| synthetic_val | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 4.572 | 4.218 | 0.983 | 0.001 | 0.000 | 3.667 | 0.000 | 11980.667 | 0.000 | 0.770 | 0.053 |
+| synthetic_val | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 3.904 | 3.497 | 0.984 | 0.000 | 0.000 | 3.667 | 0.417 | 11980.667 | 0.000 | 0.770 | 0.031 |
+| synthetic_val | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 3.370 | 2.934 | 0.989 | 0.000 | 0.000 | 3.667 | 0.417 | 11980.667 | 0.000 | 0.770 | 0.054 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 9.879 | 6.129 | 0.816 | 0.018 | 0.010 | 117.000 | 0.000 | 11445.000 | 0.000 | 0.554 | 0.218 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 6.246 | 4.201 | 0.920 | 0.007 | 0.004 | 117.000 | 0.586 | 11445.000 | 0.000 | 0.554 | 0.116 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 6.305 | 3.684 | 0.926 | 0.010 | 0.006 | 117.000 | 0.479 | 11445.000 | 0.001 | 0.554 | 0.064 |
+| synthetic_val_aug | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 9.326 | 5.821 | 0.843 | 0.017 | 0.009 | 102.667 | 0.000 | 11523.667 | 0.000 | 0.619 | 0.178 |
+| synthetic_val_aug | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 5.740 | 3.875 | 0.939 | 0.007 | 0.004 | 102.667 | 0.598 | 11523.667 | 0.000 | 0.619 | 0.124 |
+| synthetic_val_aug | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 5.820 | 3.337 | 0.937 | 0.010 | 0.005 | 102.667 | 0.502 | 11523.667 | 0.001 | 0.619 | 0.158 |

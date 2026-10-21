@@ -1,0 +1,1913 @@
+=== 21:10:30 BLOCK EXP-064
+{'dataset': 'tless', 'n_checks': 1200, 'px_err_mean': np.float64(3.9279724180102205e-13), 'px_err_p95': np.float64(6.339753894115886e-13), 'px_err_max': np.float64(6.214954151603127e-11), 'label_err_deg_mean': np.float64(1.4811421747395074e-07), 'label_err_deg_p95': np.float64(1.2074182697257333e-06), 'label_err_deg_max': np.float64(2.091309789151873e-06), 'target_roundtrip_deg_max': np.float64(2.9575586669421963e-06), 'verified': True}
+{'dataset': 'ycbv', 'n_checks': 1200, 'px_err_mean': np.float64(4.566183931116371e-13), 'px_err_p95': np.float64(8.519816412864422e-13), 'px_err_max': np.float64(4.7407677569699765e-11), 'label_err_deg_mean': np.float64(1.3598983832140248e-07), 'label_err_deg_p95': np.float64(1.2074182697257333e-06), 'label_err_deg_max': np.float64(1.7075472925031877e-06), 'target_roundtrip_deg_max': np.float64(2.4148365394514667e-06), 'verified': True}
+{'dataset': 'symsolt', 'n_checks': 1200, 'px_err_mean': np.float64(1.5012123828109226e-13), 'px_err_p95': np.float64(3.227066213711642e-13), 'px_err_max': np.float64(2.552572142133216e-11), 'label_err_deg_mean': np.float64(1.4865342872445004e-07), 'label_err_deg_p95': np.float64(1.2074182697257333e-06), 'label_err_deg_max': np.float64(1.7075472925031877e-06), 'target_roundtrip_deg_max': np.float64(2.4148365394514667e-06), 'verified': True}
+| dataset | n_checks | px_err_mean | px_err_p95 | px_err_max | label_err_deg_mean | label_err_deg_p95 | label_err_deg_max | target_roundtrip_deg_max | verified |
+|---|---|---|---|---|---|---|---|---|---|
+| tless | 1200 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | True |
+| ycbv | 1200 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | True |
+| symsolt | 1200 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | True |
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261018-211031-seed0
+=== 21:10:39 BLOCK EXP-064-tless
+>>> 21:10:39 extract exp064_tless_all dinov3_vitl16
+  1600/100375  28.1 ms/img
+  3200/100375  27.4 ms/img
+  4800/100375  27.3 ms/img
+  6400/100375  27.4 ms/img
+  8000/100375  27.3 ms/img
+  9600/100375  27.3 ms/img
+  11200/100375  27.2 ms/img
+  12800/100375  27.2 ms/img
+  14400/100375  27.2 ms/img
+  16000/100375  27.2 ms/img
+  17600/100375  27.2 ms/img
+  19200/100375  27.2 ms/img
+  20800/100375  27.2 ms/img
+  22400/100375  27.2 ms/img
+  24000/100375  27.2 ms/img
+  25600/100375  27.1 ms/img
+  27200/100375  27.1 ms/img
+  28800/100375  27.1 ms/img
+  30400/100375  27.1 ms/img
+  32000/100375  27.1 ms/img
+  33600/100375  27.1 ms/img
+  35200/100375  27.1 ms/img
+  36800/100375  27.1 ms/img
+  38400/100375  27.1 ms/img
+  40000/100375  27.0 ms/img
+  41600/100375  27.0 ms/img
+  43200/100375  27.0 ms/img
+  44800/100375  27.0 ms/img
+  46400/100375  27.0 ms/img
+  48000/100375  27.0 ms/img
+  49600/100375  26.9 ms/img
+  51200/100375  26.9 ms/img
+  52800/100375  26.9 ms/img
+  54400/100375  26.9 ms/img
+  56000/100375  26.9 ms/img
+  57600/100375  26.9 ms/img
+  59200/100375  26.9 ms/img
+  60800/100375  26.9 ms/img
+  62400/100375  26.9 ms/img
+  64000/100375  26.8 ms/img
+  65600/100375  26.8 ms/img
+  67200/100375  26.9 ms/img
+  68800/100375  26.8 ms/img
+  70400/100375  26.8 ms/img
+  72000/100375  26.8 ms/img
+  73600/100375  26.8 ms/img
+  75200/100375  26.8 ms/img
+  76800/100375  26.8 ms/img
+  78400/100375  26.8 ms/img
+  80000/100375  26.8 ms/img
+  81600/100375  26.8 ms/img
+  83200/100375  26.8 ms/img
+  84800/100375  26.8 ms/img
+  86400/100375  26.8 ms/img
+  88000/100375  26.8 ms/img
+  89600/100375  26.8 ms/img
+  91200/100375  26.8 ms/img
+  92800/100375  26.8 ms/img
+  94400/100375  26.8 ms/img
+  96000/100375  26.7 ms/img
+  97600/100375  26.7 ms/img
+  99200/100375  26.7 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_tless_all__39d7aaf4a5e7__473bb2ecff641f0f
+>>> 21:55:29 extract exp064_tless_all moge2_vitl
+  1600/100375  69.5 ms/img
+  3200/100375  69.3 ms/img
+  4800/100375  69.2 ms/img
+  6400/100375  69.2 ms/img
+  8000/100375  69.2 ms/img
+  9600/100375  69.2 ms/img
+  11200/100375  69.1 ms/img
+  12800/100375  69.1 ms/img
+  14400/100375  68.8 ms/img
+  16000/100375  69.3 ms/img
+  17600/100375  69.0 ms/img
+  19200/100375  69.0 ms/img
+  20800/100375  69.0 ms/img
+  22400/100375  69.0 ms/img
+  24000/100375  69.0 ms/img
+  25600/100375  69.0 ms/img
+  27200/100375  69.0 ms/img
+  28800/100375  69.0 ms/img
+  30400/100375  69.0 ms/img
+  32000/100375  69.0 ms/img
+  33600/100375  69.0 ms/img
+  35200/100375  69.0 ms/img
+  36800/100375  69.0 ms/img
+  38400/100375  69.0 ms/img
+  40000/100375  69.0 ms/img
+  41600/100375  69.0 ms/img
+  43200/100375  69.0 ms/img
+  44800/100375  69.0 ms/img
+  46400/100375  69.0 ms/img
+  48000/100375  68.9 ms/img
+  49600/100375  69.0 ms/img
+  51200/100375  69.0 ms/img
+  52800/100375  69.0 ms/img
+  54400/100375  69.0 ms/img
+  56000/100375  69.0 ms/img
+  57600/100375  69.0 ms/img
+  59200/100375  69.0 ms/img
+  60800/100375  69.0 ms/img
+  62400/100375  69.0 ms/img
+  64000/100375  69.0 ms/img
+  65600/100375  69.0 ms/img
+  67200/100375  69.0 ms/img
+  68800/100375  69.0 ms/img
+  70400/100375  69.0 ms/img
+  72000/100375  69.0 ms/img
+  73600/100375  69.0 ms/img
+  75200/100375  69.0 ms/img
+  76800/100375  69.0 ms/img
+  78400/100375  69.0 ms/img
+  80000/100375  69.0 ms/img
+  81600/100375  69.0 ms/img
+  83200/100375  68.9 ms/img
+  84800/100375  69.0 ms/img
+  86400/100375  69.0 ms/img
+  88000/100375  69.0 ms/img
+  89600/100375  69.0 ms/img
+  91200/100375  69.0 ms/img
+  92800/100375  69.0 ms/img
+  94400/100375  69.0 ms/img
+  96000/100375  69.0 ms/img
+  97600/100375  68.9 ms/img
+  99200/100375  68.9 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_tless_all__2a61ac645e76__473bb2ecff641f0f
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_tless_all
+>>> 23:51:00 extract exp064_tless_aug1 dinov3_vitl16
+  1600/84000  27.1 ms/img
+  3200/84000  26.7 ms/img
+  4800/84000  26.6 ms/img
+  6400/84000  26.6 ms/img
+  8000/84000  26.6 ms/img
+  9600/84000  26.6 ms/img
+  11200/84000  26.5 ms/img
+  12800/84000  26.6 ms/img
+  14400/84000  26.5 ms/img
+  16000/84000  26.5 ms/img
+  17600/84000  26.5 ms/img
+  19200/84000  26.5 ms/img
+  20800/84000  26.5 ms/img
+  22400/84000  26.5 ms/img
+  24000/84000  26.5 ms/img
+  25600/84000  26.5 ms/img
+  27200/84000  26.5 ms/img
+  28800/84000  26.5 ms/img
+  30400/84000  26.5 ms/img
+  32000/84000  26.6 ms/img
+  33600/84000  26.6 ms/img
+  35200/84000  26.6 ms/img
+  36800/84000  26.6 ms/img
+  38400/84000  26.6 ms/img
+  40000/84000  26.6 ms/img
+  41600/84000  26.6 ms/img
+  43200/84000  26.6 ms/img
+  44800/84000  26.6 ms/img
+  46400/84000  26.6 ms/img
+  48000/84000  26.6 ms/img
+  49600/84000  26.6 ms/img
+  51200/84000  26.6 ms/img
+  52800/84000  26.6 ms/img
+  54400/84000  26.6 ms/img
+  56000/84000  26.6 ms/img
+  57600/84000  26.6 ms/img
+  59200/84000  26.6 ms/img
+  60800/84000  26.6 ms/img
+  62400/84000  26.6 ms/img
+  64000/84000  26.6 ms/img
+  65600/84000  26.6 ms/img
+  67200/84000  26.6 ms/img
+  68800/84000  26.6 ms/img
+  70400/84000  26.6 ms/img
+  72000/84000  26.6 ms/img
+  73600/84000  26.6 ms/img
+  75200/84000  26.6 ms/img
+  76800/84000  26.6 ms/img
+  78400/84000  26.6 ms/img
+  80000/84000  26.6 ms/img
+  81600/84000  26.6 ms/img
+  83200/84000  26.6 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_tless_aug1__582bfe3a24c5__863f6fdf3d27c5b2
+>>> 00:28:24 extract exp064_tless_aug1 moge2_vitl
+  1600/84000  58.9 ms/img
+  3200/84000  56.4 ms/img
+  4800/84000  54.9 ms/img
+  6400/84000  48.8 ms/img
+  8000/84000  44.6 ms/img
+  9600/84000  41.9 ms/img
+  11200/84000  39.9 ms/img
+  12800/84000  38.4 ms/img
+  14400/84000  37.2 ms/img
+  16000/84000  36.3 ms/img
+  17600/84000  35.6 ms/img
+  19200/84000  34.9 ms/img
+  20800/84000  34.4 ms/img
+  22400/84000  33.9 ms/img
+  24000/84000  33.5 ms/img
+  25600/84000  33.2 ms/img
+  27200/84000  32.9 ms/img
+  28800/84000  32.6 ms/img
+  30400/84000  32.4 ms/img
+  32000/84000  32.1 ms/img
+  33600/84000  31.9 ms/img
+  35200/84000  31.8 ms/img
+  36800/84000  31.6 ms/img
+  38400/84000  31.4 ms/img
+  40000/84000  31.3 ms/img
+  41600/84000  31.2 ms/img
+  43200/84000  31.1 ms/img
+  44800/84000  30.9 ms/img
+  46400/84000  30.8 ms/img
+  48000/84000  30.8 ms/img
+  49600/84000  30.7 ms/img
+  51200/84000  30.6 ms/img
+  52800/84000  30.5 ms/img
+  54400/84000  30.4 ms/img
+  56000/84000  30.4 ms/img
+  57600/84000  30.3 ms/img
+  59200/84000  30.2 ms/img
+  60800/84000  30.2 ms/img
+  62400/84000  30.1 ms/img
+  64000/84000  30.1 ms/img
+  65600/84000  30.0 ms/img
+  67200/84000  30.0 ms/img
+  68800/84000  29.9 ms/img
+  70400/84000  29.9 ms/img
+  72000/84000  29.8 ms/img
+  73600/84000  29.8 ms/img
+  75200/84000  29.8 ms/img
+  76800/84000  29.7 ms/img
+  78400/84000  29.7 ms/img
+  80000/84000  29.6 ms/img
+  81600/84000  29.6 ms/img
+  83200/84000  29.6 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_tless_aug1__19558b5fcc62__863f6fdf3d27c5b2
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_tless_aug1
+>>> 01:09:56 extract exp064_tless_aug2 dinov3_vitl16
+  1600/84000  22.4 ms/img
+  3200/84000  22.2 ms/img
+  4800/84000  22.1 ms/img
+  6400/84000  22.1 ms/img
+  8000/84000  22.0 ms/img
+  9600/84000  22.0 ms/img
+  11200/84000  22.0 ms/img
+  12800/84000  22.0 ms/img
+  14400/84000  22.0 ms/img
+  16000/84000  22.0 ms/img
+  17600/84000  22.0 ms/img
+  19200/84000  22.0 ms/img
+  20800/84000  22.0 ms/img
+  22400/84000  22.0 ms/img
+  24000/84000  22.0 ms/img
+  25600/84000  22.0 ms/img
+  27200/84000  22.0 ms/img
+  28800/84000  22.0 ms/img
+  30400/84000  21.9 ms/img
+  32000/84000  21.9 ms/img
+  33600/84000  21.9 ms/img
+  35200/84000  21.8 ms/img
+  36800/84000  21.8 ms/img
+  38400/84000  21.8 ms/img
+  40000/84000  21.8 ms/img
+  41600/84000  21.8 ms/img
+  43200/84000  21.8 ms/img
+  44800/84000  21.7 ms/img
+  46400/84000  21.7 ms/img
+  48000/84000  21.7 ms/img
+  49600/84000  21.7 ms/img
+  51200/84000  21.7 ms/img
+  52800/84000  21.7 ms/img
+  54400/84000  21.7 ms/img
+  56000/84000  21.7 ms/img
+  57600/84000  21.7 ms/img
+  59200/84000  21.7 ms/img
+  60800/84000  21.7 ms/img
+  62400/84000  21.7 ms/img
+  64000/84000  21.7 ms/img
+  65600/84000  21.7 ms/img
+  67200/84000  21.6 ms/img
+  68800/84000  21.6 ms/img
+  70400/84000  21.6 ms/img
+  72000/84000  21.7 ms/img
+  73600/84000  21.7 ms/img
+  75200/84000  21.7 ms/img
+  76800/84000  21.7 ms/img
+  78400/84000  21.7 ms/img
+  80000/84000  21.7 ms/img
+  81600/84000  21.7 ms/img
+  83200/84000  21.7 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_tless_aug2__fd24a26f9dc0__ce70b66be492b7a7
+>>> 01:40:20 extract exp064_tless_aug2 moge2_vitl
+  1600/84000  27.7 ms/img
+  3200/84000  27.6 ms/img
+  4800/84000  27.6 ms/img
+  6400/84000  27.7 ms/img
+  8000/84000  27.8 ms/img
+  9600/84000  27.8 ms/img
+  11200/84000  27.8 ms/img
+  12800/84000  27.9 ms/img
+  14400/84000  27.9 ms/img
+  16000/84000  27.9 ms/img
+  17600/84000  27.9 ms/img
+  19200/84000  27.9 ms/img
+  20800/84000  27.9 ms/img
+  22400/84000  27.9 ms/img
+  24000/84000  27.9 ms/img
+  25600/84000  27.9 ms/img
+  27200/84000  27.9 ms/img
+  28800/84000  28.0 ms/img
+  30400/84000  28.0 ms/img
+  32000/84000  28.0 ms/img
+  33600/84000  28.0 ms/img
+  35200/84000  28.0 ms/img
+  36800/84000  28.0 ms/img
+  38400/84000  28.0 ms/img
+  40000/84000  28.0 ms/img
+  41600/84000  28.0 ms/img
+  43200/84000  28.0 ms/img
+  44800/84000  28.0 ms/img
+  46400/84000  28.0 ms/img
+  48000/84000  28.0 ms/img
+  49600/84000  28.0 ms/img
+  51200/84000  28.0 ms/img
+  52800/84000  28.2 ms/img
+  54400/84000  28.2 ms/img
+  56000/84000  28.2 ms/img
+  57600/84000  28.2 ms/img
+  59200/84000  28.2 ms/img
+  60800/84000  28.2 ms/img
+  62400/84000  28.2 ms/img
+  64000/84000  28.2 ms/img
+  65600/84000  28.2 ms/img
+  67200/84000  28.2 ms/img
+  68800/84000  28.2 ms/img
+  70400/84000  28.2 ms/img
+  72000/84000  28.2 ms/img
+  73600/84000  28.2 ms/img
+  75200/84000  28.2 ms/img
+  76800/84000  28.2 ms/img
+  78400/84000  28.2 ms/img
+  80000/84000  28.1 ms/img
+  81600/84000  28.1 ms/img
+  83200/84000  28.1 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_tless_aug2__35bc6b114a73__ce70b66be492b7a7
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_tless_aug2
+>>> 02:19:51 extract exp064_tless_eval_r90 dinov3_vitl16
+  1600/16375  21.9 ms/img
+  3200/16375  21.7 ms/img
+  4800/16375  21.7 ms/img
+  6400/16375  21.7 ms/img
+  8000/16375  21.6 ms/img
+  9600/16375  21.6 ms/img
+  11200/16375  21.6 ms/img
+  12800/16375  21.6 ms/img
+  14400/16375  21.6 ms/img
+  16000/16375  21.6 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_tless_eval_r90__9e54ea73ed29__b6245af02843aeec
+>>> 02:25:52 extract exp064_tless_eval_r90 moge2_vitl
+  1600/16375  27.4 ms/img
+  3200/16375  27.5 ms/img
+  4800/16375  27.6 ms/img
+  6400/16375  27.7 ms/img
+  8000/16375  27.8 ms/img
+  9600/16375  27.9 ms/img
+  11200/16375  27.9 ms/img
+  12800/16375  27.9 ms/img
+  14400/16375  27.9 ms/img
+  16000/16375  27.9 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_tless_eval_r90__281d8fd4b911__b6245af02843aeec
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_tless_eval_r90
+>>> 02:33:39 extract exp064_tless_eval_r180 dinov3_vitl16
+  1600/16375  22.0 ms/img
+  3200/16375  21.8 ms/img
+  4800/16375  21.7 ms/img
+  6400/16375  21.7 ms/img
+  8000/16375  21.7 ms/img
+  9600/16375  21.7 ms/img
+  11200/16375  21.7 ms/img
+  12800/16375  21.7 ms/img
+  14400/16375  21.7 ms/img
+  16000/16375  21.7 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_tless_eval_r180__5f7772f94730__79ac5bddd15737d9
+>>> 02:39:41 extract exp064_tless_eval_r180 moge2_vitl
+  1600/16375  27.4 ms/img
+  3200/16375  27.5 ms/img
+  4800/16375  27.6 ms/img
+  6400/16375  27.7 ms/img
+  8000/16375  27.7 ms/img
+  9600/16375  27.8 ms/img
+  11200/16375  27.8 ms/img
+  12800/16375  27.9 ms/img
+  14400/16375  27.9 ms/img
+  16000/16375  27.9 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_tless_eval_r180__952a3a4bd43d__79ac5bddd15737d9
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_tless_eval_r180
+>>> 02:47:26 extract exp064_tless_eval_r270 dinov3_vitl16
+  1600/16375  21.9 ms/img
+  3200/16375  21.7 ms/img
+  4800/16375  21.7 ms/img
+  6400/16375  21.6 ms/img
+  8000/16375  21.6 ms/img
+  9600/16375  21.6 ms/img
+  11200/16375  21.6 ms/img
+  12800/16375  21.6 ms/img
+  14400/16375  21.6 ms/img
+  16000/16375  21.7 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_tless_eval_r270__540adf6d99f3__fc1c660d72dc3db6
+>>> 02:53:27 extract exp064_tless_eval_r270 moge2_vitl
+  1600/16375  27.3 ms/img
+  3200/16375  27.4 ms/img
+  4800/16375  27.5 ms/img
+  6400/16375  27.6 ms/img
+  8000/16375  27.7 ms/img
+  9600/16375  27.8 ms/img
+  11200/16375  27.8 ms/img
+  12800/16375  27.9 ms/img
+  14400/16375  27.9 ms/img
+  16000/16375  27.9 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_tless_eval_r270__ed23b0e2938b__fc1c660d72dc3db6
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_tless_eval_r270
+>>> 03:01:12 EXP-064 train tless 1 dinov3_vitl16:tokens8 seed=0
+tless 1 dinov3_vitl16:tokens8 seed 0 val_sym_mean 6.83
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-030113-seed0
+>>> 03:08:57 EXP-064 train tless 1 moge2_vitl:normals16~and seed=0
+tless 1 moge2_vitl:normals16~and seed 0 val_sym_mean 19.27
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-030859-seed0
+>>> 03:15:17 EXP-064 train tless 4 dinov3_vitl16:tokens8 seed=0
+tless 4 dinov3_vitl16:tokens8 seed 0 val_sym_mean 7.34
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-031518-seed0
+>>> 03:23:34 EXP-064 train tless 4 moge2_vitl:normals16~and seed=0
+tless 4 moge2_vitl:normals16~and seed 0 val_sym_mean 23.41
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-032336-seed0
+>>> 03:30:06 EXP-064 train tless 5 dinov3_vitl16:tokens8 seed=0
+tless 5 dinov3_vitl16:tokens8 seed 0 val_sym_mean 9.84
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-033007-seed0
+>>> 03:38:28 EXP-064 train tless 5 moge2_vitl:normals16~and seed=0
+tless 5 moge2_vitl:normals16~and seed 0 val_sym_mean 33.30
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-033830-seed0
+>>> 03:45:26 EXP-064 train tless 11 dinov3_vitl16:tokens8 seed=0
+tless 11 dinov3_vitl16:tokens8 seed 0 val_sym_mean 12.71
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-034527-seed0
+>>> 03:53:23 EXP-064 train tless 11 moge2_vitl:normals16~and seed=0
+tless 11 moge2_vitl:normals16~and seed 0 val_sym_mean 40.62
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-035324-seed0
+>>> 03:57:13 EXP-064 train tless 18 dinov3_vitl16:tokens8 seed=0
+tless 18 dinov3_vitl16:tokens8 seed 0 val_sym_mean 21.78
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-035715-seed0
+>>> 04:04:39 EXP-064 train tless 18 moge2_vitl:normals16~and seed=0
+tless 18 moge2_vitl:normals16~and seed 0 val_sym_mean 62.16
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-040440-seed0
+>>> 04:08:15 EXP-064 train tless 21 dinov3_vitl16:tokens8 seed=0
+tless 21 dinov3_vitl16:tokens8 seed 0 val_sym_mean 17.71
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-040817-seed0
+>>> 04:14:28 EXP-064 train tless 21 moge2_vitl:normals16~and seed=0
+tless 21 moge2_vitl:normals16~and seed 0 val_sym_mean 60.81
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-041429-seed0
+>>> 04:17:54 EXP-064 train tless 27 dinov3_vitl16:tokens8 seed=0
+tless 27 dinov3_vitl16:tokens8 seed 0 val_sym_mean 12.42
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-041755-seed0
+>>> 04:23:58 EXP-064 train tless 27 moge2_vitl:normals16~and seed=0
+tless 27 moge2_vitl:normals16~and seed 0 val_sym_mean 55.27
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-042359-seed0
+>>> 04:27:21 EXP-064 train tless 1 dinov3_vitl16:tokens8 seed=1
+tless 1 dinov3_vitl16:tokens8 seed 1 val_sym_mean 7.07
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-042723-seed1
+>>> 04:33:17 EXP-064 train tless 1 moge2_vitl:normals16~and seed=1
+tless 1 moge2_vitl:normals16~and seed 1 val_sym_mean 19.31
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-043318-seed1
+>>> 04:36:37 EXP-064 train tless 4 dinov3_vitl16:tokens8 seed=1
+tless 4 dinov3_vitl16:tokens8 seed 1 val_sym_mean 7.15
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-043638-seed1
+>>> 04:42:22 EXP-064 train tless 4 moge2_vitl:normals16~and seed=1
+tless 4 moge2_vitl:normals16~and seed 1 val_sym_mean 22.92
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-044223-seed1
+>>> 04:45:38 EXP-064 train tless 5 dinov3_vitl16:tokens8 seed=1
+tless 5 dinov3_vitl16:tokens8 seed 1 val_sym_mean 9.85
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-044539-seed1
+>>> 04:51:20 EXP-064 train tless 5 moge2_vitl:normals16~and seed=1
+tless 5 moge2_vitl:normals16~and seed 1 val_sym_mean 30.80
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-045121-seed1
+>>> 04:54:47 EXP-064 train tless 11 dinov3_vitl16:tokens8 seed=1
+tless 11 dinov3_vitl16:tokens8 seed 1 val_sym_mean 12.90
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-045448-seed1
+>>> 05:00:18 EXP-064 train tless 11 moge2_vitl:normals16~and seed=1
+tless 11 moge2_vitl:normals16~and seed 1 val_sym_mean 41.89
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-050019-seed1
+>>> 05:03:50 EXP-064 train tless 18 dinov3_vitl16:tokens8 seed=1
+tless 18 dinov3_vitl16:tokens8 seed 1 val_sym_mean 22.13
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-050351-seed1
+>>> 05:09:19 EXP-064 train tless 18 moge2_vitl:normals16~and seed=1
+tless 18 moge2_vitl:normals16~and seed 1 val_sym_mean 62.81
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-050920-seed1
+>>> 05:12:42 EXP-064 train tless 21 dinov3_vitl16:tokens8 seed=1
+tless 21 dinov3_vitl16:tokens8 seed 1 val_sym_mean 17.79
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-051243-seed1
+>>> 05:18:20 EXP-064 train tless 21 moge2_vitl:normals16~and seed=1
+tless 21 moge2_vitl:normals16~and seed 1 val_sym_mean 58.38
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-051821-seed1
+>>> 05:21:50 EXP-064 train tless 27 dinov3_vitl16:tokens8 seed=1
+tless 27 dinov3_vitl16:tokens8 seed 1 val_sym_mean 12.17
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-052151-seed1
+>>> 05:27:12 EXP-064 train tless 27 moge2_vitl:normals16~and seed=1
+tless 27 moge2_vitl:normals16~and seed 1 val_sym_mean 49.52
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-052714-seed1
+>>> 05:30:36 EXP-064 train tless 1 dinov3_vitl16:tokens8 seed=2
+tless 1 dinov3_vitl16:tokens8 seed 2 val_sym_mean 6.87
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-053037-seed2
+>>> 05:36:21 EXP-064 train tless 1 moge2_vitl:normals16~and seed=2
+tless 1 moge2_vitl:normals16~and seed 2 val_sym_mean 19.32
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-053622-seed2
+>>> 05:39:46 EXP-064 train tless 4 dinov3_vitl16:tokens8 seed=2
+tless 4 dinov3_vitl16:tokens8 seed 2 val_sym_mean 7.06
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-053947-seed2
+>>> 05:45:20 EXP-064 train tless 4 moge2_vitl:normals16~and seed=2
+tless 4 moge2_vitl:normals16~and seed 2 val_sym_mean 21.77
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-054521-seed2
+>>> 05:48:52 EXP-064 train tless 5 dinov3_vitl16:tokens8 seed=2
+tless 5 dinov3_vitl16:tokens8 seed 2 val_sym_mean 10.07
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-054853-seed2
+>>> 05:54:13 EXP-064 train tless 5 moge2_vitl:normals16~and seed=2
+tless 5 moge2_vitl:normals16~and seed 2 val_sym_mean 32.09
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-055414-seed2
+>>> 05:57:43 EXP-064 train tless 11 dinov3_vitl16:tokens8 seed=2
+tless 11 dinov3_vitl16:tokens8 seed 2 val_sym_mean 12.49
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-055744-seed2
+>>> 06:03:02 EXP-064 train tless 11 moge2_vitl:normals16~and seed=2
+tless 11 moge2_vitl:normals16~and seed 2 val_sym_mean 40.39
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-060303-seed2
+>>> 06:06:22 EXP-064 train tless 18 dinov3_vitl16:tokens8 seed=2
+tless 18 dinov3_vitl16:tokens8 seed 2 val_sym_mean 22.95
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-060623-seed2
+>>> 06:11:56 EXP-064 train tless 18 moge2_vitl:normals16~and seed=2
+tless 18 moge2_vitl:normals16~and seed 2 val_sym_mean 63.15
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-061158-seed2
+>>> 06:15:10 EXP-064 train tless 21 dinov3_vitl16:tokens8 seed=2
+tless 21 dinov3_vitl16:tokens8 seed 2 val_sym_mean 17.21
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-061512-seed2
+>>> 06:20:38 EXP-064 train tless 21 moge2_vitl:normals16~and seed=2
+tless 21 moge2_vitl:normals16~and seed 2 val_sym_mean 60.12
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-062039-seed2
+>>> 06:23:48 EXP-064 train tless 27 dinov3_vitl16:tokens8 seed=2
+tless 27 dinov3_vitl16:tokens8 seed 2 val_sym_mean 11.67
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-062349-seed2
+>>> 06:29:05 EXP-064 train tless 27 moge2_vitl:normals16~and seed=2
+tless 27 moge2_vitl:normals16~and seed 2 val_sym_mean 53.38
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-062906-seed2
+tless 1 0 PoE greedy 12.01 | orbit_product 11.28 | orbit_vote32 11.86
+tless 1 0 DINO greedy 12.61 | orbit_product 11.79 | orbit_vote32 12.72
+tless 1 1 PoE greedy 12.27 | orbit_product 11.39 | orbit_vote32 11.86
+tless 1 1 DINO greedy 12.69 | orbit_product 12.25 | orbit_vote32 12.70
+tless 1 2 PoE greedy 12.01 | orbit_product 11.10 | orbit_vote32 11.90
+tless 1 2 DINO greedy 12.61 | orbit_product 11.93 | orbit_vote32 12.48
+tless 11 0 PoE greedy 12.34 | orbit_product 9.73 | orbit_vote32 9.59
+tless 11 0 DINO greedy 12.74 | orbit_product 10.39 | orbit_vote32 10.36
+tless 11 1 PoE greedy 12.49 | orbit_product 9.74 | orbit_vote32 9.90
+tless 11 1 DINO greedy 13.17 | orbit_product 10.88 | orbit_vote32 10.41
+tless 11 2 PoE greedy 12.53 | orbit_product 9.74 | orbit_vote32 9.65
+tless 11 2 DINO greedy 12.69 | orbit_product 10.57 | orbit_vote32 9.94
+tless 18 0 PoE greedy 21.97 | orbit_product 16.53 | orbit_vote32 17.25
+tless 18 0 DINO greedy 21.37 | orbit_product 16.39 | orbit_vote32 17.33
+tless 18 1 PoE greedy 21.90 | orbit_product 16.30 | orbit_vote32 17.28
+tless 18 1 DINO greedy 21.70 | orbit_product 17.10 | orbit_vote32 17.15
+tless 18 2 PoE greedy 22.48 | orbit_product 17.07 | orbit_vote32 17.61
+tless 18 2 DINO greedy 22.37 | orbit_product 17.13 | orbit_vote32 17.64
+tless 21 0 PoE greedy 19.91 | orbit_product 16.01 | orbit_vote32 15.85
+tless 21 0 DINO greedy 19.58 | orbit_product 16.71 | orbit_vote32 15.97
+tless 21 1 PoE greedy 20.66 | orbit_product 15.43 | orbit_vote32 16.22
+tless 21 1 DINO greedy 19.76 | orbit_product 15.54 | orbit_vote32 15.58
+tless 21 2 PoE greedy 18.73 | orbit_product 14.56 | orbit_vote32 14.89
+tless 21 2 DINO greedy 18.76 | orbit_product 15.17 | orbit_vote32 15.12
+tless 27 0 PoE greedy 10.50 | orbit_product 7.46 | orbit_vote32 7.97
+tless 27 0 DINO greedy 12.45 | orbit_product 9.18 | orbit_vote32 10.02
+tless 27 1 PoE greedy 10.31 | orbit_product 7.42 | orbit_vote32 7.77
+tless 27 1 DINO greedy 12.18 | orbit_product 9.10 | orbit_vote32 9.77
+tless 27 2 PoE greedy 10.24 | orbit_product 7.36 | orbit_vote32 7.91
+tless 27 2 DINO greedy 11.75 | orbit_product 8.84 | orbit_vote32 9.45
+tless 4 0 PoE greedy 9.02 | orbit_product 7.74 | orbit_vote32 7.96
+tless 4 0 DINO greedy 9.86 | orbit_product 8.45 | orbit_vote32 8.58
+tless 4 1 PoE greedy 8.87 | orbit_product 7.55 | orbit_vote32 7.96
+tless 4 1 DINO greedy 9.43 | orbit_product 8.20 | orbit_vote32 8.38
+tless 4 2 PoE greedy 8.96 | orbit_product 7.73 | orbit_vote32 7.98
+tless 4 2 DINO greedy 9.77 | orbit_product 8.64 | orbit_vote32 8.65
+tless 5 0 PoE greedy 9.56 | orbit_product 7.02 | orbit_vote32 6.94
+tless 5 0 DINO greedy 9.77 | orbit_product 7.56 | orbit_vote32 7.34
+tless 5 1 PoE greedy 9.49 | orbit_product 6.83 | orbit_vote32 6.91
+tless 5 1 DINO greedy 9.67 | orbit_product 7.53 | orbit_vote32 7.08
+tless 5 2 PoE greedy 9.48 | orbit_product 7.08 | orbit_vote32 7.09
+tless 5 2 DINO greedy 9.89 | orbit_product 7.98 | orbit_vote32 7.63
+| split | variant | mode | sym_mean | sym_mean_std | sym_median | acc10 | frac_gt90 | raw_mean |
+|---|---|---|---|---|---|---|---|---|
+| test | DINO | greedy | 18.593 | 0.177 | 8.430 | 0.620 | 0.052 | 47.115 |
+| test | DINO | orbit_product | 17.875 | 0.353 | 7.425 | 0.674 | 0.053 | 43.974 |
+| test | DINO | orbit_vote32 | 17.902 | 0.470 | 7.103 | 0.687 | 0.054 | 44.594 |
+| test | PoE | greedy | 17.923 | 0.163 | 7.383 | 0.681 | 0.055 | 47.243 |
+| test | PoE | orbit_product | 16.567 | 0.247 | 6.334 | 0.735 | 0.051 | 43.645 |
+| test | PoE | orbit_vote32 | 16.645 | 0.343 | 6.078 | 0.736 | 0.053 | 44.384 |
+| validation | DINO | greedy | 12.671 | 0.057 | 8.066 | 0.660 | 0.016 | 43.008 |
+| validation | DINO | orbit_product | 9.938 | 0.059 | 6.449 | 0.766 | 0.011 | 37.914 |
+| validation | DINO | orbit_vote32 | 10.104 | 0.118 | 6.154 | 0.769 | 0.012 | 38.697 |
+| validation | PoE | greedy | 12.305 | 0.132 | 7.367 | 0.702 | 0.018 | 43.219 |
+| validation | PoE | orbit_product | 9.253 | 0.066 | 5.801 | 0.808 | 0.011 | 37.839 |
+| validation | PoE | orbit_vote32 | 9.649 | 0.107 | 5.609 | 0.805 | 0.013 | 38.599 |
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-063238-seed0
+=== 06:53:02 BLOCK_DONE EXP-064-tless
+=== 06:53:02 BLOCK EXP-064-symsolt
+>>> 06:53:02 extract exp064_symsolt_all dinov3_vitl16
+  1600/135000  21.4 ms/img
+  3200/135000  21.4 ms/img
+  4800/135000  21.4 ms/img
+  6400/135000  21.4 ms/img
+  8000/135000  21.4 ms/img
+  9600/135000  21.4 ms/img
+  11200/135000  21.4 ms/img
+  12800/135000  21.4 ms/img
+  14400/135000  21.4 ms/img
+  16000/135000  21.4 ms/img
+  17600/135000  21.4 ms/img
+  19200/135000  21.5 ms/img
+  20800/135000  21.5 ms/img
+  22400/135000  21.5 ms/img
+  24000/135000  21.5 ms/img
+  25600/135000  21.5 ms/img
+  27200/135000  21.5 ms/img
+  28800/135000  21.5 ms/img
+  30400/135000  21.5 ms/img
+  32000/135000  21.5 ms/img
+  33600/135000  21.5 ms/img
+  35200/135000  21.6 ms/img
+  36800/135000  21.6 ms/img
+  38400/135000  21.6 ms/img
+  40000/135000  21.6 ms/img
+  41600/135000  21.5 ms/img
+  43200/135000  21.5 ms/img
+  44800/135000  21.5 ms/img
+  46400/135000  21.5 ms/img
+  48000/135000  21.5 ms/img
+  49600/135000  21.5 ms/img
+  51200/135000  21.5 ms/img
+  52800/135000  21.5 ms/img
+  54400/135000  21.5 ms/img
+  56000/135000  21.4 ms/img
+  57600/135000  21.4 ms/img
+  59200/135000  21.4 ms/img
+  60800/135000  21.4 ms/img
+  62400/135000  21.4 ms/img
+  64000/135000  21.4 ms/img
+  65600/135000  21.4 ms/img
+  67200/135000  21.4 ms/img
+  68800/135000  21.4 ms/img
+  70400/135000  21.4 ms/img
+  72000/135000  21.4 ms/img
+  73600/135000  21.4 ms/img
+  75200/135000  21.4 ms/img
+  76800/135000  21.4 ms/img
+  78400/135000  21.4 ms/img
+  80000/135000  21.4 ms/img
+  81600/135000  21.4 ms/img
+  83200/135000  21.4 ms/img
+  84800/135000  21.4 ms/img
+  86400/135000  21.4 ms/img
+  88000/135000  21.4 ms/img
+  89600/135000  21.4 ms/img
+  91200/135000  21.4 ms/img
+  92800/135000  21.4 ms/img
+  94400/135000  21.4 ms/img
+  96000/135000  21.4 ms/img
+  97600/135000  21.4 ms/img
+  99200/135000  21.4 ms/img
+  100800/135000  21.4 ms/img
+  102400/135000  21.4 ms/img
+  104000/135000  21.3 ms/img
+  105600/135000  21.3 ms/img
+  107200/135000  21.3 ms/img
+  108800/135000  21.3 ms/img
+  110400/135000  21.3 ms/img
+  112000/135000  21.3 ms/img
+  113600/135000  21.3 ms/img
+  115200/135000  21.3 ms/img
+  116800/135000  21.3 ms/img
+  118400/135000  21.3 ms/img
+  120000/135000  21.3 ms/img
+  121600/135000  21.3 ms/img
+  123200/135000  21.3 ms/img
+  124800/135000  21.3 ms/img
+  126400/135000  21.3 ms/img
+  128000/135000  21.3 ms/img
+  129600/135000  21.3 ms/img
+  131200/135000  21.3 ms/img
+  132800/135000  21.3 ms/img
+  134400/135000  21.3 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_symsolt_all__930b6f1479c7__1f6cb9673704147a
+>>> 07:41:06 extract exp064_symsolt_all moge2_vitl
+  1600/135000  26.9 ms/img
+  3200/135000  26.9 ms/img
+  4800/135000  27.0 ms/img
+  6400/135000  27.1 ms/img
+  8000/135000  27.1 ms/img
+  9600/135000  27.1 ms/img
+  11200/135000  27.2 ms/img
+  12800/135000  27.2 ms/img
+  14400/135000  27.2 ms/img
+  16000/135000  27.2 ms/img
+  17600/135000  27.2 ms/img
+  19200/135000  27.2 ms/img
+  20800/135000  27.2 ms/img
+  22400/135000  27.3 ms/img
+  24000/135000  27.3 ms/img
+  25600/135000  27.3 ms/img
+  27200/135000  27.3 ms/img
+  28800/135000  27.3 ms/img
+  30400/135000  27.3 ms/img
+  32000/135000  27.3 ms/img
+  33600/135000  27.3 ms/img
+  35200/135000  27.3 ms/img
+  36800/135000  27.3 ms/img
+  38400/135000  27.3 ms/img
+  40000/135000  27.3 ms/img
+  41600/135000  27.3 ms/img
+  43200/135000  27.3 ms/img
+  44800/135000  27.3 ms/img
+  46400/135000  27.3 ms/img
+  48000/135000  27.3 ms/img
+  49600/135000  27.3 ms/img
+  51200/135000  27.3 ms/img
+  52800/135000  27.3 ms/img
+  54400/135000  27.3 ms/img
+  56000/135000  27.3 ms/img
+  57600/135000  27.3 ms/img
+  59200/135000  27.3 ms/img
+  60800/135000  27.3 ms/img
+  62400/135000  27.3 ms/img
+  64000/135000  27.3 ms/img
+  65600/135000  27.3 ms/img
+  67200/135000  27.3 ms/img
+  68800/135000  27.3 ms/img
+  70400/135000  27.3 ms/img
+  72000/135000  27.3 ms/img
+  73600/135000  27.3 ms/img
+  75200/135000  27.3 ms/img
+  76800/135000  27.3 ms/img
+  78400/135000  27.3 ms/img
+  80000/135000  27.3 ms/img
+  81600/135000  27.3 ms/img
+  83200/135000  27.3 ms/img
+  84800/135000  27.3 ms/img
+  86400/135000  27.3 ms/img
+  88000/135000  27.3 ms/img
+  89600/135000  27.3 ms/img
+  91200/135000  27.3 ms/img
+  92800/135000  27.3 ms/img
+  94400/135000  27.3 ms/img
+  96000/135000  27.3 ms/img
+  97600/135000  27.3 ms/img
+  99200/135000  27.3 ms/img
+  100800/135000  27.3 ms/img
+  102400/135000  27.3 ms/img
+  104000/135000  27.3 ms/img
+  105600/135000  27.3 ms/img
+  107200/135000  27.3 ms/img
+  108800/135000  27.3 ms/img
+  110400/135000  27.3 ms/img
+  112000/135000  27.3 ms/img
+  113600/135000  27.3 ms/img
+  115200/135000  27.3 ms/img
+  116800/135000  27.3 ms/img
+  118400/135000  27.3 ms/img
+  120000/135000  27.3 ms/img
+  121600/135000  27.3 ms/img
+  123200/135000  27.3 ms/img
+  124800/135000  27.3 ms/img
+  126400/135000  27.3 ms/img
+  128000/135000  27.3 ms/img
+  129600/135000  27.3 ms/img
+  131200/135000  27.3 ms/img
+  132800/135000  27.3 ms/img
+  134400/135000  27.3 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_symsolt_all__6b6ed006df33__1f6cb9673704147a
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_symsolt_all
+>>> 08:42:51 extract exp064_symsolt_aug1 dinov3_vitl16
+  1600/100000  22.1 ms/img
+  3200/100000  21.9 ms/img
+  4800/100000  21.9 ms/img
+  6400/100000  21.8 ms/img
+  8000/100000  21.8 ms/img
+  9600/100000  21.8 ms/img
+  11200/100000  21.8 ms/img
+  12800/100000  21.9 ms/img
+  14400/100000  21.9 ms/img
+  16000/100000  21.9 ms/img
+  17600/100000  21.9 ms/img
+  19200/100000  21.9 ms/img
+  20800/100000  21.9 ms/img
+  22400/100000  21.9 ms/img
+  24000/100000  21.9 ms/img
+  25600/100000  21.9 ms/img
+  27200/100000  21.9 ms/img
+  28800/100000  21.9 ms/img
+  30400/100000  21.9 ms/img
+  32000/100000  21.9 ms/img
+  33600/100000  21.9 ms/img
+  35200/100000  21.9 ms/img
+  36800/100000  21.9 ms/img
+  38400/100000  21.9 ms/img
+  40000/100000  21.9 ms/img
+  41600/100000  21.9 ms/img
+  43200/100000  21.9 ms/img
+  44800/100000  21.9 ms/img
+  46400/100000  21.9 ms/img
+  48000/100000  21.9 ms/img
+  49600/100000  21.9 ms/img
+  51200/100000  21.9 ms/img
+  52800/100000  21.9 ms/img
+  54400/100000  21.9 ms/img
+  56000/100000  21.9 ms/img
+  57600/100000  21.9 ms/img
+  59200/100000  21.9 ms/img
+  60800/100000  21.9 ms/img
+  62400/100000  21.9 ms/img
+  64000/100000  21.9 ms/img
+  65600/100000  21.9 ms/img
+  67200/100000  21.9 ms/img
+  68800/100000  21.9 ms/img
+  70400/100000  21.9 ms/img
+  72000/100000  21.9 ms/img
+  73600/100000  21.9 ms/img
+  75200/100000  21.8 ms/img
+  76800/100000  21.8 ms/img
+  78400/100000  21.8 ms/img
+  80000/100000  21.8 ms/img
+  81600/100000  21.8 ms/img
+  83200/100000  21.8 ms/img
+  84800/100000  21.8 ms/img
+  86400/100000  21.8 ms/img
+  88000/100000  21.8 ms/img
+  89600/100000  21.8 ms/img
+  91200/100000  21.8 ms/img
+  92800/100000  21.8 ms/img
+  94400/100000  21.8 ms/img
+  96000/100000  21.8 ms/img
+  97600/100000  21.8 ms/img
+  99200/100000  21.8 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_symsolt_aug1__6992032cba77__11f4a14d142498e0
+>>> 09:19:16 extract exp064_symsolt_aug1 moge2_vitl
+  1600/100000  27.4 ms/img
+  3200/100000  27.2 ms/img
+  4800/100000  27.3 ms/img
+  6400/100000  27.3 ms/img
+  8000/100000  27.4 ms/img
+  9600/100000  27.4 ms/img
+  11200/100000  27.4 ms/img
+  12800/100000  27.4 ms/img
+  14400/100000  27.4 ms/img
+  16000/100000  27.4 ms/img
+  17600/100000  27.4 ms/img
+  19200/100000  27.4 ms/img
+  20800/100000  27.5 ms/img
+  22400/100000  27.5 ms/img
+  24000/100000  27.5 ms/img
+  25600/100000  27.5 ms/img
+  27200/100000  27.5 ms/img
+  28800/100000  27.5 ms/img
+  30400/100000  27.5 ms/img
+  32000/100000  27.5 ms/img
+  33600/100000  27.5 ms/img
+  35200/100000  27.5 ms/img
+  36800/100000  27.5 ms/img
+  38400/100000  27.5 ms/img
+  40000/100000  27.5 ms/img
+  41600/100000  27.5 ms/img
+  43200/100000  27.5 ms/img
+  44800/100000  27.5 ms/img
+  46400/100000  27.5 ms/img
+  48000/100000  27.5 ms/img
+  49600/100000  27.5 ms/img
+  51200/100000  27.5 ms/img
+  52800/100000  27.5 ms/img
+  54400/100000  27.5 ms/img
+  56000/100000  27.5 ms/img
+  57600/100000  27.5 ms/img
+  59200/100000  27.5 ms/img
+  60800/100000  27.5 ms/img
+  62400/100000  27.5 ms/img
+  64000/100000  27.5 ms/img
+  65600/100000  27.5 ms/img
+  67200/100000  27.5 ms/img
+  68800/100000  27.5 ms/img
+  70400/100000  27.5 ms/img
+  72000/100000  27.5 ms/img
+  73600/100000  27.5 ms/img
+  75200/100000  27.5 ms/img
+  76800/100000  27.5 ms/img
+  78400/100000  27.5 ms/img
+  80000/100000  27.5 ms/img
+  81600/100000  27.5 ms/img
+  83200/100000  27.5 ms/img
+  84800/100000  27.5 ms/img
+  86400/100000  27.5 ms/img
+  88000/100000  27.5 ms/img
+  89600/100000  27.5 ms/img
+  91200/100000  27.5 ms/img
+  92800/100000  27.5 ms/img
+  94400/100000  27.5 ms/img
+  96000/100000  27.5 ms/img
+  97600/100000  27.5 ms/img
+  99200/100000  27.5 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_symsolt_aug1__21faea9dcdf4__11f4a14d142498e0
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_symsolt_aug1
+>>> 10:05:17 extract exp064_symsolt_aug2 dinov3_vitl16
+  1600/100000  22.1 ms/img
+  3200/100000  21.9 ms/img
+  4800/100000  21.9 ms/img
+  6400/100000  21.9 ms/img
+  8000/100000  21.9 ms/img
+  9600/100000  21.9 ms/img
+  11200/100000  21.9 ms/img
+  12800/100000  21.9 ms/img
+  14400/100000  21.9 ms/img
+  16000/100000  21.9 ms/img
+  17600/100000  21.9 ms/img
+  19200/100000  21.9 ms/img
+  20800/100000  21.9 ms/img
+  22400/100000  21.9 ms/img
+  24000/100000  21.9 ms/img
+  25600/100000  21.9 ms/img
+  27200/100000  21.9 ms/img
+  28800/100000  21.9 ms/img
+  30400/100000  21.9 ms/img
+  32000/100000  21.9 ms/img
+  33600/100000  21.9 ms/img
+  35200/100000  21.9 ms/img
+  36800/100000  21.9 ms/img
+  38400/100000  21.9 ms/img
+  40000/100000  21.9 ms/img
+  41600/100000  21.9 ms/img
+  43200/100000  21.9 ms/img
+  44800/100000  21.9 ms/img
+  46400/100000  21.9 ms/img
+  48000/100000  21.9 ms/img
+  49600/100000  21.9 ms/img
+  51200/100000  21.9 ms/img
+  52800/100000  21.9 ms/img
+  54400/100000  21.9 ms/img
+  56000/100000  21.9 ms/img
+  57600/100000  21.9 ms/img
+  59200/100000  21.9 ms/img
+  60800/100000  21.9 ms/img
+  62400/100000  21.9 ms/img
+  64000/100000  21.9 ms/img
+  65600/100000  21.9 ms/img
+  67200/100000  21.9 ms/img
+  68800/100000  21.9 ms/img
+  70400/100000  21.9 ms/img
+  72000/100000  21.8 ms/img
+  73600/100000  21.8 ms/img
+  75200/100000  21.8 ms/img
+  76800/100000  21.8 ms/img
+  78400/100000  21.8 ms/img
+  80000/100000  21.8 ms/img
+  81600/100000  21.8 ms/img
+  83200/100000  21.8 ms/img
+  84800/100000  21.8 ms/img
+  86400/100000  21.8 ms/img
+  88000/100000  21.8 ms/img
+  89600/100000  21.8 ms/img
+  91200/100000  21.7 ms/img
+  92800/100000  21.7 ms/img
+  94400/100000  21.7 ms/img
+  96000/100000  21.7 ms/img
+  97600/100000  21.7 ms/img
+  99200/100000  21.7 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_symsolt_aug2__cfb22a3c065d__1afd45d591eacef3
+>>> 10:41:33 extract exp064_symsolt_aug2 moge2_vitl
+  1600/100000  27.5 ms/img
+  3200/100000  27.3 ms/img
+  4800/100000  27.3 ms/img
+  6400/100000  27.4 ms/img
+  8000/100000  27.4 ms/img
+  9600/100000  27.5 ms/img
+  11200/100000  27.5 ms/img
+  12800/100000  27.5 ms/img
+  14400/100000  27.5 ms/img
+  16000/100000  27.5 ms/img
+  17600/100000  27.5 ms/img
+  19200/100000  27.5 ms/img
+  20800/100000  27.5 ms/img
+  22400/100000  27.5 ms/img
+  24000/100000  27.5 ms/img
+  25600/100000  27.5 ms/img
+  27200/100000  27.5 ms/img
+  28800/100000  27.5 ms/img
+  30400/100000  27.5 ms/img
+  32000/100000  27.5 ms/img
+  33600/100000  27.5 ms/img
+  35200/100000  27.5 ms/img
+  36800/100000  27.5 ms/img
+  38400/100000  27.5 ms/img
+  40000/100000  27.5 ms/img
+  41600/100000  27.5 ms/img
+  43200/100000  27.5 ms/img
+  44800/100000  27.5 ms/img
+  46400/100000  27.5 ms/img
+  48000/100000  27.5 ms/img
+  49600/100000  27.5 ms/img
+  51200/100000  27.5 ms/img
+  52800/100000  27.5 ms/img
+  54400/100000  27.5 ms/img
+  56000/100000  27.5 ms/img
+  57600/100000  27.5 ms/img
+  59200/100000  27.5 ms/img
+  60800/100000  27.5 ms/img
+  62400/100000  27.5 ms/img
+  64000/100000  27.5 ms/img
+  65600/100000  27.5 ms/img
+  67200/100000  27.5 ms/img
+  68800/100000  27.5 ms/img
+  70400/100000  27.5 ms/img
+  72000/100000  27.5 ms/img
+  73600/100000  27.5 ms/img
+  75200/100000  27.5 ms/img
+  76800/100000  27.5 ms/img
+  78400/100000  27.5 ms/img
+  80000/100000  27.5 ms/img
+  81600/100000  27.5 ms/img
+  83200/100000  27.5 ms/img
+  84800/100000  27.5 ms/img
+  86400/100000  27.5 ms/img
+  88000/100000  27.5 ms/img
+  89600/100000  27.5 ms/img
+  91200/100000  27.5 ms/img
+  92800/100000  27.5 ms/img
+  94400/100000  27.5 ms/img
+  96000/100000  27.5 ms/img
+  97600/100000  27.5 ms/img
+  99200/100000  27.5 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_symsolt_aug2__49456112e8fe__1afd45d591eacef3
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_symsolt_aug2
+>>> 11:28:35 extract exp064_symsolt_eval_r90 dinov3_vitl16
+  1600/35000  21.8 ms/img
+  3200/35000  21.6 ms/img
+  4800/35000  21.6 ms/img
+  6400/35000  21.6 ms/img
+  8000/35000  21.6 ms/img
+  9600/35000  21.6 ms/img
+  11200/35000  21.6 ms/img
+  12800/35000  21.6 ms/img
+  14400/35000  21.6 ms/img
+  16000/35000  21.6 ms/img
+  17600/35000  21.5 ms/img
+  19200/35000  21.6 ms/img
+  20800/35000  21.5 ms/img
+  22400/35000  21.5 ms/img
+  24000/35000  21.5 ms/img
+  25600/35000  21.5 ms/img
+  27200/35000  21.5 ms/img
+  28800/35000  21.5 ms/img
+  30400/35000  21.5 ms/img
+  32000/35000  21.5 ms/img
+  33600/35000  21.5 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_symsolt_eval_r90__227e3f08b799__ccacc95c096a0a80
+>>> 11:41:14 extract exp064_symsolt_eval_r90 moge2_vitl
+  1600/35000  27.0 ms/img
+  3200/35000  27.0 ms/img
+  4800/35000  27.1 ms/img
+  6400/35000  27.2 ms/img
+  8000/35000  27.2 ms/img
+  9600/35000  27.3 ms/img
+  11200/35000  27.3 ms/img
+  12800/35000  27.3 ms/img
+  14400/35000  27.3 ms/img
+  16000/35000  27.3 ms/img
+  17600/35000  27.3 ms/img
+  19200/35000  27.4 ms/img
+  20800/35000  27.4 ms/img
+  22400/35000  27.4 ms/img
+  24000/35000  27.4 ms/img
+  25600/35000  27.4 ms/img
+  27200/35000  27.4 ms/img
+  28800/35000  27.4 ms/img
+  30400/35000  27.4 ms/img
+  32000/35000  27.4 ms/img
+  33600/35000  27.4 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_symsolt_eval_r90__34b73cd7a7aa__ccacc95c096a0a80
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_symsolt_eval_r90
+>>> 11:57:24 extract exp064_symsolt_eval_r180 dinov3_vitl16
+  1600/35000  21.7 ms/img
+  3200/35000  21.5 ms/img
+  4800/35000  21.5 ms/img
+  6400/35000  21.5 ms/img
+  8000/35000  21.5 ms/img
+  9600/35000  21.5 ms/img
+  11200/35000  21.5 ms/img
+  12800/35000  21.5 ms/img
+  14400/35000  21.5 ms/img
+  16000/35000  21.5 ms/img
+  17600/35000  21.5 ms/img
+  19200/35000  21.5 ms/img
+  20800/35000  21.5 ms/img
+  22400/35000  21.5 ms/img
+  24000/35000  21.5 ms/img
+  25600/35000  21.5 ms/img
+  27200/35000  21.5 ms/img
+  28800/35000  21.5 ms/img
+  30400/35000  21.5 ms/img
+  32000/35000  21.5 ms/img
+  33600/35000  21.5 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_symsolt_eval_r180__6bea567128b3__d899b87b0db68521
+>>> 12:10:03 extract exp064_symsolt_eval_r180 moge2_vitl
+  1600/35000  27.0 ms/img
+  3200/35000  27.0 ms/img
+  4800/35000  27.1 ms/img
+  6400/35000  27.1 ms/img
+  8000/35000  27.2 ms/img
+  9600/35000  27.2 ms/img
+  11200/35000  27.3 ms/img
+  12800/35000  27.3 ms/img
+  14400/35000  27.3 ms/img
+  16000/35000  27.3 ms/img
+  17600/35000  27.3 ms/img
+  19200/35000  27.3 ms/img
+  20800/35000  27.3 ms/img
+  22400/35000  27.4 ms/img
+  24000/35000  27.4 ms/img
+  25600/35000  27.4 ms/img
+  27200/35000  27.4 ms/img
+  28800/35000  27.4 ms/img
+  30400/35000  27.4 ms/img
+  32000/35000  27.4 ms/img
+  33600/35000  27.4 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_symsolt_eval_r180__5ea162b97264__d899b87b0db68521
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_symsolt_eval_r180
+>>> 12:26:11 extract exp064_symsolt_eval_r270 dinov3_vitl16
+  1600/35000  22.2 ms/img
+  3200/35000  22.0 ms/img
+  4800/35000  22.0 ms/img
+  6400/35000  22.0 ms/img
+  8000/35000  21.9 ms/img
+  9600/35000  21.9 ms/img
+  11200/35000  21.9 ms/img
+  12800/35000  21.9 ms/img
+  14400/35000  21.8 ms/img
+  16000/35000  21.8 ms/img
+  17600/35000  21.8 ms/img
+  19200/35000  21.8 ms/img
+  20800/35000  21.8 ms/img
+  22400/35000  21.8 ms/img
+  24000/35000  21.8 ms/img
+  25600/35000  21.8 ms/img
+  27200/35000  21.7 ms/img
+  28800/35000  21.7 ms/img
+  30400/35000  21.7 ms/img
+  32000/35000  21.7 ms/img
+  33600/35000  21.7 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_symsolt_eval_r270__d09f6f0c163c__58f344c4191c9fc0
+>>> 12:38:58 extract exp064_symsolt_eval_r270 moge2_vitl
+  1600/35000  27.4 ms/img
+  3200/35000  27.2 ms/img
+  4800/35000  27.3 ms/img
+  6400/35000  27.4 ms/img
+  8000/35000  27.4 ms/img
+  9600/35000  27.4 ms/img
+  11200/35000  27.5 ms/img
+  12800/35000  27.5 ms/img
+  14400/35000  27.5 ms/img
+  16000/35000  27.5 ms/img
+  17600/35000  27.5 ms/img
+  19200/35000  27.5 ms/img
+  20800/35000  27.5 ms/img
+  22400/35000  27.5 ms/img
+  24000/35000  27.5 ms/img
+  25600/35000  27.5 ms/img
+  27200/35000  27.5 ms/img
+  28800/35000  27.5 ms/img
+  30400/35000  27.5 ms/img
+  32000/35000  27.5 ms/img
+  33600/35000  27.5 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_symsolt_eval_r270__d3069754c569__58f344c4191c9fc0
+[guarded] 12:55:07 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 12:56:07 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 12:57:07 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 12:58:07 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 12:59:07 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:00:07 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:01:07 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:02:07 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:03:08 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:04:08 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:05:08 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:06:08 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:07:08 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:08:08 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:09:08 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:10:08 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:11:09 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:12:09 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:13:09 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:14:09 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:15:09 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:16:09 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:17:09 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:18:09 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:19:09 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:20:10 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:21:10 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:22:10 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:23:10 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:24:10 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:25:10 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:26:10 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:27:10 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:28:11 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:29:11 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:30:11 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:31:11 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:32:11 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:33:11 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:34:11 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:35:11 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:36:12 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:37:12 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:38:12 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:39:12 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:40:12 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:41:12 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:42:12 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:43:12 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:44:12 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:45:13 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:46:13 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:47:13 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:48:13 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:49:13 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:50:13 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:51:13 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:52:13 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:53:14 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:54:14 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:55:14 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:56:14 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:57:14 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:58:14 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 13:59:14 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 14:00:14 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 14:01:15 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 14:02:15 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 14:03:15 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 14:04:15 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 14:05:15 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 14:06:15 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 14:07:15 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 14:08:15 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 14:09:15 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 14:10:16 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+[guarded] 14:11:16 paused for maintenance (/home/kavinder/RAM/pose-estimation/outputs/experiments/QUEUE_PAUSE)
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_symsolt_eval_r270
+>>> 14:12:18 EXP-064 train symsolt tet dinov3_vitl16:tokens8 seed=0
+symsolt tet dinov3_vitl16:tokens8 seed 0 val_sym_mean 4.34
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-141219-seed0
+>>> 14:16:58 EXP-064 train symsolt tet moge2_vitl:normals16~and seed=0
+symsolt tet moge2_vitl:normals16~and seed 0 val_sym_mean 12.48
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-141659-seed0
+>>> 14:20:04 EXP-064 train symsolt cube dinov3_vitl16:tokens8 seed=0
+symsolt cube dinov3_vitl16:tokens8 seed 0 val_sym_mean 4.05
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-142006-seed0
+>>> 14:24:38 EXP-064 train symsolt cube moge2_vitl:normals16~and seed=0
+symsolt cube moge2_vitl:normals16~and seed 0 val_sym_mean 40.64
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-142439-seed0
+>>> 14:28:38 EXP-064 train symsolt icosa dinov3_vitl16:tokens8 seed=0
+symsolt icosa dinov3_vitl16:tokens8 seed 0 val_sym_mean 5.96
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-142839-seed0
+>>> 14:34:41 EXP-064 train symsolt icosa moge2_vitl:normals16~and seed=0
+symsolt icosa moge2_vitl:normals16~and seed 0 val_sym_mean 29.72
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-143442-seed0
+>>> 14:37:43 EXP-064 train symsolt cone dinov3_vitl16:tokens8 seed=0
+symsolt cone dinov3_vitl16:tokens8 seed 0 val_sym_mean 2.24
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-143744-seed0
+>>> 14:47:24 EXP-064 train symsolt cone moge2_vitl:normals16~and seed=0
+symsolt cone moge2_vitl:normals16~and seed 0 val_sym_mean 5.13
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-144726-seed0
+>>> 14:50:54 EXP-064 train symsolt cyl dinov3_vitl16:tokens8 seed=0
+symsolt cyl dinov3_vitl16:tokens8 seed 0 val_sym_mean 2.14
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-145055-seed0
+>>> 14:57:21 EXP-064 train symsolt cyl moge2_vitl:normals16~and seed=0
+symsolt cyl moge2_vitl:normals16~and seed 0 val_sym_mean 56.80
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-145722-seed0
+>>> 15:00:41 EXP-064 train symsolt tet dinov3_vitl16:tokens8 seed=1
+symsolt tet dinov3_vitl16:tokens8 seed 1 val_sym_mean 4.38
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-150043-seed1
+>>> 15:06:08 EXP-064 train symsolt tet moge2_vitl:normals16~and seed=1
+symsolt tet moge2_vitl:normals16~and seed 1 val_sym_mean 12.24
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-150609-seed1
+>>> 15:09:35 EXP-064 train symsolt cube dinov3_vitl16:tokens8 seed=1
+symsolt cube dinov3_vitl16:tokens8 seed 1 val_sym_mean 4.19
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-150937-seed1
+>>> 15:16:04 EXP-064 train symsolt cube moge2_vitl:normals16~and seed=1
+symsolt cube moge2_vitl:normals16~and seed 1 val_sym_mean 40.64
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-151605-seed1
+>>> 15:19:08 EXP-064 train symsolt icosa dinov3_vitl16:tokens8 seed=1
+symsolt icosa dinov3_vitl16:tokens8 seed 1 val_sym_mean 6.15
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-151909-seed1
+>>> 15:25:32 EXP-064 train symsolt icosa moge2_vitl:normals16~and seed=1
+symsolt icosa moge2_vitl:normals16~and seed 1 val_sym_mean 29.72
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-152534-seed1
+>>> 15:28:57 EXP-064 train symsolt cone dinov3_vitl16:tokens8 seed=1
+symsolt cone dinov3_vitl16:tokens8 seed 1 val_sym_mean 2.20
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-152859-seed1
+>>> 15:34:53 EXP-064 train symsolt cone moge2_vitl:normals16~and seed=1
+symsolt cone moge2_vitl:normals16~and seed 1 val_sym_mean 4.98
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-153454-seed1
+>>> 15:38:07 EXP-064 train symsolt cyl dinov3_vitl16:tokens8 seed=1
+symsolt cyl dinov3_vitl16:tokens8 seed 1 val_sym_mean 2.12
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-153809-seed1
+>>> 15:44:39 EXP-064 train symsolt cyl moge2_vitl:normals16~and seed=1
+symsolt cyl moge2_vitl:normals16~and seed 1 val_sym_mean 56.80
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-154440-seed1
+>>> 15:48:07 EXP-064 train symsolt tet dinov3_vitl16:tokens8 seed=2
+symsolt tet dinov3_vitl16:tokens8 seed 2 val_sym_mean 4.36
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-154808-seed2
+>>> 15:53:30 EXP-064 train symsolt tet moge2_vitl:normals16~and seed=2
+symsolt tet moge2_vitl:normals16~and seed 2 val_sym_mean 11.82
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-155331-seed2
+>>> 15:57:00 EXP-064 train symsolt cube dinov3_vitl16:tokens8 seed=2
+symsolt cube dinov3_vitl16:tokens8 seed 2 val_sym_mean 4.07
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-155701-seed2
+>>> 16:03:34 EXP-064 train symsolt cube moge2_vitl:normals16~and seed=2
+symsolt cube moge2_vitl:normals16~and seed 2 val_sym_mean 40.64
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-160336-seed2
+>>> 16:11:02 EXP-064 train symsolt icosa dinov3_vitl16:tokens8 seed=2
+symsolt icosa dinov3_vitl16:tokens8 seed 2 val_sym_mean 6.23
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-161103-seed2
+>>> 16:20:30 EXP-064 train symsolt icosa moge2_vitl:normals16~and seed=2
+symsolt icosa moge2_vitl:normals16~and seed 2 val_sym_mean 29.72
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-162032-seed2
+>>> 16:29:25 EXP-064 train symsolt cone dinov3_vitl16:tokens8 seed=2
+symsolt cone dinov3_vitl16:tokens8 seed 2 val_sym_mean 2.21
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-162927-seed2
+>>> 16:38:42 EXP-064 train symsolt cone moge2_vitl:normals16~and seed=2
+symsolt cone moge2_vitl:normals16~and seed 2 val_sym_mean 5.07
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-163844-seed2
+>>> 16:43:35 EXP-064 train symsolt cyl dinov3_vitl16:tokens8 seed=2
+symsolt cyl dinov3_vitl16:tokens8 seed 2 val_sym_mean 2.06
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-164337-seed2
+>>> 16:49:29 EXP-064 train symsolt cyl moge2_vitl:normals16~and seed=2
+symsolt cyl moge2_vitl:normals16~and seed 2 val_sym_mean 56.80
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-164931-seed2
+symsolt cone 0 PoE greedy 2.28 | orbit_product 1.82 | orbit_vote32 1.94
+symsolt cone 0 DINO greedy 2.20 | orbit_product 1.77 | orbit_vote32 2.02
+symsolt cone 1 PoE greedy 2.30 | orbit_product 1.83 | orbit_vote32 1.98
+symsolt cone 1 DINO greedy 2.18 | orbit_product 1.77 | orbit_vote32 2.04
+symsolt cone 2 PoE greedy 2.30 | orbit_product 1.83 | orbit_vote32 1.94
+symsolt cone 2 DINO greedy 2.19 | orbit_product 1.79 | orbit_vote32 2.03
+symsolt cube 0 PoE greedy 40.70 | orbit_product 40.71 | orbit_vote32 40.71
+symsolt cube 0 DINO greedy 4.13 | orbit_product 2.90 | orbit_vote32 3.04
+symsolt cube 1 PoE greedy 40.70 | orbit_product 40.71 | orbit_vote32 40.71
+symsolt cube 1 DINO greedy 4.22 | orbit_product 2.92 | orbit_vote32 3.08
+symsolt cube 2 PoE greedy 40.70 | orbit_product 40.71 | orbit_vote32 40.71
+symsolt cube 2 DINO greedy 4.12 | orbit_product 2.90 | orbit_vote32 3.06
+symsolt cyl 0 PoE greedy 56.81 | orbit_product 57.50 | orbit_vote32 57.50
+symsolt cyl 0 DINO greedy 2.14 | orbit_product 1.65 | orbit_vote32 1.88
+symsolt cyl 1 PoE greedy 56.81 | orbit_product 57.50 | orbit_vote32 57.50
+symsolt cyl 1 DINO greedy 2.13 | orbit_product 1.66 | orbit_vote32 1.84
+symsolt cyl 2 PoE greedy 56.81 | orbit_product 57.50 | orbit_vote32 57.50
+symsolt cyl 2 DINO greedy 2.09 | orbit_product 1.63 | orbit_vote32 1.86
+symsolt icosa 0 PoE greedy 29.61 | orbit_product 29.62 | orbit_vote32 29.62
+symsolt icosa 0 DINO greedy 6.02 | orbit_product 3.66 | orbit_vote32 4.24
+symsolt icosa 1 PoE greedy 29.61 | orbit_product 29.62 | orbit_vote32 29.62
+symsolt icosa 1 DINO greedy 6.24 | orbit_product 3.74 | orbit_vote32 4.23
+symsolt icosa 2 PoE greedy 29.61 | orbit_product 29.62 | orbit_vote32 29.62
+symsolt icosa 2 DINO greedy 6.29 | orbit_product 3.72 | orbit_vote32 4.28
+symsolt tet 0 PoE greedy 4.92 | orbit_product 3.36 | orbit_vote32 3.52
+symsolt tet 0 DINO greedy 4.38 | orbit_product 3.08 | orbit_vote32 3.09
+symsolt tet 1 PoE greedy 4.90 | orbit_product 3.33 | orbit_vote32 3.51
+symsolt tet 1 DINO greedy 4.41 | orbit_product 3.04 | orbit_vote32 3.08
+symsolt tet 2 PoE greedy 4.81 | orbit_product 3.31 | orbit_vote32 3.46
+symsolt tet 2 DINO greedy 4.36 | orbit_product 3.05 | orbit_vote32 3.07
+| split | variant | mode | sym_mean | sym_mean_std | sym_median | acc10 | frac_gt90 | raw_mean |
+|---|---|---|---|---|---|---|---|---|
+| test | DINO | greedy | 3.817 | 0.032 | 3.508 | 0.970 | 0.000 | 121.335 |
+| test | DINO | orbit_product | 2.622 | 0.010 | 2.489 | 1.000 | 0.000 | 121.394 |
+| test | DINO | orbit_vote32 | 2.862 | 0.012 | 2.681 | 0.997 | 0.000 | 121.081 |
+| test | PoE | greedy | 26.850 | 0.010 | 27.783 | 0.399 | 0.000 | 118.819 |
+| test | PoE | orbit_product | 26.626 | 0.004 | 27.742 | 0.407 | 0.000 | 118.998 |
+| test | PoE | orbit_vote32 | 26.679 | 0.009 | 27.776 | 0.407 | 0.000 | 118.852 |
+| validation | DINO | greedy | 3.779 | 0.028 | 3.466 | 0.971 | 0.000 | 121.455 |
+| validation | DINO | orbit_product | 2.612 | 0.004 | 2.473 | 1.000 | 0.000 | 121.667 |
+| validation | DINO | orbit_vote32 | 2.846 | 0.022 | 2.667 | 0.998 | 0.000 | 121.702 |
+| validation | PoE | greedy | 26.871 | 0.015 | 27.759 | 0.397 | 0.000 | 118.525 |
+| validation | PoE | orbit_product | 26.524 | 0.008 | 27.595 | 0.406 | 0.000 | 119.312 |
+| validation | PoE | orbit_vote32 | 26.596 | 0.008 | 27.647 | 0.405 | 0.000 | 119.035 |
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-165420-seed0
+=== 17:40:55 BLOCK_DONE EXP-064-symsolt
+=== 17:40:55 BLOCK EXP-064-ycbv
+>>> 17:40:55 extract exp064_ycbv_all dinov3_vitl16
+Traceback (most recent call last):
+  File "/home/kavinder/RAM/pose-estimation/scripts/extract_compact.py", line 144, in <module>
+    for x in dl:
+             ^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 734, in __next__
+    data = self._next_data()
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 1516, in _next_data
+    return self._process_data(data, worker_id)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 1551, in _process_data
+    data.reraise()
+    ~~~~~~~~~~~~^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/_utils.py", line 769, in reraise
+    raise exception
+FileNotFoundError: Caught FileNotFoundError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/utils/data/_utils/worker.py", line 349, in _worker_loop
+    data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ~~~~~~~~~~~~^^^^^
+  File "/home/kavinder/RAM/pose-estimation/scripts/extract_compact.py", line 80, in __getitem__
+    raise FileNotFoundError(root / r.image_relpath)
+FileNotFoundError: /media/kavinder/hdd2/FFb6D/datasets/ycb/YCB_Video_Dataset/data/0000/000003-color.png
+
+=== 17:41:05 BLOCK_FAILED EXP-064-ycbv
+=== 17:41:05 EXP064_DONE
+{'dataset': 'tless', 'n_checks': 1200, 'px_err_mean': np.float64(3.9279724180102205e-13), 'px_err_p95': np.float64(6.339753894115886e-13), 'px_err_max': np.float64(6.214954151603127e-11), 'label_err_deg_mean': np.float64(1.4811421747395074e-07), 'label_err_deg_p95': np.float64(1.2074182697257333e-06), 'label_err_deg_max': np.float64(2.091309789151873e-06), 'target_roundtrip_deg_max': np.float64(2.9575586669421963e-06), 'verified': True}
+{'dataset': 'ycbv', 'n_checks': 1200, 'px_err_mean': np.float64(4.566183931116371e-13), 'px_err_p95': np.float64(8.519816412864422e-13), 'px_err_max': np.float64(4.7407677569699765e-11), 'label_err_deg_mean': np.float64(1.3598983832140248e-07), 'label_err_deg_p95': np.float64(1.2074182697257333e-06), 'label_err_deg_max': np.float64(1.7075472925031877e-06), 'target_roundtrip_deg_max': np.float64(2.4148365394514667e-06), 'verified': True}
+{'dataset': 'symsolt', 'n_checks': 1200, 'px_err_mean': np.float64(1.5012123828109226e-13), 'px_err_p95': np.float64(3.227066213711642e-13), 'px_err_max': np.float64(2.552572142133216e-11), 'label_err_deg_mean': np.float64(1.4865342872445004e-07), 'label_err_deg_p95': np.float64(1.2074182697257333e-06), 'label_err_deg_max': np.float64(1.7075472925031877e-06), 'target_roundtrip_deg_max': np.float64(2.4148365394514667e-06), 'verified': True}
+| dataset | n_checks | px_err_mean | px_err_p95 | px_err_max | label_err_deg_mean | label_err_deg_p95 | label_err_deg_max | target_roundtrip_deg_max | verified |
+|---|---|---|---|---|---|---|---|---|---|
+| tless | 1200 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | True |
+| ycbv | 1200 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | True |
+| symsolt | 1200 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | True |
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-174235-seed0
+=== 17:42:44 BLOCK EXP-064-ycbv
+>>> 17:42:44 extract exp064_ycbv_all dinov3_vitl16
+  1600/54591  28.3 ms/img
+  3200/54591  28.0 ms/img
+  4800/54591  28.0 ms/img
+  6400/54591  28.0 ms/img
+  8000/54591  27.9 ms/img
+  9600/54591  27.8 ms/img
+  11200/54591  27.6 ms/img
+  12800/54591  27.6 ms/img
+  14400/54591  27.6 ms/img
+  16000/54591  27.6 ms/img
+  17600/54591  27.6 ms/img
+  19200/54591  27.5 ms/img
+  20800/54591  27.5 ms/img
+  22400/54591  27.5 ms/img
+  24000/54591  27.5 ms/img
+  25600/54591  27.5 ms/img
+  27200/54591  27.5 ms/img
+  28800/54591  27.5 ms/img
+  30400/54591  27.5 ms/img
+  32000/54591  27.5 ms/img
+  33600/54591  27.5 ms/img
+  35200/54591  27.4 ms/img
+  36800/54591  27.3 ms/img
+  38400/54591  27.3 ms/img
+  40000/54591  27.3 ms/img
+  41600/54591  27.3 ms/img
+  43200/54591  27.3 ms/img
+  44800/54591  27.3 ms/img
+  46400/54591  27.3 ms/img
+  48000/54591  27.3 ms/img
+  49600/54591  27.2 ms/img
+  51200/54591  27.2 ms/img
+  52800/54591  27.2 ms/img
+  54400/54591  27.3 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_ycbv_all__39d7aaf4a5e7__82ad8959c846781a
+>>> 18:07:40 extract exp064_ycbv_all moge2_vitl
+  1600/54591  45.7 ms/img
+  3200/54591  45.0 ms/img
+  4800/54591  45.0 ms/img
+  6400/54591  45.0 ms/img
+  8000/54591  44.9 ms/img
+  9600/54591  44.8 ms/img
+  11200/54591  44.7 ms/img
+  12800/54591  44.7 ms/img
+  14400/54591  44.7 ms/img
+  16000/54591  44.6 ms/img
+  17600/54591  44.6 ms/img
+  19200/54591  44.6 ms/img
+  20800/54591  44.6 ms/img
+  22400/54591  44.6 ms/img
+  24000/54591  44.7 ms/img
+  25600/54591  44.7 ms/img
+  27200/54591  44.7 ms/img
+  28800/54591  44.7 ms/img
+  30400/54591  44.7 ms/img
+  32000/54591  44.7 ms/img
+  33600/54591  44.7 ms/img
+  35200/54591  44.7 ms/img
+  36800/54591  45.0 ms/img
+  38400/54591  44.8 ms/img
+  40000/54591  44.6 ms/img
+  41600/54591  44.4 ms/img
+  43200/54591  44.2 ms/img
+  44800/54591  44.0 ms/img
+  46400/54591  43.8 ms/img
+  48000/54591  43.7 ms/img
+  49600/54591  43.5 ms/img
+  51200/54591  43.3 ms/img
+  52800/54591  43.2 ms/img
+  54400/54591  43.0 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_ycbv_all__2a61ac645e76__82ad8959c846781a
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_ycbv_all
+>>> 18:47:06 extract exp064_ycbv_aug1 dinov3_vitl16
+  1600/48316  28.0 ms/img
+  3200/48316  27.7 ms/img
+  4800/48316  27.5 ms/img
+  6400/48316  27.5 ms/img
+  8000/48316  27.0 ms/img
+  9600/48316  26.9 ms/img
+  11200/48316  26.9 ms/img
+  12800/48316  26.9 ms/img
+  14400/48316  26.9 ms/img
+  16000/48316  27.0 ms/img
+  17600/48316  27.0 ms/img
+  19200/48316  26.9 ms/img
+  20800/48316  26.8 ms/img
+  22400/48316  26.7 ms/img
+  24000/48316  26.7 ms/img
+  25600/48316  26.7 ms/img
+  27200/48316  26.7 ms/img
+  28800/48316  26.6 ms/img
+  30400/48316  26.5 ms/img
+  32000/48316  26.4 ms/img
+  33600/48316  26.4 ms/img
+  35200/48316  26.3 ms/img
+  36800/48316  26.2 ms/img
+  38400/48316  26.1 ms/img
+  40000/48316  26.2 ms/img
+  41600/48316  26.2 ms/img
+  43200/48316  26.2 ms/img
+  44800/48316  26.3 ms/img
+  46400/48316  26.3 ms/img
+  48000/48316  26.4 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_ycbv_aug1__582bfe3a24c5__9b7ea7d1282676e0
+>>> 19:08:29 extract exp064_ycbv_aug1 moge2_vitl
+  1600/48316  38.8 ms/img
+  3200/48316  38.1 ms/img
+  4800/48316  37.9 ms/img
+  6400/48316  38.2 ms/img
+  8000/48316  38.1 ms/img
+  9600/48316  38.0 ms/img
+  11200/48316  38.0 ms/img
+  12800/48316  37.9 ms/img
+  14400/48316  37.9 ms/img
+  16000/48316  38.0 ms/img
+  17600/48316  38.0 ms/img
+  19200/48316  38.0 ms/img
+  20800/48316  37.9 ms/img
+  22400/48316  37.9 ms/img
+  24000/48316  38.0 ms/img
+  25600/48316  38.0 ms/img
+  27200/48316  37.9 ms/img
+  28800/48316  37.9 ms/img
+  30400/48316  37.9 ms/img
+  32000/48316  37.9 ms/img
+  33600/48316  38.0 ms/img
+  35200/48316  38.2 ms/img
+  36800/48316  38.2 ms/img
+  38400/48316  38.3 ms/img
+  40000/48316  38.3 ms/img
+  41600/48316  38.4 ms/img
+  43200/48316  38.4 ms/img
+  44800/48316  38.5 ms/img
+  46400/48316  38.5 ms/img
+  48000/48316  38.5 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_ycbv_aug1__19558b5fcc62__9b7ea7d1282676e0
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_ycbv_aug1
+>>> 19:39:46 extract exp064_ycbv_aug2 dinov3_vitl16
+  1600/48316  28.1 ms/img
+  3200/48316  27.8 ms/img
+  4800/48316  27.6 ms/img
+  6400/48316  27.6 ms/img
+  8000/48316  27.5 ms/img
+  9600/48316  27.5 ms/img
+  11200/48316  27.5 ms/img
+  12800/48316  27.5 ms/img
+  14400/48316  27.4 ms/img
+  16000/48316  27.4 ms/img
+  17600/48316  27.5 ms/img
+  19200/48316  27.4 ms/img
+  20800/48316  27.4 ms/img
+  22400/48316  27.5 ms/img
+  24000/48316  27.5 ms/img
+  25600/48316  27.5 ms/img
+  27200/48316  27.5 ms/img
+  28800/48316  27.4 ms/img
+  30400/48316  27.4 ms/img
+  32000/48316  27.4 ms/img
+  33600/48316  27.4 ms/img
+  35200/48316  27.5 ms/img
+  36800/48316  27.4 ms/img
+  38400/48316  27.4 ms/img
+  40000/48316  27.4 ms/img
+  41600/48316  27.4 ms/img
+  43200/48316  27.4 ms/img
+  44800/48316  27.4 ms/img
+  46400/48316  27.4 ms/img
+  48000/48316  27.4 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_ycbv_aug2__fd24a26f9dc0__42e636497dca88f1
+>>> 20:01:59 extract exp064_ycbv_aug2 moge2_vitl
+  1600/48316  41.8 ms/img
+  3200/48316  40.6 ms/img
+  4800/48316  40.3 ms/img
+  6400/48316  40.1 ms/img
+  8000/48316  40.0 ms/img
+  9600/48316  40.3 ms/img
+  11200/48316  40.1 ms/img
+  12800/48316  40.1 ms/img
+  14400/48316  40.0 ms/img
+  16000/48316  40.0 ms/img
+  17600/48316  40.0 ms/img
+  19200/48316  39.9 ms/img
+  20800/48316  39.9 ms/img
+  22400/48316  39.9 ms/img
+  24000/48316  40.0 ms/img
+  25600/48316  40.1 ms/img
+  27200/48316  39.9 ms/img
+  28800/48316  39.8 ms/img
+  30400/48316  39.9 ms/img
+  32000/48316  39.9 ms/img
+  33600/48316  40.0 ms/img
+  35200/48316  39.9 ms/img
+  36800/48316  39.9 ms/img
+  38400/48316  39.8 ms/img
+  40000/48316  39.7 ms/img
+  41600/48316  39.7 ms/img
+  43200/48316  39.6 ms/img
+  44800/48316  39.5 ms/img
+  46400/48316  39.4 ms/img
+  48000/48316  39.4 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_ycbv_aug2__35bc6b114a73__42e636497dca88f1
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_ycbv_aug2
+>>> 20:34:05 extract exp064_ycbv_eval_r90 dinov3_vitl16
+  1600/6275  28.4 ms/img
+  3200/6275  27.9 ms/img
+  4800/6275  27.8 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_ycbv_eval_r90__9e54ea73ed29__5969e18197b65a34
+>>> 20:37:08 extract exp064_ycbv_eval_r90 moge2_vitl
+  1600/6275  38.4 ms/img
+  3200/6275  38.2 ms/img
+  4800/6275  38.1 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_ycbv_eval_r90__281d8fd4b911__5969e18197b65a34
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_ycbv_eval_r90
+>>> 20:41:21 extract exp064_ycbv_eval_r180 dinov3_vitl16
+  1600/6275  28.3 ms/img
+  3200/6275  27.9 ms/img
+  4800/6275  27.7 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_ycbv_eval_r180__5f7772f94730__5e982443878d9a3d
+>>> 20:44:23 extract exp064_ycbv_eval_r180 moge2_vitl
+  1600/6275  39.1 ms/img
+  3200/6275  39.4 ms/img
+  4800/6275  39.0 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_ycbv_eval_r180__952a3a4bd43d__5e982443878d9a3d
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_ycbv_eval_r180
+>>> 20:48:38 extract exp064_ycbv_eval_r270 dinov3_vitl16
+  1600/6275  27.4 ms/img
+  3200/6275  27.2 ms/img
+  4800/6275  27.2 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_ycbv_eval_r270__540adf6d99f3__6837a0bf1a5fc0db
+>>> 20:51:35 extract exp064_ycbv_eval_r270 moge2_vitl
+  1600/6275  39.7 ms/img
+  3200/6275  38.9 ms/img
+  4800/6275  38.6 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_ycbv_eval_r270__ed23b0e2938b__6837a0bf1a5fc0db
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_ycbv_eval_r270
+>>> 20:55:47 EXP-064 train ycbv 003_cracker_box dinov3_vitl16:tokens8 seed=0
+ycbv 003_cracker_box dinov3_vitl16:tokens8 seed 0 val_sym_mean 40.06
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-205549-seed0
+>>> 20:59:52 EXP-064 train ycbv 003_cracker_box moge2_vitl:normals16~and seed=0
+ycbv 003_cracker_box moge2_vitl:normals16~and seed 0 val_sym_mean 111.04
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-205954-seed0
+>>> 21:02:18 EXP-064 train ycbv 006_mustard_bottle dinov3_vitl16:tokens8 seed=0
+ycbv 006_mustard_bottle dinov3_vitl16:tokens8 seed 0 val_sym_mean 148.05
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-210219-seed0
+>>> 21:06:42 EXP-064 train ycbv 006_mustard_bottle moge2_vitl:normals16~and seed=0
+ycbv 006_mustard_bottle moge2_vitl:normals16~and seed 0 val_sym_mean 160.86
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-210644-seed0
+>>> 21:09:19 EXP-064 train ycbv 011_banana dinov3_vitl16:tokens8 seed=0
+ycbv 011_banana dinov3_vitl16:tokens8 seed 0 val_sym_mean 121.90
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-210921-seed0
+>>> 21:13:28 EXP-064 train ycbv 011_banana moge2_vitl:normals16~and seed=0
+ycbv 011_banana moge2_vitl:normals16~and seed 0 val_sym_mean 99.56
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-211330-seed0
+>>> 21:16:17 EXP-064 train ycbv 025_mug dinov3_vitl16:tokens8 seed=0
+ycbv 025_mug dinov3_vitl16:tokens8 seed 0 val_sym_mean 23.94
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-211618-seed0
+>>> 21:19:22 EXP-064 train ycbv 025_mug moge2_vitl:normals16~and seed=0
+ycbv 025_mug moge2_vitl:normals16~and seed 0 val_sym_mean 21.30
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-211924-seed0
+>>> 21:21:24 EXP-064 train ycbv 035_power_drill dinov3_vitl16:tokens8 seed=0
+ycbv 035_power_drill dinov3_vitl16:tokens8 seed 0 val_sym_mean 14.36
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-212126-seed0
+>>> 21:24:47 EXP-064 train ycbv 035_power_drill moge2_vitl:normals16~and seed=0
+ycbv 035_power_drill moge2_vitl:normals16~and seed 0 val_sym_mean 20.29
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-212448-seed0
+>>> 21:26:42 EXP-064 train ycbv 037_scissors dinov3_vitl16:tokens8 seed=0
+ycbv 037_scissors dinov3_vitl16:tokens8 seed 0 val_sym_mean 116.08
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-212643-seed0
+>>> 21:30:49 EXP-064 train ycbv 037_scissors moge2_vitl:normals16~and seed=0
+ycbv 037_scissors moge2_vitl:normals16~and seed 0 val_sym_mean 101.18
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-213051-seed0
+>>> 21:33:09 EXP-064 train ycbv 003_cracker_box dinov3_vitl16:tokens8 seed=1
+ycbv 003_cracker_box dinov3_vitl16:tokens8 seed 1 val_sym_mean 34.95
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-213310-seed1
+>>> 21:37:09 EXP-064 train ycbv 003_cracker_box moge2_vitl:normals16~and seed=1
+ycbv 003_cracker_box moge2_vitl:normals16~and seed 1 val_sym_mean 99.29
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-213711-seed1
+>>> 21:39:29 EXP-064 train ycbv 006_mustard_bottle dinov3_vitl16:tokens8 seed=1
+ycbv 006_mustard_bottle dinov3_vitl16:tokens8 seed 1 val_sym_mean 142.26
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-213930-seed1
+>>> 21:43:22 EXP-064 train ycbv 006_mustard_bottle moge2_vitl:normals16~and seed=1
+ycbv 006_mustard_bottle moge2_vitl:normals16~and seed 1 val_sym_mean 163.16
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-214323-seed1
+>>> 21:45:53 EXP-064 train ycbv 011_banana dinov3_vitl16:tokens8 seed=1
+ycbv 011_banana dinov3_vitl16:tokens8 seed 1 val_sym_mean 87.98
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-214555-seed1
+>>> 21:49:36 EXP-064 train ycbv 011_banana moge2_vitl:normals16~and seed=1
+ycbv 011_banana moge2_vitl:normals16~and seed 1 val_sym_mean 94.04
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-214937-seed1
+>>> 21:52:27 EXP-064 train ycbv 025_mug dinov3_vitl16:tokens8 seed=1
+ycbv 025_mug dinov3_vitl16:tokens8 seed 1 val_sym_mean 20.51
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-215228-seed1
+>>> 21:55:49 EXP-064 train ycbv 025_mug moge2_vitl:normals16~and seed=1
+ycbv 025_mug moge2_vitl:normals16~and seed 1 val_sym_mean 19.86
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-215550-seed1
+>>> 21:57:58 EXP-064 train ycbv 035_power_drill dinov3_vitl16:tokens8 seed=1
+ycbv 035_power_drill dinov3_vitl16:tokens8 seed 1 val_sym_mean 17.02
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-215759-seed1
+>>> 22:01:15 EXP-064 train ycbv 035_power_drill moge2_vitl:normals16~and seed=1
+ycbv 035_power_drill moge2_vitl:normals16~and seed 1 val_sym_mean 14.93
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-220116-seed1
+>>> 22:03:16 EXP-064 train ycbv 037_scissors dinov3_vitl16:tokens8 seed=1
+ycbv 037_scissors dinov3_vitl16:tokens8 seed 1 val_sym_mean 27.22
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-220318-seed1
+>>> 22:07:27 EXP-064 train ycbv 037_scissors moge2_vitl:normals16~and seed=1
+ycbv 037_scissors moge2_vitl:normals16~and seed 1 val_sym_mean 95.37
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-220729-seed1
+>>> 22:09:56 EXP-064 train ycbv 003_cracker_box dinov3_vitl16:tokens8 seed=2
+ycbv 003_cracker_box dinov3_vitl16:tokens8 seed 2 val_sym_mean 33.49
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-220958-seed2
+>>> 22:14:14 EXP-064 train ycbv 003_cracker_box moge2_vitl:normals16~and seed=2
+ycbv 003_cracker_box moge2_vitl:normals16~and seed 2 val_sym_mean 96.05
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-221415-seed2
+>>> 22:16:48 EXP-064 train ycbv 006_mustard_bottle dinov3_vitl16:tokens8 seed=2
+ycbv 006_mustard_bottle dinov3_vitl16:tokens8 seed 2 val_sym_mean 152.61
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-221650-seed2
+>>> 22:21:36 EXP-064 train ycbv 006_mustard_bottle moge2_vitl:normals16~and seed=2
+ycbv 006_mustard_bottle moge2_vitl:normals16~and seed 2 val_sym_mean 156.27
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-222137-seed2
+>>> 22:24:27 EXP-064 train ycbv 011_banana dinov3_vitl16:tokens8 seed=2
+ycbv 011_banana dinov3_vitl16:tokens8 seed 2 val_sym_mean 99.64
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-222429-seed2
+>>> 22:29:09 EXP-064 train ycbv 011_banana moge2_vitl:normals16~and seed=2
+ycbv 011_banana moge2_vitl:normals16~and seed 2 val_sym_mean 118.39
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-222910-seed2
+>>> 22:32:29 EXP-064 train ycbv 025_mug dinov3_vitl16:tokens8 seed=2
+ycbv 025_mug dinov3_vitl16:tokens8 seed 2 val_sym_mean 20.06
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-223231-seed2
+>>> 22:35:45 EXP-064 train ycbv 025_mug moge2_vitl:normals16~and seed=2
+ycbv 025_mug moge2_vitl:normals16~and seed 2 val_sym_mean 22.16
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-223546-seed2
+>>> 22:37:45 EXP-064 train ycbv 035_power_drill dinov3_vitl16:tokens8 seed=2
+ycbv 035_power_drill dinov3_vitl16:tokens8 seed 2 val_sym_mean 12.74
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-223747-seed2
+>>> 22:41:00 EXP-064 train ycbv 035_power_drill moge2_vitl:normals16~and seed=2
+ycbv 035_power_drill moge2_vitl:normals16~and seed 2 val_sym_mean 13.72
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-224102-seed2
+>>> 22:42:54 EXP-064 train ycbv 037_scissors dinov3_vitl16:tokens8 seed=2
+ycbv 037_scissors dinov3_vitl16:tokens8 seed 2 val_sym_mean 44.96
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-224255-seed2
+>>> 22:46:58 EXP-064 train ycbv 037_scissors moge2_vitl:normals16~and seed=2
+ycbv 037_scissors moge2_vitl:normals16~and seed 2 val_sym_mean 125.44
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-224700-seed2
+ycbv 003_cracker_box 0 PoE greedy 84.33 | orbit_product 79.78 | orbit_vote32 88.86
+ycbv 003_cracker_box 0 DINO greedy 86.55 | orbit_product 63.67 | orbit_vote32 67.35
+ycbv 003_cracker_box 1 PoE greedy 69.69 | orbit_product 69.35 | orbit_vote32 74.29
+ycbv 003_cracker_box 1 DINO greedy 66.35 | orbit_product 60.82 | orbit_vote32 64.38
+ycbv 003_cracker_box 2 PoE greedy 65.26 | orbit_product 77.75 | orbit_vote32 86.01
+ycbv 003_cracker_box 2 DINO greedy 48.12 | orbit_product 69.73 | orbit_vote32 72.46
+ycbv 006_mustard_bottle 0 PoE greedy 129.93 | orbit_product 130.41 | orbit_vote32 132.74
+ycbv 006_mustard_bottle 0 DINO greedy 124.83 | orbit_product 119.28 | orbit_vote32 108.57
+ycbv 006_mustard_bottle 1 PoE greedy 114.52 | orbit_product 108.91 | orbit_vote32 117.11
+ycbv 006_mustard_bottle 1 DINO greedy 103.59 | orbit_product 101.94 | orbit_vote32 99.85
+ycbv 006_mustard_bottle 2 PoE greedy 127.05 | orbit_product 132.14 | orbit_vote32 142.02
+ycbv 006_mustard_bottle 2 DINO greedy 128.32 | orbit_product 116.19 | orbit_vote32 114.39
+ycbv 011_banana 0 PoE greedy 105.25 | orbit_product 98.02 | orbit_vote32 99.11
+ycbv 011_banana 0 DINO greedy 113.95 | orbit_product 98.65 | orbit_vote32 102.25
+ycbv 011_banana 1 PoE greedy 76.82 | orbit_product 83.70 | orbit_vote32 82.24
+ycbv 011_banana 1 DINO greedy 79.83 | orbit_product 87.67 | orbit_vote32 98.16
+ycbv 011_banana 2 PoE greedy 109.22 | orbit_product 86.54 | orbit_vote32 94.58
+ycbv 011_banana 2 DINO greedy 91.13 | orbit_product 89.91 | orbit_vote32 93.42
+ycbv 025_mug 0 PoE greedy 17.61 | orbit_product 20.91 | orbit_vote32 26.90
+ycbv 025_mug 0 DINO greedy 21.87 | orbit_product 21.81 | orbit_vote32 26.70
+ycbv 025_mug 1 PoE greedy 23.10 | orbit_product 22.47 | orbit_vote32 23.42
+ycbv 025_mug 1 DINO greedy 19.50 | orbit_product 22.25 | orbit_vote32 24.32
+ycbv 025_mug 2 PoE greedy 30.90 | orbit_product 21.48 | orbit_vote32 23.12
+ycbv 025_mug 2 DINO greedy 28.18 | orbit_product 21.85 | orbit_vote32 24.53
+ycbv 035_power_drill 0 PoE greedy 33.84 | orbit_product 33.13 | orbit_vote32 34.47
+ycbv 035_power_drill 0 DINO greedy 27.49 | orbit_product 25.50 | orbit_vote32 28.00
+ycbv 035_power_drill 1 PoE greedy 30.54 | orbit_product 34.29 | orbit_vote32 34.64
+ycbv 035_power_drill 1 DINO greedy 27.45 | orbit_product 20.99 | orbit_vote32 24.06
+ycbv 035_power_drill 2 PoE greedy 28.91 | orbit_product 32.96 | orbit_vote32 33.34
+ycbv 035_power_drill 2 DINO greedy 23.89 | orbit_product 21.18 | orbit_vote32 24.66
+ycbv 037_scissors 0 PoE greedy 112.79 | orbit_product 139.54 | orbit_vote32 136.70
+ycbv 037_scissors 0 DINO greedy 114.34 | orbit_product 65.33 | orbit_vote32 90.76
+ycbv 037_scissors 1 PoE greedy 84.72 | orbit_product 99.58 | orbit_vote32 104.13
+ycbv 037_scissors 1 DINO greedy 46.22 | orbit_product 71.19 | orbit_vote32 75.86
+ycbv 037_scissors 2 PoE greedy 113.04 | orbit_product 95.04 | orbit_vote32 91.76
+ycbv 037_scissors 2 DINO greedy 58.94 | orbit_product 69.67 | orbit_vote32 72.98
+| split | variant | mode | sym_mean | sym_mean_std | sym_median | acc10 | frac_gt90 | raw_mean |
+|---|---|---|---|---|---|---|---|---|
+| test | DINO | greedy | 71.186 | 6.966 | 63.076 | 0.080 | 0.332 | 71.186 |
+| test | DINO | orbit_product | 69.446 | 5.224 | 63.303 | 0.087 | 0.305 | 69.446 |
+| test | DINO | orbit_vote32 | 72.869 | 3.072 | 65.818 | 0.079 | 0.332 | 72.869 |
+| test | PoE | greedy | 81.146 | 7.271 | 78.527 | 0.159 | 0.422 | 81.146 |
+| test | PoE | orbit_product | 79.921 | 3.199 | 72.766 | 0.180 | 0.418 | 79.921 |
+| test | PoE | orbit_vote32 | 84.196 | 4.548 | 77.849 | 0.167 | 0.444 | 84.196 |
+| validation | DINO | greedy | 64.315 | 11.629 | 64.979 | 0.086 | 0.317 | 64.315 |
+| validation | DINO | orbit_product | 62.987 | 2.401 | 58.323 | 0.109 | 0.297 | 62.987 |
+| validation | DINO | orbit_vote32 | 65.363 | 3.408 | 61.119 | 0.098 | 0.325 | 65.363 |
+| validation | PoE | greedy | 73.519 | 6.815 | 75.140 | 0.176 | 0.398 | 73.519 |
+| validation | PoE | orbit_product | 74.061 | 7.426 | 71.297 | 0.168 | 0.401 | 74.061 |
+| validation | PoE | orbit_vote32 | 73.848 | 6.566 | 70.945 | 0.168 | 0.396 | 73.848 |
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-224920-seed0
+=== 22:57:53 BLOCK_DONE EXP-064-ycbv
+=== 22:57:53 EXP064_DONE
+=== 22:58:44 BLOCK EXP-064-symsolt-fix
+>>> 22:58:44 EXP-064 retrain symsolt cube moge2 seed=0 (sd floor)
+symsolt cube moge2_vitl:normals16~and seed 0 val_sym_mean 5.96
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-225846-seed0
+>>> 23:03:17 EXP-064 retrain symsolt cyl moge2 seed=0 (sd floor)
+symsolt cyl moge2_vitl:normals16~and seed 0 val_sym_mean 2.88
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-230319-seed0
+>>> 23:07:48 EXP-064 retrain symsolt icosa moge2 seed=0 (sd floor)
+symsolt icosa moge2_vitl:normals16~and seed 0 val_sym_mean 10.63
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-230749-seed0
+>>> 23:12:12 EXP-064 retrain symsolt cube moge2 seed=1 (sd floor)
+symsolt cube moge2_vitl:normals16~and seed 1 val_sym_mean 6.17
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-231214-seed1
+>>> 23:16:29 EXP-064 retrain symsolt cyl moge2 seed=1 (sd floor)
+symsolt cyl moge2_vitl:normals16~and seed 1 val_sym_mean 2.79
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-231631-seed1
+>>> 23:20:49 EXP-064 retrain symsolt icosa moge2 seed=1 (sd floor)
+symsolt icosa moge2_vitl:normals16~and seed 1 val_sym_mean 10.81
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-232051-seed1
+>>> 23:24:49 EXP-064 retrain symsolt cube moge2 seed=2 (sd floor)
+symsolt cube moge2_vitl:normals16~and seed 2 val_sym_mean 6.16
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-232451-seed2
+>>> 23:28:54 EXP-064 retrain symsolt cyl moge2 seed=2 (sd floor)
+symsolt cyl moge2_vitl:normals16~and seed 2 val_sym_mean 2.83
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-232855-seed2
+>>> 23:32:59 EXP-064 retrain symsolt icosa moge2 seed=2 (sd floor)
+symsolt icosa moge2_vitl:normals16~and seed 2 val_sym_mean 10.62
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-233300-seed2
+symsolt cone 0 PoE greedy 2.28 | orbit_product 1.82 | orbit_vote32 1.94
+symsolt cone 0 DINO greedy 2.20 | orbit_product 1.77 | orbit_vote32 2.02
+symsolt cone 1 PoE greedy 2.30 | orbit_product 1.83 | orbit_vote32 1.98
+symsolt cone 1 DINO greedy 2.18 | orbit_product 1.77 | orbit_vote32 2.04
+symsolt cone 2 PoE greedy 2.30 | orbit_product 1.83 | orbit_vote32 1.94
+symsolt cone 2 DINO greedy 2.19 | orbit_product 1.79 | orbit_vote32 2.03
+symsolt cube 0 PoE greedy 3.94 | orbit_product 2.69 | orbit_vote32 3.01
+symsolt cube 0 DINO greedy 4.13 | orbit_product 2.90 | orbit_vote32 3.04
+symsolt cube 1 PoE greedy 3.98 | orbit_product 2.75 | orbit_vote32 3.03
+symsolt cube 1 DINO greedy 4.22 | orbit_product 2.92 | orbit_vote32 3.08
+symsolt cube 2 PoE greedy 3.92 | orbit_product 2.72 | orbit_vote32 3.05
+symsolt cube 2 DINO greedy 4.12 | orbit_product 2.90 | orbit_vote32 3.06
+symsolt cyl 0 PoE greedy 2.09 | orbit_product 1.69 | orbit_vote32 1.82
+symsolt cyl 0 DINO greedy 2.14 | orbit_product 1.65 | orbit_vote32 1.88
+symsolt cyl 1 PoE greedy 2.07 | orbit_product 1.65 | orbit_vote32 1.79
+symsolt cyl 1 DINO greedy 2.13 | orbit_product 1.66 | orbit_vote32 1.84
+symsolt cyl 2 PoE greedy 2.05 | orbit_product 1.65 | orbit_vote32 1.79
+symsolt cyl 2 DINO greedy 2.09 | orbit_product 1.63 | orbit_vote32 1.86
+symsolt icosa 0 PoE greedy 6.07 | orbit_product 3.76 | orbit_vote32 4.32
+symsolt icosa 0 DINO greedy 6.02 | orbit_product 3.66 | orbit_vote32 4.24
+symsolt icosa 1 PoE greedy 6.22 | orbit_product 3.80 | orbit_vote32 4.30
+symsolt icosa 1 DINO greedy 6.24 | orbit_product 3.74 | orbit_vote32 4.23
+symsolt icosa 2 PoE greedy 6.33 | orbit_product 3.82 | orbit_vote32 4.29
+symsolt icosa 2 DINO greedy 6.29 | orbit_product 3.72 | orbit_vote32 4.28
+symsolt tet 0 PoE greedy 4.92 | orbit_product 3.36 | orbit_vote32 3.52
+symsolt tet 0 DINO greedy 4.38 | orbit_product 3.08 | orbit_vote32 3.09
+symsolt tet 1 PoE greedy 4.90 | orbit_product 3.33 | orbit_vote32 3.51
+symsolt tet 1 DINO greedy 4.41 | orbit_product 3.04 | orbit_vote32 3.08
+symsolt tet 2 PoE greedy 4.81 | orbit_product 3.31 | orbit_vote32 3.46
+symsolt tet 2 DINO greedy 4.36 | orbit_product 3.05 | orbit_vote32 3.07
+| split | variant | mode | sym_mean | sym_mean_std | sym_median | acc10 | frac_gt90 | raw_mean |
+|---|---|---|---|---|---|---|---|---|
+| test | DINO | greedy | 3.817 | 0.032 | 3.508 | 0.970 | 0.000 | 121.335 |
+| test | DINO | orbit_product | 2.622 | 0.010 | 2.489 | 1.000 | 0.000 | 121.394 |
+| test | DINO | orbit_vote32 | 2.862 | 0.012 | 2.681 | 0.997 | 0.000 | 121.081 |
+| test | PoE | greedy | 3.881 | 0.012 | 3.565 | 0.967 | 0.000 | 121.122 |
+| test | PoE | orbit_product | 2.674 | 0.003 | 2.535 | 0.999 | 0.000 | 121.383 |
+| test | PoE | orbit_vote32 | 2.918 | 0.012 | 2.712 | 0.996 | 0.000 | 121.102 |
+| validation | DINO | greedy | 3.779 | 0.028 | 3.466 | 0.971 | 0.000 | 121.455 |
+| validation | DINO | orbit_product | 2.612 | 0.004 | 2.473 | 1.000 | 0.000 | 121.667 |
+| validation | DINO | orbit_vote32 | 2.846 | 0.022 | 2.667 | 0.998 | 0.000 | 121.702 |
+| validation | PoE | greedy | 3.871 | 0.033 | 3.524 | 0.967 | 0.000 | 121.189 |
+| validation | PoE | orbit_product | 2.650 | 0.009 | 2.503 | 0.999 | 0.000 | 121.391 |
+| validation | PoE | orbit_vote32 | 2.910 | 0.004 | 2.698 | 0.996 | 0.000 | 120.894 |
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261019-233710-seed0
+=== 00:20:46 BLOCK_DONE EXP-064-symsolt-fix

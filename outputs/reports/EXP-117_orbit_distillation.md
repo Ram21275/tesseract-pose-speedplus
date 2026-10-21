@@ -42,3 +42,31 @@ Teacher targets about 0.5 GPU-hour; 6 trainings (2 branches × 3 seeds, about 15
 
 ## Runs / Results / Decision
 Not started.
+
+## Results (completed 2026-10-20; evaluations `RUN-20261020-113318` (DINOv3-only), `RUN-20261020-114253` (PoE); 3-seed means ± seed std, degrees)
+| variant | arm | inference | synth val | val-aug | lightbox | sunlamp | lightbox > 150° |
+|---|---|---|---|---|---|---|---|
+| DINOv3 | A (EXP-109) | greedy | 4.84 ± 0.05 | 9.88 ± 0.22 | 22.55 | 22.00 | 0.060 |
+| DINOv3 | **student** | greedy | **4.57 ± 0.05** | **9.33 ± 0.18** | 21.61 | 20.55 | 0.058 |
+| DINOv3 | A | orbit product | 4.21 | 6.25 | 17.40 | 15.27 | 0.048 |
+| DINOv3 | student | orbit product | 3.90 | 5.74 | 16.43 | 13.64 | 0.045 |
+| PoE | A (EXP-109) | greedy | 4.85 ± 0.03 | 9.75 ± 0.06 | 17.33 | 20.15 | 0.042 |
+| PoE | **student** | greedy | **4.56 ± 0.03** | **9.22 ± 0.10** | 15.90 | 18.33 | 0.037 |
+| PoE | A | orbit product | 3.87 ± 0.03 | 5.82 | 12.30 ± 0.50 | 12.25 ± 0.37 | 0.030 |
+| PoE | **student** | **orbit product** | **3.69 ± 0.02** | **5.40** | **11.21 ± 0.42** | **11.09 ± 0.49** | **0.026** |
+| PoE | student | orbit vote32 | 3.27 | 5.59 | 11.35 | 11.91 | 0.027 |
+
+**Criterion 1 (distillation helps): PASS.**
+- DINOv3 greedy val-aug 9.33 vs 9.88 (Δ 0.55 > 0.22); PoE 9.22 vs 9.75 (Δ 0.53 > 0.10).
+- Clean synthetic val is better, not worse (4.57 vs 4.84; 4.56 vs 4.85).
+
+**Retention** = (A greedy − student greedy) / (A greedy − A orbit), synth / val-aug / lightbox / sunlamp:
+- DINOv3: 43% / 15% / 18% / 22%;
+- PoE: 30% / 13% / 28% / 23%.
+The single-view student recovers about 15–30% of the orbit gain at greedy cost.
+
+**Descriptive: the student is also a better base for orbit inference.** Student + orbit is the best system so far: PoE 3.69 / 11.21 / 11.09 vs EXP-109 3.87 / 12.30 / 12.25. That is −1.1 / −1.2° on real (about 2 seed std), with fewer > 150° flips. Selection on synthetic val (DEC-006) also prefers it (3.69 < 3.87).
+
+**Decision:** distillation is adopted as a training-stage refinement, pending the user's decision on updating the locked recipe (DEC-018).
+- The claim is "orbit-consistency distillation improves the single-view tree and the orbit system".
+- Prior art: self-distillation from test-time-augmentation ensembles is known, so the novelty is limited to its use with hierarchical rotation targets.

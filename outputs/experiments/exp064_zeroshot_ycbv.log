@@ -1,0 +1,163 @@
+ycbv 003_cracker_box speedplus 0 PoE greedy test sym 117.9 (chance 126.2) pair 120.9 (chance 126.3) cal 123.9
+ycbv 003_cracker_box speedplus 0 PoE orbit_product test sym 115.3 (chance 126.2) pair 112.0 (chance 126.3) cal 106.4
+ycbv 003_cracker_box speedplus 0 PoE orbit_vote32 test sym 117.2 (chance 126.2) pair 114.4 (chance 126.3) cal 112.3
+ycbv 003_cracker_box speedplus 0 DINO greedy test sym 112.1 (chance 126.2) pair 111.5 (chance 126.3) cal 111.7
+ycbv 003_cracker_box speedplus 0 DINO orbit_product test sym 115.3 (chance 126.2) pair 111.5 (chance 126.3) cal 105.8
+ycbv 003_cracker_box speedplus 0 DINO orbit_vote32 test sym 119.0 (chance 126.2) pair 105.4 (chance 126.3) cal 116.8
+ycbv 003_cracker_box speedplus 1 PoE greedy test sym 114.5 (chance 126.2) pair 118.4 (chance 126.3) cal 113.2
+ycbv 003_cracker_box speedplus 1 PoE orbit_product test sym 111.9 (chance 126.2) pair 113.6 (chance 126.3) cal 117.4
+ycbv 003_cracker_box speedplus 1 PoE orbit_vote32 test sym 111.6 (chance 126.2) pair 114.4 (chance 126.3) cal 117.6
+ycbv 003_cracker_box speedplus 1 DINO greedy test sym 112.6 (chance 126.2) pair 103.6 (chance 126.3) cal 133.1
+ycbv 003_cracker_box speedplus 1 DINO orbit_product test sym 112.0 (chance 126.2) pair 105.6 (chance 126.3) cal 117.2
+ycbv 003_cracker_box speedplus 1 DINO orbit_vote32 test sym 110.2 (chance 126.2) pair 107.3 (chance 126.3) cal 129.5
+ycbv 003_cracker_box speedplus 2 PoE greedy test sym 116.1 (chance 126.2) pair 122.1 (chance 126.3) cal 125.5
+ycbv 003_cracker_box speedplus 2 PoE orbit_product test sym 109.2 (chance 126.2) pair 113.0 (chance 126.3) cal 113.5
+ycbv 003_cracker_box speedplus 2 PoE orbit_vote32 test sym 114.5 (chance 126.2) pair 117.1 (chance 126.3) cal 118.1
+ycbv 003_cracker_box speedplus 2 DINO greedy test sym 106.1 (chance 126.2) pair 108.6 (chance 126.3) cal 122.3
+ycbv 003_cracker_box speedplus 2 DINO orbit_product test sym 104.3 (chance 126.2) pair 111.9 (chance 126.3) cal 113.7
+ycbv 003_cracker_box speedplus 2 DINO orbit_vote32 test sym 110.4 (chance 126.2) pair 110.3 (chance 126.3) cal 127.5
+ycbv 003_cracker_box target_own 0 PoE greedy test sym 117.8 (chance 126.2) pair 124.3 (chance 126.3) cal 122.1
+ycbv 003_cracker_box target_own 0 DINO greedy test sym 107.8 (chance 126.2) pair 115.7 (chance 126.3) cal 119.5
+ycbv 003_cracker_box target_own 1 PoE greedy test sym 115.4 (chance 126.2) pair 112.5 (chance 126.3) cal 140.7
+ycbv 003_cracker_box target_own 1 DINO greedy test sym 110.0 (chance 126.2) pair 106.3 (chance 126.3) cal 152.3
+ycbv 003_cracker_box target_own 2 PoE greedy test sym 118.4 (chance 126.2) pair 116.2 (chance 126.3) cal 115.9
+ycbv 003_cracker_box target_own 2 DINO greedy test sym 106.1 (chance 126.2) pair 104.3 (chance 126.3) cal 140.0
+ycbv 006_mustard_bottle speedplus 0 PoE greedy test sym 127.6 (chance 121.1) pair 97.4 (chance 125.5) cal 112.3
+ycbv 006_mustard_bottle speedplus 0 PoE orbit_product test sym 112.9 (chance 121.1) pair 106.4 (chance 125.5) cal 113.8
+ycbv 006_mustard_bottle speedplus 0 PoE orbit_vote32 test sym 118.3 (chance 121.1) pair 107.3 (chance 125.5) cal 114.0
+ycbv 006_mustard_bottle speedplus 0 DINO greedy test sym 122.8 (chance 121.1) pair 93.2 (chance 125.5) cal 107.4
+ycbv 006_mustard_bottle speedplus 0 DINO orbit_product test sym 116.8 (chance 121.1) pair 96.8 (chance 125.5) cal 109.4
+ycbv 006_mustard_bottle speedplus 0 DINO orbit_vote32 test sym 122.2 (chance 121.1) pair 103.4 (chance 125.5) cal 105.7
+ycbv 006_mustard_bottle speedplus 1 PoE greedy test sym 107.5 (chance 121.1) pair 103.2 (chance 125.5) cal 132.6
+ycbv 006_mustard_bottle speedplus 1 PoE orbit_product test sym 97.9 (chance 121.1) pair 75.3 (chance 125.5) cal 104.9
+ycbv 006_mustard_bottle speedplus 1 PoE orbit_vote32 test sym 92.4 (chance 121.1) pair 94.8 (chance 125.5) cal 114.7
+ycbv 006_mustard_bottle speedplus 1 DINO greedy test sym 111.0 (chance 121.1) pair 98.8 (chance 125.5) cal 127.5
+ycbv 006_mustard_bottle speedplus 1 DINO orbit_product test sym 105.4 (chance 121.1) pair 98.3 (chance 125.5) cal 136.1
+ycbv 006_mustard_bottle speedplus 1 DINO orbit_vote32 test sym 103.8 (chance 121.1) pair 96.0 (chance 125.5) cal 97.5
+ycbv 006_mustard_bottle speedplus 2 PoE greedy test sym 106.5 (chance 121.1) pair 113.2 (chance 125.5) cal 120.8
+ycbv 006_mustard_bottle speedplus 2 PoE orbit_product test sym 102.8 (chance 121.1) pair 99.5 (chance 125.5) cal 119.9
+ycbv 006_mustard_bottle speedplus 2 PoE orbit_vote32 test sym 99.1 (chance 121.1) pair 97.3 (chance 125.5) cal 122.0
+ycbv 006_mustard_bottle speedplus 2 DINO greedy test sym 112.7 (chance 121.1) pair 97.9 (chance 125.5) cal 110.6
+ycbv 006_mustard_bottle speedplus 2 DINO orbit_product test sym 104.3 (chance 121.1) pair 95.8 (chance 125.5) cal 130.1
+ycbv 006_mustard_bottle speedplus 2 DINO orbit_vote32 test sym 110.2 (chance 121.1) pair 99.1 (chance 125.5) cal 124.1
+ycbv 006_mustard_bottle target_own 0 PoE greedy test sym 127.6 (chance 121.1) pair 124.6 (chance 125.5) cal 124.0
+ycbv 006_mustard_bottle target_own 0 DINO greedy test sym 119.6 (chance 121.1) pair 116.2 (chance 125.5) cal 116.8
+ycbv 006_mustard_bottle target_own 1 PoE greedy test sym 119.4 (chance 121.1) pair 112.0 (chance 125.5) cal 103.8
+ycbv 006_mustard_bottle target_own 1 DINO greedy test sym 106.9 (chance 121.1) pair 103.0 (chance 125.5) cal 103.6
+ycbv 006_mustard_bottle target_own 2 PoE greedy test sym 110.3 (chance 121.1) pair 103.6 (chance 125.5) cal 147.4
+ycbv 006_mustard_bottle target_own 2 DINO greedy test sym 106.2 (chance 121.1) pair 96.6 (chance 125.5) cal 144.5
+ycbv 011_banana speedplus 0 PoE greedy test sym 129.8 (chance 129.7) pair 115.3 (chance 127.3) cal 137.4
+ycbv 011_banana speedplus 0 PoE orbit_product test sym 110.4 (chance 129.7) pair 99.0 (chance 127.3) cal 156.1
+ycbv 011_banana speedplus 0 PoE orbit_vote32 test sym 120.6 (chance 129.7) pair 102.4 (chance 127.3) cal 140.3
+ycbv 011_banana speedplus 0 DINO greedy test sym 136.0 (chance 129.7) pair 107.6 (chance 127.3) cal 125.2
+ycbv 011_banana speedplus 0 DINO orbit_product test sym 123.2 (chance 129.7) pair 94.9 (chance 127.3) cal 133.4
+ycbv 011_banana speedplus 0 DINO orbit_vote32 test sym 134.3 (chance 129.7) pair 99.7 (chance 127.3) cal 130.6
+ycbv 011_banana speedplus 1 PoE greedy test sym 112.6 (chance 129.7) pair 89.9 (chance 127.3) cal 160.3
+ycbv 011_banana speedplus 1 PoE orbit_product test sym 114.6 (chance 129.7) pair 90.5 (chance 127.3) cal 153.4
+ycbv 011_banana speedplus 1 PoE orbit_vote32 test sym 110.9 (chance 129.7) pair 95.4 (chance 127.3) cal 152.3
+ycbv 011_banana speedplus 1 DINO greedy test sym 123.9 (chance 129.7) pair 109.3 (chance 127.3) cal 139.2
+ycbv 011_banana speedplus 1 DINO orbit_product test sym 123.2 (chance 129.7) pair 87.5 (chance 127.3) cal 143.3
+ycbv 011_banana speedplus 1 DINO orbit_vote32 test sym 134.1 (chance 129.7) pair 103.9 (chance 127.3) cal 139.6
+ycbv 011_banana speedplus 2 PoE greedy test sym 118.7 (chance 129.7) pair 109.4 (chance 127.3) cal 148.3
+ycbv 011_banana speedplus 2 PoE orbit_product test sym 112.1 (chance 129.7) pair 106.5 (chance 127.3) cal 139.7
+ycbv 011_banana speedplus 2 PoE orbit_vote32 test sym 120.2 (chance 129.7) pair 109.4 (chance 127.3) cal 134.6
+ycbv 011_banana speedplus 2 DINO greedy test sym 141.6 (chance 129.7) pair 93.6 (chance 127.3) cal 135.1
+ycbv 011_banana speedplus 2 DINO orbit_product test sym 129.6 (chance 129.7) pair 77.6 (chance 127.3) cal 153.7
+ycbv 011_banana speedplus 2 DINO orbit_vote32 test sym 133.9 (chance 129.7) pair 98.4 (chance 127.3) cal 144.2
+ycbv 011_banana target_own 0 PoE greedy test sym 113.8 (chance 129.7) pair 99.9 (chance 127.3) cal 124.6
+ycbv 011_banana target_own 0 DINO greedy test sym 139.5 (chance 129.7) pair 104.8 (chance 127.3) cal 107.3
+ycbv 011_banana target_own 1 PoE greedy test sym 120.6 (chance 129.7) pair 112.0 (chance 127.3) cal 124.0
+ycbv 011_banana target_own 1 DINO greedy test sym 134.9 (chance 129.7) pair 109.0 (chance 127.3) cal 129.4
+ycbv 011_banana target_own 2 PoE greedy test sym 103.8 (chance 129.7) pair 105.6 (chance 127.3) cal 132.1
+ycbv 011_banana target_own 2 DINO greedy test sym 124.2 (chance 129.7) pair 87.0 (chance 127.3) cal 125.6
+ycbv 025_mug speedplus 0 PoE greedy test sym 130.6 (chance 128.0) pair 103.3 (chance 124.9) cal 132.5
+ycbv 025_mug speedplus 0 PoE orbit_product test sym 125.7 (chance 128.0) pair 89.8 (chance 124.9) cal 160.5
+ycbv 025_mug speedplus 0 PoE orbit_vote32 test sym 137.1 (chance 128.0) pair 108.5 (chance 124.9) cal 131.0
+ycbv 025_mug speedplus 0 DINO greedy test sym 106.8 (chance 128.0) pair 117.9 (chance 124.9) cal 120.5
+ycbv 025_mug speedplus 0 DINO orbit_product test sym 123.2 (chance 128.0) pair 108.4 (chance 124.9) cal 141.1
+ycbv 025_mug speedplus 0 DINO orbit_vote32 test sym 120.8 (chance 128.0) pair 114.3 (chance 124.9) cal 141.2
+ycbv 025_mug speedplus 1 PoE greedy test sym 138.7 (chance 128.0) pair 94.8 (chance 124.9) cal 128.8
+ycbv 025_mug speedplus 1 PoE orbit_product test sym 139.6 (chance 128.0) pair 106.7 (chance 124.9) cal 158.4
+ycbv 025_mug speedplus 1 PoE orbit_vote32 test sym 139.6 (chance 128.0) pair 115.1 (chance 124.9) cal 143.8
+ycbv 025_mug speedplus 1 DINO greedy test sym 118.2 (chance 128.0) pair 82.3 (chance 124.9) cal 147.9
+ycbv 025_mug speedplus 1 DINO orbit_product test sym 115.7 (chance 128.0) pair 82.0 (chance 124.9) cal 127.7
+ycbv 025_mug speedplus 1 DINO orbit_vote32 test sym 129.1 (chance 128.0) pair 115.0 (chance 124.9) cal 123.1
+ycbv 025_mug speedplus 2 PoE greedy test sym 130.7 (chance 128.0) pair 116.7 (chance 124.9) cal 135.9
+ycbv 025_mug speedplus 2 PoE orbit_product test sym 138.6 (chance 128.0) pair 102.0 (chance 124.9) cal 152.8
+ycbv 025_mug speedplus 2 PoE orbit_vote32 test sym 135.0 (chance 128.0) pair 112.6 (chance 124.9) cal 130.5
+ycbv 025_mug speedplus 2 DINO greedy test sym 107.2 (chance 128.0) pair 88.3 (chance 124.9) cal 139.0
+ycbv 025_mug speedplus 2 DINO orbit_product test sym 122.6 (chance 128.0) pair 107.4 (chance 124.9) cal 143.4
+ycbv 025_mug speedplus 2 DINO orbit_vote32 test sym 122.5 (chance 128.0) pair 114.0 (chance 124.9) cal 127.0
+ycbv 025_mug target_own 0 PoE greedy test sym 108.1 (chance 128.0) pair 104.7 (chance 124.9) cal 132.0
+ycbv 025_mug target_own 0 DINO greedy test sym 112.2 (chance 128.0) pair 102.2 (chance 124.9) cal 106.3
+ycbv 025_mug target_own 1 PoE greedy test sym 120.4 (chance 128.0) pair 109.8 (chance 124.9) cal 148.8
+ycbv 025_mug target_own 1 DINO greedy test sym 103.8 (chance 128.0) pair 94.3 (chance 124.9) cal 140.8
+ycbv 025_mug target_own 2 PoE greedy test sym 120.7 (chance 128.0) pair 108.2 (chance 124.9) cal 129.6
+ycbv 025_mug target_own 2 DINO greedy test sym 104.1 (chance 128.0) pair 110.7 (chance 124.9) cal 118.8
+ycbv 035_power_drill speedplus 0 PoE greedy test sym 125.5 (chance 124.5) pair 113.1 (chance 126.8) cal 95.5
+ycbv 035_power_drill speedplus 0 PoE orbit_product test sym 120.7 (chance 124.5) pair 115.9 (chance 126.8) cal 99.0
+ycbv 035_power_drill speedplus 0 PoE orbit_vote32 test sym 118.0 (chance 124.5) pair 116.2 (chance 126.8) cal 98.7
+ycbv 035_power_drill speedplus 0 DINO greedy test sym 122.9 (chance 124.5) pair 120.5 (chance 126.8) cal 119.0
+ycbv 035_power_drill speedplus 0 DINO orbit_product test sym 104.3 (chance 124.5) pair 112.1 (chance 126.8) cal 104.5
+ycbv 035_power_drill speedplus 0 DINO orbit_vote32 test sym 108.5 (chance 124.5) pair 117.5 (chance 126.8) cal 117.5
+ycbv 035_power_drill speedplus 1 PoE greedy test sym 118.6 (chance 124.5) pair 111.2 (chance 126.8) cal 112.1
+ycbv 035_power_drill speedplus 1 PoE orbit_product test sym 117.0 (chance 124.5) pair 105.8 (chance 126.8) cal 83.5
+ycbv 035_power_drill speedplus 1 PoE orbit_vote32 test sym 116.8 (chance 124.5) pair 109.1 (chance 126.8) cal 90.2
+ycbv 035_power_drill speedplus 1 DINO greedy test sym 118.6 (chance 124.5) pair 113.4 (chance 126.8) cal 113.0
+ycbv 035_power_drill speedplus 1 DINO orbit_product test sym 114.9 (chance 124.5) pair 106.3 (chance 126.8) cal 85.1
+ycbv 035_power_drill speedplus 1 DINO orbit_vote32 test sym 118.5 (chance 124.5) pair 112.1 (chance 126.8) cal 96.5
+ycbv 035_power_drill speedplus 2 PoE greedy test sym 120.2 (chance 124.5) pair 113.2 (chance 126.8) cal 101.0
+ycbv 035_power_drill speedplus 2 PoE orbit_product test sym 128.1 (chance 124.5) pair 110.5 (chance 126.8) cal 91.5
+ycbv 035_power_drill speedplus 2 PoE orbit_vote32 test sym 123.8 (chance 124.5) pair 119.1 (chance 126.8) cal 106.3
+ycbv 035_power_drill speedplus 2 DINO greedy test sym 114.8 (chance 124.5) pair 103.5 (chance 126.8) cal 111.2
+ycbv 035_power_drill speedplus 2 DINO orbit_product test sym 104.9 (chance 124.5) pair 104.8 (chance 126.8) cal 99.4
+ycbv 035_power_drill speedplus 2 DINO orbit_vote32 test sym 102.4 (chance 124.5) pair 107.5 (chance 126.8) cal 105.0
+ycbv 035_power_drill target_own 0 PoE greedy test sym 119.7 (chance 124.5) pair 115.4 (chance 126.8) cal 114.2
+ycbv 035_power_drill target_own 0 DINO greedy test sym 124.4 (chance 124.5) pair 115.9 (chance 126.8) cal 131.2
+ycbv 035_power_drill target_own 1 PoE greedy test sym 117.1 (chance 124.5) pair 117.1 (chance 126.8) cal 126.9
+ycbv 035_power_drill target_own 1 DINO greedy test sym 128.3 (chance 124.5) pair 118.6 (chance 126.8) cal 121.5
+ycbv 035_power_drill target_own 2 PoE greedy test sym 124.3 (chance 124.5) pair 116.7 (chance 126.8) cal 99.9
+ycbv 035_power_drill target_own 2 DINO greedy test sym 124.1 (chance 124.5) pair 119.9 (chance 126.8) cal 107.9
+ycbv 037_scissors speedplus 0 PoE greedy test sym 121.1 (chance 125.4) pair 75.9 (chance 124.1) cal 135.9
+ycbv 037_scissors speedplus 0 PoE orbit_product test sym 94.0 (chance 125.4) pair 92.5 (chance 124.1) cal 155.3
+ycbv 037_scissors speedplus 0 PoE orbit_vote32 test sym 85.3 (chance 125.4) pair 91.1 (chance 124.1) cal 129.2
+ycbv 037_scissors speedplus 0 DINO greedy test sym 115.6 (chance 125.4) pair 50.6 (chance 124.1) cal 117.5
+ycbv 037_scissors speedplus 0 DINO orbit_product test sym 128.4 (chance 125.4) pair 61.1 (chance 124.1) cal 136.8
+ycbv 037_scissors speedplus 0 DINO orbit_vote32 test sym 137.9 (chance 125.4) pair 80.9 (chance 124.1) cal 128.5
+ycbv 037_scissors speedplus 1 PoE greedy test sym 106.4 (chance 125.4) pair 78.7 (chance 124.1) cal 128.2
+ycbv 037_scissors speedplus 1 PoE orbit_product test sym 100.5 (chance 125.4) pair 98.8 (chance 124.1) cal 130.7
+ycbv 037_scissors speedplus 1 PoE orbit_vote32 test sym 96.9 (chance 125.4) pair 100.7 (chance 124.1) cal 129.1
+ycbv 037_scissors speedplus 1 DINO greedy test sym 143.5 (chance 125.4) pair 46.6 (chance 124.1) cal 159.6
+ycbv 037_scissors speedplus 1 DINO orbit_product test sym 151.0 (chance 125.4) pair 36.1 (chance 124.1) cal 165.0
+ycbv 037_scissors speedplus 1 DINO orbit_vote32 test sym 147.0 (chance 125.4) pair 59.2 (chance 124.1) cal 149.3
+ycbv 037_scissors speedplus 2 PoE greedy test sym 115.4 (chance 125.4) pair 78.2 (chance 124.1) cal 132.4
+ycbv 037_scissors speedplus 2 PoE orbit_product test sym 129.3 (chance 125.4) pair 90.9 (chance 124.1) cal 140.3
+ycbv 037_scissors speedplus 2 PoE orbit_vote32 test sym 104.0 (chance 125.4) pair 101.4 (chance 124.1) cal 108.2
+ycbv 037_scissors speedplus 2 DINO greedy test sym 125.4 (chance 125.4) pair 78.9 (chance 124.1) cal 139.8
+ycbv 037_scissors speedplus 2 DINO orbit_product test sym 139.6 (chance 125.4) pair 68.7 (chance 124.1) cal 156.2
+ycbv 037_scissors speedplus 2 DINO orbit_vote32 test sym 121.1 (chance 125.4) pair 94.6 (chance 124.1) cal 127.2
+ycbv 037_scissors target_own 0 PoE greedy test sym 137.5 (chance 125.4) pair 91.0 (chance 124.1) cal 143.4
+ycbv 037_scissors target_own 0 DINO greedy test sym 148.9 (chance 125.4) pair 71.1 (chance 124.1) cal 117.0
+ycbv 037_scissors target_own 1 PoE greedy test sym 93.2 (chance 125.4) pair 100.5 (chance 124.1) cal 102.1
+ycbv 037_scissors target_own 1 DINO greedy test sym 142.4 (chance 125.4) pair 82.4 (chance 124.1) cal 152.3
+ycbv 037_scissors target_own 2 PoE greedy test sym 121.7 (chance 125.4) pair 92.4 (chance 124.1) cal 119.0
+ycbv 037_scissors target_own 2 DINO greedy test sym 135.8 (chance 125.4) pair 96.1 (chance 124.1) cal 147.9
+| stats | split | variant | mode | sym_mean | sym_median | acc10 | chance_sym_mean | pair_mean | chance_pair_mean | const_pair_mean | calibrated_test_mean | sym_mean_std | pair_mean_std |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| speedplus | test | DINO | greedy | 119.542 | 119.487 | 0.000 | 125.813 | 95.888 | 125.806 | 57.805 | 126.652 | 1.679 | 4.001 |
+| speedplus | test | DINO | orbit_product | 118.813 | 118.229 | 0.000 | 125.813 | 92.610 | 125.806 | 57.805 | 127.883 | 1.434 | 5.953 |
+| speedplus | test | DINO | orbit_vote32 | 121.443 | 121.556 | 0.000 | 125.813 | 102.140 | 125.806 | 57.805 | 123.931 | 4.074 | 2.792 |
+| speedplus | test | PoE | greedy | 119.904 | 120.452 | 0.002 | 125.813 | 104.149 | 125.806 | 57.805 | 126.481 | 4.830 | 4.720 |
+| speedplus | test | PoE | orbit_product | 115.589 | 118.481 | 0.003 | 125.813 | 101.605 | 125.806 | 57.805 | 127.615 | 3.822 | 2.789 |
+| speedplus | test | PoE | orbit_vote32 | 114.519 | 117.630 | 0.001 | 125.813 | 107.009 | 125.806 | 57.805 | 121.842 | 2.723 | 2.302 |
+| speedplus | validation | DINO | greedy | 115.657 | 115.175 | 0.004 | 126.188 | nan | nan | nan | nan | 5.514 | nan |
+| speedplus | validation | DINO | orbit_product | 116.939 | 119.260 | 0.001 | 126.188 | nan | nan | nan | nan | 2.797 | nan |
+| speedplus | validation | DINO | orbit_vote32 | 116.412 | 118.876 | 0.001 | 126.188 | nan | nan | nan | nan | 1.434 | nan |
+| speedplus | validation | PoE | greedy | 120.449 | 119.384 | 0.001 | 126.188 | nan | nan | nan | nan | 3.956 | nan |
+| speedplus | validation | PoE | orbit_product | 124.294 | 127.921 | 0.000 | 126.188 | nan | nan | nan | nan | 4.498 | nan |
+| speedplus | validation | PoE | orbit_vote32 | 124.239 | 128.359 | 0.000 | 126.188 | nan | nan | nan | nan | 1.082 | nan |
+| target_own | test | DINO | greedy | 121.074 | 124.489 | 0.000 | 125.813 | 102.996 | 125.806 | 57.805 | 126.811 | 4.336 | 1.144 |
+| target_own | test | PoE | greedy | 117.207 | 118.967 | 0.002 | 125.813 | 109.248 | 125.806 | 57.805 | 125.027 | 3.246 | 1.884 |
+| target_own | validation | DINO | greedy | 110.442 | 109.386 | 0.000 | 126.188 | nan | nan | nan | nan | 6.981 | nan |
+| target_own | validation | PoE | greedy | 118.735 | 118.160 | 0.001 | 126.188 | nan | nan | nan | nan | 6.250 | nan |
+RUN outputs/experiments/EXP-064_broader_object_validation/RUN-20261020-003420-seed0

@@ -34,6 +34,16 @@ All further experiments use the **EXP-109 methodology** in two variants, **PoE (
 - **EXP-112** (evaluation only, queued after EXP-111) supplies the missing DINOv3-only + orbit accuracy and the end-to-end timing and memory of all four variants.
 - EXP-064 / 106 are amended to this recipe.
 
+### Update 2026-10-21 (EXP-117, EXP-118 completed; zero-shot done)
+- **New best SPEED+ system:** orbit-distilled student + orbit (EXP-117), PoE **3.69 / 11.21 / 11.09°** (synth / lightbox / sunlamp), vs EXP-109's 3.87 / 12.30 / 12.25.
+  - The distillation criterion PASSES. The single-view student recovers 13–43% of the orbit gain.
+  - Adopting it into the locked recipe is the user's decision. Novelty is limited: self-distillation from augmentation ensembles is known.
+- **Full 6-DoF (EXP-118):** a SPACE-HOP-formulated translation block on the tree tokens, trained jointly, without hurting rotation.
+  - E_T (orbit): DINOv3 block 0.059 / 0.185 / 0.183 m; box-only baseline 0.56 m.
+  - Rotation with joint training: PoE + orbit 3.86 / 12.11 / 11.73°.
+  - Unmatched context (GT crops): SPACE-HOP 0.096 / 0.302 / 0.282 m.
+- **Zero-shot from SPEED+: none in general.** T-LESS and YCB-V are worse than a constant prediction. Only a partial, shape-specific transfer to the SYMSOL-T cube (box-like body).
+
 ### Update 2026-10-20 (EXP-064 completed): what transfers beyond SPEED+
 - **SYMSOL-T** (LiePose split): DINOv3 + orbit **2.62°** test, 100% within 10°. PoE no better (2.67), so the fusion criterion FAILS. LiePose reports about 0.4–0.6°; we are 4–5× worse.
 - **YCB-V:** 69° test, a generalization failure. The trees fit training (about 4°) but memorize the real training videos. Labels, crops and pose coverage were verified. No synthetic `data_syn` was used (not in the protocol). No evidence for or against the method.
@@ -263,6 +273,7 @@ Timing source: EXP-107 `timing` table, RTX-class shared GPU (concurrent load rec
 - **Minimum evidence before freezing:** essential items 1–3, plus at least one cross-object dataset (item 4).
 
 ## Changelog
+- 2026-10-21: EXP-117 PASS (student+orbit new best 3.69/11.21/11.09); EXP-118 6-DoF PASS (E_T 0.059/0.185/0.183 m); zero-shot: no general transfer.
 - 2026-10-20: EXP-064 complete: SYMSOL-T DINO+orbit 2.62 (fusion FAIL), YCB-V generalization failure (labels verified), T-LESS fusion PASS; claim narrowed.
 - 2026-10-19: EXP-064 T-LESS: fusion PASS, orbit transfers (PoE+orbit 9.25 val / 16.57 real test); compact gate strict FAIL, no prediction impact.
 - 2026-10-18: EXP-116: hierarchical transport FAIL vs leaf-only equivariance (C2); C2 helps synthetic only. EXP-064 running (user: before EXP-117).

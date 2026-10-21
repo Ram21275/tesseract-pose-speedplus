@@ -1,0 +1,244 @@
+=== 18:41:46 waiting for PID 801420 or 1184964 to finish
+=== 18:42:46 one of the user's 20 GB jobs finished; starting
+=== 18:42:46 BLOCK EXP-117
+teacher DINO seed 0 exists
+teacher DINO seed 1 exists
+>>> 18:42:46 EXP-117 teacher DINO seed=2
+[guarded] 18:42:47 waiting: RAM avail 69 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 18:44:47 waiting: RAM avail 70 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 18:46:47 waiting: RAM avail 69 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 18:48:47 waiting: RAM avail 68 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 18:50:48 waiting: RAM avail 68 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 18:52:48 waiting: RAM avail 75 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 18:54:48 waiting: RAM avail 74 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 18:56:48 waiting: RAM avail 73 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 18:58:49 waiting: RAM avail 72 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 19:00:49 waiting: RAM avail 72 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 19:02:49 waiting: RAM avail 70 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 19:04:50 waiting: RAM avail 70 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 19:06:50 waiting: RAM avail 69 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 19:08:50 waiting: RAM avail 69 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 19:10:50 waiting: RAM avail 68 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 19:12:51 waiting: RAM avail 68 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 19:14:51 waiting: RAM avail 66 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 19:16:51 waiting: RAM avail 72 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 19:18:51 waiting: RAM avail 73 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 19:20:52 waiting: RAM avail 80 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 19:22:52 waiting: RAM avail 80 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 19:24:52 waiting: RAM avail 80 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 19:26:53 waiting: RAM avail 80 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 19:28:53 waiting: RAM avail 80 GB (need 52), GPU free 5 GB (need 8)
+0/47966
+10240/47966
+20480/47966
+30720/47966
+40960/47966
+saved /home/kavinder/RAM/pose-estimation/outputs/experiments/EXP-117_orbit_distillation/teacher_DINO_seed2.npz mean max weight 0.34026575
+>>> 19:38:19 EXP-117 teacher PoE seed=0
+[memguard] aborting: process RSS 34.2 GB > limit 34.0 GB
+=== 19:44:55 BLOCK_FAILED EXP-117
+=== 19:44:55 EXP-064 code not ready; skipped for now
+=== 19:44:55 BLOCK EXP-116
+>>> 19:44:55 EXP-116 T dinov3_vitl16:tokens8 seed=0
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  tot += loss.item() * B; tc += float(cons) * B
+dinov3_vitl16:tokens8 T seed 0 synthetic_val: 4.68 | lightbox: 24.02 | sunlamp: 22.78
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261017-194457-seed0
+>>> 21:00:20 EXP-116 T moge2_vitl:normals16~and seed=0
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  tot += loss.item() * B; tc += float(cons) * B
+moge2_vitl:normals16~and T seed 0 synthetic_val: 15.32 | lightbox: 36.86 | sunlamp: 54.25
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261017-210022-seed0
+>>> 22:20:04 EXP-116 T dinov3_vitl16:tokens8 seed=1
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  tot += loss.item() * B; tc += float(cons) * B
+dinov3_vitl16:tokens8 T seed 1 synthetic_val: 4.61 | lightbox: 21.41 | sunlamp: 21.63
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261017-222005-seed1
+>>> 23:37:16 EXP-116 T moge2_vitl:normals16~and seed=1
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  tot += loss.item() * B; tc += float(cons) * B
+moge2_vitl:normals16~and T seed 1 synthetic_val: 15.33 | lightbox: 36.99 | sunlamp: 56.87
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261017-233717-seed1
+>>> 00:58:30 EXP-116 T dinov3_vitl16:tokens8 seed=2
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  tot += loss.item() * B; tc += float(cons) * B
+dinov3_vitl16:tokens8 T seed 2 synthetic_val: 4.64 | lightbox: 23.03 | sunlamp: 22.19
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261018-005832-seed2
+>>> 02:06:20 EXP-116 T moge2_vitl:normals16~and seed=2
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  tot += loss.item() * B; tc += float(cons) * B
+moge2_vitl:normals16~and T seed 2 synthetic_val: 16.21 | lightbox: 38.08 | sunlamp: 56.94
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261018-020621-seed2
+>>> 04:00:33 EXP-116 C1 dinov3_vitl16:tokens8 seed=0
+dinov3_vitl16:tokens8 C1 seed 0 synthetic_val: 5.02 | lightbox: 24.56 | sunlamp: 23.49
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261018-040034-seed0
+>>> 04:27:56 EXP-116 C1 moge2_vitl:normals16~and seed=0
+moge2_vitl:normals16~and C1 seed 0 synthetic_val: 15.64 | lightbox: 37.72 | sunlamp: 56.85
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261018-042757-seed0
+>>> 04:56:16 EXP-116 C1 dinov3_vitl16:tokens8 seed=1
+dinov3_vitl16:tokens8 C1 seed 1 synthetic_val: 4.91 | lightbox: 21.91 | sunlamp: 21.68
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261018-045617-seed1
+>>> 05:16:10 EXP-116 C1 moge2_vitl:normals16~and seed=1
+moge2_vitl:normals16~and C1 seed 1 synthetic_val: 16.33 | lightbox: 39.43 | sunlamp: 59.74
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261018-051612-seed1
+>>> 05:27:40 EXP-116 C1 dinov3_vitl16:tokens8 seed=2
+dinov3_vitl16:tokens8 C1 seed 2 synthetic_val: 4.95 | lightbox: 24.81 | sunlamp: 23.07
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261018-052741-seed2
+>>> 05:51:12 EXP-116 C1 moge2_vitl:normals16~and seed=2
+moge2_vitl:normals16~and C1 seed 2 synthetic_val: 16.34 | lightbox: 38.42 | sunlamp: 57.76
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261018-055113-seed2
+>>> 06:18:18 EXP-116 C2 dinov3_vitl16:tokens8 seed=0
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  tot += loss.item() * B; tc += float(cons) * B
+dinov3_vitl16:tokens8 C2 seed 0 synthetic_val: 4.62 | lightbox: 23.60 | sunlamp: 21.69
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261018-061819-seed0
+>>> 07:18:36 EXP-116 C2 moge2_vitl:normals16~and seed=0
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  tot += loss.item() * B; tc += float(cons) * B
+moge2_vitl:normals16~and C2 seed 0 synthetic_val: 19.45 | lightbox: 41.63 | sunlamp: 61.08
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261018-071837-seed0
+>>> 08:37:22 EXP-116 C2 dinov3_vitl16:tokens8 seed=1
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  tot += loss.item() * B; tc += float(cons) * B
+dinov3_vitl16:tokens8 C2 seed 1 synthetic_val: 4.60 | lightbox: 21.27 | sunlamp: 20.91
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261018-083723-seed1
+>>> 09:51:57 EXP-116 C2 moge2_vitl:normals16~and seed=1
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  tot += loss.item() * B; tc += float(cons) * B
+moge2_vitl:normals16~and C2 seed 1 synthetic_val: 15.78 | lightbox: 38.02 | sunlamp: 56.69
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261018-095159-seed1
+>>> 11:30:17 EXP-116 C2 dinov3_vitl16:tokens8 seed=2
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  tot += loss.item() * B; tc += float(cons) * B
+dinov3_vitl16:tokens8 C2 seed 2 synthetic_val: 4.56 | lightbox: 23.82 | sunlamp: 22.26
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261018-113019-seed2
+>>> 12:48:56 EXP-116 C2 moge2_vitl:normals16~and seed=2
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  tot += loss.item() * B; tc += float(cons) * B
+moge2_vitl:normals16~and C2 seed 2 synthetic_val: 16.49 | lightbox: 37.71 | sunlamp: 56.06
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261018-124857-seed2
+tree exp109_train_aug1,exp109_train 0 PoE greedy: 4.89/17.44/20.59 | orbit_product: 3.87/12.18/12.50 | orbit_vote32: 3.48/12.42/13.45
+tree exp109_train_aug1,exp109_train 0 DINO greedy: 4.89/22.37/22.75 | orbit_product: 4.21/17.24/15.76 | orbit_vote32: 3.75/18.37/16.47
+tree exp109_train_aug1,exp109_train 1 PoE greedy: 4.84/16.98/20.35 | orbit_product: 3.90/11.87/12.43 | orbit_vote32: 3.48/12.26/12.64
+tree exp109_train_aug1,exp109_train 1 DINO greedy: 4.80/21.92/21.89 | orbit_product: 4.25/16.82/15.51 | orbit_vote32: 3.72/17.56/16.13
+tree exp109_train_aug1,exp109_train 2 PoE greedy: 4.84/17.58/19.52 | orbit_product: 3.84/12.85/11.83 | orbit_vote32: 3.43/13.06/12.56
+tree exp109_train_aug1,exp109_train 2 DINO greedy: 4.83/23.36/21.37 | orbit_product: 4.17/18.15/14.55 | orbit_vote32: 3.66/18.89/14.88
+tree exp109_train_aug1,exp109_train 0 PoE greedy: 4.58/18.12/19.24 | orbit_product: 3.78/13.16/12.47 | orbit_vote32: 3.30/13.52/13.37
+tree exp109_train_aug1,exp109_train 0 DINO greedy: 4.68/24.04/22.77 | orbit_product: 4.06/18.24/15.38 | orbit_vote32: 3.49/18.65/16.86
+tree exp109_train_aug1,exp109_train 1 PoE greedy: 4.55/16.72/18.29 | orbit_product: 3.74/12.12/10.88 | orbit_vote32: 3.30/11.78/11.93
+tree exp109_train_aug1,exp109_train 1 DINO greedy: 4.62/21.44/21.60 | orbit_product: 4.01/16.93/14.04 | orbit_vote32: 3.44/17.04/14.85
+tree exp109_train_aug1,exp109_train 2 PoE greedy: 4.54/17.32/19.50 | orbit_product: 3.71/12.18/11.84 | orbit_vote32: 3.28/12.36/12.70
+tree exp109_train_aug1,exp109_train 2 DINO greedy: 4.65/23.05/22.24 | orbit_product: 3.98/17.48/14.54 | orbit_vote32: 3.42/17.84/15.46
+tree exp109_train_aug1,exp109_train 0 PoE greedy: 4.93/17.91/20.69 | orbit_product: 3.92/12.56/12.16 | orbit_vote32: 3.48/12.80/13.04
+tree exp109_train_aug1,exp109_train 0 DINO greedy: 5.02/24.54/23.52 | orbit_product: 4.34/18.44/15.58 | orbit_vote32: 3.73/19.20/16.45
+tree exp109_train_aug1,exp109_train 1 PoE greedy: 4.89/17.23/19.86 | orbit_product: 3.95/11.81/12.56 | orbit_vote32: 3.47/12.08/13.07
+tree exp109_train_aug1,exp109_train 1 DINO greedy: 4.90/21.89/21.64 | orbit_product: 4.34/17.61/15.80 | orbit_vote32: 3.77/18.07/15.76
+tree exp109_train_aug1,exp109_train 2 PoE greedy: 4.85/18.49/20.45 | orbit_product: 3.96/12.78/12.64 | orbit_vote32: 3.48/13.29/13.88
+tree exp109_train_aug1,exp109_train 2 DINO greedy: 4.94/24.81/23.01 | orbit_product: 4.34/19.37/15.76 | orbit_vote32: 3.75/20.19/17.18
+tree exp109_train_aug1,exp109_train 0 PoE greedy: 4.55/17.81/18.62 | orbit_product: 3.71/12.76/11.86 | orbit_vote32: 3.29/13.21/12.31
+tree exp109_train_aug1,exp109_train 0 DINO greedy: 4.63/23.59/21.73 | orbit_product: 3.92/17.90/14.60 | orbit_vote32: 3.42/18.37/15.45
+tree exp109_train_aug1,exp109_train 1 PoE greedy: 4.48/15.99/18.40 | orbit_product: 3.71/11.35/11.53 | orbit_vote32: 3.26/11.26/11.87
+tree exp109_train_aug1,exp109_train 1 DINO greedy: 4.60/21.25/20.91 | orbit_product: 3.91/15.86/13.95 | orbit_vote32: 3.41/15.86/15.18
+tree exp109_train_aug1,exp109_train 2 PoE greedy: 4.51/18.05/19.53 | orbit_product: 3.71/13.11/11.83 | orbit_vote32: 3.30/13.40/12.63
+tree exp109_train_aug1,exp109_train 2 DINO greedy: 4.55/23.79/22.27 | orbit_product: 3.92/18.44/14.86 | orbit_vote32: 3.39/18.70/15.25
+| domain | family | train_aug | variant | mode | mean_deg | mean_deg_std | median_deg | frac_gt150 | frac_gt150_to_lt20 | frac_lt20_to_gt150 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 22.550 | 0.733 | 8.378 | 0.060 | 0.000 | 0.000 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 17.403 | 0.676 | 6.877 | 0.048 | 0.341 | 0.007 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 18.272 | 0.668 | 6.589 | 0.051 | 0.299 | 0.009 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 17.332 | 0.310 | 6.753 | 0.042 | 0.000 | 0.000 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 12.303 | 0.502 | 5.263 | 0.030 | 0.437 | 0.005 |
+| lightbox | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 12.581 | 0.423 | 4.978 | 0.031 | 0.402 | 0.006 |
+| lightbox | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 23.746 | 1.614 | 8.621 | 0.064 | 0.000 | 0.000 |
+| lightbox | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 18.473 | 0.885 | 7.137 | 0.051 | 0.320 | 0.007 |
+| lightbox | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 19.157 | 1.061 | 6.671 | 0.056 | 0.273 | 0.009 |
+| lightbox | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 17.876 | 0.630 | 6.878 | 0.043 | 0.000 | 0.000 |
+| lightbox | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 12.384 | 0.508 | 5.318 | 0.029 | 0.436 | 0.005 |
+| lightbox | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 12.721 | 0.606 | 4.999 | 0.031 | 0.420 | 0.006 |
+| lightbox | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 22.877 | 1.416 | 8.128 | 0.062 | 0.000 | 0.000 |
+| lightbox | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 17.402 | 1.360 | 6.572 | 0.049 | 0.343 | 0.007 |
+| lightbox | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 17.643 | 1.555 | 6.321 | 0.050 | 0.317 | 0.008 |
+| lightbox | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 17.282 | 1.125 | 6.446 | 0.043 | 0.000 | 0.000 |
+| lightbox | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 12.405 | 0.934 | 5.072 | 0.032 | 0.410 | 0.005 |
+| lightbox | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 12.626 | 1.186 | 4.779 | 0.033 | 0.395 | 0.006 |
+| lightbox | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 22.843 | 1.314 | 8.321 | 0.061 | 0.000 | 0.000 |
+| lightbox | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 17.546 | 0.658 | 6.811 | 0.049 | 0.329 | 0.007 |
+| lightbox | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 17.844 | 0.802 | 6.523 | 0.050 | 0.310 | 0.008 |
+| lightbox | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 17.388 | 0.703 | 6.584 | 0.044 | 0.000 | 0.000 |
+| lightbox | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 12.488 | 0.586 | 5.186 | 0.032 | 0.421 | 0.005 |
+| lightbox | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 12.554 | 0.883 | 4.860 | 0.032 | 0.406 | 0.006 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 22.002 | 0.699 | 10.171 | 0.032 | 0.000 | 0.000 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 15.273 | 0.638 | 8.193 | 0.020 | 0.529 | 0.005 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 15.827 | 0.834 | 7.887 | 0.023 | 0.467 | 0.007 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 20.154 | 0.565 | 8.417 | 0.033 | 0.000 | 0.000 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 12.254 | 0.371 | 6.322 | 0.017 | 0.656 | 0.005 |
+| sunlamp | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 12.884 | 0.493 | 6.081 | 0.018 | 0.601 | 0.005 |
+| sunlamp | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 22.721 | 0.973 | 10.647 | 0.034 | 0.000 | 0.000 |
+| sunlamp | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 15.712 | 0.114 | 8.486 | 0.022 | 0.448 | 0.005 |
+| sunlamp | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 16.463 | 0.708 | 8.174 | 0.023 | 0.392 | 0.006 |
+| sunlamp | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 20.335 | 0.429 | 8.554 | 0.033 | 0.000 | 0.000 |
+| sunlamp | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 12.454 | 0.262 | 6.435 | 0.016 | 0.599 | 0.004 |
+| sunlamp | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 13.328 | 0.475 | 6.182 | 0.020 | 0.566 | 0.006 |
+| sunlamp | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 21.636 | 0.688 | 9.948 | 0.032 | 0.000 | 0.000 |
+| sunlamp | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 14.471 | 0.470 | 7.748 | 0.019 | 0.540 | 0.005 |
+| sunlamp | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 15.294 | 0.143 | 7.646 | 0.022 | 0.517 | 0.006 |
+| sunlamp | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 18.849 | 0.599 | 8.018 | 0.031 | 0.000 | 0.000 |
+| sunlamp | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 11.742 | 0.184 | 6.036 | 0.016 | 0.624 | 0.004 |
+| sunlamp | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 12.267 | 0.384 | 5.892 | 0.016 | 0.588 | 0.004 |
+| sunlamp | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 22.204 | 0.582 | 10.268 | 0.033 | 0.000 | 0.000 |
+| sunlamp | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 14.656 | 0.676 | 8.032 | 0.017 | 0.490 | 0.005 |
+| sunlamp | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 15.721 | 1.032 | 7.860 | 0.021 | 0.443 | 0.008 |
+| sunlamp | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 19.008 | 0.635 | 8.258 | 0.029 | 0.000 | 0.000 |
+| sunlamp | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 11.729 | 0.801 | 6.200 | 0.014 | 0.554 | 0.003 |
+| sunlamp | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 12.667 | 0.720 | 6.088 | 0.017 | 0.499 | 0.004 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 4.840 | 0.049 | 4.434 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 4.212 | 0.041 | 3.724 | 0.000 | 0.667 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 3.707 | 0.047 | 3.198 | 0.000 | 0.583 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 4.854 | 0.028 | 4.362 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 3.867 | 0.029 | 3.444 | 0.000 | 0.849 | 0.000 |
+| synthetic_val | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 3.463 | 0.028 | 2.969 | 0.000 | 0.802 | 0.000 |
+| synthetic_val | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 4.956 | 0.059 | 4.521 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 4.342 | 0.002 | 3.810 | 0.000 | 0.528 | 0.000 |
+| synthetic_val | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 3.752 | 0.020 | 3.241 | 0.000 | 0.639 | 0.000 |
+| synthetic_val | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 4.892 | 0.038 | 4.372 | 0.001 | 0.000 | 0.000 |
+| synthetic_val | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 3.943 | 0.020 | 3.473 | 0.000 | 0.681 | 0.000 |
+| synthetic_val | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 3.478 | 0.009 | 2.976 | 0.000 | 0.681 | 0.000 |
+| synthetic_val | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 4.595 | 0.040 | 4.215 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 3.915 | 0.006 | 3.480 | 0.000 | 0.533 | 0.000 |
+| synthetic_val | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 3.404 | 0.018 | 2.928 | 0.000 | 0.700 | 0.000 |
+| synthetic_val | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 4.516 | 0.036 | 4.107 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 3.711 | 0.003 | 3.323 | 0.000 | 0.333 | 0.000 |
+| synthetic_val | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 3.285 | 0.022 | 2.819 | 0.000 | 0.417 | 0.000 |
+| synthetic_val | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 4.649 | 0.034 | 4.270 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 4.019 | 0.039 | 3.574 | 0.000 | 0.417 | 0.000 |
+| synthetic_val | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 3.453 | 0.037 | 2.984 | 0.000 | 0.250 | 0.000 |
+| synthetic_val | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 4.559 | 0.023 | 4.135 | 0.000 | 0.000 | 0.000 |
+| synthetic_val | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 3.742 | 0.032 | 3.340 | 0.000 | 0.528 | 0.000 |
+| synthetic_val | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 3.291 | 0.012 | 2.827 | 0.000 | 0.583 | 0.000 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 9.879 | 0.218 | 6.129 | 0.010 | 0.000 | 0.000 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 6.246 | 0.116 | 4.201 | 0.004 | 0.586 | 0.000 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 6.305 | 0.064 | 3.684 | 0.006 | 0.479 | 0.001 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 9.746 | 0.065 | 5.920 | 0.009 | 0.000 | 0.000 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 5.821 | 0.096 | 3.868 | 0.004 | 0.631 | 0.000 |
+| synthetic_val_aug | tree | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 5.981 | 0.127 | 3.427 | 0.005 | 0.510 | 0.001 |
+| synthetic_val_aug | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 10.044 | 0.206 | 6.243 | 0.009 | 0.000 | 0.000 |
+| synthetic_val_aug | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 6.519 | 0.188 | 4.346 | 0.004 | 0.531 | 0.000 |
+| synthetic_val_aug | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 6.528 | 0.204 | 3.729 | 0.006 | 0.448 | 0.001 |
+| synthetic_val_aug | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 9.995 | 0.107 | 5.989 | 0.009 | 0.000 | 0.000 |
+| synthetic_val_aug | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 6.045 | 0.082 | 3.906 | 0.004 | 0.572 | 0.001 |
+| synthetic_val_aug | tree:mode=C1 | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 6.190 | 0.035 | 3.455 | 0.006 | 0.503 | 0.001 |
+| synthetic_val_aug | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 9.427 | 0.138 | 5.841 | 0.009 | 0.000 | 0.000 |
+| synthetic_val_aug | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 5.662 | 0.046 | 3.807 | 0.003 | 0.613 | 0.000 |
+| synthetic_val_aug | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 5.766 | 0.107 | 3.308 | 0.005 | 0.509 | 0.001 |
+| synthetic_val_aug | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 9.084 | 0.054 | 5.579 | 0.009 | 0.000 | 0.000 |
+| synthetic_val_aug | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 5.393 | 0.056 | 3.633 | 0.003 | 0.581 | 0.000 |
+| synthetic_val_aug | tree:mode=C2 | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 5.525 | 0.181 | 3.178 | 0.005 | 0.507 | 0.001 |
+| synthetic_val_aug | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 9.572 | 0.059 | 5.936 | 0.009 | 0.000 | 0.000 |
+| synthetic_val_aug | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 5.914 | 0.019 | 3.998 | 0.003 | 0.618 | 0.000 |
+| synthetic_val_aug | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_vote32 | 5.945 | 0.054 | 3.421 | 0.005 | 0.545 | 0.001 |
+| synthetic_val_aug | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 9.175 | 0.118 | 5.662 | 0.008 | 0.000 | 0.000 |
+| synthetic_val_aug | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 5.593 | 0.032 | 3.712 | 0.004 | 0.626 | 0.000 |
+| synthetic_val_aug | tree:mode=T | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_vote32 | 5.646 | 0.083 | 3.232 | 0.005 | 0.563 | 0.001 |
+RUN outputs/experiments/EXP-116_roll_consistent_tree/RUN-20261018-194430-seed0
+=== 21:09:49 BLOCK_DONE EXP-116
+=== 21:09:49 QUEUE10_DONE

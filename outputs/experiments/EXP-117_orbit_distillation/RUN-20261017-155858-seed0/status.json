@@ -1,0 +1,11 @@
+{
+  "state": "completed",
+  "pid": 1110347,
+  "start": "2026-10-17T15:58:58.168373",
+  "wall_clock_s": 820.68,
+  "peak_cpu_rss_mb": 28095.3,
+  "peak_gpu_mb": 1542.8,
+  "end": "2026-10-17T16:12:38.852950",
+  "teacher": "outputs/experiments/EXP-117_orbit_distillation/teacher_DINO_seed0.npz",
+  "mean_max_weight": 0.33853253722190857
+}

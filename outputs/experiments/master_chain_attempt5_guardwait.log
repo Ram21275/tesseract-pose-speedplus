@@ -1,0 +1,80 @@
+>>> 14:02:16 extract gate512_r0 dinov3_vitl16
+cache exists /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_gate512_r0__46d8740afea9__9284274b5064d38c
+>>> 14:02:23 extract gate512_r0 moge2_vitl
+cache exists /media/kavinder/hdd2/tfpose_cache/moge2_vitl__subset_gate512_r0__5b82e9ab17e6__9284274b5064d38c
+cache exists /media/kavinder/hdd2/tfpose_cache/consensus_masks__subset_gate512_r0
+>>> 14:02:30 extract gate512_r90 dinov3_vitl16
+cache exists /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_gate512_r90__2bf59248b304__092c082379d0cbd6
+>>> 14:02:35 extract gate512_r90 moge2_vitl
+done /media/kavinder/hdd2/tfpose_cache/moge2_vitl__subset_gate512_r90__15704edc6faf__092c082379d0cbd6
+done /media/kavinder/hdd2/tfpose_cache/consensus_masks__subset_gate512_r90
+>>> 14:03:08 extract gate512_r37 dinov3_vitl16
+done /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_gate512_r37__e5fe45c40b6e__dd1ae964622c759a
+>>> 14:03:26 extract gate512_r37 moge2_vitl
+done /media/kavinder/hdd2/tfpose_cache/moge2_vitl__subset_gate512_r37__e67b4ec41c2c__dd1ae964622c759a
+done /media/kavinder/hdd2/tfpose_cache/consensus_masks__subset_gate512_r37
+| mode | mean | median | max | p95 |
+|---|---|---|---|---|
+| label_err_deg(pre-, PnP) | 0.061 | 0.034 | 1.143 | 0.202 |
+| post+ | 102.675 | 100.002 | 235.378 | 195.002 |
+| post- | 100.532 | 94.450 | 241.702 | 187.885 |
+| pre+ | 155.144 | 164.684 | 242.922 | 221.747 |
+| pre- | 0.341 | 0.214 | 4.751 | 1.045 |
+| roundtrip(pre-) | 0.001 | 0.000 | 0.004 | 0.003 |
+(err_px = max over the 11 Tango points of the crop-pixel distance at 224 px; roundtrip row = degrees)
+DERIVED pre- VERIFIED True
+RUN outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-140405-seed0
+CONVENTION=pre-
+| spec | max_abs_diff_std | mean_abs_diff_std | rel_l2 |
+|---|---|---|---|
+| dinov3_vitl16:tokens8 | 0.011 | 0.000 | 0.000 |
+| moge2_vitl:normals16~and | 0.544 | 0.000 | 0.003 |
+| view | mode | mean_deg |
+|---|---|---|
+| r0 | - | 5.643 |
+| r90 | pre+ | 177.585 |
+| r90 | pre- | 7.239 |
+| r90 | post+ | 114.258 |
+| r90 | post- | 115.364 |
+| r37 | pre+ | 77.702 |
+| r37 | pre- | 21.989 |
+| r37 | post+ | 56.160 |
+| r37 | post- | 57.034 |
+DESCRIPTIVE predictor check; derived convention = pre-
+RUN outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-140409-seed0
+>>> 14:05:55 extract exp109_train_aug1 dinov3_vitl16
+  1600/47966  27.0 ms/img
+  3200/47966  26.3 ms/img
+  4800/47966  26.3 ms/img
+  6400/47966  26.8 ms/img
+  8000/47966  27.4 ms/img
+  9600/47966  27.5 ms/img
+  11200/47966  27.5 ms/img
+  12800/47966  27.5 ms/img
+  14400/47966  27.8 ms/img
+  16000/47966  28.2 ms/img
+  17600/47966  28.6 ms/img
+  19200/47966  28.9 ms/img
+  20800/47966  29.1 ms/img
+  22400/47966  29.1 ms/img
+  24000/47966  29.1 ms/img
+  25600/47966  29.2 ms/img
+  27200/47966  29.4 ms/img
+  28800/47966  29.6 ms/img
+  30400/47966  29.5 ms/img
+  32000/47966  29.7 ms/img
+  33600/47966  29.8 ms/img
+  35200/47966  29.9 ms/img
+  36800/47966  29.9 ms/img
+  38400/47966  29.9 ms/img
+  40000/47966  30.0 ms/img
+  41600/47966  30.0 ms/img
+  43200/47966  30.0 ms/img
+  44800/47966  30.1 ms/img
+  46400/47966  30.1 ms/img
+done /media/kavinder/hdd2/tfpose_cache/dinov3_vitl16__subset_exp109_train_aug1__8db1da46ec9a__2c5d6d0d9811d3b4
+>>> 14:30:05 extract exp109_train_aug1 moge2_vitl
+[guarded] 14:30:06 waiting: RAM avail 80 GB (need 52), GPU free 2 GB (need 8)
+[guarded] 14:32:06 waiting: RAM avail 80 GB (need 52), GPU free 2 GB (need 8)
+[guarded] 14:34:06 waiting: RAM avail 80 GB (need 52), GPU free 2 GB (need 8)
+EXTRACT_FAILED exp109_train_aug1

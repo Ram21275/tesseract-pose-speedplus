@@ -1,0 +1,11 @@
+{
+  "state": "stopped",
+  "pid": 3232865,
+  "start": "2026-10-19T17:41:16.835785",
+  "wall_clock_s": 2.02,
+  "peak_cpu_rss_mb": 824.3,
+  "peak_gpu_mb": 0.0,
+  "max_rss_gb": 47.0,
+  "min_avail_gb": 16.0,
+  "note": "stopped after ~5 min (2026-10-19 17:46): EXP-064 YCB-V block re-run first (manifest path fix); queue order EXP-064 -> EXP-118 -> EXP-117"
+}
