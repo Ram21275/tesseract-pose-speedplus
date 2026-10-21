@@ -37,7 +37,7 @@ All further experiments use the **EXP-109 methodology** in two variants, **PoE (
 ### Update 2026-10-21 (EXP-117, EXP-118 completed; zero-shot done)
 - **New best SPEED+ system:** orbit-distilled student + orbit (EXP-117), PoE **3.69 / 11.21 / 11.09°** (synth / lightbox / sunlamp), vs EXP-109's 3.87 / 12.30 / 12.25.
   - The distillation criterion PASSES. The single-view student recovers 13–43% of the orbit gain.
-  - Adopting it into the locked recipe is the user's decision. Novelty is limited: self-distillation from augmentation ensembles is known.
+  - **DEC-023 (user): the locked recipe stays EXP-109; EXP-117 is reported as a successful enhancement (add-on), not a recipe change.** Novelty is limited: self-distillation from augmentation ensembles is known.
 - **Full 6-DoF (EXP-118):** a SPACE-HOP-formulated translation block on the tree tokens, trained jointly, without hurting rotation.
   - E_T (orbit): DINOv3 block 0.059 / 0.185 / 0.183 m; box-only baseline 0.56 m.
   - Rotation with joint training: PoE + orbit 3.86 / 12.11 / 11.73°.

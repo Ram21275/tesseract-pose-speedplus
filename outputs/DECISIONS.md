@@ -211,3 +211,11 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
   - Arms: joint, frozen tree, and a box-only baseline that measures the ground-truth crop's own translation content.
   - Queued after EXP-117.
 - **Order update (user, 2026-10-19: "do 117 after 118"):** EXP-064 → EXP-118 → EXP-117 (`scripts/run_queue12.sh`).
+
+## DEC-023 — Locked recipe unchanged; EXP-117 recorded as a successful enhancement (2026-10-21)
+- **Decided by:** the user: "we keep the locked recipe and add this distillation as a successful experiment that enhances the results."
+- **DEC-018 (EXP-109 methodology: PoE and DINOv3-only variants, orbit inference) stays the locked recipe.**
+- **EXP-117 (orbit-consistency distillation)** is reported as a successful add-on that improves both the single-view tree and the orbit system:
+  - PoE + orbit 3.69 / 11.21 / 11.09° vs 3.87 / 12.30 / 12.25°;
+  - student greedy val-aug 9.22 vs 9.75.
+  - It is not part of the recipe used by later experiments unless the user says so.

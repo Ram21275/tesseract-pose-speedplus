@@ -67,6 +67,6 @@ The single-view student recovers about 15–30% of the orbit gain at greedy cost
 
 **Descriptive: the student is also a better base for orbit inference.** Student + orbit is the best system so far: PoE 3.69 / 11.21 / 11.09 vs EXP-109 3.87 / 12.30 / 12.25. That is −1.1 / −1.2° on real (about 2 seed std), with fewer > 150° flips. Selection on synthetic val (DEC-006) also prefers it (3.69 < 3.87).
 
-**Decision:** distillation is adopted as a training-stage refinement, pending the user's decision on updating the locked recipe (DEC-018).
+**Decision (DEC-023, user, 2026-10-21):** the locked recipe stays EXP-109 (DEC-018). Distillation is reported as a successful enhancement that improves both the single-view tree and the orbit system.
 - The claim is "orbit-consistency distillation improves the single-view tree and the orbit system".
 - Prior art: self-distillation from test-time-augmentation ensembles is known, so the novelty is limited to its use with hierarchical rotation targets.
