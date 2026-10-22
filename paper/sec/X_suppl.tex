@@ -1,0 +1,125 @@
+\clearpage
+\setcounter{page}{1}
+\maketitlesupplementary
+\appendix
+
+\section{Timing}
+\label{sec:supp_timing}
+\begin{table}[h]
+  \centering\small
+  \input{tables/timing}
+  \caption{\textbf{End-to-end latency} of the augmented trees (shared RTX 6000 Ada; upper bounds; image already decoded).}
+  \label{tab:timing}
+\end{table}
+At batch 1 (\cref{tab:timing}), a DINOv3 forward pass takes 6.4\,ms and one tree 7.4\,ms. MoGe-2 adds 21\,ms for the network and 20\,ms for the CPU consensus-mask step per view, which is the main optimisation target. Orbit voting multiplies the cost by $4.4$--$4.7\times$. Batched evaluation reduces tree cost to 0.1--0.3\,ms per image.
+
+\section{Model lineage and fusion}
+\label{sec:supp_lineage}
+\begin{table}[h]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{@{}lccc@{}}
+    \toprule
+    Design (clean trees, PoE greedy) & Synth. & LB & SL \\
+    \midrule
+    MLP path decoder, hard targets & 6.24 & 31.1 & 43.7 \\
+    GRU path decoder & 6.15 & -- & 40.6 \\
+    MLP decoder, geodesic soft targets & 6.07 & 28.2 & 42.1 \\
+    Transformer decoder, hard targets & 5.69 & 31.6 & 41.8 \\
+    \textbf{Transformer + soft targets} & \textbf{5.54} & \textbf{26.9} & \textbf{36.7} \\
+    \quad + beam 8 instead of greedy & no gain & -- & -- \\
+    \quad + tangent residual at the leaf & $-0.13$ & $\pm0.0$ & $\pm0.0$ \\
+    \quad 16$\times$16 instead of 8$\times$8 DINOv3 tokens & 5.56 & 27.0 & 36.0 \\
+    \midrule
+    DINOv3 tree alone & 5.35 & 37.1 & -- \\
+    MoGe-2 tree alone & -- & 43.7 & -- \\
+    Learned concat fusion, one Transformer (8$\times$8) & 5.34 & 40.8 & -- \\
+    Equal per-level PoE (same grid) & 5.58 & 27.9 & -- \\
+    Weighted PoE, $w_{\text{DINO}}{=}0.8$ (proxy-selected) & 5.14 & 32.0 & 36.7 \\
+    \bottomrule
+  \end{tabular}
+  \caption{\textbf{Design steps} on clean (non-augmented) trees, seed means. Dashes: not evaluated in that study.}
+  \label{tab:lineage}
+\end{table}
+
+\Cref{tab:lineage} lists the design steps that led to the base tree. The Transformer decoder with geodesic soft targets was best; beam search at full data brought no gain, and a tangent residual only refined errors within the correct cell.
+Fusion is strongly asymmetric across domains. A learned fusion that feeds concatenated tokens into one Transformer matches DINOv3 alone on synthetic data but is much worse on real images ($40.8^\circ$ vs.\ $27.9^\circ$ for PoE on the same grid). We interpret this as the learned fusion over-fitting render statistics, while training-free PoE keeps the branches' errors partly independent.
+A weighted PoE selected on the rotated validation proxy ($w{=}0.8$) is $5^\circ$ worse on lightbox than equal weights. Following our protocol, we did not use real data to choose another weight.
+The consensus foreground mask reduces MoGe-2's background leakage on real images from 0.52 to 0.12 (lightbox) and from 0.57 to 0.12 (sunlamp). It is what makes the MoGe-2 branch useful.
+
+\section{Negative results}
+\label{sec:supp_negative}
+\begin{table}[h]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{2.5pt}
+  \begin{tabular}{@{}lccc@{}}
+    \toprule
+    Approach (on clean trees unless noted) & Synth. & LB & SL \\
+    \midrule
+    Clean PoE tree (reference) & 5.54 & 26.9 & 36.7 \\
+    $SO(3)$ flow posterior on tree memory, KDE mode & 5.22 & 29.8 & 37.6 \\
+    \quad best of 32 samples (\emph{oracle}) & 2.60 & 9.7 & 10.6 \\
+    Flow re-noise verifier over beams + flips + corners & 4.78 & 26.5 & 32.7 \\
+    \quad best candidate (\emph{oracle}) & 2.25 & 7.9 & 11.4 \\
+    Kurz corner tree~\cite{kurz2017tesseract} & 5.20 & 28.8 & 39.1 \\
+    Tree distilled from flow masses ($\beta{=}1$, 1 seed) & 5.62 & 26.2 & 37.7 \\
+    Discrete flow matching on tree paths & 7.22 & 29.8 & 39.8 \\
+    \midrule
+    Aug.\ DINOv3 tree (reference) & 4.84 & 22.6 & 22.1 \\
+    \quad + $SO(3)$ flow, KDE & 4.10 & 25.2 & 24.4 \\
+    \bottomrule
+  \end{tabular}
+  \caption{\textbf{Refiners and verifiers that did not fix real flips} (seed means). Oracles are not deployable and show headroom only.}
+  \label{tab:negative}
+\end{table}
+
+\Cref{tab:negative} collects approaches that improved synthetic accuracy but not, or only slightly, real accuracy.
+A Riemannian flow-matching posterior~\cite{chen2024rfm} conditioned on the tree's encoder memory contains good samples: its best-of-32 oracle reaches $9.7^\circ$ on lightbox. It also assigns the ground truth a much higher log-likelihood than the tree does (3.85 vs.\ 0.98 nats on lightbox), and its 90\% regions over-cover (0.98). Yet its mode estimate is worse than the tree's.
+Re-scoring an expanded candidate set (beam, $180^\circ$ flips, cell corners) by re-noise/return consistency helps synthetic data and sunlamp, but does not repair lightbox flips. Synthetic render-and-compare templates also failed to choose the right flip.
+A discrete flow on the tesseract path~\cite{gat2024dfm} was clearly worse. We note that interpolating path tokens is not geometry-preserving: 45--53\% of intermediate paths lie more than $30^\circ$ from both endpoints.
+Distilling flow masses into the tree did not pass its criterion.
+An oracle that stops decoding at the best depth would gain only $0.51^\circ$ on synthetic data, so adaptive depth was not pursued.
+These results support the diagnosis of \cref{sec:diagnosis}: the right mode is reachable, but scorers trained on clean synthetic features cannot select it on real images. Lighting-robust training and multi-view consistency can.
+
+\section{Orbit distillation and 6-DoF details}
+Retention of the orbit gain by the single-view students, defined as (base greedy $-$ student greedy)/(base greedy $-$ base orbit), is 43\%/18\%/22\% (DINOv3) and 30\%/28\%/23\% (PoE) on synthetic/lightbox/sunlamp, and 13--15\% on the rotated proxy.
+For the joint 6-DoF model, the ESA-style score (rotation error in radians plus normalised translation error, with the challenge precision floors) is 0.084/0.241/0.238 for PoE.
+
+\section{Per-object results}
+\begin{table}[h]
+  \centering\footnotesize
+  \input{tables/xds_perobj}
+  \caption{\textbf{Per-object test error} (3-seed mean; symmetry-aware for T-LESS and SYMSOL-T).}
+  \label{tab:perobj}
+\end{table}
+On T-LESS (\cref{tab:perobj}), most of the test error comes from object 21 (no symmetry metadata, near-symmetric; 18\% of predictions above $90^\circ$) and object 1 (continuous symmetry). Continuous symmetries are evaluated on a $10^\circ$-step discretisation of the symmetry set, which adds up to $5^\circ$ of artificial error for objects 1 and 4 and for the cone and cylinder.
+
+\section{YCB-V diagnosis}
+\label{sec:supp_ycbv}
+On YCB-V we checked four things:
+\begin{enumerate}
+\item The trees fit their training frames: $3.8^\circ$ and $3.9^\circ$ on mustard bottle and mug.
+\item Test poses are covered by training: the median nearest training rotation is about $5^\circ$ away for cracker box, mustard bottle and banana, whose test errors are still $75$--$87^\circ$.
+\item Every crop contains all of the object's label pixels.
+\item The ground-truth rotations agree with the segmentation: 65--98\% of the projected model points fall on the object mask, against 28--83\% for a transposed-rotation control.
+\end{enumerate}
+The failure is therefore memorisation of the 16--20 cluttered training videos per object. The object covers only 5--40\% of the crop and the DINOv3 tokens are not masked. This is not a label or pipeline error. Standard YCB-V training adds synthetic renders, which we did not use.
+
+\section{Zero-shot transfer of the frozen SPEED+ trees}
+\begin{table}[h]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \input{tables/zeroshot}
+  \caption{\textbf{Zero-shot}: frozen SPEED+ PoE trees with orbit voting, no retraining, test split. The pair error $\min_S\angle(\hat R_i\hat R_j^\top, R_iSR_j^\top)$ over random same-object pairs cancels the unknown offset between object frames. \emph{Chance}: uniformly random predictions. \emph{Constant}: one rotation predicted for every image.}
+  \label{tab:zeroshot}
+\end{table}
+Object frames are arbitrary, so raw errors are expected near chance. The frame-free pair error (\cref{tab:zeroshot}) is therefore the meaningful measure. On T-LESS and YCB-V it is \emph{worse} than predicting one constant rotation, because both datasets have strong pose priors. On SYMSOL-T, where rotations are uniform, the trees beat chance only because of one shape: the cube ($27.8^\circ$ vs.\ $41.2^\circ$), plausibly because the spacecraft body is box-like. There is no general zero-shot transfer: the trees must be retrained per object.
+
+\section{Disclosures and reproducibility}
+\begin{itemize}
+\item \textbf{Late feature-equivalence check.} The augmented and rotated views are extracted by a compact feature extractor. A pre-registered check against the full feature caches was run after the main results. It failed its strict element-wise tolerance: the maximum standardised difference was 0.51 for MoGe-2 features (p99 0.004; correlation 0.999998). Its functional follow-up showed that no PoE prediction changed on 512 crops, and that single-branch greedy leaves changed for 1/512 (DINOv3) and 3/512 (MoGe-2) crops.
+\item \textbf{SYMSOL-T bug.} Nine MoGe-2 SYMSOL-T trees first trained to NaN: always-empty border cells had a standard deviation near $10^{-6}$, and float16 overflowed. They were retrained with a standard-deviation floor of $10^{-2}$; all other trees were unaffected. Only the corrected evaluation is reported.
+\item \textbf{YCB-V paths.} A file-path error in the YCB-V manifest (colour images are JPEG) was fixed before any YCB-V result.
+\item \textbf{Post-hoc control.} The constant-prediction control in \cref{tab:zeroshot} was added after the T-LESS zero-shot result and is labelled as post hoc.
+\end{itemize}
+Every number in the results tables is generated by a script directly from the evaluation logs of the named runs.

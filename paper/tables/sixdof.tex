@@ -1,0 +1,18 @@
+\begin{tabular}{@{}lll ccc ccc@{}}
+\toprule
+Arm & Feat. & $\hat t$ & \multicolumn{3}{c}{$E_T$ (m)} & \multicolumn{3}{c}{$E_R$ ($^\circ$), orbit} \\
+\cmidrule(lr){4-6}\cmidrule(lr){7-9} & & & Syn. & LB & SL & Syn. & LB & SL \\
+\midrule
+Box only & -- & -- & 0.561 & 0.547 & 0.553 & -- & -- & -- \\
+\midrule
+Frozen & DINOv3 & 1 view & 0.090 & 0.233 & 0.240 & 4.21 & 17.40 & 15.27 \\
+ &  & orbit & 0.068 & 0.205 & 0.205 &  &  &  \\
+Frozen & PoE & 1 view & 0.108 & 0.206 & 0.232 & 3.87 & 12.30 & 12.25 \\
+ &  & orbit & 0.089 & 0.184 & 0.206 &  &  &  \\
+\midrule
+Joint & DINOv3 & 1 view & 0.078 & 0.209 & 0.212 & 4.19 & 17.31 & 14.87 \\
+ &  & orbit & \textbf{0.059} & 0.185 & \textbf{0.183} &  &  &  \\
+Joint & PoE & 1 view & 0.111 & 0.196 & 0.221 & 3.86 & 12.11 & 11.73 \\
+ &  & orbit & 0.093 & \textbf{0.175} & 0.194 &  &  &  \\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,18 @@
+\begin{tabular}{@{}llc ccc cc r@{}}
+\toprule
+Training & Feat. & Inference & Synth.\ val & Lightbox & Sunlamp & \multicolumn{2}{c}{${>}150^\circ$ (\%)} & ms \\
+\cmidrule(lr){7-8} & & & \multicolumn{3}{c}{mean $E_R$ ($^\circ$), 3 seeds} & LB & SL & \\
+\midrule
+Clean tree (no augmentation) & PoE & 1 view & 5.54\,{\scriptsize$\pm$0.07} & 26.91\,{\scriptsize$\pm$0.78} & 36.66\,{\scriptsize$\pm$0.93} & 5.9 & 7.4 & 64 \\
+\midrule
+Augmented tree (base recipe) & DINOv3 & 1 view & 4.84\,{\scriptsize$\pm$0.05} & 22.55\,{\scriptsize$\pm$0.73} & 22.00\,{\scriptsize$\pm$0.70} & 6.0 & 3.2 & 15 \\
+Augmented tree (base recipe) & DINOv3 & orbit (4) & 4.21\,{\scriptsize$\pm$0.04} & 17.40\,{\scriptsize$\pm$0.68} & 15.27\,{\scriptsize$\pm$0.64} & 4.8 & 2.0 & 70 \\
++ orbit distillation & DINOv3 & 1 view & 4.57\,{\scriptsize$\pm$0.05} & 21.61\,{\scriptsize$\pm$0.82} & 20.55\,{\scriptsize$\pm$0.94} & 5.8 & 3.1 & 15 \\
++ orbit distillation & DINOv3 & orbit (4) & 3.90\,{\scriptsize$\pm$0.03} & 16.43\,{\scriptsize$\pm$0.75} & 13.64\,{\scriptsize$\pm$0.57} & 4.5 & 1.6 & 70 \\
+\midrule
+Augmented tree (base recipe) & PoE & 1 view & 4.85\,{\scriptsize$\pm$0.03} & 17.33\,{\scriptsize$\pm$0.31} & 20.15\,{\scriptsize$\pm$0.57} & 4.2 & 3.3 & 64 \\
+Augmented tree (base recipe) & PoE & orbit (4) & 3.87\,{\scriptsize$\pm$0.03} & 12.30\,{\scriptsize$\pm$0.50} & 12.25\,{\scriptsize$\pm$0.37} & 3.0 & 1.7 & 279 \\
++ orbit distillation & PoE & 1 view & 4.56\,{\scriptsize$\pm$0.03} & 15.90\,{\scriptsize$\pm$0.53} & 18.33\,{\scriptsize$\pm$0.66} & 3.7 & 3.0 & 64 \\
++ orbit distillation & PoE & orbit (4) & \textbf{3.69}\,{\scriptsize$\pm$0.02} & \textbf{11.21}\,{\scriptsize$\pm$0.42} & \textbf{11.09}\,{\scriptsize$\pm$0.49} & 2.6 & 1.4 & 279 \\
+\bottomrule
+\end{tabular}

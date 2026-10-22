@@ -1,0 +1,11 @@
+\begin{tabular}{@{}l rr rr@{}}
+\toprule
+System & \multicolumn{2}{c}{batch 1} & \multicolumn{2}{c}{batch 64} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5} & ms & FPS & ms/img & img/s \\
+\midrule
+DINOv3, 1 view & 14.7 & 68.1 & 2.9 & 347 \\
+DINOv3 + orbit & 69.6 & 14.4 & 12.1 & 82 \\
+PoE, 1 view & 64.0 & 15.6 & 50.0 & 20 \\
+PoE + orbit & 278.5 & 3.6 & 206.8 & 5 \\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,13 @@
+\begin{tabular}{@{}l cc ccc@{}}
+\toprule
+Training objective & \multicolumn{2}{c}{1 view, DINOv3} & \multicolumn{3}{c}{PoE + orbit} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-6} & Syn. & Syn.-rot. & Syn. & LB & SL \\
+\midrule
+Base recipe (GT loss) & 4.84\,{\scriptsize$\pm$0.05} & 9.88\,{\scriptsize$\pm$0.22} & 3.87 & 12.30 & 12.25 \\
++ paired views & 4.96\,{\scriptsize$\pm$0.06} & 10.04\,{\scriptsize$\pm$0.21} & 3.94 & 12.38 & 12.45 \\
++ leaf-level transported consistency & 4.59\,{\scriptsize$\pm$0.04} & 9.43\,{\scriptsize$\pm$0.14} & 3.71 & 12.41 & 11.74 \\
++ hierarchical transported consistency & 4.65\,{\scriptsize$\pm$0.03} & 9.57\,{\scriptsize$\pm$0.06} & 3.74 & 12.49 & 11.73 \\
+\midrule
++ orbit distillation & 4.57\,{\scriptsize$\pm$0.05} & 9.33\,{\scriptsize$\pm$0.18} & \textbf{3.69} & \textbf{11.21} & \textbf{11.09} \\
+\bottomrule
+\end{tabular}

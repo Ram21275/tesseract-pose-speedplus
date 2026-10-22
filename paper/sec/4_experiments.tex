@@ -1,0 +1,73 @@
+\section{Experiments}
+\label{sec:experiments}
+
+\subsection{Setup and protocol}
+\paragraph{Data.} SPEED+~\cite{park2022speedplus} provides 47,966 synthetic training images, 11,994 synthetic validation images, and two real test domains: \emph{lightbox} (6,740) and \emph{sunlamp} (2,791). We train on synthetic training images only.
+
+\paragraph{Protocol.} Every experiment was pre-registered before it was run: its question, arms, controls and pass criterion were fixed in advance, and protocol changes were recorded before the affected runs. We train 3 seeds and report mean $\pm$ seed standard deviation. A criterion ``passes'' if the difference exceeds the larger seed standard deviation. Checkpoints, hyper-parameters and variants are selected on synthetic validation only; lightbox and sunlamp are used only for testing. Some ablations also report a \emph{rotated validation} proxy, the synthetic validation set with random in-plane rolls. Failed criteria and negative results are reported (\cref{sec:supp_negative}).
+
+\paragraph{Implementation.} Trees are trained for 100 epochs with batch 256, AdamW (learning rate $10^{-3}$, weight decay 0.05, one-cycle schedule) and bf16, which takes about 13 minutes per DINOv3 tree on one GPU. Timings are measured end-to-end at batch 1 on a shared NVIDIA RTX 6000 Ada; other jobs were running on it, so they are upper bounds. All evaluations use ground-truth crops (\cref{sec:limitations}).
+
+\subsection{Diagnosis: real-domain errors are flips}
+\label{sec:diagnosis}
+Before changing the model, we audited the large real-domain errors of the clean (non-augmented) trees. Encoder and decoder round trips are exact, and the metric, rotation convention and data pipeline were ruled out. Chart seams were ruled out as well: flat Hopf-grid heads on the same features flip as often or more. Of the errors above $90^\circ$, 36--41\% lie within $15^\circ$ of $180^\circ$, against 20\% for uniformly random wrong rotations. Their body-frame rotation axes cluster around a few axes of the near-symmetric spacecraft body. Allowing a $180^\circ$ rotation about one body axis lowers the lightbox mean of the DINOv3 tree from $38.9^\circ$ to $23.5^\circ$.
+The correct mode is usually available: among the tree's beam candidates and their $180^\circ$ flips, an oracle achieves $9.8^\circ$ on lightbox, against $26.9^\circ$ for the fused greedy prediction. Neither a continuous flow posterior, flow-based re-noise scoring, synthetic templates nor a discrete path flow selects it on real images (\cref{sec:supp_negative}). The problem is \emph{mode selection} under domain shift.
+
+\subsection{Main results on SPEED+}
+\label{sec:main}
+
+\begin{table*}[t]
+  \centering\small
+  \setlength{\tabcolsep}{5pt}
+  \input{tables/main}
+  \caption{\textbf{SPEED+ rotation.} Mean $E_R$ over 3 seeds ($\pm$ seed std), fraction of severe flips (${>}150^\circ$), and end-to-end latency at batch 1. The clean tree is trained without augmentation. Each augmented tree is evaluated in the same run as its distilled students. The DINOv3 student is distilled from a DINOv3-only orbit teacher, and the PoE students from the PoE orbit teacher. Inference cost is unchanged by distillation. All rows use ground-truth crops.}
+  \label{tab:main}
+\end{table*}
+
+\begin{table}[t]
+  \centering\small
+  \setlength{\tabcolsep}{2.6pt}
+  \input{tables/flips}
+  \caption{\textbf{Flip transitions relative to the clean PoE tree.} \emph{Fixed}: share of the clean tree's ${>}150^\circ$ errors that become ${<}20^\circ$ (denominator given). \emph{Broken}: share of its ${<}20^\circ$ predictions that become ${>}150^\circ$.}
+  \label{tab:flips}
+\end{table}
+
+\Cref{tab:main} summarises the progression. Augmentation alone (photometric plus roll, single view) cuts the real-domain error of the PoE system from $26.9^\circ/36.7^\circ$ to $17.3^\circ/20.2^\circ$. Orbit voting then brings it to $12.3^\circ/12.3^\circ$ and the synthetic error to $3.87^\circ$. It repairs 62\% and 80\% of the severe flips on lightbox and sunlamp while breaking only 0.4\% of good predictions (\cref{tab:flips}). The median errors on real images are $5.3^\circ$ and $6.3^\circ$, so the remaining means are driven by a tail of failures.
+Orbit distillation improves every setting. The single-view students recover 13--43\% of the orbit gain at single-view cost; for example, the PoE greedy error on lightbox drops from $17.3^\circ$ to $15.9^\circ$. Students with orbit voting give the best system: $3.69^\circ$ synthetic and $11.21^\circ/11.09^\circ$ on lightbox/sunlamp, about twice the seed std better than the undistilled orbit system, with fewer severe flips. Synthetic validation, the only selection signal, ranks the systems in the same order.
+MoGe-2 helps on real images: PoE with orbit voting reaches $12.3^\circ$ on lightbox, against $17.4^\circ$ for DINOv3-only. It costs about 50\,ms per view, half of which is the CPU consensus-mask step. DINOv3-only orbit voting runs at 14\,FPS and a single DINOv3 view at 68\,FPS (\cref{sec:supp_timing}).
+
+\paragraph{Context.} Published SPEED+ results are not directly comparable. Most use detected boxes, full 6-DoF pipelines with PnP or refinement, and fine-tuned networks, whereas we use ground-truth crops and frozen backbones. As reported, keypoint/PnP methods with domain adaptation reach lower real-domain rotation errors (SPNv2: $9.8^\circ/5.6^\circ$; Pérez-Villar~\etal: $2.7^\circ/4.6^\circ$ on lightbox/sunlamp~\cite{dutta2026spacehop}). Direct regressors are closer to us: SPACE-HOP reports $9.0^\circ/26.6^\circ$ and FastPose-ViT $28.0^\circ/14.7^\circ$~\cite{dutta2026spacehop,ancey2026fastpose}. Our contribution is a light frozen-feature design and an analysis of what makes it transfer, not a new state of the art.
+
+\subsection{Full 6-DoF}
+\label{sec:sixdof}
+
+\begin{table}[t]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{2.4pt}
+  \input{tables/sixdof}
+  \caption{\textbf{6-DoF with the SPACE-HOP translation target.} Rotation uses PoE or DINOv3 orbit voting. Translation ($\hat t$) is predicted from one view or as the orbit average; seed std of $E_T$ ${\le}\,0.005$\,m. Rotation errors are those of the same model with orbit voting. \emph{Box only} uses no image: the object centre is placed at the box centre and the depth at the training mean of $U_z$.}
+  \label{tab:sixdof}
+\end{table}
+
+\Cref{tab:sixdof} reports the 6-DoF results. Because our crops come from ground-truth boxes, the box alone already locates the target to $0.55$\,m. The translation block improves on this by about $7$--$10\times$ on synthetic data (both pre-registered criteria pass). Joint training does not hurt rotation and even helps slightly on real images: PoE + orbit reaches $3.86^\circ/12.11^\circ/11.73^\circ$, against $3.87^\circ/12.30^\circ/12.25^\circ$. Orbit averaging lowers translation error by 10--25\%. The DINOv3 block is the most accurate on synthetic data ($0.059$\,m), and PoE averaging is best on lightbox ($0.175$\,m). The MoGe-2 block alone is weak for translation.
+SPACE-HOP reports $0.096/0.302/0.282$\,m (synthetic/lightbox/sunlamp)~\cite{dutta2026spacehop}. Our numbers are lower, but they rely on ground-truth boxes, use different crop padding and average over 4 views, so the comparison is not matched.
+
+\subsection{Other datasets}
+\label{sec:xds}
+
+\begin{table}[t]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{2.5pt}
+  \resizebox{\linewidth}{!}{\input{tables/xds}}
+  \caption{\textbf{Other datasets} (object-balanced mean error over 3 seeds; symmetry-aware for T-LESS and SYMSOL-T, raw for YCB-V). One tree is trained per object and branch with the unchanged recipe. T-LESS: synthetic PBR validation, real BOP test. SYMSOL-T: LiePose split. YCB-V: held-out real sequences and keyframes.}
+  \label{tab:xds}
+\end{table}
+
+We apply the unchanged recipe to three datasets with per-object trees (\cref{tab:xds}).
+For \textbf{T-LESS}~\cite{hodan2017tless} we use 7 objects with continuous, discrete or no symmetries, trained on PBR renders and real training images, and tested on the real BOP test targets~\cite{hodan2020bop}. For \textbf{SYMSOL-T} we use the five shapes with the split of~\cite{hsiao2024liepose}. For \textbf{YCB-V}~\cite{xiang2018posecnn} we use 6 objects without symmetry metadata, trained on real training videos only.
+Labels follow \cref{eq:roll}, using the exact roll homography on T-LESS and YCB-V.
+
+\emph{Orbit voting transfers wherever the base model generalises.} It reduces error on T-LESS ($12.3^\circ\!\to\!9.3^\circ$ val, $17.9^\circ\!\to\!16.6^\circ$ real test) and on SYMSOL-T ($3.8^\circ\!\to\!2.6^\circ$, with 100\% of test predictions within $10^\circ$).
+\emph{PoE fusion is not general.} It passes its pre-registered criterion on T-LESS, but on the textureless SYMSOL-T renders MoGe-2 adds nothing, and on YCB-V it hurts.
+\emph{YCB-V does not generalise} in this setting. The trees fit their training frames to about $4^\circ$, but they memorise the cluttered training videos even though test poses lie within $5^\circ$ of training poses. Labels, crops and pose coverage were verified (\cref{sec:supp_ycbv}). YCB-V training normally adds synthetic renders, which our protocol did not use.
+\emph{Accuracy is below fine-tuned diffusion.} On our 7 T-LESS objects, LiePose reports R@2/5/10 of 34.9/78.2/88.9\%, from its per-object table, whereas we reach 4.0/36.0/73.5\%. On SYMSOL-T it reports about $0.4$--$0.6^\circ$, against our $2.6^\circ$~\cite{hsiao2024liepose}. Part of this gap is the $2.5^\circ$ leaf quantisation; part is frozen features and per-object data. LiePose also uses visible-object masks and the full T-LESS test set, so even this comparison is only approximately matched.

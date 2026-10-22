@@ -203,7 +203,7 @@ Per shape, test, DINOv3 + orbit product: cone 1.79, cyl 1.65, tet 3.06, cube 2.9
 
 **Descriptive:**
 - Orbit voting transfers strongly (−1.2°, DINOv3 3.82 → 2.62).
-- **External context, near-matched** (LiePose split and images; differences: frozen features, rotation-only target, GT frame): LiePose SE(3) reports about 0.4–0.6° per shape (Hsiao et al., CVPR 2024, Table 3). We are about 4–5× worse. The tree's depth-5 leaf (about 1.2° quantization) and the 10°-step continuous-symmetry metric for cone / cyl explain part of the gap, not all.
+- **External context, near-matched** (LiePose split and images; differences: frozen features, rotation-only target, GT frame): LiePose SE(3) reports about 0.4–0.6° per shape (Hsiao et al., CVPR 2024, Table 3). We are about 4–5× worse. The tree's depth-5 cell-centre quantization (2.51° mean, EXP-002) and the 10°-step continuous-symmetry metric for cone / cyl explain part of the gap, not all.
 
 ### YCB-V results (evaluation `RUN-20261019-224920`; re-run after the manifest path fix)
 Raw error (no symmetry metadata in this release), object-balanced, 3-seed mean ± seed std, degrees. Validation is one held-out real training sequence per object; test is the real keyframes.
