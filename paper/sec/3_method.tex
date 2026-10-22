@@ -8,6 +8,8 @@
   \label{fig:pipeline}
 \end{figure*}
 
+\Cref{fig:pipeline} gives an overview of training and inference.
+
 \subsection{Problem setup}
 Given a crop of the target around its (ground-truth) bounding box, we predict the rotation $q\in SO(3)$ (unit quaternion, $q\equiv-q$) of the body frame relative to the camera and, in \cref{sec:sixdof}, the translation $t\in\mathbb{R}^3$. Rotation error is $E_R=2\arccos|\langle\hat q,q\rangle|$ in degrees, and translation error is $E_T=\|\hat t-t\|_2$ in metres. These are the ESA challenge and SPACE-HOP definitions~\cite{dutta2026spacehop}. Crops are square boxes around the projected keypoints with a 15\% margin per side.
 

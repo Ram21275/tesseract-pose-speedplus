@@ -23,7 +23,7 @@ We replace the tree with a count-matched flat classifier over 131,076 Hopf-fibra
 \end{table}
 
 \paragraph{How to select among orbit candidates.}
-With the same 32 candidates (\cref{tab:scoring}), picking the most confident one is clearly worse than any form of agreement, and voting among the four views' top-1 predictions is better. Using all candidates helps most. The kernel-weighted vote is best on synthetic data ($3.46^\circ$). The likelihood product of \cref{eq:orbit} is best on both real domains, but its advantage over the vote is within about one seed std. Its pre-registered criterion (``product beats voting on synthetic validation'') \emph{fails}. We therefore claim multi-view consistency over hierarchical candidates, not a specific scoring rule.
+With the same 32 candidates (\cref{tab:scoring}), picking the most confident one is clearly worse than any form of agreement, and voting among the four views' top-1 predictions is better. Using all candidates helps most. The kernel-weighted vote is best on synthetic data ($3.46^\circ$). The likelihood product of \cref{eq:orbit} is best on both real domains, but its advantage over the vote is within about one seed std. Its pre-registered criterion (``product beats voting on synthetic validation'') \emph{fails}, and under our selection protocol the weighted vote would be preferred. The product is reported in \cref{tab:main} only because it was fixed in the base recipe beforehand. We therefore claim multi-view consistency over hierarchical candidates, not a specific scoring rule.
 
 \begin{table}[t]
   \centering\small
@@ -35,7 +35,7 @@ With the same 32 candidates (\cref{tab:scoring}), picking the most confident one
 
 \paragraph{Photometric vs.\ rotation augmentation.}
 \label{sec:abl_aug}
-\Cref{tab:aug} separates the two augmentation families. Photometric augmentation with orbit voting reaches $12.3^\circ/12.4^\circ$ on real images, the same as the combined recipe. Rotation augmentation alone gives the best synthetic precision ($3.78^\circ$) but leaves real errors at $18.7^\circ/20.7^\circ$. Orbit voting on the clean tree already removes about a quarter of the real error ($26.9^\circ\!\to\!20.3^\circ$, $36.7^\circ\!\to\!24.8^\circ$). The real-domain gain therefore comes from \emph{lighting robustness plus orbit consistency}. The exact roll transform is needed for orbit voting itself; as a training augmentation it mainly improves synthetic precision. This corrects our initial hypothesis that rotation augmentation causes the flip repair.
+\Cref{tab:aug} separates the two augmentation families. Photometric augmentation with orbit voting reaches $12.3^\circ/12.4^\circ$ on real images, the same as the combined recipe. Rotation augmentation alone gives the best synthetic precision ($3.78^\circ$) but leaves real errors at $18.7^\circ/20.7^\circ$. Orbit voting on the clean tree already removes a quarter to a third of the real error ($26.9^\circ\!\to\!20.3^\circ$, $36.7^\circ\!\to\!24.8^\circ$). The real-domain gain therefore comes from \emph{lighting robustness plus orbit consistency}. The exact roll transform is needed for orbit voting itself; as a training augmentation it mainly improves synthetic precision. This corrects our initial hypothesis that rotation augmentation causes the flip repair.
 
 \begin{table}[t]
   \centering\small

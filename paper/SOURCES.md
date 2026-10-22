@@ -24,3 +24,4 @@ Note: two evaluation passes of the same base-recipe trees differ in the second d
 - quantisation: EXP-002; label-transform checks: EXP-109 / EXP-064 convention runs; YCB-V diagnosis and compact-feature checks: EXP-064 report.
 
 Figure 1: `make_figure.py` (one SPEED+ lightbox crop).
+- SYMSOL-T leaf-quantisation floor (2.31° mean, post hoc, 2026-10-22): symmetry-aware error of the GT rotation's own depth-5 leaf centre on the SYMSOL-T test set (per shape: cone 2.02, cube 2.50, cyl 2.02, icosa 2.51, tet 2.51), computed with `tfpose.tesseract` + `tfpose.xobj` on the EXP-064 manifests.
