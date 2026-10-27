@@ -23,9 +23,16 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--dataset", required=True, choices=list(XO.DATASETS))
 ap.add_argument("--seeds", default="0,1,2")
 ap.add_argument("--modes", default="greedy,orbit_product,orbit_vote32")
+ap.add_argument("--exp", default="EXP-064")
+ap.add_argument("--exp-name", default="broader_object_validation")
+ap.add_argument("--runs-dir", default="EXP-064_broader_object_validation", help="experiment folder holding the train runs")
+ap.add_argument("--filter", default="", help="k=v,... on the train-run config (missing key counts as its default: label=raw)")
+ap.add_argument("--variants", default="PoE,DINO")
+ap.add_argument("--tag", default="", help="label stored in every metrics row (arm name)")
 args = ap.parse_args()
 ds = args.dataset
-run = Run("EXP-064", "broader_object_validation", {**vars(args), "stage": "eval"}, seed=0)
+run = Run(args.exp, args.exp_name, {**vars(args), "stage": "eval"}, seed=0)
+FILT = dict(kv.split("=", 1) for kv in args.filter.split(",") if kv); DEFAULTS = {"label": "raw", "extra_train": "None", "teacher_variant": "None"}
 SD, SM = "dinov3_vitl16:tokens8", "moge2_vitl:normals16~and"; SHAPE = {SD: (64, 1024), SM: (256, 4)}
 VIEWS = (0, 90, 180, 270); MODES = args.modes.split(",")
 try:
@@ -33,11 +40,14 @@ try:
     ALL = pd.read_csv(REPO / f"outputs/data_manifests/exp064_{ds}_all.csv"); EV = pd.read_csv(REPO / f"outputs/data_manifests/exp064_{ds}_eval.csv")
     oc = XO.DATASETS[ds]["obj_col"]
     runs = {}
-    for d in sorted((REPO / "outputs/experiments/EXP-064_broader_object_validation").glob("RUN-*")):
+    for d in sorted((REPO / "outputs/experiments" / args.runs_dir).glob("RUN-*")):
         cfg = yaml.safe_load((d / "config.yaml").read_text())
+        if any(str(cfg.get(k, DEFAULTS.get(k))) != v for k, v in FILT.items()):
+            continue
         if cfg.get("stage") == "train" and cfg.get("dataset") == ds and (d / "checkpoints/best.pt").exists():
             runs[(str(cfg["obj"]), cfg["seed"], cfg["features"])] = d
     objs = sorted({k[0] for k in runs})
+    (run.dir / "source_runs.txt").write_text("".join(f"{k}\t{args.runs_dir}/{d.name}\n" for k, d in sorted(runs.items())))
     geo = lambda a, b: np.degrees(2 * np.arccos(np.clip(np.abs((a * b).sum(-1)), 0, 1)))
 
     def tree_lp(ms, xs, cand):
@@ -65,17 +75,19 @@ try:
         def sym_err(qp):
             c = np.einsum("nij,nsij->ns", quat_to_matrix(qp), Req); return np.degrees(np.arccos(np.clip((c.max(1) - 1) / 2, -1, 1)))
         for seed in [int(s) for s in args.seeds.split(",")]:
-            if any((obj, seed, sp) not in runs for sp in (SD, SM)):
+            VAR = [(n, k) for n, k in (("PoE", (SD, SM)), ("DINO", (SD,))) if n in args.variants.split(",")]
+            NEED = sorted({k for _, ks in VAR for k in ks})
+            if any((obj, seed, sp) not in runs for sp in NEED):
                 print("missing", obj, seed, flush=True); continue
             MS, FX = {}, {}
-            for sp in (SD, SM):
+            for sp in NEED:
                 ck = torch.load(runs[(obj, seed, sp)] / "checkpoints/best.pt", map_location=dev, weights_only=False)
                 m = P.HierTransformer(SHAPE[sp], 5).to(dev); m.load_state_dict(ck["model"]); m.eval(); MS[sp] = m
                 st = (ck["mu"], ck["sd"])
                 _, x0 = featsets.load_rows(sp, f"exp064_{ds}_all", a_ev); FX[(sp, 0)] = featsets.standardize_to_tensor(x0, None, "cpu", torch.float16, stats=st)
                 for k in VIEWS[1:]:
                     _, xk = featsets.load_rows(sp, f"exp064_{ds}_eval_r{k}", e_ev); FX[(sp, k)] = featsets.standardize_to_tensor(xk, None, "cpu", torch.float16, stats=st)
-            for variant, keys in (("PoE", (SD, SM)), ("DINO", (SD,))):
+            for variant, keys in VAR:
                 ms = [MS[k] for k in keys]; preds = {m: [] for m in MODES}
                 with torch.no_grad():
                     for s0 in range(0, len(de), 256):
@@ -112,7 +124,7 @@ try:
                         if not msk.any():
                             continue
                         e = es[msk]
-                        rows.append({"dataset": ds, "obj": obj, "seed": seed, "variant": variant, "mode": mode, "split": split, "n": int(msk.sum()),
+                        rows.append({"dataset": ds, "arm": args.tag, "obj": obj, "seed": seed, "variant": variant, "mode": mode, "split": split, "n": int(msk.sum()),
                                      "sym_mean": e.mean(), "sym_median": np.median(e), **{f"sym_acc@{a}": float((e <= a).mean()) for a in (2, 5, 10, 15, 30)},
                                      "sym_frac_gt90": float((e > 90).mean()), "raw_mean": er[msk].mean()})
                 print(ds, obj, seed, variant, " | ".join(f"{m} {np.mean(sym_err(np.concatenate(preds[m]))):.2f}" for m in MODES), flush=True)

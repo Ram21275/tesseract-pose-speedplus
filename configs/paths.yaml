@@ -11,3 +11,5 @@ ycbv_root: /media/kavinder/hdd2/FFb6D/datasets/ycb/YCB_Video_Dataset
 # Large derived caches (moved off the main SSD 2026-10-16).
 cache_root: /media/kavinder/hdd2/RAM/shared_cache
 compact_cache_root: /media/kavinder/hdd2/RAM/compact
+# EXP-122: YCB-V data_syn renders composited onto real train-frame backgrounds (derived, written by scripts/exp122_ycbv_syn.py).
+ycbvsyn_root: /media/kavinder/hdd2/RAM/ycbv_syn_composite

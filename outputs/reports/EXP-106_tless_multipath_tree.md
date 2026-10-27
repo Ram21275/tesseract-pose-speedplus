@@ -61,3 +61,19 @@ Not started.
 
 ## Amendment 2026-10-16 (DEC-018, before any run): locked recipe
 This experiment uses the **EXP-109 methodology** (augmentation-trained trees, with the in-plane rotation label transform derived for the dataset's camera / crop convention; orbit PoE voting at test time). It is reported in **both** variants, PoE (DINOv3 + MoGe-2) and DINOv3-only, each with and without orbit voting. The in-plane label transform for each dataset is derived and verified by projecting its 3-D model points, before any training, as in EXP-109 (`scripts/exp109_convention_geometry.py`). Other protocol details are unchanged.
+
+## Amendment 2026-10-27 (DEC-024, before any EXP-106 run)
+The user asked for the symmetry fix ("do 1,2,3"). EXP-106 is run in the following scope; everything not listed is unchanged.
+- **Tree setup: per-object trees**, not one shared tree with an object embedding. This matches EXP-064, so EXP-064's existing per-object trees are a matched **A0**: same code path (`scripts/train_xobj.py`, whose defaults reproduce EXP-064), recipe, data, seeds and checkpoint rule.
+- **Arms trained now** (2 branches × seeds 0–2 per object):
+  - **A1 canonical** (`--label canonical`): in every view, the equivalent rotation R·S closest to identity.
+  - **A2 multi-path** (`--label multi`): the recipe's geodesic soft-target CE, averaged over the equivalent rotations R·S. All of them are used when |S| ≤ 8; otherwise 8 are drawn per row and step (unbiased). This is the level-marginal target of the whole symmetry set under teacher forcing, kept geodesically smoothed.
+  - **Deviation from the text above:** the pre-registration names the EXP-044 hard-path level-marginal loss. That loss would not reduce to A0 for objects without symmetry, which the pre-registration also requires, and it would drop the recipe's soft targets. The smoothed version reduces exactly to A0 when |S| = 1.
+- **Datasets:**
+  - T-LESS, the pre-registered 7 objects.
+  - **SYMSOL-T added** (5 shapes, LiePose split; symmetry sets from the annotations: tet 12, cube 24, icosa 60, cone 360, cyl 720). Criteria are the same, applied per dataset.
+  - SYMSOL-T MoGe-2 trees use `--sd-floor 1e-2` for cube / cyl / icosa, exactly as the A0 trees (EXP-064 fix).
+- **Out of scope for this run:** arm K (Kurz corner formulation) and the best-fit stage (render-and-compare, flow / diffusion scoring). They stay pre-registered and unrun.
+- **Metric for criterion 1:** validation symmetry-aware mean, PoE greedy, object-balanced, 3 seeds. DINOv3-only and orbit modes are reported too.
+- **Test:** T-LESS BOP19 targets and SYMSOL-T `test-5k`, reported for every arm.
+- Symmetry composition was unit-checked before training: quaternion product q·s equals R·S to 1e-15, and roll commutes with right-multiplication by S.

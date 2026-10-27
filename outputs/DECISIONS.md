@@ -219,3 +219,17 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
   - PoE + orbit 3.69 / 11.21 / 11.09° vs 3.87 / 12.30 / 12.25°;
   - student greedy val-aug 9.22 vs 9.75.
   - It is not part of the recipe used by later experiments unless the user says so.
+
+## DEC-024 — Cross-dataset fixes 1–3: EXP-122, EXP-106 (amended), EXP-119; ID numbering (2026-10-27)
+- **Decided by:** the user: "do 1,2,3", answering the proposal of how to make the method work across benchmarks:
+  1. YCB-V: add the synthetic `data_syn` renders to training;
+  2. T-LESS (and SYMSOL-T): train on all symmetry-equivalent orientations (EXP-106 multi-path arm);
+  3. orbit distillation on T-LESS and SYMSOL-T.
+- **IDs:**
+  - **EXP-122** = YCB-V with synthetic training data. It is a new experiment, not an EXP-064 amendment; the EXP-064 YCB-V failure stays reported.
+  - **EXP-106** = the existing pre-registration, run now with the amendment of 2026-10-27 (written before any run).
+  - **EXP-119** = cross-dataset orbit distillation.
+  - The three on-hold ideas take later IDs when the user approves them: EXP-120 (3-D geometry into DINO), EXP-121 (smaller backbones / Jetson / C-RADIOv4), EXP-123 (DINO / MoGe flip-confusion probe). Earlier chat messages also called the probe "EXP-119"; this entry supersedes that.
+- **Order:** EXP-122 → EXP-106 → EXP-119 (EXP-119's base arm depends on EXP-106). `scripts/run_queue13.sh`.
+- **GPU stages wait** until the SPACE-HOP SymSol training (another project's job) has finished. CPU stages (manifests, composites, code checks) run now.
+- The locked recipe (DEC-018) is unchanged.

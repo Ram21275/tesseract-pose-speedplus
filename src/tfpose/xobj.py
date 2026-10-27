@@ -30,6 +30,8 @@ DATASETS = {
                   obj_col="obj_id", label="allo", sym="outputs/data_manifests/tless_exp106_symmetries.npz"),
     "ycbv": dict(manifest="outputs/data_manifests/ycbv_exp064.csv", root_key="ycbv_root", key_cols="obj,inst_id",
                  obj_col="obj", label="allo", sym=None),
+    "ycbvsyn": dict(manifest="outputs/data_manifests/exp064_ycbvsyn_all.csv", root_key="ycbvsyn_root", key_cols="obj,inst_id",
+                    obj_col="obj", label="allo", sym=None),                    # EXP-122: data_syn composites (train only)
     "symsolt": dict(manifest="outputs/data_manifests/symsolt_exp064.csv", root_key="symsolt_root", key_cols="",
                     obj_col="shape", label="ego", sym="outputs/data_manifests/symsolt_exp064_symmetries.npz"),
 }
