@@ -35,7 +35,7 @@ RUNS = {
     "ycbv_syn": E / "EXP-122_ycbv_synthetic_training/RUN-20261027-200852-seed0",
     "tless_A0": E / "EXP-106_tless_multipath_tree/RUN-20261027-201558-seed0",
     "tless_A1": E / "EXP-106_tless_multipath_tree/RUN-20261027-232339-seed0",
-    "tless_A2": None,                                                                  # EXP-106 T-LESS A2: running
+    "tless_A2": E / "EXP-106_tless_multipath_tree/RUN-20261028-221625-seed0",
     "tless_A2D": None,                                                                 # EXP-119 T-LESS: queued
     "symsolt_A0": E / "EXP-106_tless_multipath_tree/RUN-20261028-014408-seed0",
     "symsolt_A1": E / "EXP-106_tless_multipath_tree/RUN-20261028-041345-seed0",
