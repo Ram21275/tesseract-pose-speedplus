@@ -81,7 +81,32 @@ Distilling flow masses into the tree did not pass its criterion.
 An oracle that stops decoding at the best depth would gain only $0.51^\circ$ on synthetic data, so adaptive depth was not pursued.
 These results support the diagnosis of \cref{sec:diagnosis}: the right mode is reachable, but scorers trained on clean synthetic features cannot select it on real images. Lighting-robust training and multi-view consistency can.
 
+\section{Flip transitions on SPEED+}
+\begin{table}[h]
+  \centering\small
+  \setlength{\tabcolsep}{2.6pt}
+  \input{tables/flips}
+  \caption{\textbf{Flip transitions relative to the clean PoE tree.} \emph{Fixed}: share of the clean tree's ${>}150^\circ$ errors that become ${<}20^\circ$ (denominator given). \emph{Broken}: share of its ${<}20^\circ$ predictions that become ${>}150^\circ$.}
+  \label{tab:flips}
+\end{table}
+
 \section{Orbit distillation and 6-DoF details}
+\begin{table}[h]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{2.4pt}
+  \input{tables/sixdof}
+  \caption{\textbf{SPEED+ 6-DoF} with the SPACE-HOP translation target, ground-truth crops. Rotation uses PoE or DINOv3 orbit voting. Translation ($\hat t$) is predicted from one view or as the orbit average; seed std of $E_T$ ${\le}\,0.005$\,m. \emph{Box only} uses no image: the object centre is placed at the box centre and the depth at the training mean of $U_z$.}
+  \label{tab:sixdof}
+\end{table}
+
+\begin{table}[h]
+  \centering\small
+  \setlength{\tabcolsep}{2.5pt}
+  \resizebox{\linewidth}{!}{\input{tables/consistency}}
+  \caption{\textbf{Training-time consistency.} Single-view DINOv3 trees on synthetic and rotated synthetic validation (left) and PoE + orbit (right). The consistency losses transport each view's beam distribution into another view's frame via \cref{eq:roll}.}
+  \label{tab:consistency}
+\end{table}
+
 Retention of the orbit gain by the single-view students, defined as (base greedy $-$ student greedy)/(base greedy $-$ base orbit), is 43\%/18\%/22\% (DINOv3) and 30\%/28\%/23\% (PoE) on synthetic/lightbox/sunlamp, and 13--15\% on the rotated proxy.
 For the joint 6-DoF model, the ESA-style score (rotation error in radians plus normalised translation error, with the challenge precision floors) is 0.084/0.241/0.238 for PoE.
 
@@ -89,7 +114,7 @@ For the joint 6-DoF model, the ESA-style score (rotation error in radians plus n
 \begin{table}[h]
   \centering\footnotesize
   \input{tables/xds_perobj}
-  \caption{\textbf{Per-object test error} (3-seed mean; symmetry-aware for T-LESS and SYMSOL-T).}
+  \caption{\textbf{Per-object test error} of the single-label (A0) trees (3-seed mean; symmetry-aware for T-LESS and SYMSOL-T; YCB-V trained on real videos only).}
   \label{tab:perobj}
 \end{table}
 On T-LESS (\cref{tab:perobj}), most of the test error comes from object 21 (no symmetry metadata, near-symmetric; 18\% of predictions above $90^\circ$) and object 1 (continuous symmetry). Continuous symmetries are evaluated on a $10^\circ$-step discretisation of the symmetry set, which adds up to $5^\circ$ of artificial error for objects 1 and 4 and for the cone and cylinder.
@@ -103,9 +128,16 @@ On YCB-V we checked four things:
 \item Every crop contains all of the object's label pixels.
 \item The ground-truth rotations agree with the segmentation: 65--98\% of the projected model points fall on the object mask, against 28--83\% for a transposed-rotation control.
 \end{enumerate}
-The failure is therefore memorisation of the 16--20 cluttered training videos per object. The object covers only 5--40\% of the crop and the DINOv3 tokens are not masked. This is not a label or pipeline error. Standard YCB-V training adds synthetic renders, which we did not use.
+The failure is therefore memorisation of the 16--20 cluttered training videos per object. The object covers only 5--40\% of the crop and the DINOv3 tokens are not masked. This is not a label or pipeline error. Standard YCB-V training adds the synthetic \texttt{data\_syn} renders, whose backgrounds are black. We pasted each render onto a real frame drawn only from the training sequences (never validation or test), capped at 12,000 crops per object as for the real data, and retrained with the unchanged recipe. \Cref{tab:ycbv_perobj} shows the effect per object.
+\begin{table}[h]
+  \centering\footnotesize
+  \input{tables/ycbv_perobj}
+  \caption{\textbf{YCB-V per-object test error} ($^\circ$, single view, 3 seeds) without and with synthetic training data.}
+  \label{tab:ycbv_perobj}
+\end{table}
 
 \section{Zero-shot transfer of the frozen SPEED+ trees}
+\label{sec:supp_zeroshot}
 \begin{table}[h]
   \centering\footnotesize
   \setlength{\tabcolsep}{3pt}

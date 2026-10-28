@@ -1,14 +1,15 @@
 \section{Limitations}
 \label{sec:limitations}
 \begin{itemize}
-\item \textbf{Ground-truth crops.} All results use ground-truth boxes. For translation in particular, the box alone gives $0.55$\,m, so a deployable claim needs a detector or perturbed boxes.
-\item \textbf{Comparisons.} External SPEED+ numbers are not matched comparisons.
-\item \textbf{Quantisation floor.} The depth-5 leaf quantisation ($2.51^\circ$ mean) bounds fine accuracy, and our best synthetic errors ($3.3$--$3.7^\circ$) are close to it; on SYMSOL-T we are within $0.3^\circ$ of the floor. A continuous refinement on top of the selected mode is a natural next step; the refiners we tried helped only on synthetic data.
-\item \textbf{Cost.} Orbit voting costs $4\times$ inference.
-\item \textbf{Scope of the components.} MoGe-2 fusion does not help on every dataset. YCB-V trained on real videos alone does not generalise, and on T-LESS and SYMSOL-T we remain behind fine-tuned diffusion models.
+\item \textbf{Ground-truth crops.} The reported results use ground-truth boxes; a synthetic-only detector for SPEED+ is being evaluated (\cref{tab:spp_sota}). For translation in particular, the box alone gives $0.55$\,m on SPEED+, so a deployable claim needs detected boxes.
+\item \textbf{Translation beyond SPEED+.} The translation block is evaluated on SPEED+ only, so T-LESS and SYMSOL-T are compared on rotation.
+\item \textbf{Matched comparisons.} Published numbers use different crops, masks, object sets and fine-tuned backbones; \cref{tab:tless_sota,tab:symsol_sota,tab:spp_sota} state each setting, and only rows with the same setting are matched.
+\item \textbf{Quantisation floor.} The depth-5 leaf quantisation ($2.51^\circ$ mean) bounds fine accuracy for asymmetric objects. Our best synthetic SPEED+ errors ($3.3$--$3.7^\circ$) are close to it, and it caps fine-threshold recall on T-LESS. A continuous refinement on top of the selected mode is a natural next step; the refiners we tried helped only on synthetic data.
+\item \textbf{Per-object heads.} One tree is trained per object; there is no zero-shot transfer to new objects (\cref{sec:supp_zeroshot}).
+\item \textbf{Cost.} Orbit voting costs $4\times$ inference, and MoGe-2 fusion does not help on every dataset.
 \item \textbf{Timing.} Timings come from a shared GPU and are upper bounds.
 \end{itemize}
 
 \section{Conclusion}
 \label{sec:conclusion}
-A small tesseract tree on frozen DINOv3 and MoGe-2 features, fused by a training-free product of experts, is an accurate rotation predictor on synthetic spacecraft images. Its failures on real images are mostly flips to a look-alike mode that the model already considers. Scoring hierarchical hypotheses for consistency across exactly mapped in-plane rotations repairs most of these flips, and distilling that consistency into single-view students improves both single-view and orbit inference, the latter to $11.2^\circ/11.1^\circ$ on the SPEED+ real domains. Pre-registered ablations attribute the gains to the tree (precision), to photometric augmentation and orbit voting (real-domain flips), and to distillation (both), and they rule out several plausible alternatives. Our evaluation is intentionally conservative. We hope the protocol and the negative results are as useful as the method.
+A small tesseract tree on frozen DINOv3 and MoGe-2 features is a competitive basis for 6D object pose when its hypotheses are \emph{selected} well. Three components target selection: multi-path targets that spread the training signal over all symmetric equivalents, orbit voting that scores hierarchical hypotheses for consistency across exactly mapped in-plane rotations, and orbit distillation that moves this consistency into single-view students. Multi-path targets improve every SYMSOL-T shape and, unlike canonical labels, remain compatible with orbit voting. On the nearly symmetric SPEED+ target, orbit voting and distillation repair most real-domain flips. Synthetic training data turns YCB-V from a failure into a working model. Fine-tuned methods remain more accurate on all four benchmarks, and our evaluation is intentionally conservative; we hope the protocol, the matched comparisons and the negative results are as useful as the method.

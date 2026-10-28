@@ -31,12 +31,27 @@ RUNS = {
     "zs_tless": E / "EXP-064_broader_object_validation/RUN-20261019-142923-seed0",
     "zs_symsolt": E / "EXP-064_broader_object_validation/RUN-20261019-173435-seed0",
     "zs_ycbv": E / "EXP-064_broader_object_validation/RUN-20261020-003420-seed0",
+    # 2026-10-28 additions (DEC-024 / 025). A missing run (still queued) leaves its cells blank.
+    "ycbv_syn": E / "EXP-122_ycbv_synthetic_training/RUN-20261027-200852-seed0",
+    "tless_A0": E / "EXP-106_tless_multipath_tree/RUN-20261027-201558-seed0",
+    "tless_A1": E / "EXP-106_tless_multipath_tree/RUN-20261027-232339-seed0",
+    "tless_A2": None,                                                                  # EXP-106 T-LESS A2: running
+    "tless_A2D": None,                                                                 # EXP-119 T-LESS: queued
+    "symsolt_A0": E / "EXP-106_tless_multipath_tree/RUN-20261028-014408-seed0",
+    "symsolt_A1": E / "EXP-106_tless_multipath_tree/RUN-20261028-041345-seed0",
+    "symsolt_A2": E / "EXP-106_tless_multipath_tree/RUN-20261028-120353-seed0",
+    "symsolt_A2D": None,                                                               # EXP-119 SYMSOL-T: queued
+    "spp_det": None,                                                                   # EXP-124 detected crops: queued
 }
 DOM = ["synthetic_val", "lightbox", "sunlamp"]
 
 
 def csv(key, name="metrics"):
     return pd.read_csv(RUNS[key] / "metrics" / f"{name}.csv")
+
+
+def have(key):
+    return RUNS.get(key) is not None and (RUNS[key] / "metrics").exists()
 
 
 def pm(m, s, d=2):
@@ -294,6 +309,132 @@ def zeroshot_table():
     write("zeroshot", "\n".join(L))
 
 
+# ---------------------------------------------------------------- symmetry-aware training (EXP-106) + distillation (EXP-119)
+def ob(key, var, mode, split):
+    t = csv(key, "object_balanced"); r = t[(t.variant == var) & (t["mode"] == mode) & (t.split == split)]
+    return r.iloc[0] if len(r) else None
+
+
+def sym_table():
+    L = [r"\begin{tabular}{@{}l c cc cc@{}}", r"\toprule",
+         r" & & \multicolumn{2}{c}{T-LESS (7 obj.)} & \multicolumn{2}{c}{SYMSOL-T (5)} \\",
+         r"\cmidrule(lr){3-4}\cmidrule(lr){5-6} Training target & Inference & val & test & val & test \\", r"\midrule"]
+    arms = (("A0", "single annotated label"), ("A1", "canonical label"), ("A2", "all equivalents (ours)"), ("A2D", "\;+ orbit distillation"))
+    for a, name in arms:
+        for mode, mn in (("greedy", "1 view"), ("orbit_product", "orbit (4)")):
+            c = []
+            for ds, d in (("tless", 1), ("symsolt", 2)):
+                k = f"{ds}_{a}"
+                for sp in ("validation", "test"):
+                    r = ob(k, "PoE", mode, sp) if have(k) else None
+                    c.append(pm(r.sym_mean, r.sym_mean_std, d) if r is not None else "")
+            L.append(f"{name if mode == 'greedy' else ''} & {mn} & " + " & ".join(c) + r" \\")
+        if a != "A2D":
+            L.append(r"\addlinespace[2pt]")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("sym", "\n".join(L))
+
+
+# ---------------------------------------------------------------- T-LESS vs LiePose (recall, test)
+LIEPOSE_TLESS = {1: (38.22, 78.20, 89.10), 4: (44.28, 86.36, 93.43), 5: (49.47, 91.58, 96.84), 11: (25.14, 77.71, 91.43),
+                 18: (16.44, 59.59, 78.77), 21: (37.71, 72.57, 77.71), 27: (33.33, 81.25, 94.79)}   # LiePose Tab. 8
+
+
+def recall(key, var, mode):
+    p = csv(key, "per_object_seed"); p = p[(p.split == "test") & (p.variant == var) & (p["mode"] == mode)]
+    d = p.groupby("obj")[["sym_acc@2", "sym_acc@5", "sym_acc@10", "sym_mean"]].mean().mean()
+    return [100 * d["sym_acc@2"], 100 * d["sym_acc@5"], 100 * d["sym_acc@10"], d["sym_mean"]]
+
+
+def tless_sota_table():
+    L = [r"\begin{tabular}{@{}l l cccc@{}}", r"\toprule", r"Method & Inference & R@2 & R@5 & R@10 & mean ($^\circ$) \\", r"\midrule"]
+    lp = np.array(list(LIEPOSE_TLESS.values())).mean(0)
+    L.append(f"LiePose~\\cite{{hsiao2024liepose}} & 1 sample & {lp[0]:.1f} & {lp[1]:.1f} & {lp[2]:.1f} & -- \\\\")
+    L.append(r"\midrule")
+    for k, name in (("tless_A0", "Ours, A0"), ("tless_A1", "Ours, A1"), ("tless_A2", "Ours, A2"), ("tless_A2D", "Ours, A2 + distill.")):
+        for mode, mn in (("greedy", "1 view"), ("orbit_product", "orbit (4)")):
+            v = recall(k, "PoE", mode) if have(k) else None
+            cells = [f"{x:.1f}" for x in v] if v else ["", "", "", ""]
+            L.append(f"{name if mode == 'greedy' else ''} & {mn} & " + " & ".join(cells) + r" \\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("tless_sota", "\n".join(L))
+
+
+# ---------------------------------------------------------------- SYMSOL-T vs LiePose (per shape, test)
+LIEPOSE_SYMSOLT = {"tet": 0.59, "cube": 0.58, "icosa": 0.64, "cone": 0.54, "cyl": 0.41}             # LiePose Tab. 3 (SE(3) model)
+
+
+def symsol_sota_table():
+    shapes = list(LIEPOSE_SYMSOLT)
+    L = [r"\begin{tabular}{@{}l " + "c" * (len(shapes) + 1) + r"@{}}", r"\toprule", "Method & " + " & ".join(shapes) + r" & avg. \\", r"\midrule"]
+    L.append("LiePose~\\cite{hsiao2024liepose} & " + " & ".join(f"{v:.2f}" for v in LIEPOSE_SYMSOLT.values()) + f" & {np.mean(list(LIEPOSE_SYMSOLT.values())):.2f} \\\\")
+    L.append(r"\midrule")
+    for k, name in (("symsolt_A0", "Ours, A0 + orbit"), ("symsolt_A2", "Ours, A2 + orbit"), ("symsolt_A2D", "Ours, A2 + distill.\\ + orbit")):
+        if have(k):
+            p = csv(k, "per_object"); p = p[(p.split == "test") & (p.variant == "DINO") & (p["mode"] == "orbit_product")].set_index("obj").sym_mean
+            L.append(f"{name} & " + " & ".join(f"{p[s_]:.2f}" for s_ in shapes) + f" & {p[shapes].mean():.2f} \\\\")
+        else:
+            L.append(f"{name} & " + " & ".join("" for _ in shapes) + r" &  \\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("symsol_sota", "\n".join(L))
+
+
+# ---------------------------------------------------------------- YCB-V: real-only vs + synthetic composites (EXP-064 vs EXP-122)
+def ycbv_table():
+    L = [r"\begin{tabular}{@{}l l c cc c@{}}", r"\toprule", r"Training data & Feat. & Inference & val & test & test acc@10 \\", r"\midrule"]
+    for k, name in (("ycbv", "real videos"), ("ycbv_syn", "+ synthetic (ours)")):
+        for var, vn in (("DINO", "DINOv3"), ("PoE", "PoE")):
+            for mode, mn in (("greedy", "1 view"), ("orbit_product", "orbit (4)")):
+                v, t = ob(k, var, mode, "validation"), ob(k, var, mode, "test")
+                L.append(f"{name if (var, mode) == ('DINO', 'greedy') else ''} & {vn} & {mn} & {pm(v.sym_mean, v.sym_mean_std, 1)} & {pm(t.sym_mean, t.sym_mean_std, 1)} & {100 * t.acc10:.0f}\\% \\\\")
+        if k == "ycbv":
+            L.append(r"\midrule")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("ycbv", "\n".join(L))
+    p = csv("ycbv_syn", "per_object"); p = p[(p.split == "test") & (p["mode"] == "greedy")]
+    q = csv("ycbv", "per_object"); q = q[(q.split == "test") & (q["mode"] == "greedy")]
+    L = [r"\begin{tabular}{@{}l cc cc@{}}", r"\toprule", r" & \multicolumn{2}{c}{real videos} & \multicolumn{2}{c}{+ synthetic} \\",
+         r"\cmidrule(lr){2-3}\cmidrule(lr){4-5} Object & DINOv3 & PoE & DINOv3 & PoE \\", r"\midrule"]
+    for obj in sorted(p.obj.unique()):
+        g = lambda d, var: d[(d.obj == obj) & (d.variant == var)].sym_mean.iloc[0]
+        L.append(f"{obj.replace('_', r'\_')} & {g(q, 'DINO'):.1f} & {g(q, 'PoE'):.1f} & {g(p, 'DINO'):.1f} & {g(p, 'PoE'):.1f} \\\\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("ycbv_perobj", "\n".join(L))
+
+
+# ---------------------------------------------------------------- SPEED+ against published results (official score)
+SPP_PUBLISHED = [   # method, setting, E_R LB, E_R SL, score LB, score SL (as published; see SOURCES.md)
+    (r"TangoUnchained$^*$~\cite{park2023spec}", "detector + keypoints/PnP, real images", 3.19, 4.30, 0.073, 0.090),
+    (r"lava1302$^*$~\cite{park2023spec}", "detector + keypoints/PnP, self-training", 6.66, 2.73, 0.165, 0.059),
+    (r"SPNv2~\cite{park2024spnv2}", "full image, no adaptation", 6.48, 11.07, 0.142, 0.230),
+    (r"SPNv2 + ODR$^*$~\cite{park2024spnv2}", "+ test-time adaptation", 5.58, 9.79, 0.122, 0.197),
+    (r"EagerNet~\cite{ulmer2023eagernet}", "detector + dense correspondences", 1.75, 2.66, 0.039, 0.059),
+    (r"SPNv3-B$^\dagger$~\cite{park2026spnv3}", "GT crop, keypoints/PnP, fine-tuned", 2.03, 3.40, 0.047, 0.074),
+    (r"Church \& Nikolian$^\dagger$~\cite{church2026vfm}", "GT crop, DINOv3-H+ LoRA, 12 passes", 1.17, 1.56, 0.0273, 0.0383),
+    (r"\quad frozen DINOv3-L + head~\cite{church2026vfm}", "GT crop, frozen, 1 pass", 15.47, 24.49, None, None),
+    (r"FastPose-ViT~\cite{ancey2026fastpose}", "detector, direct regression", 12.26, 18.28, None, None),
+    (r"PAID-ViT~\cite{xie2026paidvit}", "crop, direct regression", 12.29, 11.76, 0.237, 0.230),
+]
+
+
+def spp_sota_table():
+    f = lambda v, d=2: "" if v is None else f"{v:.{d}f}"
+    L = [r"\begin{tabular}{@{}l l cc cc@{}}", r"\toprule",
+         r" & & \multicolumn{2}{c}{$E_R$ ($^\circ$)} & \multicolumn{2}{c}{score} \\",
+         r"\cmidrule(lr){3-4}\cmidrule(lr){5-6} Method & Setting & LB & SL & LB & SL \\", r"\midrule"]
+    for m, st, a, b, c, d in SPP_PUBLISHED:
+        L.append(f"{m} & {st} & {f(a)} & {f(b)} & {f(c, 3)} & {f(d, 3)} \\\\")
+    L.append(r"\midrule")
+    t = csv("distill_poe"); r = {x.domain: x for x in t[(t.family == "tree:teacher_variant=PoE") & (t.variant == "PoE") & (t["mode"] == "orbit_product")].itertuples()}
+    six = csv("sixdof"); s2 = {x.domain: x for x in six[(six.arm == "J_joint") & (six.variant == "PoE") & (six.rot_mode == "orbit_product") & (six.trans_mode == "orbit_mean")].itertuples()}
+    L.append(f"Ours, distilled + orbit & GT crop, frozen, 4 views & {r['lightbox'].mean_deg:.2f} & {r['sunlamp'].mean_deg:.2f} &  &  \\\\")
+    L.append(f"Ours, 6-DoF (joint PoE) + orbit & GT crop, frozen, 4 views & {s2['lightbox'].E_R_mean_deg:.2f} & {s2['sunlamp'].E_R_mean_deg:.2f} & {s2['lightbox'].esa_score:.3f} & {s2['sunlamp'].esa_score:.3f} \\\\")
+    L.append(r"Ours, distilled + orbit & synthetic-only detector, frozen &  &  &  &  \\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("spp_sota", "\n".join(L))
+
+
 if __name__ == "__main__":
     main_table(); flips_table(); sixdof_table(); xds_table(); flat_table(); scoring_table(); augment_table()
     consistency_table(); timing_table(); zeroshot_table()
+    sym_table(); tless_sota_table(); symsol_sota_table(); ycbv_table(); spp_sota_table()

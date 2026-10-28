@@ -1,0 +1,15 @@
+\begin{tabular}{@{}l l c cc c@{}}
+\toprule
+Training data & Feat. & Inference & val & test & test acc@10 \\
+\midrule
+real videos & DINOv3 & 1 view & 64.3\,{\scriptsize$\pm$11.6} & 71.2\,{\scriptsize$\pm$7.0} & 8\% \\
+ & DINOv3 & orbit (4) & 63.0\,{\scriptsize$\pm$2.4} & 69.4\,{\scriptsize$\pm$5.2} & 9\% \\
+ & PoE & 1 view & 73.5\,{\scriptsize$\pm$6.8} & 81.1\,{\scriptsize$\pm$7.3} & 16\% \\
+ & PoE & orbit (4) & 74.1\,{\scriptsize$\pm$7.4} & 79.9\,{\scriptsize$\pm$3.2} & 18\% \\
+\midrule
++ synthetic (ours) & DINOv3 & 1 view & 9.0\,{\scriptsize$\pm$1.1} & 12.9\,{\scriptsize$\pm$6.9} & 85\% \\
+ & DINOv3 & orbit (4) & 11.5\,{\scriptsize$\pm$1.8} & 13.4\,{\scriptsize$\pm$4.7} & 83\% \\
+ & PoE & 1 view & 10.5\,{\scriptsize$\pm$0.9} & 10.9\,{\scriptsize$\pm$4.1} & 87\% \\
+ & PoE & orbit (4) & 12.7\,{\scriptsize$\pm$1.0} & 12.2\,{\scriptsize$\pm$5.5} & 84\% \\
+\bottomrule
+\end{tabular}

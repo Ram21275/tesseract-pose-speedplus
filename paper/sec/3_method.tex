@@ -11,12 +11,12 @@
 \Cref{fig:pipeline} gives an overview of training and inference.
 
 \subsection{Problem setup}
-Given a crop of the target around its (ground-truth) bounding box, we predict the rotation $q\in SO(3)$ (unit quaternion, $q\equiv-q$) of the body frame relative to the camera and, in \cref{sec:sixdof}, the translation $t\in\mathbb{R}^3$. Rotation error is $E_R=2\arccos|\langle\hat q,q\rangle|$ in degrees, and translation error is $E_T=\|\hat t-t\|_2$ in metres. These are the ESA challenge and SPACE-HOP definitions~\cite{dutta2026spacehop}. Crops are square boxes around the projected keypoints with a 15\% margin per side.
+Given a square crop of a known object around its bounding box (15\% margin per side), we predict the rotation $q\in SO(3)$ (unit quaternion, $q\equiv-q$) of the object frame relative to the camera and the translation $t\in\mathbb{R}^3$. For objects that appear away from the optical axis (T-LESS, YCB-V), the tree predicts the \emph{allocentric} rotation $R_{\text{ray}}(t)^\top R$, which removes the viewing-ray component so that the crop's appearance depends only on the predicted rotation; it is converted back exactly. Rotation error is $E_R=2\arccos|\langle\hat q,q\rangle|$, minimised over the object's symmetry set $\mathcal{S}$ when one exists ($\min_{S\in\mathcal{S}} E_R(\hat q, q\,S)$), and translation error is $E_T=\|\hat t-t\|_2$.
 
 \subsection{Tesseract tree on $SO(3)$}
 \label{sec:tree}
 Following the recursive tesseract subdivision~\cite{kurz2017tesseract}, a quaternion is assigned to a \emph{chart} $c=\arg\max_i|q_i|$, sign-normalised so that $q_c>0$ (this identifies $q$ and $-q$), and projected to the cube $x=q/q_c$. Its three free coordinates in $[-1,1]$ are halved recursively, so each level selects one of 8 children.
-We use \emph{cell centres} (lifted back to the unit sphere) as representatives. Unlike corner representatives, every rotation then has a unique root-to-leaf path. With 4 charts and depth 5 there are $4\cdot 8^5=131{,}072$ cells. The quantisation error of the leaf centre is $2.51^\circ$ on average ($3.97^\circ$ p95, $6.20^\circ$ worst case), and it halves per level. This floor bounds the fine accuracy of all our rotation results.
+We use \emph{cell centres} (lifted back to the unit sphere) as representatives. Unlike corner representatives, every rotation then has a unique root-to-leaf path. With 4 charts and depth 5 there are $4\cdot 8^5=131{,}072$ cells. The quantisation error of the leaf centre is $2.51^\circ$ on average ($3.97^\circ$ p95, $6.20^\circ$ worst case), and it halves per level. For objects without symmetry this floor bounds the fine accuracy of our rotation results; for symmetric objects the nearest leaf to \emph{any} equivalent rotation is closer.
 
 \paragraph{Tree Transformer.}
 For each backbone, a small decoder predicts the path autoregressively. The frozen tokens are layer-normalised, linearly projected to $d=256$, given 2-D positional encodings and passed through one encoder layer. A causal decoder with 2 layers (4 heads, FFN 512) then reads a sequence that starts with a root token followed by one token per decided level. Each such token embeds the level and a 6-frequency Fourier encoding of the current cell centre, and cross-attends to the encoded image tokens. The root position predicts the chart (4 logits) and position $\ell$ predicts the child (8 logits). The model has 2.4\,M parameters.
@@ -28,9 +28,19 @@ DINOv3 ViT-L/16~\cite{simeoni2025dinov3} last-layer patch tokens are average-poo
 \paragraph{Per-level product of experts.}
 The two trees are fused without training. At every decoding step, the log-softmax distributions of both branches are added and renormalised: $\log p^{(\ell)}\propto\log p^{(\ell)}_{\text{DINO}}+\log p^{(\ell)}_{\text{MoGe}}$. Beam search then runs on the fused tree. We report this \emph{PoE} variant and a faster \emph{DINOv3-only} variant.
 
+\subsection{Symmetry-aware multi-path targets}
+\label{sec:symtarget}
+For a symmetric object, the annotated rotation $q$ is one arbitrary member of the equivalence set $\{q\,s : s\in\mathcal{S}\}$, where $\mathcal{S}$ holds the object-frame symmetries (continuous symmetries discretised). Training on $q$ alone (\emph{single label}) gives contradictory targets for identical images. The usual fix maps every label to a \emph{canonical} member, \eg the one closest to identity. This removes the contradiction but makes the target a discontinuous function of the image: two nearly identical views can receive canonical labels far apart, and the in-plane relation of \cref{eq:roll} no longer holds between views.
+Instead, we train the tree on all equivalent rotations. The loss is the soft-target cross-entropy of \cref{sec:tree}, averaged over the members of the set, each with teacher forcing along its own path:
+\begin{equation}
+  \mathcal{L}_{\text{sym}}=\frac{1}{|\mathcal{S}'|}\sum_{s\in\mathcal{S}'}\mathcal{L}_{\text{GT}}\big(q\,s\big),
+  \label{eq:symloss}
+\end{equation}
+where $\mathcal{S}'=\mathcal{S}$ if $|\mathcal{S}|\le 8$ and otherwise 8 members are drawn per sample and step (an unbiased estimate). The tree learns to split its probability between the equivalent paths, which is the level-marginal target of the whole set. For objects without symmetry \cref{eq:symloss} reduces exactly to the standard loss. Right-multiplication by $s$ commutes with the roll of \cref{eq:roll}, so augmented views and orbit voting are unchanged; we verified both identities numerically ($<10^{-9}$).
+
 \subsection{Augmentation with exact in-plane labels}
 \label{sec:aug}
-Each synthetic training image is used as a clean crop and as two pre-extracted augmented copies; one of the three is drawn at every step. The augmentations are photometric (brightness, contrast, gamma, blur, glare blobs, noise, random erasing, JPEG) plus an in-plane rotation of the crop by $\theta\sim\mathcal{U}(-180^\circ,180^\circ)$ about its centre.
+Each training image is used as a clean crop and as two pre-extracted augmented copies; one of the three is drawn at every step. The augmentations are photometric (brightness, contrast, gamma, blur, glare blobs, noise, random erasing, JPEG) plus an in-plane rotation of the crop by $\theta\sim\mathcal{U}(-180^\circ,180^\circ)$ about its centre.
 Rotating the crop about its centre is equivalent to rotating the camera about the unit ray $d$ through the crop centre, computed with the lens distortion removed. Points therefore transform as $p'=R(d,-\theta)\,p$, and the labels as
 \begin{equation}
   q' = \Exp(-\theta\, d)\otimes q,\qquad t'=R(d,-\theta)\,t .

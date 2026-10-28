@@ -3,6 +3,18 @@
 All ablations use the PoE variant, 3 seeds and the same evaluation run within each table.
 
 \begin{table}[t]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{2.4pt}
+  \resizebox{\linewidth}{!}{\input{tables/sym}}
+  \caption{\textbf{Training targets for symmetric objects} (symmetry-aware mean error, PoE). Single annotated label (A0), canonical label closest to identity (A1), and all equivalent rotations (A2, \cref{eq:symloss}); the last block adds orbit distillation on top of the selected target. Blank cells: runs not yet completed.}
+  \label{tab:sym}
+\end{table}
+
+\paragraph{Symmetry-aware targets.}
+\label{sec:abl_sym}
+\Cref{tab:sym} compares the three training targets. Canonical labels (A1) remove the contradiction between equivalent labels and improve single-view accuracy on both datasets (SYMSOL-T $3.87^\circ\to3.40^\circ$, T-LESS validation $12.3^\circ\to11.5^\circ$). However, they break orbit voting: a canonical label is not related across in-plane rotations by \cref{eq:roll}, so the views disagree and the SYMSOL-T orbit error rises to $9.7^\circ$. Multi-path targets (A2) keep the relation and are the best single-view and orbit models on SYMSOL-T ($2.72^\circ$ and $2.10^\circ$; pre-registered criterion passes by about $100\times$ the seed std).
+
+\begin{table}[t]
   \centering\small
   \setlength{\tabcolsep}{3pt}
   \resizebox{\linewidth}{!}{\input{tables/flat}}
@@ -37,29 +49,8 @@ With the same 32 candidates (\cref{tab:scoring}), picking the most confident one
 \label{sec:abl_aug}
 \Cref{tab:aug} separates the two augmentation families. Photometric augmentation with orbit voting reaches $12.3^\circ/12.4^\circ$ on real images, the same as the combined recipe. Rotation augmentation alone gives the best synthetic precision ($3.78^\circ$) but leaves real errors at $18.7^\circ/20.7^\circ$. Orbit voting on the clean tree already removes a quarter to a third of the real error ($26.9^\circ\!\to\!20.3^\circ$, $36.7^\circ\!\to\!24.8^\circ$). The real-domain gain therefore comes from \emph{lighting robustness plus orbit consistency}. The exact roll transform is needed for orbit voting itself; as a training augmentation it mainly improves synthetic precision. This corrects our initial hypothesis that rotation augmentation causes the flip repair.
 
-\begin{table}[t]
-  \centering\small
-  \setlength{\tabcolsep}{2.5pt}
-  \resizebox{\linewidth}{!}{\input{tables/consistency}}
-  \caption{\textbf{Training-time consistency.} Single-view DINOv3 trees on synthetic and rotated synthetic validation (left) and PoE + orbit (right). The consistency losses transport each view's beam distribution into another view's frame via \cref{eq:roll}.}
-  \label{tab:consistency}
-\end{table}
 
 \paragraph{Can training learn orbit consistency?}
-We compared four objectives (\cref{tab:consistency}):
-\begin{itemize}
-\item paired views of the same image (a data control);
-\item a transported consistency loss on the leaf distribution only, a standard equivariance regulariser;
-\item a \emph{hierarchical} transported consistency loss at every tree level, our candidate contribution;
-\item orbit distillation (\cref{sec:distill}).
-\end{itemize}
-The hierarchical loss beats the base recipe and the paired-view control, but not the leaf-only loss. Its pre-registered criterion fails, so we make no hierarchical-transport claim. Both consistency losses mostly improve synthetic precision. Orbit distillation is the only objective that improves the real domains clearly ($11.2^\circ/11.1^\circ$ with orbit voting).
+On SPEED+ we compared paired views of the same image (a data control), a transported consistency loss on the leaf distribution (a standard equivariance regulariser), a \emph{hierarchical} transported loss at every tree level, and orbit distillation (\cref{tab:consistency}, supplementary). The hierarchical loss beats the base recipe and the paired-view control but not the leaf-only loss; its pre-registered criterion fails, so we make no hierarchical-transport claim. Both consistency losses mostly improve synthetic precision. Orbit distillation is the only objective that clearly improves the real domains ($11.2^\circ/11.1^\circ$ with orbit voting).
 
-\paragraph{Further ablations} are reported in the supplementary material:
-\begin{itemize}
-\item the decoder lineage (MLP, GRU and Transformer decoders, hard vs.\ soft targets, beam search, tangent residuals);
-\item fusion (single branches, learned feature fusion, weighted PoE);
-\item finer $16{\times}16$ tokens;
-\item continuous flow posteriors and verifiers, discrete flow matching, and oracle headroom;
-\item zero-shot transfer of the frozen SPEED+ trees, and the timing breakdown.
-\end{itemize}
+\paragraph{Further ablations} in the supplementary material cover the decoder lineage (MLP, GRU and Transformer decoders, hard vs.\ soft targets, beam search), fusion (single branches, learned fusion, weighted PoE), finer tokens, continuous flow posteriors and verifiers, discrete flow matching, oracle headroom, zero-shot transfer and timing.

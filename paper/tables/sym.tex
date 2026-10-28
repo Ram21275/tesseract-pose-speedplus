@@ -1,0 +1,18 @@
+\begin{tabular}{@{}l c cc cc@{}}
+\toprule
+ & & \multicolumn{2}{c}{T-LESS (7 obj.)} & \multicolumn{2}{c}{SYMSOL-T (5)} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6} Training target & Inference & val & test & val & test \\
+\midrule
+single annotated label & 1 view & 12.3\,{\scriptsize$\pm$0.1} & 17.9\,{\scriptsize$\pm$0.2} & 3.87\,{\scriptsize$\pm$0.03} & 3.88\,{\scriptsize$\pm$0.01} \\
+ & orbit (4) & 9.3\,{\scriptsize$\pm$0.1} & 16.6\,{\scriptsize$\pm$0.2} & 2.65\,{\scriptsize$\pm$0.01} & 2.67\,{\scriptsize$\pm$0.00} \\
+\addlinespace[2pt]
+canonical label & 1 view & 11.5\,{\scriptsize$\pm$0.0} & 16.7\,{\scriptsize$\pm$0.1} & 3.40\,{\scriptsize$\pm$0.01} & 3.39\,{\scriptsize$\pm$0.01} \\
+ & orbit (4) & 10.7\,{\scriptsize$\pm$0.0} & 18.2\,{\scriptsize$\pm$0.7} & 9.73\,{\scriptsize$\pm$0.05} & 9.69\,{\scriptsize$\pm$0.05} \\
+\addlinespace[2pt]
+all equivalents (ours) & 1 view &  &  & 2.72\,{\scriptsize$\pm$0.01} & 2.71\,{\scriptsize$\pm$0.01} \\
+ & orbit (4) &  &  & 2.10\,{\scriptsize$\pm$0.01} & 2.11\,{\scriptsize$\pm$0.01} \\
+\addlinespace[2pt]
+\;+ orbit distillation & 1 view &  &  &  &  \\
+ & orbit (4) &  &  &  &  \\
+\bottomrule
+\end{tabular}
