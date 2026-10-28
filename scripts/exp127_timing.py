@@ -3,7 +3,8 @@ balanced Hopf 1771x74 grid, DINOv3-only and PoE, greedy and orbit (4 views, top-
 Same 64 lightbox crops, batch 1 and 64, 2 warm-ups + median of 5, cuda-synchronized, families interleaved round by round so
 that shared-GPU drift hits all of them alike (EXP-112 pipeline: crop warp -> DINOv3 (-> MoGe-2 + EXP-015 consensus on CPU)
 -> pooling/standardization -> head). Reports per-image ms per component (head = per-view decode / top-8, orbit_scoring),
-full-pipeline ms, inference peak GPU memory, trainable parameters per branch, and training peak GPU memory / ms per step
+full-pipeline ms, inference memory per system = resident weights it uses (backbone(s) + its heads) + transient peak above the
+allocated baseline (all models stay loaded in one process, so the raw peak is not per-system), trainable parameters per branch, and training peak GPU memory / ms per step
 (20 AdamW steps at batch 256, bf16 autocast, each family's own loss on random standardized inputs). Seed-0 checkpoints."""
 import subprocess
 import sys
@@ -59,6 +60,10 @@ try:
                            "head_params": (m.flat_head.weight.numel() + m.flat_head.bias.numel()) if grid else 0})
         MODELS[fam] = ms
     dino = Fx.DinoV3("vit_large_patch16_dinov3.lvd1689m", dev); moge = Fx.MoGe2Extractor(dev)
+    wmb = lambda mods: sum(sum(t.numel() * t.element_size() for t in (*m.parameters(), *m.buffers())) for m in mods) / 2**20
+    _mods = lambda o: [v for v in vars(o).values() if isinstance(v, torch.nn.Module)] if not isinstance(o, torch.nn.Module) else [o]
+    W_DINO, W_MOGE = wmb(_mods(dino)), wmb(_mods(moge)); print("backbone weights MB", W_DINO, W_MOGE, flush=True)
+    assert W_DINO > 100 and W_MOGE > 100
     rows = full[full.domain == "lightbox"].iloc[:64]
     imgs = [D.read_gray(root, r.image_relpath) for r in rows.itertuples()]
     dray = IP.ray_undistorted(cam.K, cam.dist, rows.crop_cx.to_numpy(), rows.crop_cy.to_numpy())
@@ -140,15 +145,17 @@ try:
         reps = {s[0]: [] for s in SYSTEMS}; peak = {s[0]: 0.0 for s in SYSTEMS}
         for _ in range(5):                                             # interleaved rounds
             for name, fam, wm, o in SYSTEMS:
-                torch.cuda.reset_peak_memory_stats(); T_ = {k: 0.0 for k in COMP}
-                torch.cuda.synchronize(); t0 = time.perf_counter(); system(fam, n, wm, o, T_); torch.cuda.synchronize()
-                T_["total"] = time.perf_counter() - t0; reps[name].append(T_); peak[name] = max(peak[name], torch.cuda.max_memory_allocated() / 2**20)
+                torch.cuda.synchronize(); base = torch.cuda.memory_allocated(); torch.cuda.reset_peak_memory_stats(); T_ = {k: 0.0 for k in COMP}
+                t0 = time.perf_counter(); system(fam, n, wm, o, T_); torch.cuda.synchronize()
+                T_["total"] = time.perf_counter() - t0; reps[name].append(T_); peak[name] = max(peak[name], (torch.cuda.max_memory_allocated() - base) / 2**20)
         load = subprocess.run(["nvidia-smi", "--query-gpu=utilization.gpu,memory.used", "--format=csv,noheader,nounits"], capture_output=True, text=True).stdout.strip()
         for name, fam, wm, o in SYSTEMS:
             med = {k: float(np.median([r[k] for r in reps[name]])) * 1000 / n for k in reps[name][0]}
             res.append({"system": name, "family": fam, "variant": "PoE" if wm else "DINO", "inference": "orbit" if o else "greedy", "batch": n,
                         **{f"ms_per_img_{k}": v for k, v in med.items()}, "ms_per_img_head_total": med["head"] + med["orbit_scoring"],
-                        "fps_or_img_per_s": 1000.0 / med["total"], "peak_gpu_mb": peak[name], "gpu_util_mem_used": load})
+                        "fps_or_img_per_s": 1000.0 / med["total"], "weights_mb": W_DINO + (W_MOGE if wm else 0) + wmb(MODELS[fam] if wm else MODELS[fam][:1]),
+                        "transient_peak_mb": peak[name], "gpu_util_mem_used": load})
+            res[-1]["inference_mem_mb"] = res[-1]["weights_mb"] + res[-1]["transient_peak_mb"]
             print(res[-1], flush=True)
     del dino, moge; torch.cuda.empty_cache()
 
@@ -183,7 +190,7 @@ try:
     cost = pd.DataFrame(NPARAM).merge(pd.DataFrame(train), on=["family", "features"])
     run.write_metrics(res, "timing"); run.write_metrics(cost.to_dict("records"), "params_memory")
     (run.sub("tables") / "timing.md").write_text(md_table(res, ["system", "batch", "ms_per_img_total", "ms_per_img_head_total", "ms_per_img_head",
-                                                               "ms_per_img_orbit_scoring", "fps_or_img_per_s", "peak_gpu_mb"]))
+                                                               "ms_per_img_orbit_scoring", "fps_or_img_per_s", "weights_mb", "transient_peak_mb", "inference_mem_mb"]))
     (run.sub("tables") / "params_memory.md").write_text(md_table(cost.to_dict("records")))
     gpu = subprocess.run(["nvidia-smi", "--query-gpu=name", "--format=csv,noheader"], capture_output=True, text=True).stdout.strip()
     run.done(gpu=gpu); print((run.sub("tables") / "timing.md").read_text()); print((run.sub("tables") / "params_memory.md").read_text()); print("GPU", gpu); print("RUN", run.rel())

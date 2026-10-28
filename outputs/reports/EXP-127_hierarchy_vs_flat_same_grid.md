@@ -124,6 +124,16 @@ A difference "passes" if the 3-seed synthetic-val means differ by more than the 
     mismatch invalidates the evaluation run.
 - **Cost:** about 12 × 8–17 min of training, plus evaluation and timing, about 4–5 GPU-hours in total.
 
+## Amendment 2026-10-29 (before any trained-arm run)
+- **Inference memory per system** = resident weights the system uses (DINOv3, plus MoGe-2 for PoE, plus its own head models) +
+  transient peak above the allocated baseline. All models share one timing process, so the raw `max_memory_allocated` would
+  not be per-system. Training memory is unchanged: one model at a time.
+- **Smoke stage extended:**
+  - 2-epoch flat trainings for both branches;
+  - an evaluator smoke run (tree + smoke flat, seed 0, greedy and orbit_product, per-image outputs);
+  - **tree reproduction gate** (`scripts/exp127_gate.py`): the seed-0 tree rows must match EXP-113's seed-0 rows within
+    0.02°, or the queue stops before the 12 trainings.
+
 ## Results
 ### Quantization floor on identical rotations
 Run `RUN-20261029-003312-seed0` (CPU, no learning; 11,994 rotations per set). Values are in degrees.

@@ -11,9 +11,13 @@ block() { local name=$1; shift; echo "=== $(date +%T) BLOCK $name"; if "$@"; the
 until grep -q QUEUE15_DONE outputs/experiments/queue15.log 2>/dev/null && grep -q QUEUE14_DONE outputs/experiments/queue14.log 2>/dev/null; do sleep 120; done
 echo "=== $(date +%T) queue16 starts (queue14 and queue15 done)"
 
-quant() { R $PY scripts/exp127_quant.py; }
-smoke() { R $PY scripts/train_flat_tf.py --exp SMOKE_exp127 --grid tesseract_L5 --features moge2_vitl:normals16~and --token-shape 256x4 \
-            --aug-convention pre- --epochs 2 --eval-every 1 --seed 0; }
+smoke() { local f out                                         # 2-epoch flat trainings (both branches) + evaluator smoke + tree gate
+  for f in "dinov3_vitl16:tokens8 64x1024" "moge2_vitl:normals16~and 256x4"; do set -- $f
+    $PY scripts/run_done.py SMOKE_exp127 features=$1 seed=0 grid=tesseract_L5 && continue
+    R $PY scripts/train_flat_tf.py --exp SMOKE_exp127 --grid tesseract_L5 --features $1 --token-shape $2 --aug-convention pre- --epochs 2 --eval-every 1 --seed 0 || return 1; done
+  out=$(R $PY scripts/orbit_eval.py --exp SMOKE_exp127eval --seeds 0 --modes greedy,orbit_product --save-preds \
+        --families tree:EXP-109_real_domain_aug_tokens16_orbit:$TAGS,flat:SMOKE_exp127:$TAGS:grid=tesseract_L5) || return 1
+  echo "$out" | tail -3; $PY scripts/exp127_gate.py "$(echo "$out" | grep '^RUN ' | tail -1 | cut -d' ' -f2)"; }
 train() { local s g f
   for s in 0 1 2; do for g in tesseract_L5 hopf1771x74; do for f in "dinov3_vitl16:tokens8 64x1024" "moge2_vitl:normals16~and 256x4"; do set -- $f
     $PY scripts/run_done.py $X features=$1 seed=$s grid=$g && continue
