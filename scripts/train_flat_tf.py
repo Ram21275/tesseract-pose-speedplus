@@ -2,7 +2,8 @@
 budget (100 epochs, batch 256, AdamW 1e-3, wd 0.05, OneCycle, bf16), same frozen features, same augmented views
 (clean + exp109_train_aug1/2, one per sample per step, labels rotated by the derived convention). Loss: CE against
 geodesic soft targets over the 32 nearest anchors (tau = the tree's leaf temperature, 2.51 deg). Checkpoint: lowest
-clean synthetic-val mean of the argmax anchor (as the tree's greedy rule)."""
+clean synthetic-val mean of the argmax anchor (as the tree's greedy rule). EXP-127: --grid selects the anchor grid
+(flatgrid.GRIDS; default = the EXP-113 grid); targets and everything else unchanged. Peak training GPU memory is recorded."""
 import argparse
 import json
 import sys
@@ -33,9 +34,10 @@ ap.add_argument("--wd", type=float, default=0.05)
 ap.add_argument("--dropout", type=float, default=0.1)
 ap.add_argument("--eval-every", type=int, default=5)
 ap.add_argument("--seed", type=int, default=0)
+ap.add_argument("--grid", default="hopf10923x12", choices=list(FG.GRIDS))
 args = ap.parse_args()
 exp_id, short = args.exp.split("_", 1)
-run = Run(exp_id, short, {**vars(args), "model": "flat_hopf", "n_anchors": FG.HOPF_POINTS * FG.HOPF_ROLLS}, seed=args.seed)
+run = Run(exp_id, short, {**vars(args), "model": "flat_hopf", "n_anchors": len(FG.make_grid(args.grid))}, seed=args.seed)
 try:
     torch.manual_seed(args.seed); np.random.seed(args.seed); dev = torch.device("cuda")
     df = pd.read_csv(REPO / "outputs/data_manifests/subset_full.csv"); q = df[[f"q_can_{k}" for k in "wxyz"]].to_numpy()
@@ -45,7 +47,7 @@ try:
     names, X, info = featsets.load(args.features, "full"); assert names == df.image_relpath.tolist()
     (run.dir / "feature_source.json").write_text(json.dumps(info, indent=2))
     stats = featsets.train_stats(X, tr); Xt = featsets.standardize_to_tensor(X, tr, "cpu", torch.float16, stats=stats); d_in = X.shape[1]; del X
-    G = torch.as_tensor(FG.matched_hopf_grid(), dtype=torch.float32, device=dev)
+    G = torch.as_tensor(FG.make_grid(args.grid), dtype=torch.float32, device=dev)
     tr_rows = np.flatnonzero(tr); POS = torch.full((len(df),), -1, dtype=torch.long, device=dev)
     POS[torch.as_tensor(tr_rows, device=dev)] = torch.arange(len(tr_rows), device=dev)
     cam = D.load_camera(Path(yaml.safe_load(open(REPO / "configs/paths.yaml"))["speedplus_root"]))
@@ -95,8 +97,8 @@ try:
     rows = []
     for g, m in groups.items():
         idx, qp = predict(m); rows.append({"features": args.features, "model": "flat_hopf", "seed": args.seed, "domain": g, **rotation_metrics(qp, q[idx])})
-    run.write_metrics(rows, "metrics"); run.done(best_epoch=best[2], n_params=n_params, trainable_params=n_params)
-    print(args.features, "flat seed", args.seed, " | ".join(f"{r['domain']}: {r['mean_deg']:.2f}" for r in rows)); print("RUN", run.rel())
+    run.write_metrics(rows, "metrics"); run.done(best_epoch=best[2], n_params=n_params, trainable_params=n_params, peak_train_gpu_mb=torch.cuda.max_memory_allocated() / 2**20)
+    print(args.features, args.grid, "flat seed", args.seed, " | ".join(f"{r['domain']}: {r['mean_deg']:.2f}" for r in rows)); print("RUN", run.rel())
 except Exception:
     import traceback
     run.fail(traceback.format_exc()); raise

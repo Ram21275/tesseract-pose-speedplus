@@ -7,7 +7,10 @@
   orbit_vote1    : rotation-cluster voting over the 4 back-mapped view top-1s (5-deg Gaussian kernel; ties by confidence)
   orbit_vote32   : weighted kernel voting over all 32 candidates (weights = per-view normalized probabilities)
 Domains: synthetic val, synthetic val-aug (EXP-109 seed-1000 views), lightbox, sunlamp. Flip transitions vs the same
-family+variant greedy, with denominators."""
+family+variant greedy, with denominators.
+EXP-127: flat runs carry their anchor grid in config.yaml (`grid`, default = the EXP-113 Hopf grid); the flat orbit score of
+a candidate uses flatgrid.hard_anchor (Tesseract cell for the tree's own leaf grid, nearest anchor otherwise). acc@5/20
+added; --save-preds writes per-image errors and predicted quaternions (predictions/per_image.csv.gz)."""
 import argparse
 import sys
 from pathlib import Path
@@ -30,6 +33,7 @@ ap.add_argument("--families", required=True, help="comma list of family:experime
 ap.add_argument("--modes", default="greedy,orbit_product,orbit_maxconf,orbit_vote1,orbit_vote32")
 ap.add_argument("--variants", default="PoE,DINO")
 ap.add_argument("--seeds", default="0,1,2")
+ap.add_argument("--save-preds", action="store_true")
 args = ap.parse_args()
 exp_id, short = args.exp.split("_", 1)
 run = Run(exp_id, short, vars(args), seed=0)
@@ -58,7 +62,11 @@ try:
         for k in VIEWS:
             n, x, _ = featsets.load(sp, "exp109_valaug" if k == 0 else f"exp109_valaug_r{k}"); assert n == va.image_relpath.tolist()
             Fz[(sp, "valaug", k)] = featsets.standardize_to_tensor(x, None, "cpu", torch.float16, stats=st)
-    G = torch.as_tensor(FG.matched_hopf_grid(), dtype=torch.float32, device=dev)
+    GRID = {}
+    def grid_of(name):
+        if name not in GRID:
+            GRID[name] = torch.as_tensor(FG.make_grid(name), dtype=torch.float32, device=dev)
+        return GRID[name]
 
     def find_runs(exp, seed, family, tags, cfgfilter=None):
         out = {}
@@ -70,10 +78,10 @@ try:
                 continue
             if cfgfilter and any(str(cfg.get(k)) != v for k, v in cfgfilter.items()):
                 continue
-            out[cfg["features"]] = d
+            out[cfg["features"]] = (d, cfg.get("grid") or "hopf10923x12")
         return out
 
-    def load(family, d, sp):
+    def load(family, d, sp, G):
         st = torch.load(d / "checkpoints/best.pt", map_location=dev)["model"]
         m = FG.FlatTransformer(SHAPE[sp], len(G)).to(dev) if family == "flat" else P.HierTransformer(SHAPE[sp], 5).to(dev)
         m.load_state_dict(st); m.eval(); return m
@@ -89,7 +97,7 @@ try:
         return (root.gather(1, c[:, None])[:, 0] + child.gather(2, p[:, :, None])[..., 0].sum(1)).view(B, C).cpu().numpy()
 
     @torch.no_grad()
-    def evaluate(family, ms, keys, setname, n_rows, base_ang, dray):
+    def evaluate(family, ms, keys, setname, n_rows, base_ang, dray, G=None, gname=None):
         res = {m: [] for m in MODES}
         for s in range(0, n_rows, 256):
             r = np.arange(s, min(s + 256, n_rows)); B = len(r)
@@ -121,7 +129,7 @@ try:
                         with torch.autocast("cuda", dtype=torch.bfloat16):
                             score += tree_lp(ms, xs, mk.reshape(B, 32, 4))
                     else:
-                        ai = FG.nearest_anchor(torch.as_tensor(mk, dtype=torch.float32, device=dev), G).view(B, 32)
+                        ai = FG.hard_anchor(torch.as_tensor(mk, dtype=torch.float32, device=dev), G, gname).view(B, 32)
                         score += flat_lp[vi].gather(1, ai).cpu().numpy()
                 res["orbit_product"].append(cand[np.arange(B), score.argmax(1)])
             if "orbit_maxconf" in MODES:
@@ -139,7 +147,7 @@ try:
             res.setdefault("_consistency", []).append((geo(vk, v0[:, None]) <= 10).mean(1))
         return {m: np.concatenate(v) for m, v in res.items()}
 
-    rows = []
+    rows, preds = [], []
     for spec in args.families.split(","):
         parts = spec.split(":"); family, exp, tags = parts[:3]; tags = tags.replace("+", ",")
         cfgfilter = dict(kv.split("=") for kv in parts[3].split(";")) if len(parts) > 3 and parts[3] else None    # e.g. mode=T
@@ -149,24 +157,35 @@ try:
                 keys = (SD, SM) if variant == "PoE" else (SD,)
                 if any(k not in runs for k in keys):
                     print("missing runs", family, exp, tags, seed, variant, "- skipped", flush=True); continue
-                ms = [load(family, runs[k], k) for k in keys]
-                P3 = evaluate(family, ms, keys, "test", len(t3), np.zeros(len(t3)), d3)
-                PV = evaluate(family, ms, keys, "valaug", len(va), ang_va, dv)
+                gname = runs[keys[0]][1]; assert all(runs[k][1] == gname for k in keys); G = grid_of(gname)
+                ms = [load(family, runs[k][0], k, G) for k in keys]
+                P3 = evaluate(family, ms, keys, "test", len(t3), np.zeros(len(t3)), d3, G, gname)
+                PV = evaluate(family, ms, keys, "valaug", len(va), ang_va, dv, G, gname)
                 cons3, consv = P3.pop("_consistency"), PV.pop("_consistency")
                 for mode in MODES:
                     ERR = {g: geo(P3[mode][dom3 == g], q3[dom3 == g]) for g in ("synthetic_val", "lightbox", "sunlamp")}
                     ERR["synthetic_val_aug"] = geo(PV[mode], qva)
+                    if args.save_preds:
+                        fam = family + (":" + parts[3] if len(parts) > 3 and parts[3] else "")
+                        for g in ERR:
+                            sel = None if g == "synthetic_val_aug" else (dom3 == g)
+                            qp, rel = (PV[mode], va.image_relpath.to_numpy()) if sel is None else (P3[mode][sel], t3.image_relpath.to_numpy()[sel])
+                            preds.append(pd.DataFrame({"family": fam, "variant": variant, "mode": mode, "seed": seed, "domain": g,
+                                                       "image_relpath": rel, "err_deg": ERR[g], **{f"q_pred_{c}": qp[:, i] for i, c in enumerate("wxyz")}}))
                     BASE = {g: (geo(P3["greedy"][dom3 == g], q3[dom3 == g]) if g != "synthetic_val_aug" else geo(PV["greedy"], qva)) for g in ERR} if "greedy" in MODES else ERR
                     for g, e in ERR.items():
                         e0 = BASE[g]; n150, n20 = int((e0 > 150).sum()), int((e0 < 20).sum())
                         rows.append({"family": family + (":" + parts[3] if len(parts) > 3 and parts[3] else ""), "train_aug": tags, "variant": variant, "mode": mode, "seed": seed, "domain": g,
-                                     "mean_deg": e.mean(), "median_deg": np.median(e), "acc@10": float((e <= 10).mean()),
+                                     "mean_deg": e.mean(), "median_deg": np.median(e), "acc@5": float((e <= 5).mean()),
+                                     "acc@10": float((e <= 10).mean()), "acc@20": float((e <= 20).mean()),
                                      "frac_gt90": float((e > 90).mean()), "frac_gt150": float((e > 150).mean()),
                                      "n_greedy_gt150": n150, "frac_gt150_to_lt20": ((e0 > 150) & (e < 20)).sum() / max(n150, 1),
                                      "n_greedy_lt20": n20, "frac_lt20_to_gt150": ((e0 < 20) & (e > 150)).sum() / max(n20, 1),
                                      "view_consistency@10": float((consv if g == "synthetic_val_aug" else cons3[dom3 == g]).mean())})
                 print(family, tags[:30], seed, variant, " | ".join(f"{m}: " + "/".join(f"{np.mean(geo(P3[m][dom3 == g], q3[dom3 == g])):.2f}" for g in ("synthetic_val", "lightbox", "sunlamp")) for m in MODES), flush=True)
                 del ms; torch.cuda.empty_cache()
+    if preds:
+        pd.concat(preds).to_csv(run.sub("predictions") / "per_image.csv.gz", index=False, float_format="%.6g")
     per = pd.DataFrame(rows); run.write_metrics(rows, "per_seed")
     keys_ = ["domain", "family", "train_aug", "variant", "mode"]
     cols = [c for c in per.columns if c not in keys_ + ["seed"]]

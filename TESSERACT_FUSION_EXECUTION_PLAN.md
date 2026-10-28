@@ -1175,6 +1175,22 @@ Each becomes a new phase with its own baseline and report. Do not mix these exte
 
 ---
 
+## EXP-127 — Hierarchy vs flat over the same grid (queued, DEC-026)
+
+- **Arms** (frozen features and the locked DEC-018 / EXP-109 arm-A recipe throughout):
+  - EXP-109 tree (reused checkpoints);
+  - flat classifier over the identical 131,072 Tesseract L5 leaf centres;
+  - flat classifier over a balanced Hopf grid (1,771 × 74 = 131,054).
+- **Fixed for every arm:** seeds 0–2, DINOv3-only and PoE, greedy and orbit (4 views, top-8, orbit product).
+- **Reported:**
+  - quantization on identical rotations;
+  - mean / median / acc@5/10/20 / severe flips;
+  - parameters, peak memory, and head and full-pipeline latency.
+- **Pre-registration:** `outputs/reports/EXP-127_hierarchy_vs_flat_same_grid.md`.
+- **Queue:** `scripts/run_queue16.sh`.
+
+---
+
 ## 4. Reporting after every experiment
 
 For each experiment:

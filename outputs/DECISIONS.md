@@ -246,3 +246,16 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
   - LiePose evaluates T-LESS with GT visible masks applied to the crop; our crops use no mask.
 - **Order:** queue14 (EXP-106 T-LESS A2, EXP-119) is paused after the T-LESS A2 evaluation (`QUEUE_PAUSE`). The EXP-124 GPU stages run in `scripts/run_queue15.sh`, then queue14 resumes.
 - **Amendment (2026-10-28, user: "translation only ran on speed+ which needs to be evaluated on other datasets as well"): EXP-126** pre-registered. SPACE-HOP translation blocks on the frozen selected trees of T-LESS, SYMSOL-T (EXP-119 base-arm rule) and YCB-V (EXP-122), with the dataset's own image size; metrics E_T, T@2/5/10 cm (T-LESS, YCB-V; LiePose's metric), mean distance (SYMSOL-T); box-only baseline. Runs in queue15 after EXP-124, before queue14 resumes EXP-119. This replaces the "EXP-126 (planned)" line above.
+
+## DEC-026 — EXP-127: hierarchy vs flat over the same Tesseract leaves vs balanced Hopf (2026-10-29)
+- **Decided by:** the user: "Queue a controlled rotation experiment … to isolate the benefit of hierarchical prediction". Arms requested:
+  - the hierarchical tree;
+  - a flat classifier over the same 131,072 leaf centres;
+  - a flat classifier over the balanced Hopf grid (1,771 × 74).
+- **ID:** EXP-127, the next unused ID. EXP-120, 121 and 123 stay reserved for the on-hold ideas, and EXP-125 for the LiePose instance-set protocol.
+- **Recipe:** the locked DEC-018 recipe (EXP-109 arm A), unchanged by DEC-023.
+  - Orbit distillation is not part of it ("not part of the recipe used by later experiments unless the user says so"), so it is excluded from all arms.
+  - A distillation extension needs its own amendment.
+- **Reuse:** the EXP-109 arm-A tree checkpoints are reused (they are the locked configuration). The EXP-113 flat checkpoints are not, because their grid differs. 12 new flat trainings.
+- **Order:** `scripts/run_queue16.sh` starts only after the `QUEUE15_DONE` and `QUEUE14_DONE` markers (EXP-124 → EXP-126 → EXP-119). It does not touch QUEUE_PAUSE.
+- **Pre-registration:** `reports/EXP-127_hierarchy_vs_flat_same_grid.md`.
