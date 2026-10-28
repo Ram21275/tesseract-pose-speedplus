@@ -23,6 +23,7 @@ exp106_rest() { local ds=$1 lab=multi tag=A2 s o
     echo ">>> $(date +%T) EXP-106 $tag train $ds $o $1 seed=$s"
     R $PY scripts/train_xobj.py --dataset $ds --obj $o --features $1 --token-shape $2 --seed $s --label $lab $(floor $ds $1 $o) --exp EXP-106 --exp-name tless_multipath_tree || return 1
   done; done; done
+  done_ EXP-106_tless_multipath_tree stage=eval dataset=$ds tag=$tag && return 0
   R $PY scripts/exp064_eval.py --dataset $ds --exp EXP-106 --exp-name tless_multipath_tree --runs-dir EXP-106_tless_multipath_tree --filter label=$lab --tag $tag; }
 
 exp119() { local ds=$1 o s v sel
@@ -38,7 +39,9 @@ exp119() { local ds=$1 o s v sel
         --teacher outputs/experiments/EXP-119_xobj_orbit_distillation/teacher_${ds}_${o}_${v}_seed${s}.npz --teacher-variant $v --beta 1 \
         --exp EXP-119 --exp-name xobj_orbit_distillation || return 1
     done; done; done
-  R $PY scripts/exp064_eval.py --dataset $ds --exp EXP-119 --exp-name xobj_orbit_distillation --runs-dir EXP-119_xobj_orbit_distillation --filter teacher_variant=PoE --variants PoE --tag student_PoE || return 1
+  done_ EXP-119_xobj_orbit_distillation stage=eval dataset=$ds tag=student_PoE || \
+R $PY scripts/exp064_eval.py --dataset $ds --exp EXP-119 --exp-name xobj_orbit_distillation --runs-dir EXP-119_xobj_orbit_distillation --filter teacher_variant=PoE --variants PoE --tag student_PoE || return 1
+  done_ EXP-119_xobj_orbit_distillation stage=eval dataset=$ds tag=student_DINO && return 0
   R $PY scripts/exp064_eval.py --dataset $ds --exp EXP-119 --exp-name xobj_orbit_distillation --runs-dir EXP-119_xobj_orbit_distillation --filter teacher_variant=DINO --variants DINO --tag student_DINO; }
 
 echo "=== $(date +%T) queue14 starts"

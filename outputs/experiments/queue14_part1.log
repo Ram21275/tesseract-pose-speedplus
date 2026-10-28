@@ -1,0 +1,138 @@
+=== 11:07:10 queue14 starts
+=== 11:07:10 BLOCK EXP-106-symsolt-A2eval
+Traceback (most recent call last):
+  File "/home/kavinder/RAM/pose-estimation/scripts/exp064_eval.py", line 114, in <module>
+    score += tree_lp(ms, xs, mk)
+             ~~~~~~~^^^^^^^^^^^^
+  File "/home/kavinder/RAM/pose-estimation/scripts/exp064_eval.py", line 56, in tree_lp
+    outs = [m.logits_tf(m.encode(x).repeat_interleave(C, 0), c, p) for m, x in zip(ms, xs)]
+            ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/RAM/pose-estimation/src/tfpose/phase3.py", line 224, in logits_tf
+    out = self._run(mem, self._seq(chart, path[:, :-1]))      # positions 0..L
+  File "/home/kavinder/RAM/pose-estimation/src/tfpose/phase3.py", line 214, in _run
+    return self.dec(seq, mem, tgt_mask=mask)
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/transformer.py", line 628, in forward
+    output = mod(
+        output,
+    ...<6 lines>...
+        memory_is_causal=memory_is_causal,
+    )
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/transformer.py", line 1113, in forward
+    x = x + self._mha_block(
+            ~~~~~~~~~~~~~~~^
+        self.norm2(x),
+        ^^^^^^^^^^^^^^
+    ...<3 lines>...
+        memory_is_causal,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/transformer.py", line 1163, in _mha_block
+    x = self.multihead_attn(
+        ~~~~~~~~~~~~~~~~~~~^
+        x,
+        ^^
+    ...<5 lines>...
+        need_weights=False,
+        ^^^^^^^^^^^^^^^^^^^
+    )[0]
+    ^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/modules/activation.py", line 1380, in forward
+    attn_output, attn_output_weights = F.multi_head_attention_forward(
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        query,
+        ^^^^^^
+    ...<17 lines>...
+        is_causal=is_causal,
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/functional.py", line 6304, in multi_head_attention_forward
+    q, k, v = _in_projection_packed(query, key, value, in_proj_weight, in_proj_bias)
+              ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kavinder/miniconda3/lib/python3.13/site-packages/torch/nn/functional.py", line 5713, in _in_projection_packed
+    kv_proj = linear(k, w_kv, b_kv)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1024.00 MiB. GPU 0 has a total capacity of 47.37 GiB of which 857.94 MiB is free. Process 41853 has 13.72 GiB memory in use. Including non-PyTorch memory, this process has 3.09 GiB memory in use. Process 49871 has 29.22 GiB memory in use. Of the allocated memory 2.54 GiB is allocated by PyTorch, and 61.19 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[reap] marked failed: outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-085436-seed0
+RETRY 1 11:23:48
+[guarded] 11:33:48 waiting: RAM avail 96 GB (need 52), GPU free 3 GB (need 8)
+[guarded] 11:35:49 waiting: RAM avail 95 GB (need 52), GPU free 3 GB (need 8)
+[guarded] 11:37:49 waiting: RAM avail 102 GB (need 52), GPU free 3 GB (need 8)
+[guarded] 11:39:49 waiting: RAM avail 97 GB (need 52), GPU free 3 GB (need 8)
+[guarded] 11:41:49 waiting: RAM avail 92 GB (need 52), GPU free 3 GB (need 8)
+[guarded] 11:43:50 waiting: RAM avail 93 GB (need 52), GPU free 3 GB (need 8)
+[guarded] 11:45:50 waiting: RAM avail 102 GB (need 52), GPU free 3 GB (need 8)
+[guarded] 11:47:50 waiting: RAM avail 101 GB (need 52), GPU free 3 GB (need 8)
+[guarded] 11:49:50 waiting: RAM avail 101 GB (need 52), GPU free 3 GB (need 8)
+[guarded] 11:51:51 waiting: RAM avail 100 GB (need 52), GPU free 3 GB (need 8)
+[guarded] 11:53:51 waiting: RAM avail 100 GB (need 52), GPU free 3 GB (need 8)
+[guarded] 11:55:51 waiting: RAM avail 99 GB (need 52), GPU free 3 GB (need 8)
+[guarded] 11:57:51 waiting: RAM avail 100 GB (need 52), GPU free 3 GB (need 8)
+[guarded] 11:59:52 waiting: RAM avail 99 GB (need 52), GPU free 3 GB (need 8)
+[guarded] 12:01:52 waiting: RAM avail 97 GB (need 52), GPU free 3 GB (need 8)
+symsolt cone 0 PoE greedy 1.84 | orbit_product 1.60 | orbit_vote32 1.68
+symsolt cone 0 DINO greedy 1.79 | orbit_product 1.59 | orbit_vote32 1.71
+symsolt cone 1 PoE greedy 1.84 | orbit_product 1.60 | orbit_vote32 1.70
+symsolt cone 1 DINO greedy 1.77 | orbit_product 1.58 | orbit_vote32 1.70
+symsolt cone 2 PoE greedy 1.86 | orbit_product 1.60 | orbit_vote32 1.69
+symsolt cone 2 DINO greedy 1.78 | orbit_product 1.56 | orbit_vote32 1.70
+symsolt cube 0 PoE greedy 3.16 | orbit_product 2.31 | orbit_vote32 2.59
+symsolt cube 0 DINO greedy 3.01 | orbit_product 2.30 | orbit_vote32 2.49
+symsolt cube 1 PoE greedy 3.13 | orbit_product 2.31 | orbit_vote32 2.57
+symsolt cube 1 DINO greedy 2.97 | orbit_product 2.29 | orbit_vote32 2.48
+symsolt cube 2 PoE greedy 3.12 | orbit_product 2.32 | orbit_vote32 2.60
+symsolt cube 2 DINO greedy 3.01 | orbit_product 2.31 | orbit_vote32 2.49
+symsolt cyl 0 PoE greedy 1.72 | orbit_product 1.55 | orbit_vote32 1.56
+symsolt cyl 0 DINO greedy 1.70 | orbit_product 1.48 | orbit_vote32 1.50
+symsolt cyl 1 PoE greedy 1.70 | orbit_product 1.55 | orbit_vote32 1.55
+symsolt cyl 1 DINO greedy 1.67 | orbit_product 1.46 | orbit_vote32 1.49
+symsolt cyl 2 PoE greedy 1.69 | orbit_product 1.54 | orbit_vote32 1.55
+symsolt cyl 2 DINO greedy 1.68 | orbit_product 1.48 | orbit_vote32 1.49
+symsolt icosa 0 PoE greedy 3.04 | orbit_product 2.43 | orbit_vote32 2.73
+symsolt icosa 0 DINO greedy 3.02 | orbit_product 2.52 | orbit_vote32 2.80
+symsolt icosa 1 PoE greedy 3.06 | orbit_product 2.46 | orbit_vote32 2.76
+symsolt icosa 1 DINO greedy 3.01 | orbit_product 2.53 | orbit_vote32 2.80
+symsolt icosa 2 PoE greedy 3.05 | orbit_product 2.45 | orbit_vote32 2.75
+symsolt icosa 2 DINO greedy 3.03 | orbit_product 2.53 | orbit_vote32 2.81
+symsolt tet 0 PoE greedy 3.86 | orbit_product 2.61 | orbit_vote32 2.77
+symsolt tet 0 DINO greedy 3.30 | orbit_product 2.46 | orbit_vote32 2.50
+symsolt tet 1 PoE greedy 3.83 | orbit_product 2.62 | orbit_vote32 2.72
+symsolt tet 1 DINO greedy 3.33 | orbit_product 2.47 | orbit_vote32 2.49
+symsolt tet 2 PoE greedy 3.82 | orbit_product 2.61 | orbit_vote32 2.74
+symsolt tet 2 DINO greedy 3.32 | orbit_product 2.45 | orbit_vote32 2.52
+| split | variant | mode | sym_mean | sym_mean_std | sym_median | acc10 | frac_gt90 | raw_mean |
+|---|---|---|---|---|---|---|---|---|
+| test | DINO | greedy | 2.565 | 0.008 | 2.390 | 0.998 | 0.000 | 121.137 |
+| test | DINO | orbit_product | 2.067 | 0.002 | 1.974 | 1.000 | 0.000 | 121.447 |
+| test | DINO | orbit_vote32 | 2.204 | 0.003 | 2.101 | 1.000 | 0.000 | 121.380 |
+| test | PoE | greedy | 2.714 | 0.010 | 2.494 | 0.995 | 0.000 | 121.293 |
+| test | PoE | orbit_product | 2.107 | 0.006 | 1.999 | 1.000 | 0.000 | 121.307 |
+| test | PoE | orbit_vote32 | 2.270 | 0.004 | 2.121 | 0.999 | 0.000 | 121.256 |
+| validation | DINO | greedy | 2.539 | 0.009 | 2.378 | 0.998 | 0.000 | 121.760 |
+| validation | DINO | orbit_product | 2.071 | 0.003 | 1.981 | 1.000 | 0.000 | 121.228 |
+| validation | DINO | orbit_vote32 | 2.181 | 0.011 | 2.087 | 1.000 | 0.000 | 121.172 |
+| validation | PoE | greedy | 2.717 | 0.011 | 2.484 | 0.994 | 0.000 | 121.964 |
+| validation | PoE | orbit_product | 2.100 | 0.007 | 2.001 | 1.000 | 0.000 | 121.649 |
+| validation | PoE | orbit_vote32 | 2.251 | 0.005 | 2.115 | 0.999 | 0.000 | 121.830 |
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-120353-seed0
+=== 13:39:40 BLOCK_DONE EXP-106-symsolt-A2eval
+=== 13:39:40 BLOCK EXP-106-tless-A2
+>>> 13:39:41 EXP-106 A2 train tless 5 moge2_vitl:normals16~and seed=1
+=== 14:22:06 queue14 starts
+=== 14:22:06 BLOCK EXP-106-symsolt-A2eval
