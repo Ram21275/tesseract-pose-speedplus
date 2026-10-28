@@ -27,13 +27,13 @@ SYM_F = (224 - 112) * SYM_Z / 5.25
 
 DATASETS = {
     "tless": dict(manifest="outputs/data_manifests/tless_exp106.csv", root_key="tless_root", key_cols="obj_id,inst_id",
-                  obj_col="obj_id", label="allo", sym="outputs/data_manifests/tless_exp106_symmetries.npz"),
+                  obj_col="obj_id", label="allo", sym="outputs/data_manifests/tless_exp106_symmetries.npz", img_wh=(720, 540), t_to_cm=0.1),
     "ycbv": dict(manifest="outputs/data_manifests/ycbv_exp064.csv", root_key="ycbv_root", key_cols="obj,inst_id",
-                 obj_col="obj", label="allo", sym=None),
+                 obj_col="obj", label="allo", sym=None, img_wh=(640, 480), t_to_cm=100.0),
     "ycbvsyn": dict(manifest="outputs/data_manifests/exp064_ycbvsyn_all.csv", root_key="ycbvsyn_root", key_cols="obj,inst_id",
-                    obj_col="obj", label="allo", sym=None),                    # EXP-122: data_syn composites (train only)
+                    obj_col="obj", label="allo", sym=None, img_wh=(640, 480), t_to_cm=100.0),   # EXP-122: data_syn composites (train only)
     "symsolt": dict(manifest="outputs/data_manifests/symsolt_exp064.csv", root_key="symsolt_root", key_cols="",
-                    obj_col="shape", label="ego", sym="outputs/data_manifests/symsolt_exp064_symmetries.npz"),
+                    obj_col="shape", label="ego", sym="outputs/data_manifests/symsolt_exp064_symmetries.npz", img_wh=(224, 224), t_to_cm=None),
 }
 
 

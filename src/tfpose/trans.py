@@ -14,23 +14,24 @@ ALPHA = 1.6
 W_FULL, H_FULL = 1920, 1200          # SPEED+ image size
 
 
-def _zscale(bw, bh):
-    return 0.5 * (ALPHA * bw / W_FULL + bh / H_FULL)          # 0.5 (1/s_x + 1/s_y)
+def _zscale(bw, bh, W=W_FULL, H=H_FULL):
+    return 0.5 * (ALPHA * bw / W + bh / H)                    # 0.5 (1/s_x + 1/s_y)
 
 
-def to_u(t: np.ndarray, K: np.ndarray, bx, by, bw, bh) -> np.ndarray:
-    """(N,3) camera-frame translation -> (N,3) SPACE-HOP target u."""
+def to_u(t: np.ndarray, K: np.ndarray, bx, by, bw, bh, W=W_FULL, H=H_FULL) -> np.ndarray:
+    """(N,3) camera-frame translation -> (N,3) SPACE-HOP target u. K is (3,3) or per row (N,3,3); (W, H) = full image size
+    (SPEED+ by default; EXP-126 passes each dataset's own)."""
     X, Y, Z = t[:, 0], t[:, 1], t[:, 2]
-    ux = (K[0, 0] * X / Z + K[0, 2] - bx) / bw
-    uy = (K[1, 1] * Y / Z + K[1, 2] - by) / bh
-    return np.stack([ux, uy, _zscale(bw, bh) * Z], 1)
+    ux = (K[..., 0, 0] * X / Z + K[..., 0, 2] - bx) / bw
+    uy = (K[..., 1, 1] * Y / Z + K[..., 1, 2] - by) / bh
+    return np.stack([ux, uy, _zscale(bw, bh, W, H) * Z], 1)
 
 
-def from_u(u: np.ndarray, K: np.ndarray, bx, by, bw, bh) -> np.ndarray:
+def from_u(u: np.ndarray, K: np.ndarray, bx, by, bw, bh, W=W_FULL, H=H_FULL) -> np.ndarray:
     """Inverse perspective mapping u -> t."""
-    Z = u[:, 2] / _zscale(bw, bh)
-    X = (u[:, 0] * bw + bx - K[0, 2]) * Z / K[0, 0]
-    Y = (u[:, 1] * bh + by - K[1, 2]) * Z / K[1, 1]
+    Z = u[:, 2] / _zscale(bw, bh, W, H)
+    X = (u[:, 0] * bw + bx - K[..., 0, 2]) * Z / K[..., 0, 0]
+    Y = (u[:, 1] * bh + by - K[..., 1, 2]) * Z / K[..., 1, 1]
     return np.stack([X, Y, Z], 1)
 
 

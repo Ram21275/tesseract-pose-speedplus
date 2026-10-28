@@ -9,6 +9,9 @@ Options added 2026-10-27 (defaults reproduce EXP-064 exactly):
   --label raw|canonical|multi   (EXP-106 arms A0 / A1 / A2). canonical: in every view, the equivalent rotation R.S closest to
                       identity. multi: the recipe's soft-target CE averaged over equivalents R.S (all of them if |S| <= --sym-k,
                       else --sym-k drawn per row and step); identical to raw when |S| = 1.
+  --trans frozen --init-from RUN   (EXP-126) SPACE-HOP translation block (tfpose.trans, dataset image size) trained on the
+                      frozen tree of RUN (same features / normalization); targets u standardized per dimension with train
+                      statistics; checkpoint = lowest validation mean translation error (view 0).
   --teacher NPZ --beta B   (EXP-119) + B * level-marginal CE to orbit-teacher candidates (clean target frame, mapped into the
                       view's frame exactly), as EXP-117."""
 import argparse
@@ -22,7 +25,7 @@ import torch.nn.functional as F
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
-from tfpose import featsets, phase3 as P, tesseract as T, xobj as XO  # noqa: E402
+from tfpose import featsets, phase3 as P, tesseract as T, trans as TR, xobj as XO  # noqa: E402
 from tfpose.cachepaths import CACHE  # noqa: E402
 from tfpose.fusion import fused_beam  # noqa: E402
 from tfpose.allo import mat_to_quat  # noqa: E402
@@ -50,6 +53,8 @@ ap.add_argument("--sym-k", type=int, default=8)
 ap.add_argument("--teacher", default=None)
 ap.add_argument("--teacher-variant", default=None, choices=[None, "PoE", "DINO"])
 ap.add_argument("--beta", type=float, default=1.0)
+ap.add_argument("--trans", default="none", choices=["none", "frozen"])
+ap.add_argument("--init-from", default=None, help="EXP-126: tree run folder (relative to outputs/experiments) to freeze")
 args = ap.parse_args()
 run = Run(args.exp, args.exp_name, {**vars(args), "stage": "train"}, seed=args.seed)
 L = 5
@@ -66,6 +71,10 @@ try:
         SRC.append((e, ea, et, ET))
     Xtr = np.concatenate([featsets.load_rows(args.features, f"exp064_{d_}_all", a_)[1] for d_, a_, _, _ in SRC]); _, Xva = featsets.load_rows(args.features, f"exp064_{ds}_all", a_va)
     mu, sd = featsets.train_stats(Xtr, np.ones(len(Xtr), bool)); sd = np.maximum(sd, args.sd_floor); st = (mu, sd)
+    if args.trans == "frozen":                                                         # EXP-126: the frozen tree's own normalization
+        ck0 = torch.load(REPO / "outputs/experiments" / args.init_from / "checkpoints/best.pt", map_location="cpu", weights_only=False)
+        assert np.allclose(ck0["mu"], mu, atol=1e-4) and np.allclose(ck0["sd"], sd, atol=1e-4), "init run used other train rows"
+        mu, sd = ck0["mu"], ck0["sd"]; st = (mu, sd); (run.dir / "source_runs.txt").write_text(f"{args.init_from}\n")
     VX = [featsets.standardize_to_tensor(Xtr, None, "cpu", torch.float16, stats=st)]; del Xtr; Xva = featsets.standardize_to_tensor(Xva, None, "cpu", torch.float16, stats=st)
     dtr = pd.concat([T_.iloc[t_] for _, _, t_, T_ in SRC], ignore_index=True); K = XO.intrinsics(ds, dtr); q_ego, tvec = XO.pose_ego(ds, dtr); dray = XO.crop_ray(K, dtr)
     QV = [XO.target(ds, dtr)]; ANG = [np.zeros(len(dtr))]
@@ -95,8 +104,26 @@ try:
     Rva_eq = np.einsum("nij,sjk->nsik", quat_to_matrix(qva), S)                       # (N,S,3,3) equivalent GT rotations
     ts = tuple(int(v) for v in args.token_shape.split("x"))
     model = P.HierTransformer(ts, L, dropout=args.dropout).to(dev); n_params = sum(p.numel() for p in model.parameters())
-    opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.wd); NT = len(dtr)
+    NT = len(dtr); head = None; train_params = list(model.parameters())
+    if args.trans == "frozen":
+        model.load_state_dict(ck0["model"]); model.eval(); [p_.requires_grad_(False) for p_ in model.parameters()]
+        W_, H_ = XO.DATASETS[ds]["img_wh"]; box = (dtr.crop_cx.to_numpy(), dtr.crop_cy.to_numpy(), dtr.crop_side.to_numpy(), dtr.crop_side.to_numpy())
+        UV = np.stack([TR.to_u(XO.roll_pose(q_ego, tvec, ANG[v], dray)[1], K, *box, W_, H_) for v in range(V)])   # (V,N,3) per view
+        u_mu, u_sd = UV[0].mean(0), UV[0].std(0) + 1e-8; UVt = torch.as_tensor((UV - u_mu) / u_sd, dtype=torch.float32, device=dev)
+        Kva = XO.intrinsics(ds, dva); _, tva = XO.pose_ego(ds, dva); bva = (dva.crop_cx.to_numpy(), dva.crop_cy.to_numpy(), dva.crop_side.to_numpy(), dva.crop_side.to_numpy())
+        head = TR.TransHead(model.root_tok.shape[-1], dropout=args.dropout).to(dev); train_params = list(head.parameters())
+        n_params = sum(p.numel() for p in train_params)
+    opt = torch.optim.AdamW(train_params, lr=args.lr, weight_decay=args.wd)
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=args.epochs * int(np.ceil(NT / args.batch)), pct_start=0.05)
+
+    @torch.no_grad()
+    def val_trans():
+        head.eval(); out = []
+        for s0 in range(0, len(Xva), 1024):
+            with torch.autocast("cuda", dtype=torch.bfloat16):
+                out.append(head(model.encode(Xva[s0:s0 + 1024].to(dev).float())).float().cpu().numpy())
+        u = np.concatenate(out) * u_sd + u_mu
+        return float(np.linalg.norm(TR.from_u(u, Kva, *bva, W_, H_) - tva, axis=1).mean())
 
     def sym_err(qp):
         Rp = quat_to_matrix(qp); c = np.einsum("nij,nsij->ns", Rp, Rva_eq)               # trace(Rp^T Rgt S)
@@ -131,7 +158,9 @@ try:
 
     log = open(run.sub("logs") / "train.log", "w"); best = (np.inf, None, 0)
     for ep in range(1, args.epochs + 1):
-        model.train(); perm = np.random.permutation(NT); tot = 0.0
+        model.train(args.trans != "frozen"); perm = np.random.permutation(NT); tot = 0.0
+        if head is not None:
+            head.train()
         for s in range(0, NT, args.batch):
             pb = perm[s:s + args.batch]; v = np.random.randint(0, V, len(pb))
             x = torch.empty((len(pb),) + tuple(VX[0].shape[1:]), dtype=torch.float32, device=dev)
@@ -141,6 +170,12 @@ try:
                     x[torch.as_tensor(m, device=dev)] = VX[j][torch.as_tensor(pb[m])].to(dev).float()
             vi, pi = torch.as_tensor(v, device=dev), torch.as_tensor(pb, device=dev)
             with torch.autocast("cuda", dtype=torch.bfloat16):
+                if args.trans == "frozen":                                            # EXP-126: translation block only
+                    with torch.no_grad():
+                        h = model.encode(x)
+                    loss = ((head(h).float() - UVt[vi, pi]) ** 2).sum(-1).mean()
+                    opt.zero_grad(set_to_none=True); loss.backward(); opt.step(); sched.step(); tot += loss.item() * len(pb)
+                    continue
                 h = model.encode(x)
                 if args.label == "multi":
                     loss = multi_loss(h, v, pb)
@@ -151,10 +186,14 @@ try:
                     loss = loss + args.beta * level_ce(h, TCV[v, pb], TW[pb].to(dev))
             opt.zero_grad(set_to_none=True); loss.backward(); opt.step(); sched.step(); tot += loss.item() * len(pb)
         if ep % args.eval_every == 0 or ep == args.epochs:
-            vm = val_mean(); print(f"ep {ep} loss {tot / NT:.4f} val_sym_mean {vm:.3f}", file=log, flush=True)
+            vm = val_trans() if head is not None else val_mean()
+            print(f"ep {ep} loss {tot / NT:.4f} {'val_trans_mean' if head is not None else 'val_sym_mean'} {vm:.4f}", file=log, flush=True)
             if vm < best[0]:
-                best = (vm, {k: t.detach().clone() for k, t in model.state_dict().items()}, ep)
-    torch.save({"model": best[1], "mu": mu.astype(np.float32), "sd": sd.astype(np.float32)}, run.sub("checkpoints") / "best.pt")
+                best = (vm, {k: t.detach().clone() for k, t in (head if head is not None else model).state_dict().items()}, ep)
+    ck = {"model": best[1] if head is None else model.state_dict(), "mu": np.asarray(mu, np.float32), "sd": np.asarray(sd, np.float32)}
+    if head is not None:
+        ck.update(trans=best[1], u_mu=u_mu, u_sd=u_sd, uz_train_mean=float(UV[0][:, 2].mean()), img_wh=(W_, H_))
+    torch.save(ck, run.sub("checkpoints") / "best.pt")
     run.done(best_epoch=best[2], best_val_sym_mean=best[0], n_train=NT, n_val=len(a_va), n_params=n_params, trainable_params=n_params)
     print(ds, args.obj, args.features, "seed", args.seed, f"val_sym_mean {best[0]:.2f}"); print("RUN", run.rel())
 except Exception:

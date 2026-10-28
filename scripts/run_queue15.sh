@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# DEC-025: EXP-124 GPU stages. Waits until queue14's EXP-106 T-LESS A2 evaluation is running, then sets QUEUE_PAUSE so that
+# DEC-025: EXP-124 GPU stages, then EXP-126 (translation on T-LESS / SYMSOL-T / YCB-V, frozen trees). Waits until queue14's EXP-106 T-LESS A2 evaluation is running, then sets QUEUE_PAUSE so that
 # queue14 holds before EXP-119 (its running job finishes normally), waits for that job to end, runs EXP-124 with the pause
 # ignored, and finally removes QUEUE_PAUSE so queue14 resumes. One GPU job at a time throughout.
 set -u; cd "$(dirname "$0")/.."
@@ -28,6 +28,23 @@ exp124() {
   done
   R $PY scripts/exp124_eval.py --crops det; }
 
+SD="dinov3_vitl16:tokens8 64x1024"; SM="moge2_vitl:normals16~and 256x4"
+declare -A OBJS=( [tless]="1 4 5 11 18 21 27" [ycbv]="003_cracker_box 006_mustard_bottle 011_banana 025_mug 035_power_drill 037_scissors" [symsolt]="tet cube icosa cone cyl" )
+floor() { [[ $1 == symsolt && $2 == moge2_vitl:* && " cube cyl icosa " == *" $3 "* ]] && echo "--sd-floor 1e-2"; }
+exp126() { local ds=$1 bdir bfilt extra="" s o init
+  if [[ $ds == ycbv ]]; then bdir=EXP-122_ycbv_synthetic_training; bfilt=""; extra="--extra-train ycbvsyn"
+  else local sel; sel=$($PY scripts/exp119_base_arm.py $ds) || return 1; eval "$sel"; bdir=$BASE_DIR; bfilt=$BASE_FILTER; fi
+  echo ">>> EXP-126 $ds base trees: $bdir filter '$bfilt'"
+  for s in 0 1 2; do for o in ${OBJS[$ds]}; do for f in "$SD" "$SM"; do set -- $f
+    $PY scripts/run_done.py EXP-126_translation_xobj dataset=$ds obj=$o features=$1 seed=$s trans=frozen && continue
+    init=$($PY scripts/find_run.py $bdir dataset=$ds obj=$o features=$1 seed=$s ${bfilt//,/ }) || return 1
+    echo ">>> $(date +%T) EXP-126 trans $ds $o $1 seed=$s on $init"
+    R $PY scripts/train_xobj.py --dataset $ds --obj $o --features $1 --token-shape $2 --seed $s $extra $(floor $ds $1 $o) \
+      --trans frozen --init-from $init --exp EXP-126 --exp-name translation_xobj || return 1
+  done; done; done
+  R $PY scripts/exp064_eval.py --dataset $ds --exp EXP-126 --exp-name translation_xobj --runs-dir EXP-126_translation_xobj --filter trans=frozen --tag F; }
+
 block EXP-124 exp124
+for ds in ycbv tless symsolt; do block EXP-126-$ds exp126 $ds; done
 rm -f $PAUSE; echo "=== $(date +%T) QUEUE_PAUSE removed; queue14 resumes"
 echo "=== $(date +%T) QUEUE15_DONE"

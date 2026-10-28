@@ -6,7 +6,7 @@ from pathlib import Path
 import yaml
 
 REPO = Path(__file__).resolve().parents[1]
-D = {"label": "raw", "extra_train": "None", "teacher_variant": "None", "stage": "train"}
+D = {"label": "raw", "extra_train": "None", "teacher_variant": "None", "trans": "none", "stage": "train"}
 want = dict(a.split("=", 1) for a in sys.argv[2:]); want.setdefault("stage", "train")
 for d in (REPO / "outputs/experiments" / sys.argv[1]).glob("RUN-*"):
     st = d / "status.json"
