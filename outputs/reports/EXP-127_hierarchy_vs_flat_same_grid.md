@@ -125,4 +125,18 @@ A difference "passes" if the 3-seed synthetic-val means differ by more than the 
 - **Cost:** about 12 × 8–17 min of training, plus evaluation and timing, about 4–5 GPU-hours in total.
 
 ## Results
-Not run.
+### Quantization floor on identical rotations
+Run `RUN-20261029-003312-seed0` (CPU, no learning; 11,994 rotations per set). Values are in degrees.
+
+| grid | synthetic val mean / median / p95 / max | val-aug mean / median / p95 / max |
+|---|---|---|
+| Tesseract L5 encode → decode (tree leaf; FL hard anchor) | 2.507 / 2.486 / 3.950 / 5.776 | 2.504 / 2.480 / 3.963 / 5.855 |
+| Tesseract L5 nearest centre | 2.476 / 2.449 / 3.914 / 5.776 | 2.474 / 2.449 / 3.907 / 5.820 |
+| balanced Hopf 1771×74 nearest | **2.291 / 2.374 / 3.214 / 3.840** | **2.305 / 2.384 / 3.235 / 3.811** |
+| SPACE-HOP Hopf 10923×12 nearest (EXP-113, descriptive) | 6.057 / 5.436 / 12.947 / 14.973 | 6.032 / 5.394 / 12.899 / 15.004 |
+
+- The balanced Hopf grid has the lower floor: 0.22° lower in mean and markedly lower at the tail (max 3.8° vs 5.8°).
+- Encoded cell and nearest centre differ by only 0.03° on average.
+
+### Trainings, evaluation and cost
+Queued (queue16).
