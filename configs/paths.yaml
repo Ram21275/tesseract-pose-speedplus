@@ -1,7 +1,8 @@
 # Read-only dataset locations. Nothing is ever written here.
 speedplus_root: /media/kavinder/hdd2/RFO/speed_pose_moe/speedplusv2
-# tangoPoints.mat is not in the hdd2 copy; identical SPEED+ copy on hdd.
-tango_points: /media/kavinder/hdd/Aayushi/speedplusv2/tangoPoints.mat
+# tangoPoints.mat: the hdd copy (/media/kavinder/hdd/Aayushi/speedplusv2/tangoPoints.mat) is unmounted since the 2026-10-28
+# reboot; this hdd2 copy (SPEED+ toolkit, md5 617833a2...) reproduces every manifest crop to < 5e-6 px (checked 200 rows).
+tango_points: /media/kavinder/hdd2/RFO/speed_pose_moe/speedplusv2/src/utils/tangoPoints.mat
 # Derived bbox table from an earlier project, used ONLY as a cross-check in EXP-000.
 crosscheck_train_csv: /media/kavinder/hdd2/RFO/speed_pose_moe/speedplusv2/train.csv
 # EXP-064 datasets (DEC-009), read-only.

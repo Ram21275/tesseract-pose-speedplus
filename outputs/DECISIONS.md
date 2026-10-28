@@ -233,3 +233,15 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 - **Order:** EXP-122 → EXP-106 → EXP-119 (EXP-119's base arm depends on EXP-106). `scripts/run_queue13.sh`.
 - **GPU stages wait** until the SPACE-HOP SymSol training (another project's job) has finished. CPU stages (manifests, composites, code checks) run now.
 - The locked recipe (DEC-018) is unchanged.
+
+## DEC-025 — Matched SOTA comparisons ("core matched set") (2026-10-28)
+- **Decided by:** the user: "then get paper ready results, which are comparable to sota", then chose "Core matched set" over "Core + full BOP" and "SPEED+ only".
+- **EXP-124:** SPEED+ with a synthetic-only detector and the official score, on the full lightbox / sunlamp test sets. Pre-registered.
+- **EXP-125 (to be pre-registered after EXP-124's code is in place):** T-LESS on LiePose's instance set and metric (BOP19 targets; every GT instance with visible area > 64 px; symmetry-aware R@2/5/10 with BOP-style fine discretisation of continuous symmetries). Translation recall T@2/5/10 (cm) needs translation blocks for the T-LESS trees.
+- **EXP-126 (planned):** translation blocks for the T-LESS and SYMSOL-T trees, so the LiePose SE(3) numbers (T-LESS T@, SYMSOL-T t) can be matched.
+- **Paper corrections found by the literature check (2026-10-28), to apply before submission:**
+  - SPNv2 numbers in `sec/4_experiments.tex` are swapped and mixed. Correct values, lightbox / sunlamp: offline φ=3 6.48 / 11.07°; with ODR φ=6 5.58 / 9.79°.
+  - SPACE-HOP's baseline tables swap lightbox and sunlamp relative to the sources, so its own per-domain numbers need confirming with the authors.
+  - Recent GT-crop DINOv3 keypoint + PnP results (Church & Nikolian, 1.17 / 1.56°) and PAID-ViT (12.29 / 11.76°) must be cited.
+  - LiePose evaluates T-LESS with GT visible masks applied to the crop; our crops use no mask.
+- **Order:** queue14 (EXP-106 T-LESS A2, EXP-119) is paused after the T-LESS A2 evaluation (`QUEUE_PAUSE`). The EXP-124 GPU stages run in `scripts/run_queue15.sh`, then queue14 resumes.
