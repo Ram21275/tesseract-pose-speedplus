@@ -12,7 +12,7 @@ REPO = Path(__file__).resolve().parents[1]
 ds = sys.argv[1]; best = {}
 for d in sorted((REPO / "outputs/experiments/EXP-106_tless_multipath_tree").glob("RUN-*")):
     cfg = yaml.safe_load((d / "config.yaml").read_text()); st = json.loads((d / "status.json").read_text())
-    if cfg.get("stage") == "eval" and cfg.get("dataset") == ds and st.get("state") == "done" and cfg.get("tag"):
+    if cfg.get("stage") == "eval" and cfg.get("dataset") == ds and st.get("state") == "completed" and cfg.get("tag"):
         best[cfg["tag"]] = (d, cfg)                                                   # newest wins (sorted by time)
 assert {"A0", "A1", "A2"} <= set(best), best.keys()
 score = {}

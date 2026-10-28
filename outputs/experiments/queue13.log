@@ -1,0 +1,1034 @@
+=== 11:08:29 GPU free of the SymSol job; queue13 starts
+=== 11:08:29 BLOCK EXP-122
+>>> 11:08:29 extract exp064_ycbvsyn_all dinov3_vitl16
+  1600/72000  24.4 ms/img
+  3200/72000  23.3 ms/img
+  4800/72000  22.8 ms/img
+  6400/72000  25.3 ms/img
+  8000/72000  25.0 ms/img
+  9600/72000  24.8 ms/img
+  11200/72000  24.7 ms/img
+  12800/72000  24.5 ms/img
+  14400/72000  24.5 ms/img
+  16000/72000  24.5 ms/img
+  17600/72000  24.6 ms/img
+  19200/72000  24.6 ms/img
+  20800/72000  24.5 ms/img
+  22400/72000  24.5 ms/img
+  24000/72000  24.4 ms/img
+  25600/72000  24.4 ms/img
+  27200/72000  24.3 ms/img
+  28800/72000  24.1 ms/img
+  30400/72000  24.0 ms/img
+  32000/72000  23.9 ms/img
+  33600/72000  23.7 ms/img
+  35200/72000  23.6 ms/img
+  36800/72000  23.5 ms/img
+  38400/72000  23.4 ms/img
+  40000/72000  23.3 ms/img
+  41600/72000  23.3 ms/img
+  43200/72000  23.2 ms/img
+  44800/72000  23.1 ms/img
+  46400/72000  23.1 ms/img
+  48000/72000  23.0 ms/img
+  49600/72000  23.0 ms/img
+  51200/72000  22.9 ms/img
+  52800/72000  23.0 ms/img
+  54400/72000  22.9 ms/img
+  56000/72000  23.0 ms/img
+  57600/72000  23.0 ms/img
+  59200/72000  23.1 ms/img
+  60800/72000  23.1 ms/img
+  62400/72000  23.1 ms/img
+  64000/72000  23.2 ms/img
+  65600/72000  23.2 ms/img
+  67200/72000  23.2 ms/img
+  68800/72000  23.3 ms/img
+  70400/72000  23.3 ms/img
+  72000/72000  23.3 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_ycbvsyn_all__39d7aaf4a5e7__f71387d34ba9c4f4
+>>> 11:36:39 extract exp064_ycbvsyn_all moge2_vitl
+  1600/72000  33.3 ms/img
+  3200/72000  34.3 ms/img
+  4800/72000  32.2 ms/img
+  6400/72000  31.1 ms/img
+  8000/72000  30.4 ms/img
+  9600/72000  30.0 ms/img
+  11200/72000  29.7 ms/img
+  12800/72000  29.4 ms/img
+  14400/72000  29.2 ms/img
+  16000/72000  29.0 ms/img
+  17600/72000  28.9 ms/img
+  19200/72000  28.9 ms/img
+  20800/72000  28.8 ms/img
+  22400/72000  28.8 ms/img
+  24000/72000  28.7 ms/img
+  25600/72000  28.6 ms/img
+  27200/72000  28.6 ms/img
+  28800/72000  28.5 ms/img
+  30400/72000  28.5 ms/img
+  32000/72000  28.5 ms/img
+  33600/72000  28.4 ms/img
+  35200/72000  28.4 ms/img
+  36800/72000  28.4 ms/img
+  38400/72000  28.4 ms/img
+  40000/72000  28.4 ms/img
+  41600/72000  28.3 ms/img
+  43200/72000  28.3 ms/img
+  44800/72000  28.3 ms/img
+  46400/72000  28.3 ms/img
+  48000/72000  28.3 ms/img
+  49600/72000  28.3 ms/img
+  51200/72000  28.3 ms/img
+  52800/72000  28.2 ms/img
+  54400/72000  28.2 ms/img
+  56000/72000  28.2 ms/img
+  57600/72000  28.2 ms/img
+  59200/72000  28.2 ms/img
+  60800/72000  28.2 ms/img
+  62400/72000  28.2 ms/img
+  64000/72000  28.1 ms/img
+  65600/72000  28.1 ms/img
+  67200/72000  28.1 ms/img
+  68800/72000  28.1 ms/img
+  70400/72000  28.1 ms/img
+  72000/72000  28.1 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_ycbvsyn_all__2a61ac645e76__f71387d34ba9c4f4
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_ycbvsyn_all
+>>> 12:10:31 extract exp064_ycbvsyn_aug1 dinov3_vitl16
+  1600/72000  21.8 ms/img
+  3200/72000  21.6 ms/img
+  4800/72000  21.5 ms/img
+  6400/72000  21.5 ms/img
+  8000/72000  21.5 ms/img
+  9600/72000  21.5 ms/img
+  11200/72000  21.5 ms/img
+  12800/72000  21.5 ms/img
+  14400/72000  21.5 ms/img
+  16000/72000  21.5 ms/img
+  17600/72000  21.5 ms/img
+  19200/72000  21.5 ms/img
+  20800/72000  21.5 ms/img
+  22400/72000  21.5 ms/img
+  24000/72000  21.5 ms/img
+  25600/72000  21.5 ms/img
+  27200/72000  21.5 ms/img
+  28800/72000  21.5 ms/img
+  30400/72000  21.5 ms/img
+  32000/72000  21.6 ms/img
+  33600/72000  21.6 ms/img
+  35200/72000  21.6 ms/img
+  36800/72000  21.6 ms/img
+  38400/72000  21.6 ms/img
+  40000/72000  21.6 ms/img
+  41600/72000  21.6 ms/img
+  43200/72000  21.6 ms/img
+  44800/72000  21.6 ms/img
+  46400/72000  21.6 ms/img
+  48000/72000  21.5 ms/img
+  49600/72000  21.5 ms/img
+  51200/72000  21.5 ms/img
+  52800/72000  21.5 ms/img
+  54400/72000  21.5 ms/img
+  56000/72000  21.5 ms/img
+  57600/72000  21.5 ms/img
+  59200/72000  21.5 ms/img
+  60800/72000  21.5 ms/img
+  62400/72000  21.5 ms/img
+  64000/72000  21.5 ms/img
+  65600/72000  21.5 ms/img
+  67200/72000  21.5 ms/img
+  68800/72000  21.5 ms/img
+  70400/72000  21.5 ms/img
+  72000/72000  21.5 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_ycbvsyn_aug1__582bfe3a24c5__07890ae150fa1e96
+>>> 12:36:22 extract exp064_ycbvsyn_aug1 moge2_vitl
+  1600/72000  27.8 ms/img
+  3200/72000  27.5 ms/img
+  4800/72000  27.5 ms/img
+  6400/72000  27.7 ms/img
+  8000/72000  30.2 ms/img
+  9600/72000  31.0 ms/img
+  11200/72000  34.9 ms/img
+  12800/72000  37.8 ms/img
+  14400/72000  39.2 ms/img
+  16000/72000  38.4 ms/img
+  17600/72000  41.2 ms/img
+  19200/72000  44.0 ms/img
+  20800/72000  46.3 ms/img
+  22400/72000  48.3 ms/img
+  24000/72000  50.4 ms/img
+  25600/72000  52.9 ms/img
+  27200/72000  55.6 ms/img
+  28800/72000  58.1 ms/img
+  30400/72000  59.3 ms/img
+  32000/72000  59.9 ms/img
+  33600/72000  59.7 ms/img
+  35200/72000  59.6 ms/img
+  36800/72000  59.6 ms/img
+  38400/72000  59.5 ms/img
+  40000/72000  59.4 ms/img
+  41600/72000  59.3 ms/img
+  43200/72000  59.2 ms/img
+  44800/72000  59.2 ms/img
+  46400/72000  59.1 ms/img
+  48000/72000  59.0 ms/img
+  49600/72000  59.0 ms/img
+  51200/72000  58.9 ms/img
+  52800/72000  58.9 ms/img
+  54400/72000  58.9 ms/img
+  56000/72000  58.8 ms/img
+  57600/72000  58.8 ms/img
+  59200/72000  58.7 ms/img
+  60800/72000  58.7 ms/img
+  62400/72000  58.7 ms/img
+  64000/72000  58.6 ms/img
+  65600/72000  58.6 ms/img
+  67200/72000  58.6 ms/img
+  68800/72000  58.5 ms/img
+  70400/72000  58.5 ms/img
+  72000/72000  58.5 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_ycbvsyn_aug1__19558b5fcc62__07890ae150fa1e96
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_ycbvsyn_aug1
+>>> 13:46:42 extract exp064_ycbvsyn_aug2 dinov3_vitl16
+  1600/72000  25.6 ms/img
+  3200/72000  25.4 ms/img
+  4800/72000  25.4 ms/img
+  6400/72000  25.3 ms/img
+  8000/72000  25.3 ms/img
+  9600/72000  25.3 ms/img
+  11200/72000  25.3 ms/img
+  12800/72000  25.3 ms/img
+  14400/72000  25.3 ms/img
+  16000/72000  25.3 ms/img
+  17600/72000  25.3 ms/img
+  19200/72000  25.3 ms/img
+  20800/72000  25.3 ms/img
+  22400/72000  25.2 ms/img
+  24000/72000  24.9 ms/img
+  25600/72000  24.7 ms/img
+  27200/72000  24.5 ms/img
+  28800/72000  24.3 ms/img
+  30400/72000  24.2 ms/img
+  32000/72000  24.1 ms/img
+  33600/72000  23.9 ms/img
+  35200/72000  23.8 ms/img
+  36800/72000  23.7 ms/img
+  38400/72000  23.6 ms/img
+  40000/72000  23.5 ms/img
+  41600/72000  23.5 ms/img
+  43200/72000  23.6 ms/img
+  44800/72000  23.6 ms/img
+  46400/72000  23.5 ms/img
+  48000/72000  23.5 ms/img
+  49600/72000  23.5 ms/img
+  51200/72000  23.5 ms/img
+  52800/72000  23.5 ms/img
+  54400/72000  23.5 ms/img
+  56000/72000  23.5 ms/img
+  57600/72000  23.5 ms/img
+  59200/72000  23.5 ms/img
+  60800/72000  23.5 ms/img
+  62400/72000  23.5 ms/img
+  64000/72000  23.5 ms/img
+  65600/72000  23.5 ms/img
+  67200/72000  23.5 ms/img
+  68800/72000  23.5 ms/img
+  70400/72000  23.5 ms/img
+  72000/72000  23.5 ms/img
+done /media/kavinder/hdd2/RAM/compact/dinov3_vitl16__subset_exp064_ycbvsyn_aug2__fd24a26f9dc0__4eb00092321af0a3
+>>> 14:14:58 extract exp064_ycbvsyn_aug2 moge2_vitl
+  1600/72000  53.5 ms/img
+  3200/72000  43.6 ms/img
+  4800/72000  38.2 ms/img
+  6400/72000  35.6 ms/img
+  8000/72000  34.4 ms/img
+  9600/72000  33.5 ms/img
+  11200/72000  34.0 ms/img
+  12800/72000  35.7 ms/img
+  14400/72000  37.0 ms/img
+  16000/72000  38.1 ms/img
+  17600/72000  39.0 ms/img
+  19200/72000  39.7 ms/img
+  20800/72000  40.3 ms/img
+  22400/72000  40.9 ms/img
+  24000/72000  41.3 ms/img
+  25600/72000  41.5 ms/img
+  27200/72000  40.7 ms/img
+  28800/72000  40.0 ms/img
+  30400/72000  39.3 ms/img
+  32000/72000  38.7 ms/img
+  33600/72000  38.2 ms/img
+  35200/72000  37.7 ms/img
+  36800/72000  37.3 ms/img
+  38400/72000  36.9 ms/img
+  40000/72000  36.5 ms/img
+  41600/72000  36.2 ms/img
+  43200/72000  35.9 ms/img
+  44800/72000  35.6 ms/img
+  46400/72000  35.3 ms/img
+  48000/72000  35.1 ms/img
+  49600/72000  34.8 ms/img
+  51200/72000  34.6 ms/img
+  52800/72000  34.4 ms/img
+  54400/72000  34.2 ms/img
+  56000/72000  34.0 ms/img
+  57600/72000  33.9 ms/img
+  59200/72000  33.7 ms/img
+  60800/72000  33.5 ms/img
+  62400/72000  33.4 ms/img
+  64000/72000  33.2 ms/img
+  65600/72000  33.1 ms/img
+  67200/72000  33.0 ms/img
+  68800/72000  32.9 ms/img
+  70400/72000  32.7 ms/img
+  72000/72000  32.6 ms/img
+done /media/kavinder/hdd2/RAM/compact/moge2_vitl__subset_exp064_ycbvsyn_aug2__35bc6b114a73__4eb00092321af0a3
+done /media/kavinder/hdd2/RAM/compact/consensus_masks__subset_exp064_ycbvsyn_aug2
+>>> 14:54:15 EXP-122 train ycbv 003_cracker_box dinov3_vitl16:tokens8 seed=0
+ycbv 003_cracker_box dinov3_vitl16:tokens8 seed 0 val_sym_mean 6.49
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-145416-seed0
+>>> 15:00:10 EXP-122 train ycbv 003_cracker_box moge2_vitl:normals16~and seed=0
+ycbv 003_cracker_box moge2_vitl:normals16~and seed 0 val_sym_mean 42.06
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-150011-seed0
+>>> 15:04:04 EXP-122 train ycbv 006_mustard_bottle dinov3_vitl16:tokens8 seed=0
+ycbv 006_mustard_bottle dinov3_vitl16:tokens8 seed 0 val_sym_mean 6.59
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-150405-seed0
+>>> 15:10:10 EXP-122 train ycbv 006_mustard_bottle moge2_vitl:normals16~and seed=0
+ycbv 006_mustard_bottle moge2_vitl:normals16~and seed 0 val_sym_mean 72.36
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-151011-seed0
+>>> 15:14:10 EXP-122 train ycbv 011_banana dinov3_vitl16:tokens8 seed=0
+ycbv 011_banana dinov3_vitl16:tokens8 seed 0 val_sym_mean 24.40
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-151411-seed0
+>>> 15:20:24 EXP-122 train ycbv 011_banana moge2_vitl:normals16~and seed=0
+ycbv 011_banana moge2_vitl:normals16~and seed 0 val_sym_mean 75.34
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-152025-seed0
+>>> 15:24:45 EXP-122 train ycbv 025_mug dinov3_vitl16:tokens8 seed=0
+ycbv 025_mug dinov3_vitl16:tokens8 seed 0 val_sym_mean 12.90
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-152446-seed0
+>>> 15:30:06 EXP-122 train ycbv 025_mug moge2_vitl:normals16~and seed=0
+ycbv 025_mug moge2_vitl:normals16~and seed 0 val_sym_mean 15.30
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-153007-seed0
+>>> 15:33:49 EXP-122 train ycbv 035_power_drill dinov3_vitl16:tokens8 seed=0
+ycbv 035_power_drill dinov3_vitl16:tokens8 seed 0 val_sym_mean 4.92
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-153350-seed0
+>>> 15:39:06 EXP-122 train ycbv 035_power_drill moge2_vitl:normals16~and seed=0
+ycbv 035_power_drill moge2_vitl:normals16~and seed 0 val_sym_mean 11.04
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-153907-seed0
+>>> 15:42:42 EXP-122 train ycbv 037_scissors dinov3_vitl16:tokens8 seed=0
+ycbv 037_scissors dinov3_vitl16:tokens8 seed 0 val_sym_mean 5.12
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-154243-seed0
+>>> 15:48:28 EXP-122 train ycbv 037_scissors moge2_vitl:normals16~and seed=0
+ycbv 037_scissors moge2_vitl:normals16~and seed 0 val_sym_mean 8.00
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-154830-seed0
+>>> 16:00:51 EXP-122 train ycbv 003_cracker_box dinov3_vitl16:tokens8 seed=1
+ycbv 003_cracker_box dinov3_vitl16:tokens8 seed 1 val_sym_mean 7.01
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-160052-seed1
+>>> 16:11:55 EXP-122 train ycbv 003_cracker_box moge2_vitl:normals16~and seed=1
+ycbv 003_cracker_box moge2_vitl:normals16~and seed 1 val_sym_mean 63.99
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-161156-seed1
+>>> 16:28:34 EXP-122 train ycbv 006_mustard_bottle dinov3_vitl16:tokens8 seed=1
+ycbv 006_mustard_bottle dinov3_vitl16:tokens8 seed 1 val_sym_mean 7.75
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-162835-seed1
+>>> 16:46:37 EXP-122 train ycbv 006_mustard_bottle moge2_vitl:normals16~and seed=1
+ycbv 006_mustard_bottle moge2_vitl:normals16~and seed 1 val_sym_mean 90.23
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-164638-seed1
+>>> 17:03:38 EXP-122 train ycbv 011_banana dinov3_vitl16:tokens8 seed=1
+ycbv 011_banana dinov3_vitl16:tokens8 seed 1 val_sym_mean 16.53
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-170339-seed1
+>>> 17:17:51 EXP-122 train ycbv 011_banana moge2_vitl:normals16~and seed=1
+ycbv 011_banana moge2_vitl:normals16~and seed 1 val_sym_mean 80.45
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-171753-seed1
+>>> 17:29:13 EXP-122 train ycbv 025_mug dinov3_vitl16:tokens8 seed=1
+ycbv 025_mug dinov3_vitl16:tokens8 seed 1 val_sym_mean 11.67
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-172914-seed1
+>>> 17:37:59 EXP-122 train ycbv 025_mug moge2_vitl:normals16~and seed=1
+ycbv 025_mug moge2_vitl:normals16~and seed 1 val_sym_mean 15.05
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-173800-seed1
+>>> 17:42:28 EXP-122 train ycbv 035_power_drill dinov3_vitl16:tokens8 seed=1
+ycbv 035_power_drill dinov3_vitl16:tokens8 seed 1 val_sym_mean 5.09
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-174229-seed1
+>>> 17:50:02 EXP-122 train ycbv 035_power_drill moge2_vitl:normals16~and seed=1
+ycbv 035_power_drill moge2_vitl:normals16~and seed 1 val_sym_mean 12.63
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-175003-seed1
+>>> 17:54:22 EXP-122 train ycbv 037_scissors dinov3_vitl16:tokens8 seed=1
+ycbv 037_scissors dinov3_vitl16:tokens8 seed 1 val_sym_mean 5.07
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-175423-seed1
+>>> 18:01:38 EXP-122 train ycbv 037_scissors moge2_vitl:normals16~and seed=1
+ycbv 037_scissors moge2_vitl:normals16~and seed 1 val_sym_mean 10.29
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-180139-seed1
+>>> 18:06:27 EXP-122 train ycbv 003_cracker_box dinov3_vitl16:tokens8 seed=2
+ycbv 003_cracker_box dinov3_vitl16:tokens8 seed 2 val_sym_mean 7.59
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-180628-seed2
+>>> 18:13:41 EXP-122 train ycbv 003_cracker_box moge2_vitl:normals16~and seed=2
+ycbv 003_cracker_box moge2_vitl:normals16~and seed 2 val_sym_mean 70.87
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-181342-seed2
+>>> 18:29:38 EXP-122 train ycbv 006_mustard_bottle dinov3_vitl16:tokens8 seed=2
+[guarded] 18:29:38 waiting: RAM avail 101 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 18:31:38 waiting: RAM avail 100 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 18:33:39 waiting: RAM avail 100 GB (need 52), GPU free 5 GB (need 8)
+[guarded] 18:35:39 waiting: RAM avail 100 GB (need 52), GPU free 5 GB (need 8)
+ycbv 006_mustard_bottle dinov3_vitl16:tokens8 seed 2 val_sym_mean 6.57
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-183740-seed2
+>>> 18:48:50 EXP-122 train ycbv 006_mustard_bottle moge2_vitl:normals16~and seed=2
+ycbv 006_mustard_bottle moge2_vitl:normals16~and seed 2 val_sym_mean 95.08
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-184851-seed2
+>>> 19:00:20 EXP-122 train ycbv 011_banana dinov3_vitl16:tokens8 seed=2
+ycbv 011_banana dinov3_vitl16:tokens8 seed 2 val_sym_mean 11.75
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-190021-seed2
+>>> 19:12:56 EXP-122 train ycbv 011_banana moge2_vitl:normals16~and seed=2
+ycbv 011_banana moge2_vitl:normals16~and seed 2 val_sym_mean 84.56
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-191257-seed2
+>>> 19:23:45 EXP-122 train ycbv 025_mug dinov3_vitl16:tokens8 seed=2
+ycbv 025_mug dinov3_vitl16:tokens8 seed 2 val_sym_mean 11.51
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-192346-seed2
+>>> 19:33:15 EXP-122 train ycbv 025_mug moge2_vitl:normals16~and seed=2
+ycbv 025_mug moge2_vitl:normals16~and seed 2 val_sym_mean 16.43
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-193316-seed2
+>>> 19:42:50 EXP-122 train ycbv 035_power_drill dinov3_vitl16:tokens8 seed=2
+ycbv 035_power_drill dinov3_vitl16:tokens8 seed 2 val_sym_mean 5.10
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-194251-seed2
+>>> 19:52:49 EXP-122 train ycbv 035_power_drill moge2_vitl:normals16~and seed=2
+ycbv 035_power_drill moge2_vitl:normals16~and seed 2 val_sym_mean 11.21
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-195251-seed2
+>>> 19:57:19 EXP-122 train ycbv 037_scissors dinov3_vitl16:tokens8 seed=2
+ycbv 037_scissors dinov3_vitl16:tokens8 seed 2 val_sym_mean 5.39
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-195721-seed2
+>>> 20:04:05 EXP-122 train ycbv 037_scissors moge2_vitl:normals16~and seed=2
+ycbv 037_scissors moge2_vitl:normals16~and seed 2 val_sym_mean 6.61
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-200406-seed2
+ycbv 003_cracker_box 0 PoE greedy 6.18 | orbit_product 6.33 | orbit_vote32 5.58
+ycbv 003_cracker_box 0 DINO greedy 5.49 | orbit_product 6.28 | orbit_vote32 5.17
+ycbv 003_cracker_box 1 PoE greedy 6.38 | orbit_product 6.43 | orbit_vote32 6.06
+ycbv 003_cracker_box 1 DINO greedy 5.42 | orbit_product 6.08 | orbit_vote32 5.42
+ycbv 003_cracker_box 2 PoE greedy 5.81 | orbit_product 6.46 | orbit_vote32 5.63
+ycbv 003_cracker_box 2 DINO greedy 5.83 | orbit_product 6.37 | orbit_vote32 5.54
+ycbv 006_mustard_bottle 0 PoE greedy 6.15 | orbit_product 12.45 | orbit_vote32 11.10
+ycbv 006_mustard_bottle 0 DINO greedy 5.69 | orbit_product 12.77 | orbit_vote32 10.93
+ycbv 006_mustard_bottle 1 PoE greedy 5.76 | orbit_product 9.00 | orbit_vote32 8.97
+ycbv 006_mustard_bottle 1 DINO greedy 6.77 | orbit_product 9.09 | orbit_vote32 7.72
+ycbv 006_mustard_bottle 2 PoE greedy 9.97 | orbit_product 10.33 | orbit_vote32 7.83
+ycbv 006_mustard_bottle 2 DINO greedy 6.89 | orbit_product 10.34 | orbit_vote32 8.98
+ycbv 011_banana 0 PoE greedy 22.97 | orbit_product 28.78 | orbit_vote32 26.77
+ycbv 011_banana 0 DINO greedy 18.41 | orbit_product 27.75 | orbit_vote32 25.51
+ycbv 011_banana 1 PoE greedy 18.60 | orbit_product 22.56 | orbit_vote32 26.46
+ycbv 011_banana 1 DINO greedy 12.74 | orbit_product 14.94 | orbit_vote32 17.97
+ycbv 011_banana 2 PoE greedy 15.99 | orbit_product 19.38 | orbit_vote32 17.84
+ycbv 011_banana 2 DINO greedy 9.42 | orbit_product 14.49 | orbit_vote32 15.68
+ycbv 025_mug 0 PoE greedy 8.59 | orbit_product 9.84 | orbit_vote32 9.23
+ycbv 025_mug 0 DINO greedy 9.15 | orbit_product 9.62 | orbit_vote32 9.39
+ycbv 025_mug 1 PoE greedy 8.16 | orbit_product 9.71 | orbit_vote32 9.23
+ycbv 025_mug 1 DINO greedy 9.15 | orbit_product 10.70 | orbit_vote32 10.21
+ycbv 025_mug 2 PoE greedy 8.91 | orbit_product 9.50 | orbit_vote32 9.26
+ycbv 025_mug 2 DINO greedy 8.57 | orbit_product 9.18 | orbit_vote32 8.79
+ycbv 035_power_drill 0 PoE greedy 4.78 | orbit_product 5.26 | orbit_vote32 4.70
+ycbv 035_power_drill 0 DINO greedy 4.33 | orbit_product 5.30 | orbit_vote32 4.51
+ycbv 035_power_drill 1 PoE greedy 4.47 | orbit_product 5.13 | orbit_vote32 4.35
+ycbv 035_power_drill 1 DINO greedy 4.87 | orbit_product 5.67 | orbit_vote32 5.00
+ycbv 035_power_drill 2 PoE greedy 4.36 | orbit_product 4.67 | orbit_vote32 3.95
+ycbv 035_power_drill 2 DINO greedy 4.37 | orbit_product 4.81 | orbit_vote32 4.04
+ycbv 037_scissors 0 PoE greedy 6.62 | orbit_product 9.86 | orbit_vote32 9.12
+ycbv 037_scissors 0 DINO greedy 8.75 | orbit_product 11.84 | orbit_vote32 12.22
+ycbv 037_scissors 1 PoE greedy 17.11 | orbit_product 21.68 | orbit_vote32 21.06
+ycbv 037_scissors 1 DINO greedy 23.94 | orbit_product 21.02 | orbit_vote32 16.39
+ycbv 037_scissors 2 PoE greedy 10.87 | orbit_product 8.89 | orbit_vote32 9.19
+ycbv 037_scissors 2 DINO greedy 10.28 | orbit_product 9.74 | orbit_vote32 7.67
+| split | variant | mode | sym_mean | sym_mean_std | sym_median | acc10 | frac_gt90 | raw_mean |
+|---|---|---|---|---|---|---|---|---|
+| test | DINO | greedy | 12.917 | 6.905 | 13.826 | 0.851 | 0.044 | 12.917 |
+| test | DINO | orbit_product | 13.427 | 4.731 | 5.586 | 0.834 | 0.043 | 13.427 |
+| test | DINO | orbit_vote32 | 12.106 | 3.712 | 4.807 | 0.878 | 0.039 | 12.106 |
+| test | PoE | greedy | 10.904 | 4.118 | 4.560 | 0.871 | 0.032 | 10.904 |
+| test | PoE | orbit_product | 12.160 | 5.530 | 5.396 | 0.840 | 0.037 | 12.160 |
+| test | PoE | orbit_vote32 | 12.045 | 5.184 | 4.465 | 0.875 | 0.040 | 12.045 |
+| validation | DINO | greedy | 8.969 | 1.054 | 6.957 | 0.778 | 0.006 | 8.969 |
+| validation | DINO | orbit_product | 11.534 | 1.792 | 8.574 | 0.680 | 0.014 | 11.534 |
+| validation | DINO | orbit_vote32 | 10.679 | 1.174 | 6.604 | 0.778 | 0.016 | 10.679 |
+| validation | PoE | greedy | 10.521 | 0.921 | 6.387 | 0.790 | 0.021 | 10.521 |
+| validation | PoE | orbit_product | 12.743 | 1.030 | 8.401 | 0.705 | 0.026 | 12.743 |
+| validation | PoE | orbit_vote32 | 12.020 | 1.389 | 6.551 | 0.766 | 0.028 | 12.020 |
+RUN outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-200852-seed0
+=== 20:15:57 BLOCK_DONE EXP-122
+=== 20:15:57 BLOCK EXP-106-tless
+tless 1 0 PoE greedy 12.01 | orbit_product 11.28 | orbit_vote32 11.86
+tless 1 0 DINO greedy 12.61 | orbit_product 11.79 | orbit_vote32 12.72
+tless 1 1 PoE greedy 12.27 | orbit_product 11.39 | orbit_vote32 11.86
+tless 1 1 DINO greedy 12.69 | orbit_product 12.25 | orbit_vote32 12.70
+tless 1 2 PoE greedy 12.01 | orbit_product 11.10 | orbit_vote32 11.90
+tless 1 2 DINO greedy 12.61 | orbit_product 11.93 | orbit_vote32 12.48
+tless 11 0 PoE greedy 12.34 | orbit_product 9.73 | orbit_vote32 9.59
+tless 11 0 DINO greedy 12.74 | orbit_product 10.39 | orbit_vote32 10.36
+tless 11 1 PoE greedy 12.49 | orbit_product 9.74 | orbit_vote32 9.90
+tless 11 1 DINO greedy 13.17 | orbit_product 10.88 | orbit_vote32 10.41
+tless 11 2 PoE greedy 12.53 | orbit_product 9.74 | orbit_vote32 9.65
+tless 11 2 DINO greedy 12.69 | orbit_product 10.57 | orbit_vote32 9.94
+tless 18 0 PoE greedy 21.97 | orbit_product 16.53 | orbit_vote32 17.25
+tless 18 0 DINO greedy 21.37 | orbit_product 16.39 | orbit_vote32 17.33
+tless 18 1 PoE greedy 21.90 | orbit_product 16.30 | orbit_vote32 17.28
+tless 18 1 DINO greedy 21.70 | orbit_product 17.10 | orbit_vote32 17.15
+tless 18 2 PoE greedy 22.48 | orbit_product 17.07 | orbit_vote32 17.61
+tless 18 2 DINO greedy 22.37 | orbit_product 17.13 | orbit_vote32 17.64
+tless 21 0 PoE greedy 19.91 | orbit_product 16.01 | orbit_vote32 15.85
+tless 21 0 DINO greedy 19.58 | orbit_product 16.71 | orbit_vote32 15.97
+tless 21 1 PoE greedy 20.66 | orbit_product 15.43 | orbit_vote32 16.22
+tless 21 1 DINO greedy 19.76 | orbit_product 15.54 | orbit_vote32 15.58
+tless 21 2 PoE greedy 18.73 | orbit_product 14.56 | orbit_vote32 14.89
+tless 21 2 DINO greedy 18.76 | orbit_product 15.17 | orbit_vote32 15.12
+tless 27 0 PoE greedy 10.50 | orbit_product 7.46 | orbit_vote32 7.97
+tless 27 0 DINO greedy 12.45 | orbit_product 9.18 | orbit_vote32 10.02
+tless 27 1 PoE greedy 10.31 | orbit_product 7.42 | orbit_vote32 7.77
+tless 27 1 DINO greedy 12.18 | orbit_product 9.10 | orbit_vote32 9.77
+tless 27 2 PoE greedy 10.24 | orbit_product 7.36 | orbit_vote32 7.91
+tless 27 2 DINO greedy 11.75 | orbit_product 8.84 | orbit_vote32 9.45
+tless 4 0 PoE greedy 9.02 | orbit_product 7.74 | orbit_vote32 7.96
+tless 4 0 DINO greedy 9.86 | orbit_product 8.45 | orbit_vote32 8.58
+tless 4 1 PoE greedy 8.87 | orbit_product 7.55 | orbit_vote32 7.96
+tless 4 1 DINO greedy 9.43 | orbit_product 8.20 | orbit_vote32 8.38
+tless 4 2 PoE greedy 8.96 | orbit_product 7.73 | orbit_vote32 7.98
+tless 4 2 DINO greedy 9.77 | orbit_product 8.64 | orbit_vote32 8.65
+tless 5 0 PoE greedy 9.56 | orbit_product 7.02 | orbit_vote32 6.94
+tless 5 0 DINO greedy 9.77 | orbit_product 7.56 | orbit_vote32 7.34
+tless 5 1 PoE greedy 9.49 | orbit_product 6.83 | orbit_vote32 6.91
+tless 5 1 DINO greedy 9.67 | orbit_product 7.53 | orbit_vote32 7.08
+tless 5 2 PoE greedy 9.48 | orbit_product 7.08 | orbit_vote32 7.09
+tless 5 2 DINO greedy 9.89 | orbit_product 7.98 | orbit_vote32 7.63
+| split | variant | mode | sym_mean | sym_mean_std | sym_median | acc10 | frac_gt90 | raw_mean |
+|---|---|---|---|---|---|---|---|---|
+| test | DINO | greedy | 18.593 | 0.177 | 8.430 | 0.620 | 0.052 | 47.115 |
+| test | DINO | orbit_product | 17.875 | 0.353 | 7.425 | 0.674 | 0.053 | 43.974 |
+| test | DINO | orbit_vote32 | 17.902 | 0.470 | 7.103 | 0.687 | 0.054 | 44.594 |
+| test | PoE | greedy | 17.923 | 0.163 | 7.383 | 0.681 | 0.055 | 47.243 |
+| test | PoE | orbit_product | 16.567 | 0.247 | 6.334 | 0.735 | 0.051 | 43.645 |
+| test | PoE | orbit_vote32 | 16.645 | 0.343 | 6.078 | 0.736 | 0.053 | 44.384 |
+| validation | DINO | greedy | 12.671 | 0.057 | 8.066 | 0.660 | 0.016 | 43.008 |
+| validation | DINO | orbit_product | 9.938 | 0.059 | 6.449 | 0.766 | 0.011 | 37.914 |
+| validation | DINO | orbit_vote32 | 10.104 | 0.118 | 6.154 | 0.769 | 0.012 | 38.697 |
+| validation | PoE | greedy | 12.305 | 0.132 | 7.367 | 0.702 | 0.018 | 43.219 |
+| validation | PoE | orbit_product | 9.253 | 0.066 | 5.801 | 0.808 | 0.011 | 37.839 |
+| validation | PoE | orbit_vote32 | 9.649 | 0.107 | 5.609 | 0.805 | 0.013 | 38.599 |
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-201558-seed0
+>>> 20:36:37 EXP-106 A1 train tless 1 dinov3_vitl16:tokens8 seed=0
+tless 1 dinov3_vitl16:tokens8 seed 0 val_sym_mean 5.58
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-203638-seed0
+>>> 20:42:53 EXP-106 A1 train tless 1 moge2_vitl:normals16~and seed=0
+tless 1 moge2_vitl:normals16~and seed 0 val_sym_mean 19.01
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-204254-seed0
+>>> 20:46:26 EXP-106 A1 train tless 4 dinov3_vitl16:tokens8 seed=0
+tless 4 dinov3_vitl16:tokens8 seed 0 val_sym_mean 5.92
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-204627-seed0
+>>> 20:52:30 EXP-106 A1 train tless 4 moge2_vitl:normals16~and seed=0
+tless 4 moge2_vitl:normals16~and seed 0 val_sym_mean 22.40
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-205231-seed0
+>>> 20:56:07 EXP-106 A1 train tless 5 dinov3_vitl16:tokens8 seed=0
+tless 5 dinov3_vitl16:tokens8 seed 0 val_sym_mean 8.50
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-205608-seed0
+>>> 21:01:59 EXP-106 A1 train tless 5 moge2_vitl:normals16~and seed=0
+tless 5 moge2_vitl:normals16~and seed 0 val_sym_mean 30.25
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-210200-seed0
+>>> 21:05:35 EXP-106 A1 train tless 11 dinov3_vitl16:tokens8 seed=0
+tless 11 dinov3_vitl16:tokens8 seed 0 val_sym_mean 11.69
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-210536-seed0
+>>> 21:11:09 EXP-106 A1 train tless 11 moge2_vitl:normals16~and seed=0
+tless 11 moge2_vitl:normals16~and seed 0 val_sym_mean 38.56
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-211110-seed0
+>>> 21:14:44 EXP-106 A1 train tless 18 dinov3_vitl16:tokens8 seed=0
+tless 18 dinov3_vitl16:tokens8 seed 0 val_sym_mean 21.78
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-211445-seed0
+>>> 21:19:54 EXP-106 A1 train tless 18 moge2_vitl:normals16~and seed=0
+tless 18 moge2_vitl:normals16~and seed 0 val_sym_mean 62.16
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-211955-seed0
+>>> 21:23:31 EXP-106 A1 train tless 21 dinov3_vitl16:tokens8 seed=0
+tless 21 dinov3_vitl16:tokens8 seed 0 val_sym_mean 17.71
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-212332-seed0
+>>> 21:28:27 EXP-106 A1 train tless 21 moge2_vitl:normals16~and seed=0
+tless 21 moge2_vitl:normals16~and seed 0 val_sym_mean 60.81
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-212828-seed0
+>>> 21:32:00 EXP-106 A1 train tless 27 dinov3_vitl16:tokens8 seed=0
+tless 27 dinov3_vitl16:tokens8 seed 0 val_sym_mean 8.39
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-213201-seed0
+>>> 21:37:03 EXP-106 A1 train tless 27 moge2_vitl:normals16~and seed=0
+tless 27 moge2_vitl:normals16~and seed 0 val_sym_mean 52.36
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-213704-seed0
+>>> 21:40:32 EXP-106 A1 train tless 1 dinov3_vitl16:tokens8 seed=1
+tless 1 dinov3_vitl16:tokens8 seed 1 val_sym_mean 5.53
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-214033-seed1
+>>> 21:45:08 EXP-106 A1 train tless 1 moge2_vitl:normals16~and seed=1
+tless 1 moge2_vitl:normals16~and seed 1 val_sym_mean 18.34
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-214509-seed1
+>>> 21:48:31 EXP-106 A1 train tless 4 dinov3_vitl16:tokens8 seed=1
+tless 4 dinov3_vitl16:tokens8 seed 1 val_sym_mean 5.58
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-214832-seed1
+>>> 21:52:21 EXP-106 A1 train tless 4 moge2_vitl:normals16~and seed=1
+tless 4 moge2_vitl:normals16~and seed 1 val_sym_mean 21.81
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-215222-seed1
+>>> 21:55:41 EXP-106 A1 train tless 5 dinov3_vitl16:tokens8 seed=1
+tless 5 dinov3_vitl16:tokens8 seed 1 val_sym_mean 8.73
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-215542-seed1
+>>> 22:00:02 EXP-106 A1 train tless 5 moge2_vitl:normals16~and seed=1
+tless 5 moge2_vitl:normals16~and seed 1 val_sym_mean 29.81
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-220003-seed1
+>>> 22:03:22 EXP-106 A1 train tless 11 dinov3_vitl16:tokens8 seed=1
+tless 11 dinov3_vitl16:tokens8 seed 1 val_sym_mean 11.27
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-220323-seed1
+>>> 22:08:22 EXP-106 A1 train tless 11 moge2_vitl:normals16~and seed=1
+tless 11 moge2_vitl:normals16~and seed 1 val_sym_mean 37.17
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-220823-seed1
+>>> 22:11:45 EXP-106 A1 train tless 18 dinov3_vitl16:tokens8 seed=1
+tless 18 dinov3_vitl16:tokens8 seed 1 val_sym_mean 22.13
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-221146-seed1
+>>> 22:15:56 EXP-106 A1 train tless 18 moge2_vitl:normals16~and seed=1
+tless 18 moge2_vitl:normals16~and seed 1 val_sym_mean 62.81
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-221557-seed1
+>>> 22:18:38 EXP-106 A1 train tless 21 dinov3_vitl16:tokens8 seed=1
+tless 21 dinov3_vitl16:tokens8 seed 1 val_sym_mean 17.79
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-221839-seed1
+>>> 22:23:09 EXP-106 A1 train tless 21 moge2_vitl:normals16~and seed=1
+tless 21 moge2_vitl:normals16~and seed 1 val_sym_mean 58.38
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-222310-seed1
+>>> 22:26:28 EXP-106 A1 train tless 27 dinov3_vitl16:tokens8 seed=1
+tless 27 dinov3_vitl16:tokens8 seed 1 val_sym_mean 8.70
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-222629-seed1
+>>> 22:31:09 EXP-106 A1 train tless 27 moge2_vitl:normals16~and seed=1
+tless 27 moge2_vitl:normals16~and seed 1 val_sym_mean 53.02
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-223110-seed1
+>>> 22:34:30 EXP-106 A1 train tless 1 dinov3_vitl16:tokens8 seed=2
+tless 1 dinov3_vitl16:tokens8 seed 2 val_sym_mean 5.53
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-223431-seed2
+>>> 22:38:50 EXP-106 A1 train tless 1 moge2_vitl:normals16~and seed=2
+tless 1 moge2_vitl:normals16~and seed 2 val_sym_mean 18.82
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-223851-seed2
+>>> 22:42:04 EXP-106 A1 train tless 4 dinov3_vitl16:tokens8 seed=2
+tless 4 dinov3_vitl16:tokens8 seed 2 val_sym_mean 5.90
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-224205-seed2
+>>> 22:45:48 EXP-106 A1 train tless 4 moge2_vitl:normals16~and seed=2
+tless 4 moge2_vitl:normals16~and seed 2 val_sym_mean 21.22
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-224549-seed2
+>>> 22:48:44 EXP-106 A1 train tless 5 dinov3_vitl16:tokens8 seed=2
+tless 5 dinov3_vitl16:tokens8 seed 2 val_sym_mean 8.54
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-224846-seed2
+>>> 22:53:34 EXP-106 A1 train tless 5 moge2_vitl:normals16~and seed=2
+tless 5 moge2_vitl:normals16~and seed 2 val_sym_mean 29.82
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-225335-seed2
+>>> 22:56:22 EXP-106 A1 train tless 11 dinov3_vitl16:tokens8 seed=2
+tless 11 dinov3_vitl16:tokens8 seed 2 val_sym_mean 11.15
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-225623-seed2
+>>> 23:00:27 EXP-106 A1 train tless 11 moge2_vitl:normals16~and seed=2
+tless 11 moge2_vitl:normals16~and seed 2 val_sym_mean 39.05
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-230028-seed2
+>>> 23:03:15 EXP-106 A1 train tless 18 dinov3_vitl16:tokens8 seed=2
+tless 18 dinov3_vitl16:tokens8 seed 2 val_sym_mean 22.95
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-230316-seed2
+>>> 23:06:52 EXP-106 A1 train tless 18 moge2_vitl:normals16~and seed=2
+tless 18 moge2_vitl:normals16~and seed 2 val_sym_mean 63.15
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-230653-seed2
+>>> 23:09:30 EXP-106 A1 train tless 21 dinov3_vitl16:tokens8 seed=2
+tless 21 dinov3_vitl16:tokens8 seed 2 val_sym_mean 17.21
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-230931-seed2
+>>> 23:14:10 EXP-106 A1 train tless 21 moge2_vitl:normals16~and seed=2
+tless 21 moge2_vitl:normals16~and seed 2 val_sym_mean 60.12
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-231411-seed2
+>>> 23:16:58 EXP-106 A1 train tless 27 dinov3_vitl16:tokens8 seed=2
+tless 27 dinov3_vitl16:tokens8 seed 2 val_sym_mean 8.59
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-231659-seed2
+>>> 23:20:53 EXP-106 A1 train tless 27 moge2_vitl:normals16~and seed=2
+tless 27 moge2_vitl:normals16~and seed 2 val_sym_mean 52.54
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-232054-seed2
+tless 1 0 PoE greedy 11.57 | orbit_product 13.09 | orbit_vote32 11.14
+tless 1 0 DINO greedy 10.87 | orbit_product 13.33 | orbit_vote32 11.26
+tless 1 1 PoE greedy 11.35 | orbit_product 13.08 | orbit_vote32 11.17
+tless 1 1 DINO greedy 11.08 | orbit_product 13.49 | orbit_vote32 11.20
+tless 1 2 PoE greedy 11.61 | orbit_product 13.17 | orbit_vote32 11.46
+tless 1 2 DINO greedy 11.27 | orbit_product 13.46 | orbit_vote32 11.31
+tless 11 0 PoE greedy 11.50 | orbit_product 11.01 | orbit_vote32 9.10
+tless 11 0 DINO greedy 11.73 | orbit_product 11.93 | orbit_vote32 9.47
+tless 11 1 PoE greedy 11.06 | orbit_product 11.26 | orbit_vote32 9.28
+tless 11 1 DINO greedy 11.39 | orbit_product 11.85 | orbit_vote32 9.40
+tless 11 2 PoE greedy 11.14 | orbit_product 10.89 | orbit_vote32 9.14
+tless 11 2 DINO greedy 11.23 | orbit_product 11.84 | orbit_vote32 9.08
+tless 18 0 PoE greedy 21.97 | orbit_product 16.53 | orbit_vote32 17.25
+tless 18 0 DINO greedy 21.37 | orbit_product 16.39 | orbit_vote32 17.33
+tless 18 1 PoE greedy 21.90 | orbit_product 16.30 | orbit_vote32 17.28
+tless 18 1 DINO greedy 21.70 | orbit_product 17.10 | orbit_vote32 17.15
+tless 18 2 PoE greedy 22.48 | orbit_product 17.07 | orbit_vote32 17.61
+tless 18 2 DINO greedy 22.37 | orbit_product 17.13 | orbit_vote32 17.64
+tless 21 0 PoE greedy 19.91 | orbit_product 16.01 | orbit_vote32 15.85
+tless 21 0 DINO greedy 19.58 | orbit_product 16.71 | orbit_vote32 15.97
+tless 21 1 PoE greedy 20.66 | orbit_product 15.43 | orbit_vote32 16.22
+tless 21 1 DINO greedy 19.76 | orbit_product 15.54 | orbit_vote32 15.58
+tless 21 2 PoE greedy 18.73 | orbit_product 14.56 | orbit_vote32 14.89
+tless 21 2 DINO greedy 18.76 | orbit_product 15.17 | orbit_vote32 15.12
+tless 27 0 PoE greedy 7.96 | orbit_product 10.33 | orbit_vote32 6.81
+tless 27 0 DINO greedy 8.40 | orbit_product 11.48 | orbit_vote32 7.63
+tless 27 1 PoE greedy 8.00 | orbit_product 10.86 | orbit_vote32 6.98
+tless 27 1 DINO greedy 8.66 | orbit_product 11.56 | orbit_vote32 7.64
+tless 27 2 PoE greedy 8.53 | orbit_product 11.03 | orbit_vote32 7.08
+tless 27 2 DINO greedy 8.62 | orbit_product 11.65 | orbit_vote32 7.50
+tless 4 0 PoE greedy 8.20 | orbit_product 9.39 | orbit_vote32 7.84
+tless 4 0 DINO greedy 8.27 | orbit_product 9.92 | orbit_vote32 7.86
+tless 4 1 PoE greedy 7.90 | orbit_product 9.41 | orbit_vote32 7.68
+tless 4 1 DINO greedy 7.81 | orbit_product 9.60 | orbit_vote32 7.71
+tless 4 2 PoE greedy 8.18 | orbit_product 9.26 | orbit_vote32 7.90
+tless 4 2 DINO greedy 8.37 | orbit_product 9.94 | orbit_vote32 7.98
+tless 5 0 PoE greedy 8.14 | orbit_product 9.00 | orbit_vote32 6.35
+tless 5 0 DINO greedy 8.34 | orbit_product 9.53 | orbit_vote32 6.73
+tless 5 1 PoE greedy 8.39 | orbit_product 9.10 | orbit_vote32 6.20
+tless 5 1 DINO greedy 8.61 | orbit_product 10.23 | orbit_vote32 6.87
+tless 5 2 PoE greedy 8.20 | orbit_product 9.08 | orbit_vote32 6.41
+tless 5 2 DINO greedy 8.40 | orbit_product 9.68 | orbit_vote32 6.87
+| split | variant | mode | sym_mean | sym_mean_std | sym_median | acc10 | frac_gt90 | raw_mean |
+|---|---|---|---|---|---|---|---|---|
+| test | DINO | greedy | 16.843 | 0.274 | 7.244 | 0.707 | 0.050 | 73.310 |
+| test | DINO | orbit_product | 18.718 | 0.438 | 8.645 | 0.596 | 0.053 | 74.873 |
+| test | DINO | orbit_vote32 | 16.615 | 0.126 | 6.558 | 0.731 | 0.050 | 74.931 |
+| test | PoE | greedy | 16.712 | 0.114 | 6.587 | 0.734 | 0.053 | 73.075 |
+| test | PoE | orbit_product | 18.243 | 0.659 | 7.499 | 0.659 | 0.055 | 74.332 |
+| test | PoE | orbit_vote32 | 16.206 | 0.276 | 5.862 | 0.762 | 0.053 | 73.335 |
+| validation | DINO | greedy | 11.395 | 0.021 | 7.108 | 0.733 | 0.016 | 70.416 |
+| validation | DINO | orbit_product | 11.254 | 0.072 | 7.688 | 0.667 | 0.011 | 69.658 |
+| validation | DINO | orbit_vote32 | 9.392 | 0.044 | 5.781 | 0.811 | 0.012 | 68.986 |
+| validation | PoE | greedy | 11.459 | 0.045 | 6.689 | 0.755 | 0.018 | 70.647 |
+| validation | PoE | orbit_product | 10.705 | 0.035 | 6.936 | 0.721 | 0.011 | 69.816 |
+| validation | PoE | orbit_vote32 | 9.237 | 0.066 | 5.394 | 0.827 | 0.012 | 69.020 |
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-232339-seed0
+>>> 23:42:20 EXP-106 A2 train tless 1 dinov3_vitl16:tokens8 seed=0
+tless 1 dinov3_vitl16:tokens8 seed 0 val_sym_mean 4.75
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-234221-seed0
+>>> 23:48:21 EXP-106 A2 train tless 1 moge2_vitl:normals16~and seed=0
+tless 1 moge2_vitl:normals16~and seed 0 val_sym_mean 17.93
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-234822-seed0
+>>> 23:55:18 EXP-106 A2 train tless 4 dinov3_vitl16:tokens8 seed=0
+tless 4 dinov3_vitl16:tokens8 seed 0 val_sym_mean 4.88
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261027-235519-seed0
+>>> 00:02:08 EXP-106 A2 train tless 4 moge2_vitl:normals16~and seed=0
+tless 4 moge2_vitl:normals16~and seed 0 val_sym_mean 19.50
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-000209-seed0
+>>> 00:09:13 EXP-106 A2 train tless 5 dinov3_vitl16:tokens8 seed=0
+tless 5 dinov3_vitl16:tokens8 seed 0 val_sym_mean 8.25
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-000914-seed0
+>>> 00:14:08 EXP-106 A2 train tless 5 moge2_vitl:normals16~and seed=0
+tless 5 moge2_vitl:normals16~and seed 0 val_sym_mean 28.84
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-001409-seed0
+>>> 00:18:10 EXP-106 A2 train tless 11 dinov3_vitl16:tokens8 seed=0
+tless 11 dinov3_vitl16:tokens8 seed 0 val_sym_mean 10.82
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-001811-seed0
+>>> 00:22:50 EXP-106 A2 train tless 11 moge2_vitl:normals16~and seed=0
+tless 11 moge2_vitl:normals16~and seed 0 val_sym_mean 37.43
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-002251-seed0
+>>> 00:27:34 EXP-106 A2 train tless 18 dinov3_vitl16:tokens8 seed=0
+tless 18 dinov3_vitl16:tokens8 seed 0 val_sym_mean 21.78
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-002736-seed0
+>>> 00:33:15 EXP-106 A2 train tless 18 moge2_vitl:normals16~and seed=0
+tless 18 moge2_vitl:normals16~and seed 0 val_sym_mean 62.16
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-003316-seed0
+>>> 00:36:40 EXP-106 A2 train tless 21 dinov3_vitl16:tokens8 seed=0
+tless 21 dinov3_vitl16:tokens8 seed 0 val_sym_mean 17.71
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-003641-seed0
+>>> 00:42:22 EXP-106 A2 train tless 21 moge2_vitl:normals16~and seed=0
+tless 21 moge2_vitl:normals16~and seed 0 val_sym_mean 60.81
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-004223-seed0
+>>> 00:45:46 EXP-106 A2 train tless 27 dinov3_vitl16:tokens8 seed=0
+tless 27 dinov3_vitl16:tokens8 seed 0 val_sym_mean 7.34
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-004547-seed0
+>>> 00:51:52 EXP-106 A2 train tless 27 moge2_vitl:normals16~and seed=0
+tless 27 moge2_vitl:normals16~and seed 0 val_sym_mean 44.67
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-005153-seed0
+>>> 00:56:45 EXP-106 A2 train tless 1 dinov3_vitl16:tokens8 seed=1
+tless 1 dinov3_vitl16:tokens8 seed 1 val_sym_mean 4.85
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-005646-seed1
+>>> 01:03:37 EXP-106 A2 train tless 1 moge2_vitl:normals16~and seed=1
+tless 1 moge2_vitl:normals16~and seed 1 val_sym_mean 16.65
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-010338-seed1
+>>> 01:10:48 EXP-106 A2 train tless 4 dinov3_vitl16:tokens8 seed=1
+tless 4 dinov3_vitl16:tokens8 seed 1 val_sym_mean 4.84
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-011049-seed1
+>>> 01:17:37 EXP-106 A2 train tless 4 moge2_vitl:normals16~and seed=1
+tless 4 moge2_vitl:normals16~and seed 1 val_sym_mean 19.18
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-011738-seed1
+>>> 01:25:20 EXP-106 A2 train tless 5 dinov3_vitl16:tokens8 seed=1
+tless 5 dinov3_vitl16:tokens8 seed 1 val_sym_mean 8.32
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-012521-seed1
+>>> 01:31:37 EXP-106 A2 train tless 5 moge2_vitl:normals16~and seed=1
+Traceback (most recent call last):
+  File "/home/kavinder/RAM/pose-estimation/scripts/train_xobj.py", line 146, in <module>
+    loss = multi_loss(h, v, pb)
+  File "/home/kavinder/RAM/pose-estimation/scripts/train_xobj.py", line 120, in multi_loss
+    rl, cl = model.logits_tf(h.repeat_interleave(k, 0), torch.as_tensor(c, device=dev), torch.as_tensor(p, device=dev))
+                             ~~~~~~~~~~~~~~~~~~~^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 128.00 MiB. GPU 0 has a total capacity of 47.37 GiB of which 154.06 MiB is free. Process 1822702 has 35.96 GiB memory in use. Including non-PyTorch memory, this process has 1.10 GiB memory in use. Process 1856532 has 9.37 GiB memory in use. Of the allocated memory 605.20 MiB is allocated by PyTorch, and 10.80 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+=== 01:34:05 BLOCK_FAILED EXP-106-tless
+=== 01:34:05 BLOCK EXP-106-symsolt
+[guarded] 01:34:06 waiting: RAM avail 100 GB (need 52), GPU free 1 GB (need 8)
+[guarded] 01:36:06 waiting: RAM avail 100 GB (need 52), GPU free 1 GB (need 8)
+[guarded] 01:38:06 waiting: RAM avail 99 GB (need 52), GPU free 1 GB (need 8)
+[guarded] 01:40:06 waiting: RAM avail 99 GB (need 52), GPU free 1 GB (need 8)
+[guarded] 01:42:07 waiting: RAM avail 99 GB (need 52), GPU free 1 GB (need 8)
+symsolt cone 0 PoE greedy 2.28 | orbit_product 1.82 | orbit_vote32 1.94
+symsolt cone 0 DINO greedy 2.20 | orbit_product 1.77 | orbit_vote32 2.02
+symsolt cone 1 PoE greedy 2.30 | orbit_product 1.83 | orbit_vote32 1.98
+symsolt cone 1 DINO greedy 2.18 | orbit_product 1.77 | orbit_vote32 2.04
+symsolt cone 2 PoE greedy 2.30 | orbit_product 1.83 | orbit_vote32 1.94
+symsolt cone 2 DINO greedy 2.19 | orbit_product 1.79 | orbit_vote32 2.03
+symsolt cube 0 PoE greedy 3.94 | orbit_product 2.69 | orbit_vote32 3.01
+symsolt cube 0 DINO greedy 4.13 | orbit_product 2.90 | orbit_vote32 3.04
+symsolt cube 1 PoE greedy 3.98 | orbit_product 2.75 | orbit_vote32 3.03
+symsolt cube 1 DINO greedy 4.22 | orbit_product 2.92 | orbit_vote32 3.08
+symsolt cube 2 PoE greedy 3.92 | orbit_product 2.72 | orbit_vote32 3.05
+symsolt cube 2 DINO greedy 4.12 | orbit_product 2.90 | orbit_vote32 3.06
+symsolt cyl 0 PoE greedy 2.09 | orbit_product 1.69 | orbit_vote32 1.82
+symsolt cyl 0 DINO greedy 2.14 | orbit_product 1.65 | orbit_vote32 1.88
+symsolt cyl 1 PoE greedy 2.07 | orbit_product 1.65 | orbit_vote32 1.79
+symsolt cyl 1 DINO greedy 2.13 | orbit_product 1.66 | orbit_vote32 1.84
+symsolt cyl 2 PoE greedy 2.05 | orbit_product 1.65 | orbit_vote32 1.79
+symsolt cyl 2 DINO greedy 2.09 | orbit_product 1.63 | orbit_vote32 1.86
+symsolt icosa 0 PoE greedy 6.07 | orbit_product 3.76 | orbit_vote32 4.32
+symsolt icosa 0 DINO greedy 6.02 | orbit_product 3.66 | orbit_vote32 4.24
+symsolt icosa 1 PoE greedy 6.22 | orbit_product 3.80 | orbit_vote32 4.30
+symsolt icosa 1 DINO greedy 6.24 | orbit_product 3.74 | orbit_vote32 4.23
+symsolt icosa 2 PoE greedy 6.33 | orbit_product 3.82 | orbit_vote32 4.29
+symsolt icosa 2 DINO greedy 6.29 | orbit_product 3.72 | orbit_vote32 4.28
+symsolt tet 0 PoE greedy 4.92 | orbit_product 3.36 | orbit_vote32 3.52
+symsolt tet 0 DINO greedy 4.38 | orbit_product 3.08 | orbit_vote32 3.09
+symsolt tet 1 PoE greedy 4.90 | orbit_product 3.33 | orbit_vote32 3.51
+symsolt tet 1 DINO greedy 4.41 | orbit_product 3.04 | orbit_vote32 3.08
+symsolt tet 2 PoE greedy 4.81 | orbit_product 3.31 | orbit_vote32 3.46
+symsolt tet 2 DINO greedy 4.36 | orbit_product 3.05 | orbit_vote32 3.07
+| split | variant | mode | sym_mean | sym_mean_std | sym_median | acc10 | frac_gt90 | raw_mean |
+|---|---|---|---|---|---|---|---|---|
+| test | DINO | greedy | 3.817 | 0.032 | 3.508 | 0.970 | 0.000 | 121.335 |
+| test | DINO | orbit_product | 2.622 | 0.010 | 2.489 | 1.000 | 0.000 | 121.394 |
+| test | DINO | orbit_vote32 | 2.862 | 0.012 | 2.681 | 0.997 | 0.000 | 121.081 |
+| test | PoE | greedy | 3.881 | 0.012 | 3.565 | 0.967 | 0.000 | 121.122 |
+| test | PoE | orbit_product | 2.674 | 0.003 | 2.535 | 0.999 | 0.000 | 121.383 |
+| test | PoE | orbit_vote32 | 2.918 | 0.012 | 2.712 | 0.996 | 0.000 | 121.102 |
+| validation | DINO | greedy | 3.779 | 0.028 | 3.466 | 0.971 | 0.000 | 121.455 |
+| validation | DINO | orbit_product | 2.612 | 0.004 | 2.473 | 1.000 | 0.000 | 121.667 |
+| validation | DINO | orbit_vote32 | 2.846 | 0.022 | 2.667 | 0.998 | 0.000 | 121.702 |
+| validation | PoE | greedy | 3.871 | 0.033 | 3.524 | 0.967 | 0.000 | 121.189 |
+| validation | PoE | orbit_product | 2.650 | 0.009 | 2.503 | 0.999 | 0.000 | 121.391 |
+| validation | PoE | orbit_vote32 | 2.910 | 0.004 | 2.698 | 0.996 | 0.000 | 120.894 |
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-014408-seed0
+>>> 02:26:47 EXP-106 A1 train symsolt tet dinov3_vitl16:tokens8 seed=0
+symsolt tet dinov3_vitl16:tokens8 seed 0 val_sym_mean 3.84
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-022648-seed0
+>>> 02:31:08 EXP-106 A1 train symsolt tet moge2_vitl:normals16~and seed=0
+symsolt tet moge2_vitl:normals16~and seed 0 val_sym_mean 8.86
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-023109-seed0
+>>> 02:34:01 EXP-106 A1 train symsolt cube dinov3_vitl16:tokens8 seed=0
+symsolt cube dinov3_vitl16:tokens8 seed 0 val_sym_mean 3.27
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-023402-seed0
+>>> 02:38:28 EXP-106 A1 train symsolt cube moge2_vitl:normals16~and seed=0
+symsolt cube moge2_vitl:normals16~and seed 0 val_sym_mean 3.61
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-023829-seed0
+>>> 02:41:25 EXP-106 A1 train symsolt icosa dinov3_vitl16:tokens8 seed=0
+symsolt icosa dinov3_vitl16:tokens8 seed 0 val_sym_mean 3.46
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-024126-seed0
+>>> 02:45:50 EXP-106 A1 train symsolt icosa moge2_vitl:normals16~and seed=0
+symsolt icosa moge2_vitl:normals16~and seed 0 val_sym_mean 3.64
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-024551-seed0
+>>> 02:48:45 EXP-106 A1 train symsolt cone dinov3_vitl16:tokens8 seed=0
+symsolt cone dinov3_vitl16:tokens8 seed 0 val_sym_mean 3.08
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-024846-seed0
+>>> 02:53:01 EXP-106 A1 train symsolt cone moge2_vitl:normals16~and seed=0
+symsolt cone moge2_vitl:normals16~and seed 0 val_sym_mean 4.87
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-025302-seed0
+>>> 02:55:58 EXP-106 A1 train symsolt cyl dinov3_vitl16:tokens8 seed=0
+symsolt cyl dinov3_vitl16:tokens8 seed 0 val_sym_mean 2.90
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-025559-seed0
+>>> 03:00:21 EXP-106 A1 train symsolt cyl moge2_vitl:normals16~and seed=0
+symsolt cyl moge2_vitl:normals16~and seed 0 val_sym_mean 3.33
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-030022-seed0
+>>> 03:03:19 EXP-106 A1 train symsolt tet dinov3_vitl16:tokens8 seed=1
+symsolt tet dinov3_vitl16:tokens8 seed 1 val_sym_mean 3.84
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-030320-seed1
+>>> 03:07:52 EXP-106 A1 train symsolt tet moge2_vitl:normals16~and seed=1
+symsolt tet moge2_vitl:normals16~and seed 1 val_sym_mean 8.59
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-030753-seed1
+>>> 03:10:53 EXP-106 A1 train symsolt cube dinov3_vitl16:tokens8 seed=1
+symsolt cube dinov3_vitl16:tokens8 seed 1 val_sym_mean 3.26
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-031054-seed1
+>>> 03:15:11 EXP-106 A1 train symsolt cube moge2_vitl:normals16~and seed=1
+symsolt cube moge2_vitl:normals16~and seed 1 val_sym_mean 3.60
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-031512-seed1
+>>> 03:18:07 EXP-106 A1 train symsolt icosa dinov3_vitl16:tokens8 seed=1
+symsolt icosa dinov3_vitl16:tokens8 seed 1 val_sym_mean 3.45
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-031808-seed1
+>>> 03:22:31 EXP-106 A1 train symsolt icosa moge2_vitl:normals16~and seed=1
+symsolt icosa moge2_vitl:normals16~and seed 1 val_sym_mean 3.71
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-032232-seed1
+>>> 03:25:26 EXP-106 A1 train symsolt cone dinov3_vitl16:tokens8 seed=1
+symsolt cone dinov3_vitl16:tokens8 seed 1 val_sym_mean 3.14
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-032527-seed1
+>>> 03:29:43 EXP-106 A1 train symsolt cone moge2_vitl:normals16~and seed=1
+symsolt cone moge2_vitl:normals16~and seed 1 val_sym_mean 4.80
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-032945-seed1
+>>> 03:32:39 EXP-106 A1 train symsolt cyl dinov3_vitl16:tokens8 seed=1
+symsolt cyl dinov3_vitl16:tokens8 seed 1 val_sym_mean 2.89
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-033240-seed1
+>>> 03:36:32 EXP-106 A1 train symsolt cyl moge2_vitl:normals16~and seed=1
+symsolt cyl moge2_vitl:normals16~and seed 1 val_sym_mean 3.43
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-033633-seed1
+>>> 03:39:30 EXP-106 A1 train symsolt tet dinov3_vitl16:tokens8 seed=2
+symsolt tet dinov3_vitl16:tokens8 seed 2 val_sym_mean 3.80
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-033931-seed2
+>>> 03:43:43 EXP-106 A1 train symsolt tet moge2_vitl:normals16~and seed=2
+symsolt tet moge2_vitl:normals16~and seed 2 val_sym_mean 8.71
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-034344-seed2
+>>> 03:46:41 EXP-106 A1 train symsolt cube dinov3_vitl16:tokens8 seed=2
+symsolt cube dinov3_vitl16:tokens8 seed 2 val_sym_mean 3.27
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-034642-seed2
+>>> 03:51:01 EXP-106 A1 train symsolt cube moge2_vitl:normals16~and seed=2
+symsolt cube moge2_vitl:normals16~and seed 2 val_sym_mean 3.57
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-035102-seed2
+>>> 03:53:48 EXP-106 A1 train symsolt icosa dinov3_vitl16:tokens8 seed=2
+symsolt icosa dinov3_vitl16:tokens8 seed 2 val_sym_mean 3.43
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-035349-seed2
+>>> 03:57:29 EXP-106 A1 train symsolt icosa moge2_vitl:normals16~and seed=2
+symsolt icosa moge2_vitl:normals16~and seed 2 val_sym_mean 3.69
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-035731-seed2
+>>> 04:00:24 EXP-106 A1 train symsolt cone dinov3_vitl16:tokens8 seed=2
+symsolt cone dinov3_vitl16:tokens8 seed 2 val_sym_mean 3.09
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-040025-seed2
+>>> 04:03:59 EXP-106 A1 train symsolt cone moge2_vitl:normals16~and seed=2
+symsolt cone moge2_vitl:normals16~and seed 2 val_sym_mean 4.84
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-040401-seed2
+>>> 04:06:56 EXP-106 A1 train symsolt cyl dinov3_vitl16:tokens8 seed=2
+symsolt cyl dinov3_vitl16:tokens8 seed 2 val_sym_mean 2.87
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-040657-seed2
+>>> 04:10:53 EXP-106 A1 train symsolt cyl moge2_vitl:normals16~and seed=2
+symsolt cyl moge2_vitl:normals16~and seed 2 val_sym_mean 3.38
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-041054-seed2
+symsolt cone 0 PoE greedy 3.16 | orbit_product 5.57 | orbit_vote32 3.02
+symsolt cone 0 DINO greedy 3.05 | orbit_product 6.01 | orbit_vote32 2.99
+symsolt cone 1 PoE greedy 3.17 | orbit_product 5.70 | orbit_vote32 3.05
+symsolt cone 1 DINO greedy 3.07 | orbit_product 6.10 | orbit_vote32 3.00
+symsolt cone 2 PoE greedy 3.22 | orbit_product 5.65 | orbit_vote32 3.06
+symsolt cone 2 DINO greedy 3.07 | orbit_product 6.10 | orbit_vote32 3.01
+symsolt cube 0 PoE greedy 3.27 | orbit_product 13.91 | orbit_vote32 3.21
+symsolt cube 0 DINO greedy 3.27 | orbit_product 15.47 | orbit_vote32 3.21
+symsolt cube 1 PoE greedy 3.27 | orbit_product 13.75 | orbit_vote32 3.21
+symsolt cube 1 DINO greedy 3.28 | orbit_product 15.11 | orbit_vote32 3.22
+symsolt cube 2 PoE greedy 3.27 | orbit_product 13.93 | orbit_vote32 3.20
+symsolt cube 2 DINO greedy 3.27 | orbit_product 14.69 | orbit_vote32 3.21
+symsolt cyl 0 PoE greedy 2.98 | orbit_product 9.29 | orbit_vote32 2.78
+symsolt cyl 0 DINO greedy 2.94 | orbit_product 8.99 | orbit_vote32 2.78
+symsolt cyl 1 PoE greedy 3.00 | orbit_product 9.61 | orbit_vote32 2.78
+symsolt cyl 1 DINO greedy 2.96 | orbit_product 9.13 | orbit_vote32 2.76
+symsolt cyl 2 PoE greedy 2.97 | orbit_product 9.20 | orbit_vote32 2.76
+symsolt cyl 2 DINO greedy 2.90 | orbit_product 8.91 | orbit_vote32 2.78
+symsolt icosa 0 PoE greedy 3.41 | orbit_product 10.93 | orbit_vote32 3.08
+symsolt icosa 0 DINO greedy 3.43 | orbit_product 11.59 | orbit_vote32 3.11
+symsolt icosa 1 PoE greedy 3.44 | orbit_product 10.97 | orbit_vote32 3.10
+symsolt icosa 1 DINO greedy 3.45 | orbit_product 11.79 | orbit_vote32 3.13
+symsolt icosa 2 PoE greedy 3.41 | orbit_product 11.03 | orbit_vote32 3.09
+symsolt icosa 2 DINO greedy 3.41 | orbit_product 11.53 | orbit_vote32 3.11
+symsolt tet 0 PoE greedy 4.12 | orbit_product 8.61 | orbit_vote32 3.15
+symsolt tet 0 DINO greedy 3.84 | orbit_product 9.46 | orbit_vote32 2.98
+symsolt tet 1 PoE greedy 4.10 | orbit_product 8.74 | orbit_vote32 3.15
+symsolt tet 1 DINO greedy 3.83 | orbit_product 9.68 | orbit_vote32 2.98
+symsolt tet 2 PoE greedy 4.05 | orbit_product 8.60 | orbit_vote32 3.13
+symsolt tet 2 DINO greedy 3.80 | orbit_product 9.63 | orbit_vote32 2.96
+| split | variant | mode | sym_mean | sym_mean_std | sym_median | acc10 | frac_gt90 | raw_mean |
+|---|---|---|---|---|---|---|---|---|
+| test | DINO | greedy | 3.304 | 0.011 | 3.198 | 0.997 | 0.000 | 121.032 |
+| test | DINO | orbit_product | 10.263 | 0.110 | 7.156 | 0.661 | 0.000 | 120.375 |
+| test | DINO | orbit_vote32 | 3.020 | 0.003 | 2.915 | 0.999 | 0.000 | 120.899 |
+| test | PoE | greedy | 3.386 | 0.005 | 3.246 | 0.996 | 0.000 | 121.044 |
+| test | PoE | orbit_product | 9.689 | 0.049 | 6.942 | 0.682 | 0.000 | 120.150 |
+| test | PoE | orbit_vote32 | 3.057 | 0.004 | 2.951 | 0.999 | 0.000 | 120.705 |
+| validation | DINO | greedy | 3.308 | 0.015 | 3.204 | 0.998 | 0.000 | 121.211 |
+| validation | DINO | orbit_product | 10.322 | 0.070 | 7.168 | 0.660 | 0.000 | 120.978 |
+| validation | DINO | orbit_vote32 | 3.004 | 0.011 | 2.904 | 0.999 | 0.000 | 121.355 |
+| validation | PoE | greedy | 3.396 | 0.012 | 3.261 | 0.995 | 0.000 | 121.199 |
+| validation | PoE | orbit_product | 9.727 | 0.048 | 6.930 | 0.683 | 0.000 | 120.938 |
+| validation | PoE | orbit_vote32 | 3.043 | 0.010 | 2.934 | 0.998 | 0.000 | 121.551 |
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-041345-seed0
+>>> 04:51:01 EXP-106 A2 train symsolt tet dinov3_vitl16:tokens8 seed=0
+symsolt tet dinov3_vitl16:tokens8 seed 0 val_sym_mean 3.27
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-045102-seed0
+>>> 04:57:46 EXP-106 A2 train symsolt tet moge2_vitl:normals16~and seed=0
+symsolt tet moge2_vitl:normals16~and seed 0 val_sym_mean 9.22
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-045747-seed0
+>>> 05:06:56 EXP-106 A2 train symsolt cube dinov3_vitl16:tokens8 seed=0
+symsolt cube dinov3_vitl16:tokens8 seed 0 val_sym_mean 2.96
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-050657-seed0
+>>> 05:14:12 EXP-106 A2 train symsolt cube moge2_vitl:normals16~and seed=0
+symsolt cube moge2_vitl:normals16~and seed 0 val_sym_mean 3.84
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-051413-seed0
+>>> 05:23:20 EXP-106 A2 train symsolt icosa dinov3_vitl16:tokens8 seed=0
+symsolt icosa dinov3_vitl16:tokens8 seed 0 val_sym_mean 3.00
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-052321-seed0
+>>> 05:30:35 EXP-106 A2 train symsolt icosa moge2_vitl:normals16~and seed=0
+symsolt icosa moge2_vitl:normals16~and seed 0 val_sym_mean 3.80
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-053036-seed0
+>>> 05:39:41 EXP-106 A2 train symsolt cone dinov3_vitl16:tokens8 seed=0
+symsolt cone dinov3_vitl16:tokens8 seed 0 val_sym_mean 1.79
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-053942-seed0
+>>> 05:46:47 EXP-106 A2 train symsolt cone moge2_vitl:normals16~and seed=0
+symsolt cone moge2_vitl:normals16~and seed 0 val_sym_mean 3.55
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-054648-seed0
+>>> 05:55:52 EXP-106 A2 train symsolt cyl dinov3_vitl16:tokens8 seed=0
+symsolt cyl dinov3_vitl16:tokens8 seed 0 val_sym_mean 1.67
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-055553-seed0
+>>> 06:03:15 EXP-106 A2 train symsolt cyl moge2_vitl:normals16~and seed=0
+symsolt cyl moge2_vitl:normals16~and seed 0 val_sym_mean 2.24
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-060316-seed0
+>>> 06:12:37 EXP-106 A2 train symsolt tet dinov3_vitl16:tokens8 seed=1
+symsolt tet dinov3_vitl16:tokens8 seed 1 val_sym_mean 3.30
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-061238-seed1
+>>> 06:19:21 EXP-106 A2 train symsolt tet moge2_vitl:normals16~and seed=1
+symsolt tet moge2_vitl:normals16~and seed 1 val_sym_mean 9.25
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-061922-seed1
+>>> 06:28:31 EXP-106 A2 train symsolt cube dinov3_vitl16:tokens8 seed=1
+symsolt cube dinov3_vitl16:tokens8 seed 1 val_sym_mean 2.90
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-062832-seed1
+>>> 06:35:51 EXP-106 A2 train symsolt cube moge2_vitl:normals16~and seed=1
+symsolt cube moge2_vitl:normals16~and seed 1 val_sym_mean 3.76
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-063552-seed1
+>>> 06:45:01 EXP-106 A2 train symsolt icosa dinov3_vitl16:tokens8 seed=1
+symsolt icosa dinov3_vitl16:tokens8 seed 1 val_sym_mean 2.97
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-064502-seed1
+>>> 06:52:15 EXP-106 A2 train symsolt icosa moge2_vitl:normals16~and seed=1
+symsolt icosa moge2_vitl:normals16~and seed 1 val_sym_mean 3.92
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-065216-seed1
+>>> 07:01:20 EXP-106 A2 train symsolt cone dinov3_vitl16:tokens8 seed=1
+symsolt cone dinov3_vitl16:tokens8 seed 1 val_sym_mean 1.79
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-070121-seed1
+>>> 07:08:25 EXP-106 A2 train symsolt cone moge2_vitl:normals16~and seed=1
+symsolt cone moge2_vitl:normals16~and seed 1 val_sym_mean 3.79
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-070826-seed1
+>>> 07:17:34 EXP-106 A2 train symsolt cyl dinov3_vitl16:tokens8 seed=1
+symsolt cyl dinov3_vitl16:tokens8 seed 1 val_sym_mean 1.67
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-071735-seed1
+>>> 07:24:45 EXP-106 A2 train symsolt cyl moge2_vitl:normals16~and seed=1
+symsolt cyl moge2_vitl:normals16~and seed 1 val_sym_mean 2.25
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-072446-seed1
+>>> 07:34:06 EXP-106 A2 train symsolt tet dinov3_vitl16:tokens8 seed=2
+symsolt tet dinov3_vitl16:tokens8 seed 2 val_sym_mean 3.28
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-073407-seed2
+>>> 07:40:55 EXP-106 A2 train symsolt tet moge2_vitl:normals16~and seed=2
+symsolt tet moge2_vitl:normals16~and seed 2 val_sym_mean 9.17
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-074056-seed2
+>>> 07:50:10 EXP-106 A2 train symsolt cube dinov3_vitl16:tokens8 seed=2
+symsolt cube dinov3_vitl16:tokens8 seed 2 val_sym_mean 2.97
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-075011-seed2
+>>> 07:57:30 EXP-106 A2 train symsolt cube moge2_vitl:normals16~and seed=2
+symsolt cube moge2_vitl:normals16~and seed 2 val_sym_mean 3.81
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-075731-seed2
+>>> 08:06:37 EXP-106 A2 train symsolt icosa dinov3_vitl16:tokens8 seed=2
+symsolt icosa dinov3_vitl16:tokens8 seed 2 val_sym_mean 3.02
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-080638-seed2
+>>> 08:13:08 EXP-106 A2 train symsolt icosa moge2_vitl:normals16~and seed=2
+symsolt icosa moge2_vitl:normals16~and seed 2 val_sym_mean 3.83
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-081309-seed2
+>>> 08:22:11 EXP-106 A2 train symsolt cone dinov3_vitl16:tokens8 seed=2
+symsolt cone dinov3_vitl16:tokens8 seed 2 val_sym_mean 1.79
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-082212-seed2
+>>> 08:29:07 EXP-106 A2 train symsolt cone moge2_vitl:normals16~and seed=2
+symsolt cone moge2_vitl:normals16~and seed 2 val_sym_mean 3.77
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-082908-seed2
+>>> 08:38:11 EXP-106 A2 train symsolt cyl dinov3_vitl16:tokens8 seed=2
+symsolt cyl dinov3_vitl16:tokens8 seed 2 val_sym_mean 1.66
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-083812-seed2
+>>> 08:45:16 EXP-106 A2 train symsolt cyl moge2_vitl:normals16~and seed=2
+symsolt cyl moge2_vitl:normals16~and seed 2 val_sym_mean 2.24
+RUN outputs/experiments/EXP-106_tless_multipath_tree/RUN-20261028-084517-seed2
