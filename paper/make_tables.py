@@ -42,6 +42,8 @@ RUNS = {
     "symsolt_A2": E / "EXP-106_tless_multipath_tree/RUN-20261028-120353-seed0",
     "symsolt_A2D": None,                                                               # EXP-119 SYMSOL-T: queued
     "spp_det": None,                                                                   # EXP-124 detected crops: queued
+    "quant127": E / "EXP-127_hierarchy_vs_flat_same_grid/RUN-20261029-003312-seed0",      # EXP-127 quantization floor (CPU)
+    "flat127": None,                                                                   # EXP-127 same-grid / balanced-Hopf flat: queued
 }
 DOM = ["synthetic_val", "lightbox", "sunlamp"]
 
@@ -194,12 +196,24 @@ def xds_table():
 
 # ---------------------------------------------------------------- ablations
 def flat_table():
-    m = csv("flat")
-    L = [r"\begin{tabular}{@{}ll ccc@{}}", r"\toprule", r"Head (params/branch) & Inference & Synth. & LB & SL \\", r"\midrule"]
-    for fam, fn in (("tree", "Tesseract tree (2.4\\,M)"), ("flat", "Flat Hopf, 131k (36.1\\,M)")):
-        for mode, mn in (("greedy", "1 view"), ("orbit_product", "orbit")):
-            d = orbit_row(m, fam, "PoE", mode)
-            L.append(f"{fn} & {mn} & " + " & ".join(pm(d[g].mean_deg, d[g].mean_deg_std) for g in DOM) + r" \\")
+    """Tree vs flat heads (PoE). EXP-113: flat over SPACE-HOP's 10923x12 Hopf grid. EXP-127 (queued, blank until run): flat
+    over the tree's own 131,072 leaves and over a balanced Hopf grid. Floor = mean nearest-anchor (tree: leaf) error on the
+    synthetic-val GT rotations (EXP-127 quantization run)."""
+    m = csv("flat"); q = csv("quant127", "quantization"); q = q[q.set == "synthetic_val"]
+    floor = lambda key: q[q.grid.str.startswith(key)].mean_deg.iloc[0]
+    m127 = csv("flat127") if have("flat127") else None
+    rows = [("Tesseract tree (2.4\\,M)", "131,072 leaves", floor("tesseract_L5 encode"), m, "tree"),
+            ("Flat (36.1\\,M)", "Hopf 10,923$\\times$12", floor("hopf10923x12"), m, "flat"),
+            ("Flat, same grid", "131,072 leaves", floor("tesseract_L5 encode"), m127, "flat:grid=tesseract_L5"),
+            ("Flat, balanced Hopf", "Hopf 1,771$\\times$74", floor("hopf1771x74"), m127, "flat:grid=hopf1771x74")]
+    L = [r"\begin{tabular}{@{}llc l ccc@{}}", r"\toprule", r"Head (params/branch) & Grid & Floor & Inference & Synth. & LB & SL \\", r"\midrule"]
+    for fn, grid, fl, mm, fam in rows:
+        for k, (mode, mn) in enumerate((("greedy", "1 view"), ("orbit_product", "orbit"))):
+            lead = f"{fn} & {grid} & {fl:.2f}" if k == 0 else " & & "
+            if mm is None:
+                L.append(f"{lead} & {mn} & & & \\\\"); continue
+            d = orbit_row(mm, fam, "PoE", mode)
+            L.append(f"{lead} & {mn} & " + " & ".join(pm(d[g].mean_deg, d[g].mean_deg_std) for g in DOM) + r" \\")
     L += [r"\bottomrule", r"\end{tabular}"]
     write("flat", "\n".join(L))
 

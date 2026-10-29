@@ -1,10 +1,14 @@
-\begin{tabular}{@{}ll ccc@{}}
+\begin{tabular}{@{}llc l ccc@{}}
 \toprule
-Head (params/branch) & Inference & Synth. & LB & SL \\
+Head (params/branch) & Grid & Floor & Inference & Synth. & LB & SL \\
 \midrule
-Tesseract tree (2.4\,M) & 1 view & 4.85\,{\scriptsize$\pm$0.03} & 17.33\,{\scriptsize$\pm$0.31} & 20.15\,{\scriptsize$\pm$0.57} \\
-Tesseract tree (2.4\,M) & orbit & 3.87\,{\scriptsize$\pm$0.03} & 12.30\,{\scriptsize$\pm$0.50} & 12.25\,{\scriptsize$\pm$0.37} \\
-Flat Hopf, 131k (36.1\,M) & 1 view & 8.95\,{\scriptsize$\pm$0.06} & 20.56\,{\scriptsize$\pm$0.70} & 27.16\,{\scriptsize$\pm$1.04} \\
-Flat Hopf, 131k (36.1\,M) & orbit & 7.53\,{\scriptsize$\pm$0.01} & 13.15\,{\scriptsize$\pm$0.37} & 16.31\,{\scriptsize$\pm$0.59} \\
+Tesseract tree (2.4\,M) & 131,072 leaves & 2.51 & 1 view & 4.85\,{\scriptsize$\pm$0.03} & 17.33\,{\scriptsize$\pm$0.31} & 20.15\,{\scriptsize$\pm$0.57} \\
+ & &  & orbit & 3.87\,{\scriptsize$\pm$0.03} & 12.30\,{\scriptsize$\pm$0.50} & 12.25\,{\scriptsize$\pm$0.37} \\
+Flat (36.1\,M) & Hopf 10,923$\times$12 & 6.06 & 1 view & 8.95\,{\scriptsize$\pm$0.06} & 20.56\,{\scriptsize$\pm$0.70} & 27.16\,{\scriptsize$\pm$1.04} \\
+ & &  & orbit & 7.53\,{\scriptsize$\pm$0.01} & 13.15\,{\scriptsize$\pm$0.37} & 16.31\,{\scriptsize$\pm$0.59} \\
+Flat, same grid & 131,072 leaves & 2.51 & 1 view & & & \\
+ & &  & orbit & & & \\
+Flat, balanced Hopf & Hopf 1,771$\times$74 & 2.29 & 1 view & & & \\
+ & &  & orbit & & & \\
 \bottomrule
 \end{tabular}

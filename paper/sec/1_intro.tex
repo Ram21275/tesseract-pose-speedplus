@@ -11,7 +11,7 @@ An audit on the synthetic-to-real benchmark SPEED+~\cite{park2022speedplus} moti
 
 Our contributions are:
 \begin{itemize}
-\item A lightweight hierarchical 6D pose predictor on frozen DINOv3 and MoGe-2 features, with training-free per-level PoE fusion. In a matched comparison it is far more accurate than a flat 131k-anchor classifier, with $15\times$ fewer parameters (\cref{sec:abl_flat}).
+\item A lightweight hierarchical 6D pose predictor on frozen DINOv3 and MoGe-2 features, with training-free per-level PoE fusion. It is far more accurate than a flat classifier over a 131k-anchor SPACE-HOP Hopf grid under the same recipe, with $15\times$ fewer parameters; a same-grid control that isolates hierarchical prediction is in progress (\cref{sec:abl_flat}).
 \item Symmetry-aware multi-path targets for hierarchical rotation trees. They reduce the SYMSOL-T error by 20--30\% relative to single or canonical labels, and, unlike canonical labels, remain compatible with orbit voting (\cref{sec:abl_sym}).
 \item Orbit voting with an exactly derived roll transform for hierarchical candidates, and orbit distillation into single-view students. On SPEED+ they repair 62--80\% of severe flips while breaking 0.4\% of good predictions, and reduce the real-domain error to $11.2^\circ/11.1^\circ$ (\cref{sec:spp}).
 \item An evaluation on four benchmarks (T-LESS, SYMSOL-T, YCB-V, SPEED+) with comparisons matched to published protocols where possible, three seeds, pre-registered criteria, selection on validation data only, and full reporting of negative results (\cref{sec:experiments,sec:ablations}).
