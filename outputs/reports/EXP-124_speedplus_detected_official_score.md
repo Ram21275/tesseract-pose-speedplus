@@ -57,3 +57,13 @@ All our SPEED+ numbers so far use ground-truth (GT) crops and report mean errors
 
 ## Runs / Results / Decision
 Not started.
+
+## Incident 2026-10-28/29 (infrastructure, no protocol change)
+- The first detector training (`RUN-20261028-235010`) was aborted at 23:58 by memguard: "process RSS 44.3 GB > limit 34.0 GB". The scope's real memory peak was 11 GB.
+- Cause: memguard summed the RSS of the 6 forked DataLoader workers, which share most pages with the parent.
+- The abort killed only the main process. The orphaned workers kept queue15's output pipe open, so queue15 stalled for about 14.7 h with no retry.
+- Fix in `src/tfpose/memguard.py`, applying to all jobs:
+  - children are counted by USS;
+  - on abort, memguard kills the job's child processes.
+- The kernel cap (systemd scope `MemoryMax`) and the system available-memory floor are unchanged.
+- The orphans were killed by PID at 14:44 on 2026-10-29. The queue retried with the identical pre-registered settings.

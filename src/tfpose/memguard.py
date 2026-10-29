@@ -27,12 +27,17 @@ _started = False
 
 
 def _rss_gb(proc: psutil.Process) -> float:
+    """Own RSS + children's USS: forked workers (e.g. DataLoader) share most pages with the parent, and summing their
+    RSS counted those pages once per worker (EXP-124 detector: 44.3 GB reported vs an 11 GB cgroup peak)."""
     total = proc.memory_info().rss
     for c in proc.children(recursive=True):
         try:
-            total += c.memory_info().rss
+            total += c.memory_full_info().uss
         except psutil.Error:
-            pass
+            try:
+                total += c.memory_info().rss
+            except psutil.Error:
+                pass
     return total / 2**30
 
 
@@ -68,6 +73,11 @@ def start(max_rss_gb: float | None = None, min_avail_gb: float | None = None,
                     try:
                         on_abort(msg)
                     except Exception:
+                        pass
+                for c in proc.children(recursive=True):       # do not leave orphaned workers holding pipes / memory
+                    try:
+                        c.kill()
+                    except psutil.Error:
                         pass
                 os._exit(137)
             time.sleep(interval_s)
