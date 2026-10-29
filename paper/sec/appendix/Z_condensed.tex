@@ -287,6 +287,35 @@ The following are pre-registered, but have no results yet: \textbf{EXP-119} (orb
 % src: outputs/reports/EXP-011_vggt_controls.md; EXP-012_complementarity.md; EXP-016_consensus_pose.md; EXP-017..020 reports; EXP-026_reliability_weighting.md; EXP-110_weighted_poe.md; EXP-029_panst3r_inspired_fusion.md; EXP-031_gru_path_decoder.md; EXP-034_beam_decoding.md; EXP-035_tangent_residual.md; EXP-040_tangent_residual_predicted_leaf.md; EXP-041_cell_conditioned_rfm.md; EXP-042_image_conditioned_so3_posterior.md; EXP-111_dino_aug_flow.md; EXP-043_flow_induced_tesseract_masses.md; EXP-044_distilled_tree.md; EXP-108_path_flow_revision.md; EXP-050_oracle_adaptive_depth.md; EXP-105_candidate_expansion_best_fit.md; EXP-109_real_domain_aug_tokens16_orbit.md; EXP-115_augmentation_ablation.md; EXP-116_roll_consistent_tree.md; EXP-064_broader_object_validation.md; paper/tables/sym.tex
 
 %==========================================================================================
+\subsection{Deployment of the downstream head}\label{app:deploy}
+Every application shares the same frozen backbones and the same inference algorithm; what is trained and shipped per application is only the downstream head: one tree per branch (DINOv3 and, for the PoE variant, MoGe-2) and, for 6D, the translation block. The head architecture is identical for every object and dataset, so its storage, latency and memory are properties of the design and are measured once. Its accuracy under reduced precision depends on the trained weights and is measured per application with each application's own evaluator and metric. This experiment (EXP-128) was pre-registered before any run; the frozen backbone is not quantised and its cost is reported separately (\cref{sec:supp_timing}).
+
+\paragraph{Precisions.} fp32 is the reference. bf16 (autocast) is the precision of every other result in this paper. fp16 uses autocast. int8 is weight-only: every matmul weight of the head (all linear layers including the attention projections, 20 tensors per tree, $99.3\%$ of its parameters) is rounded to symmetric per-output-channel int8; activations, LayerNorms, embeddings and biases stay in fp32. Its accuracy is measured by simulating this rounding; its CPU speed is measured with PyTorch's dynamic int8 kernels, which convert the linear layers but not the attention in-projections. At fp32 the DINOv3 tree occupies about 9.1\,MB ($2{,}391{,}564$ parameters); with int8 weights the ideal size is about a quarter of that.
+
+\paragraph{Criterion.} A precision's loss is \emph{negligible} if its mean error differs from fp32 by no more than the larger seed standard deviation, per application, inference mode and split (the pass rule used throughout the paper).
+
+\begin{table}[!htbp]
+  \centering\footnotesize
+  \resizebox{\linewidth}{!}{\input{tables/deploy_size}}
+  \caption{\textbf{Size of the downstream head} per module and precision (bytes of the saved weights). Blank cells: run not yet completed.}
+  \label{tab:deploy_size}
+\end{table}
+
+\begin{table}[!htbp]
+  \centering\footnotesize
+  \resizebox{\linewidth}{!}{\input{tables/deploy_latency}}
+  \caption{\textbf{Head-only latency} (ms per image, batch 1) and peak transient GPU memory, excluding the shared backbone. Orbit: 4 views $\times$ beam 8 plus scoring of 32 candidates. Shared GPU; times are upper bounds. Blank cells: run not yet completed.}
+  \label{tab:deploy_latency}
+\end{table}
+
+\begin{table}[!htbp]
+  \centering\footnotesize
+  \resizebox{\linewidth}{!}{\input{tables/deploy_quant}}
+  \caption{\textbf{Accuracy of the head under reduced precision}: mean rotation error ($^\circ$, symmetry-aware where applicable, real test sets; SPEED+ lightbox) of the validation-selected head per application, 3 seeds. Blank cells: run not yet completed.}
+  \label{tab:deploy_quant}
+\end{table}
+% src: outputs/reports/EXP-128_downstream_deployment_quantization.md; src/tfpose/precision.py; parameter counts from instantiating phase3.HierTransformer and trans.TransHead
+
 \subsection{Project history and decisions}\label{app:z_history}
 
 \paragraph{Phase 0: geometry (EXP-000--003).}

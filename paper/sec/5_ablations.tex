@@ -1,6 +1,6 @@
 \section{Ablations}
 \label{sec:ablations}
-All ablations use the PoE variant, 3 seeds and the same evaluation run within each table.
+All ablations use the PoE variant, 3 seeds and the same evaluation run within each table. The training-target ablation runs on the general-object benchmarks (T-LESS, SYMSOL-T). The ablations of the head architecture, the orbit scoring rule and the augmentation were run on the spacecraft application (SPEED+), where the synthetic-to-real shift makes their effects largest; we do not assume that their magnitudes carry over to the other benchmarks.
 
 \begin{table}[t]
   \centering\footnotesize
@@ -22,7 +22,7 @@ All ablations use the PoE variant, 3 seeds and the same evaluation run within ea
   \label{tab:flat}
 \end{table}
 
-\paragraph{Hierarchical tree vs.\ flat grid.}
+\paragraph{Hierarchical tree vs.\ flat grid (SPEED+).}
 \label{sec:abl_flat}
 We replace the tree with a count-matched flat classifier over 131,076 Hopf-fibration anchors~\cite{yershova2010hopf} in SPACE-HOP's configuration (10,923 directions $\times$ 12 rolls), keeping features, augmentation, training budget and orbit inference identical (\cref{tab:flat}). The tree is far more accurate ($3.87^\circ$ vs.\ $7.53^\circ$ synthetic with orbit voting), better on real data in all comparisons, and uses $15\times$ fewer parameters per branch (2.4\,M vs.\ 36.1\,M, of which 33.6\,M is the 131k-way output layer). Orbit voting helps both heads, and the flat head with orbit voting even has slightly fewer severe flips on lightbox, so flip repair comes mainly from orbit voting.
 
@@ -38,7 +38,7 @@ This comparison does not isolate hierarchical prediction. With only 12 in-plane 
   \label{tab:scoring}
 \end{table}
 
-\paragraph{How to select among orbit candidates.}
+\paragraph{How to select among orbit candidates (SPEED+).}
 With the same 32 candidates (\cref{tab:scoring}), picking the most confident one is clearly worse than any form of agreement, and voting among the four views' top-1 predictions is better. Using all candidates helps most. The kernel-weighted vote is best on synthetic data ($3.46^\circ$). The likelihood product of \cref{eq:orbit} is best on both real domains, but its advantage over the vote is within about one seed std. Its pre-registered criterion (``product beats voting on synthetic validation'') \emph{fails}, and under our selection protocol the weighted vote would be preferred. The product is reported in \cref{tab:main} only because it was fixed in the base recipe beforehand. We therefore claim multi-view consistency over hierarchical candidates, not a specific scoring rule.
 
 \begin{table}[t]
@@ -49,12 +49,12 @@ With the same 32 candidates (\cref{tab:scoring}), picking the most confident one
   \label{tab:aug}
 \end{table}
 
-\paragraph{Photometric vs.\ rotation augmentation.}
+\paragraph{Photometric vs.\ rotation augmentation (SPEED+).}
 \label{sec:abl_aug}
 \Cref{tab:aug} separates the two augmentation families. Photometric augmentation with orbit voting reaches $12.3^\circ/12.4^\circ$ on real images, the same as the combined recipe. Rotation augmentation alone gives the best synthetic precision ($3.78^\circ$) but leaves real errors at $18.7^\circ/20.7^\circ$. Orbit voting on the clean tree already removes a quarter to a third of the real error ($26.9^\circ\!\to\!20.3^\circ$, $36.7^\circ\!\to\!24.8^\circ$). The real-domain gain therefore comes from \emph{lighting robustness plus orbit consistency}. The exact roll transform is needed for orbit voting itself; as a training augmentation it mainly improves synthetic precision. This corrects our initial hypothesis that rotation augmentation causes the flip repair.
 
 
-\paragraph{Can training learn orbit consistency?}
+\paragraph{Can training learn orbit consistency (SPEED+).}
 On SPEED+ we compared paired views of the same image (a data control), a transported consistency loss on the leaf distribution (a standard equivariance regulariser), a \emph{hierarchical} transported loss at every tree level, and orbit distillation (\cref{tab:consistency}, supplementary). The hierarchical loss beats the base recipe and the paired-view control but not the leaf-only loss; its pre-registered criterion fails, so we make no hierarchical-transport claim. Both consistency losses mostly improve synthetic precision. Orbit distillation is the only objective that clearly improves the real domains ($11.2^\circ/11.1^\circ$ with orbit voting).
 
 \paragraph{Further ablations} in the supplementary material cover the decoder lineage (MLP, GRU and Transformer decoders, hard vs.\ soft targets, beam search), fusion (single branches, learned fusion, weighted PoE), finer tokens, continuous flow posteriors and verifiers, discrete flow matching, oracle headroom, zero-shot transfer and timing.

@@ -45,6 +45,9 @@ RUNS = {
     "spp_det": None,                                                                   # EXP-124 detected crops: queued
     "quant127": E / "EXP-127_hierarchy_vs_flat_same_grid/RUN-20261029-003312-seed0",      # EXP-127 quantization floor (CPU)
     "flat127": None,                                                                   # EXP-127 same-grid / balanced-Hopf flat: queued
+    "trans_tless": None, "trans_symsolt": None, "trans_ycbv": None,                    # EXP-126 translation on general objects: queued
+    "deploy128": None,                                                                 # EXP-128 head deployment cost: queued
+    "quant128": None,                                                                  # EXP-128 accuracy per precision: queued (dict of runs)
 }
 DOM = ["synthetic_val", "lightbox", "sunlamp"]
 
@@ -432,6 +435,44 @@ SPP_PUBLISHED = [   # method, setting, E_R LB, E_R SL, score LB, score SL (as pu
 ]
 
 
+def trans_xobj_table():
+    """EXP-126 (queued): translation on T-LESS / SYMSOL-T / YCB-V. Blank until the runs exist; LiePose T-LESS average from the
+    paper (Tab. 8 of LiePose, mean over our 7 objects; recorded in outputs/reports/EXP-126_translation_xobj.md)."""
+    L = [r"\begin{tabular}{@{}ll cccc@{}}", r"\toprule", r"Dataset & Method & T@2 & T@5 & T@10 & mean $E_T$ \\", r"\midrule"]
+    L.append(r"T-LESS & LiePose~\cite{hsiao2024liepose} & 68.0 & 88.4 & 95.2 & -- \\")
+    for ds, name in (("tless", "T-LESS"), ("ycbv", "YCB-V"), ("symsolt", "SYMSOL-T")):
+        assert not have(f"trans_{ds}"), "fill trans_xobj_table from the EXP-126 evaluation before enabling its run"
+        L.append(f"{name if ds != 'tless' else ''} & box only & & & & \\\\")
+        L.append(f" & ours (frozen tree + block) & & & & \\\\")
+        if ds != "symsolt":
+            L.append(r"\midrule")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("trans_xobj", "\n".join(L))
+
+
+def deploy_tables():
+    """EXP-128 (queued): downstream-head cost (size, latency, memory per precision) and accuracy per precision. Blank until run."""
+    assert not have("deploy128"), "fill deploy_tables from the EXP-128 runs before enabling them"
+    L = [r"\begin{tabular}{@{}l r ccc@{}}", r"\toprule", r"Head module & Params & fp32 (MB) & fp16 (MB) & int8 (MB) \\", r"\midrule",
+         r"Tree, DINOv3 branch & 2,391,564 & & & \\", r"Tree, MoGe-2 branch & 2,128,404 & & & \\", r"Translation block & 331,011 & & & \\",
+         r"\bottomrule", r"\end{tabular}"]
+    write("deploy_size", "\n".join(L))
+    L = [r"\begin{tabular}{@{}ll cccc cc@{}}", r"\toprule",
+         r" & & \multicolumn{4}{c}{GPU (ms/img)} & \multicolumn{2}{c}{CPU, 1 thread (ms/img)} \\", r"\cmidrule(lr){3-6}\cmidrule(lr){7-8}",
+         r"Head & Inference & fp32 & bf16 & fp16 & peak MB & fp32 & int8 \\", r"\midrule"]
+    for v in ("DINOv3", "PoE"):
+        for inf in ("1 view", "orbit (4)"):
+            L.append(f"{v if inf == '1 view' else ''} & {inf} & & & & & & \\\\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("deploy_latency", "\n".join(L))
+    L = [r"\begin{tabular}{@{}ll cccc@{}}", r"\toprule", r"Application & Inference & fp32 & bf16 & fp16 & int8 (w) \\", r"\midrule"]
+    for app in ("T-LESS (A2, PoE)", "SYMSOL-T (A2, DINOv3)", "YCB-V (syn., DINOv3)", "SPEED+ (distilled, PoE)"):
+        for inf in ("1 view", "orbit (4)"):
+            L.append(f"{app if inf == '1 view' else ''} & {inf} & & & & \\\\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("deploy_quant", "\n".join(L))
+
+
 def spp_sota_table():
     f = lambda v, d=2: "" if v is None else f"{v:.{d}f}"
     L = [r"\begin{tabular}{@{}l l cc cc@{}}", r"\toprule",
@@ -451,6 +492,7 @@ def spp_sota_table():
 
 
 if __name__ == "__main__":
+    trans_xobj_table(); deploy_tables()
     main_table(); flips_table(); sixdof_table(); xds_table(); flat_table(); scoring_table(); augment_table()
     consistency_table(); timing_table(); zeroshot_table()
     sym_table(); tless_sota_table(); symsol_sota_table(); ycbv_table(); spp_sota_table()

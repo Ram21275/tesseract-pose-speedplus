@@ -1,0 +1,12 @@
+\begin{tabular}{@{}ll cccc cc@{}}
+\toprule
+ & & \multicolumn{4}{c}{GPU (ms/img)} & \multicolumn{2}{c}{CPU, 1 thread (ms/img)} \\
+\cmidrule(lr){3-6}\cmidrule(lr){7-8}
+Head & Inference & fp32 & bf16 & fp16 & peak MB & fp32 & int8 \\
+\midrule
+DINOv3 & 1 view & & & & & & \\
+ & orbit (4) & & & & & & \\
+PoE & 1 view & & & & & & \\
+ & orbit (4) & & & & & & \\
+\bottomrule
+\end{tabular}
