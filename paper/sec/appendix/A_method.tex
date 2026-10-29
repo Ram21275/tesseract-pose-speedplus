@@ -1,0 +1,496 @@
+\section{Extended method details}\label{app:method}
+This appendix lists the implementation details that \cref{sec:method} leaves out. Each paragraph ends with a comment naming the source file it was taken from. Quaternions are scalar-first, $q=(w,x,y,z)$, and every stored quaternion is sign-normalised to $w\ge0$. Products $\otimes$ are Hamilton products, and $\Exp(\phi\,d)=(\cos\tfrac{\phi}{2},\,\sin\tfrac{\phi}{2}\,d)$ for a unit axis $d$. All angles in tables are in degrees.
+% src: src/tfpose/inplane.py, src/tfpose/allo.py, src/tfpose/phase3.py
+
+%------------------------------------------------------------------
+\subsection{Problem setup, crops and rotation targets}\label{app:setup}
+
+\paragraph{Square crop.}
+The crop box is computed from the projected object points. Let $(x_0,y_0)$ and $(x_1,y_1)$ be the minimum and maximum of the projected points. The crop centre is $c=\tfrac12(x_0+x_1,\;y_0+y_1)$ and its side is
+\begin{equation}
+  s=\max(x_1-x_0,\;y_1-y_0,\;32\,\text{px})\cdot(1+2\cdot0.15),
+\end{equation}
+which gives the 15\% margin per side. The box may extend beyond the image. The crop is a single affine warp from the full image to an $N\times N$ output, with scale $N/s$, bilinear interpolation and zero padding outside the image. On SPEED+ the projected points are the 11 Tango keypoints, projected with lens distortion. The grayscale image is replicated to three channels. On T-LESS and YCB-V the same rule is applied to the projected model bounding box and to the projected model points (\texttt{points.xyz}). These images are read in colour. SYMSOL-T uses the full $224\times224$ frame, so the crop centre is the principal point.
+% src: src/tfpose/data.py (gt_square_box, crop_square), src/tfpose/features.py (load_crops), scripts/extract_compact.py (--rgb), scripts/run_exp064.sh, outputs/reports/EXP-064_broader_object_validation.md, outputs/reports/EXP-106_tless_multipath_tree.md
+
+\paragraph{Allocentric targets.}
+For T-LESS and YCB-V the tree predicts the allocentric rotation. Let $t$ be the object translation in the camera frame and $\hat t=t/\|t\|$. Let $R_{\text{ray}}(t)$ be the minimal rotation that takes $e_z$ to $\hat t$. With $v=e_z\times\hat t$, $s=\|v\|$ and $c=\hat t_z$, it is
+\begin{equation}
+  R_{\text{ray}}(t)=I+[v]_\times+\frac{1-c}{s^2}[v]_\times^2,
+\end{equation}
+where the factor $(1-c)/s^2$ is replaced by $\tfrac12$ when $s<10^{-12}$. The target is $R_{\text{allo}}=R_{\text{ray}}(t)^\top R_{\text{ego}}$, and the inverse is $R_{\text{ego}}=R_{\text{ray}}(t)\,R_{\text{allo}}$. Both conversions need $t$. At test time we use the ground-truth translation, because all rotation results use ground-truth crops. SPEED+ and SYMSOL-T use egocentric targets. For SYMSOL-T we follow the LiePose renderer~\cite{hsiao2024liepose}: the camera distance is $Z_0=5.25/\tan 30^\circ$, the focal length is $f=(224-112)\,Z_0/5.25$, the principal point is $(112,112)$, and the annotated translation is offset by $(0,0,Z_0)$.
+% src: src/tfpose/allo.py (ray_rot, mat_to_quat), src/tfpose/xobj.py (SYM_Z, SYM_F, intrinsics, pose_ego, target, from_target)
+
+\paragraph{Symmetry-aware error.}
+Let $\mathcal{S}$ be an object's set of symmetry matrices, with the identity first. The symmetry-aware error of a prediction $\hat R$ is
+\begin{equation}
+  E_R^{\text{sym}}=\arccos\!\Big(\tfrac12\big(\max_{S\in\mathcal{S}}\operatorname{tr}(\hat R^\top R\,S)-1\big)\Big).
+\end{equation}
+For T-LESS the sets come from the BOP \texttt{models\_info.json}. Continuous symmetries are discretised into 36 steps about their axis, and discrete ones are used exactly. For SYMSOL-T the sets are the annotated groups. \Cref{tab:app_symsets} lists the set sizes; YCB-V objects use the identity only. The same function is used as the checkpoint criterion on validation (\cref{app:train}).
+% src: scripts/train_xobj.py (sym_err), scripts/exp064_eval.py (sym_err), src/tfpose/xobj.py (symmetry_set), outputs/reports/EXP-106_tless_multipath_tree.md, outputs/data_manifests/tless_exp106_symmetries.npz, outputs/data_manifests/symsolt_exp064_symmetries.npz
+
+\begin{table}[t]
+  \centering\footnotesize
+  \caption{\textbf{Size $|\mathcal{S}|$ of the symmetry sets} used for training and evaluation. T-LESS continuous symmetries are discretised into 36 steps. Objects 18 and 21 have no symmetry in the BOP metadata.}
+  \label{tab:app_symsets}
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{@{}lccccccc@{}}
+    \toprule
+    T-LESS object & 1 & 4 & 5 & 11 & 18 & 21 & 27\\
+    $|\mathcal{S}|$ & 36 & 36 & 2 & 2 & 1 & 1 & 4\\
+    \midrule
+    SYMSOL-T shape & tet & cube & icosa & cone & cyl & & \\
+    $|\mathcal{S}|$ & 12 & 24 & 60 & 360 & 720 & & \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+% src: outputs/data_manifests/tless_exp106_symmetries.npz, outputs/data_manifests/symsolt_exp064_symmetries.npz (array shapes), outputs/reports/EXP-106_tless_multipath_tree.md
+
+%------------------------------------------------------------------
+\subsection{Tesseract partition of $SO(3)$}\label{app:tesseract}
+
+\paragraph{Charts and canonicalisation.}
+Let $q\in S^3$ be normalised. The chart is $c=\arg\max_i|q_i|$; when two coordinates tie, the first maximum is taken. The quaternion is multiplied by $\operatorname{sign}(q_c)$, so that $q_c>0$. This makes $q$ and $-q$ land on the same chart with the same coordinates, so $\mathrm{path}(q)=\mathrm{path}(-q)$ holds exactly. The projection to the cube facet is $x=q/q_c=q/\|q\|_\infty$. Its three free coordinates are $u=(x_j)_{j\ne c}$, taken in increasing index order and clipped to $[-1,1]$. For charts $c=0,1,2,3$ the free indices are $\{1,2,3\}$, $\{0,2,3\}$, $\{0,1,3\}$ and $\{0,1,2\}$.
+% src: src/tfpose/tesseract.py (canonicalize, project, FREE)
+
+\paragraph{Encoding.}
+Every free coordinate starts on the interval $[\ell,h]=[-1,1]$. At level $\ell'=1,\dots,L$ each interval is split at its midpoint $m=\tfrac12(\ell+h)$. A coordinate with $u_i\ge m$ goes to the upper half and sets bit $b_i=1$; otherwise $b_i=0$. A value exactly on the midpoint therefore goes to the upper half. The child id at that level is
+\begin{equation}
+  k=b_0+2b_1+4b_2\in\{0,\dots,7\},
+\end{equation}
+and the interval is updated to $[m,h]$ or $[\ell,m]$. The leaf id at depth $L$ is
+\begin{equation}
+  \mathrm{id}=c\cdot 8^L+\sum_{\ell'=1}^{L}k_{\ell'}\,8^{L-\ell'},
+\end{equation}
+so there are $4\cdot8^L$ leaves, ordered by chart and then lexicographically by path. Decoding a leaf id inverts this base-8 expansion.
+% src: src/tfpose/tesseract.py (encode, leaf_id, leaf_to_path)
+
+\paragraph{Cell centres.}
+After $l$ decisions with bits $b_{t,i}$ ($t=1..l$), the free coordinate $i$ of the cell centre is
+\begin{equation}
+  u_i=-1+\sum_{t=1}^{l}b_{t,i}\,2^{1-t}+2^{-l}.
+\end{equation}
+The centre quaternion is obtained by setting $x_c=1$ and $x_{j}=u$ on the free indices, then normalising $x/\|x\|$. With $l=0$ the centre is the chart axis $e_c$. This is the representative used as the root target (\cref{app:softtargets}) and as the first decoder token (\cref{app:treenet}). The tree uses cell centres only. The cell corners, at all $2^3$ combinations of the interval ends, are lifted the same way; they are used only to compute the exact worst-case error in \cref{tab:app_depth}. The GPU decoder computes the same centres in closed form and is identical to the NumPy decoder.
+% src: src/tfpose/tesseract.py (_cell_bounds, _lift, decode, cell_corners), src/tfpose/predictor.py (decode_torch)
+
+\paragraph{Relation to Kurz \etal}
+The recursive subdivision of the cubic facets of the 4-D hypercube, the 8-way halving and the radial projection $q=x/\|x\|$ follow~\cite{kurz2017tesseract}. We differ in three ways:
+\begin{itemize}
+  \item we use cube \emph{centres}, not corners, as representatives. A corner of the subdivided surface is shared by up to 8 cubes, so it has no unique parent;
+  \item we keep only the 4 positive facets, so $q\sim-q$ is handled by canonicalisation. This gives $4\cdot8^L$ cells instead of $(2^m{+}1)^4-(2^m{-}1)^4$ corner points with antipodal duplicates;
+  \item we add an explicit encoder, decoder, chart rule and tie rule, which a flat point set does not need.
+\end{itemize}
+% src: src/tfpose/tesseract.py (module docstring), outputs/reports/EXP-001_gt_tesseract_paths.md
+
+\paragraph{Invariants.}
+We checked the encoder on all 69,491 SPEED+ labels (47,966 synthetic train, 11,994 synthetic validation, 6,740 lightbox, 2,791 sunlamp). All of the following hold:
+\begin{itemize}
+  \item $\mathrm{path}(q)=\mathrm{path}(-q)$ and $\mathrm{encode}(\mathrm{decode}(\mathrm{path}))=\mathrm{path}$;
+  \item the canonical chart coordinate is positive;
+  \item prefixes are consistent across depths 1--5;
+  \item no label has an exact chart tie; the smallest top-2 margin is $5.0\cdot10^{-6}$.
+\end{itemize}
+Perturbing every label by $0.001^\circ$ changes the leaf of 21 labels, one of them across charts. In every such case the jump between decoded centres is at most 0.587 times twice the cell bound, so the decoded centre is continuous up to cell size. 200,000 probes placed exactly on chart seams ($|q_i|=|q_j|$) are antipodally consistent and follow the first-maximum rule. Only 38,318 of the 131,072 L5 leaves (29\%) contain a synthetic-train label, which motivates the soft targets of \cref{app:softtargets}.
+% src: outputs/reports/EXP-001_gt_tesseract_paths.md
+
+\paragraph{Quantisation by depth.}
+\Cref{tab:app_depth} lists precision and cost by depth, measured on $2\cdot10^6$ Haar-uniform rotations. The \emph{own-cell} error is the angle between a rotation and the centre of its own encoded cell, which is what the tree returns. Its exact maximum is the largest centre-to-corner angle over all cells. It is exact because the angle to a fixed direction is quasiconvex on a convex cell in the projected cube, so the maximum lies at a corner. The \emph{nearest-centre} error uses the closest centre in any cell. Its maximum is sampled, so it is a lower bound on the covering radius. Cell volumes follow from the chart-map density $(1+\|u\|^2)^{-2}$ on $S^3$, integrated per cell with $6^3$-point Gauss--Legendre quadrature. Greedy descent scores $4+8L$ nodes. On SPEED+ labels the own-cell statistics match the Haar values to within $0.03^\circ$ (L5 mean $2.51$--$2.53^\circ$ in every domain).
+% src: outputs/reports/EXP-002_depth_precision.md, outputs/reports/EXP-001_gt_tesseract_paths.md
+
+\begin{table*}[t]
+  \centering\footnotesize
+  \caption{\textbf{Tesseract precision and cost by depth} ($2\cdot10^6$ Haar rotations). Own-cell: distance to the centre of the encoded cell (the tree's output); the maximum is the exact centre-to-corner bound. Nearest: distance to the closest centre in any cell (sampled maximum). ``Not own'': fraction of rotations whose nearest centre is not in their own cell. Volume ratio and CV are exact. Spacing is each centre's nearest-neighbour distance.}
+  \label{tab:app_depth}
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{@{}rrrrrrrrrrrrr@{}}
+    \toprule
+    $L$ & cells & own mean & own median & own p95 & own max (exact) & nearest mean & nearest max & not own & vol.\ max/min & vol.\ CV & spacing mean / min / max & greedy nodes\\
+    \midrule
+    1 & 32 & 39.27 & 39.84 & 59.63 & 81.79 & 39.28 & 81.17 & 0.0\% & 1.00 & 0.000 & 62.0 / 62.0 / 62.0 & 12\\
+    2 & 256 & 19.95 & 19.85 & 31.44 & 46.83 & 19.64 & 46.21 & 10.3\% & 4.71 & 0.494 & 30.6 / 24.8 / 44.0 & 20\\
+    3 & 2,048 & 10.01 & 9.95 & 15.83 & 24.43 & 9.88 & 23.81 & 10.6\% & 9.62 & 0.548 & 15.8 / 11.2 / 26.5 & 28\\
+    4 & 16,384 & 5.01 & 4.98 & 7.92 & 12.36 & 4.95 & 11.81 & 10.4\% & 12.81 & 0.562 & 8.3 / 5.3 / 14.0 & 36\\
+    5 & 131,072 & 2.51 & 2.49 & 3.97 & 6.20 & 2.48 & 5.86 & 10.4\% & 14.44 & 0.565 & 4.3 / 2.6 / 7.1 & 44\\
+    \bottomrule
+  \end{tabular}}
+\end{table*}
+% src: outputs/reports/EXP-002_depth_precision.md (metrics table and uniformity table)
+
+The error halves with every level. The grid is not uniform: at L5 cell volumes differ by up to $14.4\times$, close to the analytic limit of $16\times$ between the chart centre (density 1) and a cube corner (density $1/16$). Small cells lie near the chart seams. As a result, a uniform prior over leaves is not a uniform prior over rotations. In about 10\% of cases the decoded cell is not the one with the nearest centre, but the cost is small (L5 mean $2.51^\circ$ against $2.48^\circ$). We stop at $L=5$. L6 would halve the floor to about $1.25^\circ$, but it has 1,048,576 cells against 47,966 SPEED+ training images.
+% src: outputs/reports/EXP-002_depth_precision.md
+
+\paragraph{Comparison with other grids.}
+\Cref{tab:app_grids} compares the Tesseract with Super-Fibonacci and Hopf~\cite{yershova2010hopf} grids and with SPACE-HOP's anchor grid~\cite{dutta2026spacehop}, all measured on $10^6$ Haar rotations. The Hopf grid uses HEALPix on $S^2$ times a uniform $S^1$, with $72\cdot8^r$ points. Its counts can never equal $4\cdot8^L$, so we list the two neighbouring levels. The SPACE-HOP grid and its balanced variants are defined in \cref{app:flat}. At equal count, Super-Fibonacci has a lower error than the Tesseract on every statistic, and both Hopf variants are more uniform: their spacing CV is about 0.06, against 0.21 for the Tesseract. SPACE-HOP's own grid at L5 count, $10{,}923\times12$, is much coarser than the Tesseract (mean $6.06^\circ$ against $2.51^\circ$), because it uses only 12 in-plane rolls. A balanced Hopf grid ($1{,}771\times74$) is finer ($2.30^\circ$). The Tesseract's advantage is search cost: greedy descent scores 44 nodes at L5, whereas a flat search scores all 131k anchors and the Hopf hierarchy needs 104 nodes at r4.
+% src: outputs/reports/EXP-003_grid_comparison.md, outputs/reports/EXP-101_tesseract_vs_spacehop_hopf.md (part A)
+
+\begin{table}[t]
+  \centering\footnotesize
+  \caption{\textbf{Grid quantisation} on $10^6$ Haar rotations (degrees). Tesseract: own-cell (decoded) error; other grids: nearest-anchor error. Maxima are sampled. The balanced Hopf rows were descriptive in EXP-101 (not pre-registered).}
+  \label{tab:app_grids}
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{@{}lrrrr@{}}
+    \toprule
+    grid & $N$ & mean & p95 & max\\
+    \midrule
+    Tesseract L3 & 2,048 & 10.01 & 15.83 & 23.81\\
+    Super-Fibonacci & 2,048 & 9.53 & 13.72 & 18.26\\
+    SPACE-HOP Hopf $171\times12$ & 2,052 & 9.67 & 14.60 & 18.12\\
+    Balanced Hopf $108\times19$ & 2,052 & 9.22 & 12.96 & 16.40\\
+    Hopf r2 & 4,608 & 7.04 & 9.90 & 13.53\\
+    \midrule
+    Tesseract L4 & 16,384 & 5.01 & 7.92 & 11.83\\
+    Super-Fibonacci & 16,384 & 4.68 & 6.72 & 8.53\\
+    SPACE-HOP Hopf $1365\times12$ & 16,380 & 6.76 & 13.09 & 15.40\\
+    Balanced Hopf $443\times37$ & 16,391 & 4.61 & 6.47 & 8.12\\
+    Hopf r3 & 36,864 & 3.52 & 4.95 & 6.67\\
+    \midrule
+    Tesseract L5 & 131,072 & 2.51 & 3.97 & 5.90\\
+    Super-Fibonacci & 131,072 & 2.47 & 3.76 & 4.52\\
+    SPACE-HOP Hopf $10923\times12$ & 131,076 & 6.06 & 12.91 & 15.05\\
+    Balanced Hopf $1771\times74$ & 131,054 & 2.30 & 3.22 & 3.91\\
+    Hopf r4 & 294,912 & 1.76 & 2.47 & 3.24\\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+% src: outputs/reports/EXP-003_grid_comparison.md (Super-Fibonacci, Hopf rows, Tesseract decoded), outputs/reports/EXP-101_tesseract_vs_spacehop_hopf.md (part A: Tesseract, SPACE-HOP and balanced Hopf rows)
+
+The L5 maxima differ by definition. $6.20^\circ$ in \cref{tab:app_depth} is the exact centre-to-corner bound. $5.90^\circ$ in \cref{tab:app_grids} is the largest own-cell error among the $10^6$ samples, and $5.86^\circ$ is the sampled nearest-centre maximum.
+% src: outputs/reports/EXP-002_depth_precision.md, outputs/reports/EXP-003_grid_comparison.md
+
+%------------------------------------------------------------------
+\subsection{Frozen features}\label{app:features}
+
+\paragraph{Freezing.}
+Both backbones are put in evaluation mode and have \texttt{requires\_grad} disabled. Every forward pass runs under \texttt{torch.no\_grad} and is followed by an assertion that no backbone parameter requires or holds a gradient. Features are extracted once per crop and view into an immutable HDF5 cache in fp16. Each cache is keyed by a hash of its preprocessing specification and a hash of its image list. The trees read only these caches.
+% src: src/tfpose/features.py (freeze, assert_frozen, extract_to_cache, cache_path), scripts/extract_compact.py
+
+\paragraph{DINOv3 tokens.}
+The DINOv3 featset is \texttt{tokens8}. We use DINOv3 ViT-L/16~\cite{simeoni2025dinov3} with Meta's LVD-1689M weights, loaded through the timm port \texttt{vit\_large\_patch16\_dinov3.lvd1689m}. The crop is resized to $256\times256$, scaled to $[0,1]$ and normalised with the ImageNet mean and standard deviation. The backbone runs under bf16 autocast. \texttt{forward\_intermediates} returns blocks 5, 11, 17 and 23 with the final norm applied. Only the last one, block 23, is used: its $16\times16\times1024$ patch tokens (the CLS and 4 register tokens are dropped) are average-pooled with \texttt{adaptive\_avg\_pool2d} to $8\times8$. This gives a $64\times1024$ token grid, flattened row-major in $(y,x)$ order and stored in fp16. The unpooled $16\times16$ grid (\texttt{tokens16}) was tested in EXP-109 arm B. It did not help (val-aug $30.51^\circ$ against $30.84^\circ$, within the seed std), at $4\times$ the tokens.
+% src: src/tfpose/features.py (DinoV3, DINO_LAYERS), src/tfpose/featsets.py (tokens8), scripts/extract_compact.py (last_grid8), outputs/reports/EXP-010_dinov3_baseline.md, outputs/reports/EXP-109_real_domain_aug_tokens16_orbit.md
+
+\paragraph{MoGe-2 normals.}
+We use MoGe-2~\cite{wang2025moge2} with checkpoint \texttt{Ruicheng/moge-2-vitl-normal}. The same crop is resized to $518\times518$ and scaled to $[0,1]$. Inference uses $37\times37$ encoder tokens, fp16, a predicted field of view (no intrinsics are given) and \texttt{apply\_mask=False}, so all maps stay finite. The predicted camera-frame surface normals and the foreground mask are area-pooled to a $74\times74$ grid. The extractor fails loudly if any normal is non-finite.
+% src: src/tfpose/features.py (MoGe2Extractor, VGGT_MAP_RES), outputs/reports/EXP-013_moge2_controls.md
+
+\paragraph{DINOv3 foreground and consensus mask.}
+The consensus mask is computed per image without training. It uses no fitted thresholds and no dataset statistics.
+\begin{enumerate}
+  \item Centre the 256 DINOv3 last-layer patch tokens ($16\times16\times1024$) and project them on their first principal direction, computed by SVD.
+  \item Flip the sign of the score if the mean over the outer ring of 60 border patches exceeds the mean over the interior, so that the border counts as background.
+  \item Upsample the score bilinearly (\texttt{align\_corners=False}) to $74\times74$ and threshold it with Otsu's method (256 bins). This gives the DINOv3 foreground.
+  \item Threshold the MoGe-2 mask at $0.5$.
+  \item Intersect the two masks.
+\end{enumerate}
+On real images this AND rule cuts the fraction of predicted foreground outside a dilated keypoint envelope from 0.52 to 0.12 on lightbox and from 0.57 to 0.12 on sunlamp, compared with the MoGe-2 mask alone. Recall drops by only 0.020 and 0.006. The envelope is the convex hull of the 11 projected keypoints, dilated by 3 cells.
+% src: src/tfpose/masks.py (dino_pca_score, otsu, envelope, leakage), scripts/extract_compact.py (consensus), outputs/reports/EXP-015_mask_consensus.md
+
+\paragraph{Masked normal tokens.}
+The MoGe-2 featset \texttt{normals16\textasciitilde and} is built as follows. Let $n\in\mathbb{R}^{74\times74\times3}$ be the MoGe-2 normals and $m\in\{0,1\}^{74\times74}$ the consensus mask. The token grid is
+\begin{equation}
+  X=\big[\mathrm{pool}_{16}(n\odot m),\;\mathrm{pool}_{16}(m)\big]\in\mathbb{R}^{256\times4},
+\end{equation}
+where $\mathrm{pool}_{16}$ is adaptive average pooling to $16\times16$. Each token holds the three masked-normal channels and the mask fraction of its cell. The normal channels are averaged over the whole cell and are not divided by the mask fraction, so their magnitude scales with the fraction of foreground in the cell. Using the consensus mask instead of MoGe-2's own mask lowered the probe's mean error by $6.9^\circ$ on lightbox and $13.0^\circ$ on sunlamp in EXP-016. The reverse direction, DINOv3 tokens pooled with mask weights, did not help and is not used.
+% src: src/tfpose/featsets.py (load: normals16 with mask_src "and"; load_rows), outputs/reports/EXP-016_consensus_pose.md
+
+\paragraph{Standardisation.}
+Every feature dimension (token $\times$ channel) is standardised as $(x-\mu)/\sigma$. The mean $\mu$ and standard deviation are computed in float64 on the clean training rows only, and $\sigma=\mathrm{sd}+10^{-6}$. On SPEED+ the statistics come from the synthetic-train split. The augmented training views, the validation set and the rotated test views are standardised with the same clean-train statistics. On the other datasets the statistics are computed per object from that object's clean training rows. In EXP-122 the YCB-V synthetic composites are appended to these rows.
+
+A floor is applied to the standard deviation in one case. Some $16\times16$ border cells are always empty in the clean SYMSOL-T renders, so their train sd is about $10^{-6}$. When a rolled or validation view places the object there, the standardised values reach about $1.6\cdot10^5$ and overflow fp16. The MoGe-2 trees for cube, cylinder and icosahedron therefore use $\sigma=\max(\sigma,10^{-2})$; the features lie in $[-1,1]$. No other tree uses a floor.
+% src: src/tfpose/featsets.py (train_stats, standardize_to_tensor), scripts/train_probe_p3.py, scripts/train_xobj.py (--sd-floor, --extra-train), outputs/reports/EXP-064_broader_object_validation.md
+
+\paragraph{Compact extractor.}
+Augmented views, orbit views and all non-SPEED+ datasets go through a compact extractor. It stores only the pooled $8\times8$ DINOv3 grid, the DINOv3 foreground, and the MoGe-2 normals and mask. On 512 SPEED+ crops this extractor did not meet the pre-registered strict tolerance against the full caches (maximum absolute difference $10^{-2}$ after standardisation). DINOv3 reached a maximum of 0.011 and MoGe-2 a maximum of 0.51, in 97 of 512 images. Predictions were unaffected: the PoE greedy leaf was identical on all 512 crops, and the single-branch leaf changed on 1 of 512 (DINOv3) and 3 of 512 (MoGe-2) crops.
+% src: scripts/extract_compact.py, outputs/reports/EXP-064_broader_object_validation.md (compact-feature gate)
+
+%------------------------------------------------------------------
+\subsection{Tree network}\label{app:treenet}
+
+\paragraph{Input layer and positional encoding.}
+The model reads a flattened token grid of shape $T\times C$: $64\times1024$ for DINOv3 and $256\times4$ for MoGe-2. Each token is passed through $\mathrm{LayerNorm}(C)$ and a linear map to $d=256$, and a fixed 2-D sinusoidal encoding is added. For a $g\times g$ grid ($g=\sqrt{T}$), the token in row $y$ and column $x$ has $p=(y/g,\,x/g)$. With $\omega_k=2^k\pi$ for $k=0,\dots,d/4-1=63$, its encoding is
+\begin{equation}
+\begin{split}
+  \mathrm{PE}(y,x)=\big[&\sin(p_y\omega),\,\cos(p_y\omega),\\
+  &\sin(p_x\omega),\,\cos(p_x\omega)\big]\in\mathbb{R}^{256},
+\end{split}
+\end{equation}
+with each block 64-dimensional. The encoding is a fixed buffer, not a learned parameter. In exact arithmetic only the frequencies with $2^k<2g$ separate the grid positions; for larger $k$ the argument is a multiple of $2\pi$. In float32 the products for large $k$ do not reduce exactly, so those channels hold fixed, position-dependent rounding residues rather than constants.
+% src: src/tfpose/phase3.py (_pos2d, HierTransformer.__init__, encode)
+
+\paragraph{Encoder and decoder.}
+The memory is computed by one Transformer encoder layer. The path is decoded by a causal Transformer decoder with 2 layers. All layers use pre-norm (\texttt{norm\_first}), 4 attention heads, a feed-forward width of 512 with the PyTorch default ReLU activation, and dropout 0.1. There is no final LayerNorm after either stack. The decoder input sequence is $(s_0,s_1,\dots,s_{L})$:
+\begin{align}
+  s_0&=r \quad(\text{learned root token, init } \mathcal{N}(0,0.02^2)),\\
+  s_{j+1}&=E_{\text{lev}}[j]+W\,\varphi(c_j)+b,\qquad j=0,\dots,L-1,
+\end{align}
+where $c_j$ is the centre of the cell reached after $j$ child decisions. In particular $c_0=e_{\text{chart}}$, so the chart enters the sequence only through this first cell centre. $E_{\text{lev}}$ is a learned embedding with $L+1=6$ rows. The cell encoding is
+\begin{equation}
+  \varphi(q)=\big[q,\;\sin(2^k\pi q)_{k=0}^{5},\;\cos(2^k\pi q)_{k=0}^{5}\big]\in\mathbb{R}^{4+8\cdot6=52},
+\end{equation}
+and $W\in\mathbb{R}^{256\times52}$. Self-attention uses the causal mask (upper-triangular $-\infty$), and every decoder layer cross-attends to the encoded tokens. Output position 0 feeds a linear root head ($256\to4$ chart logits). Output position $j\ge1$ feeds a linear child head ($256\to8$) that predicts the child at level $j$. Under teacher forcing the sequence is built from the ground-truth path minus its last child, so one decoder pass gives all $1+L$ distributions. At inference the decoder is re-run on the full prefix at every level; there is no key--value cache.
+% src: src/tfpose/phase3.py (HierTransformer: __init__, _seq, _run, root, child_logits_prefix, logits_tf), src/tfpose/predictor.py (fourier)
+
+\paragraph{Parameter count.}
+The DINOv3 tree has 2,391,564 trainable parameters and the MoGe-2 tree 2,128,404. They differ only in the input layer: $\mathrm{LN}(1024)+\mathrm{Linear}(1024,256)$ against $\mathrm{LN}(4)+\mathrm{Linear}(4,256)$, a difference of 263,160 parameters. The positional buffer is not counted. The translation block of \cref{app:trans} adds 331,011 parameters per branch.
+% src: outputs/experiments/EXP-036_transformer_soft_targets/RUN-*/status.json and outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-*/status.json (n_params), outputs/experiments/EXP-118_translation_6dof/RUN-*/status.json (n_params), src/tfpose/phase3.py
+
+\paragraph{Geodesic soft targets.}\label{app:softtargets}
+Let $\delta(q,c)=2\arccos|\langle q,c\rangle|$ in degrees. For a ground-truth rotation $q$ with path $(c^*,k_1,\dots,k_L)$, the targets are
+\begin{align}
+  t^{(0)}_i&=\mathrm{softmax}_i\big(-(\delta(q,e_i)/\tau_0)^2\big),\quad i=0..3,\\
+  t^{(\ell)}_k&=\mathrm{softmax}_k\big(-(\delta(q,c_{\ell,k})/\tau_\ell)^2\big),\quad k=0..7,
+\end{align}
+where $e_i$ is the centre of chart $i$ and $c_{\ell,k}$ is the centre of child $k$ of the \emph{ground-truth} prefix $(c^*,k_1,\dots,k_{\ell-1})$. Mass therefore never leaves the ground-truth parent cell. The widths are fixed a priori. For $\ell\ge1$, $\tau_\ell$ is the mean own-cell error at depth $\ell$ (\cref{tab:app_depth}); the chart level reuses the L1 value:
+\begin{center}\footnotesize
+\begin{tabular}{@{}lcccccc@{}}
+  \toprule
+  level $\ell$ & 0 (chart) & 1 & 2 & 3 & 4 & 5\\
+  $\tau_\ell$ ($^\circ$) & 39.27 & 39.27 & 19.95 & 10.01 & 5.01 & 2.51\\
+  \bottomrule
+\end{tabular}
+\end{center}
+The loss sums the soft cross-entropies of the six heads and averages over the batch:
+\begin{equation}
+  \mathcal{L}_{\text{GT}}=-\sum_{\ell=0}^{L}\sum_{k}t^{(\ell)}_k\log p^{(\ell)}_k .
+\end{equation}
+% src: src/tfpose/phase3.py (TAU_DEG, soft_targets, soft_ce), scripts/train_probe_p3.py (losses), scripts/train_xobj.py, outputs/reports/EXP-002_depth_precision.md
+
+\paragraph{Training.}\label{app:train}
+One tree is trained per backbone (and per object on the other datasets). The schedule is the same everywhere:
+\begin{itemize}
+  \item 100 epochs with batch 256;
+  \item AdamW with learning rate $10^{-3}$ and weight decay 0.05;
+  \item a one-cycle schedule with 5\% warm-up (\texttt{pct\_start}=0.05) over all steps;
+  \item bf16 autocast, with features held in fp16;
+  \item for each sample and step, one of its three views (clean, augmented copy 1, augmented copy 2) is drawn uniformly, and the labels of that view are used.
+\end{itemize}
+Every 5 epochs and at the last epoch the model is evaluated with greedy decoding, and the best checkpoint is kept. On SPEED+ the criterion is the clean synthetic-validation mean error. On the other datasets it is the symmetry-aware validation mean of the greedy prediction. Without augmented views, a Transformer-tree training run (EXP-032) took about 9 minutes for DINOv3 and 19 minutes for MoGe-2.
+% src: scripts/train_probe_p3.py, scripts/train_xobj.py, scripts/train_consistency.py, outputs/reports/EXP-032_transformer_decoder.md, outputs/reports/EXP-036_transformer_soft_targets.md
+
+\paragraph{Beam search.}
+Let $\log\tilde p^{(\ell)}$ be the (possibly fused) conditional log-distribution at a node. The beam keeps the $k_0=\min(B,4)$ best charts and then, at each of the $L$ levels, expands every kept prefix into 8 children. It scores each child by the cumulative log-probability
+\begin{equation}
+  S(c,k_{1:\ell})=\log\tilde p^{(0)}(c)+\sum_{j=1}^{\ell}\log\tilde p^{(j)}(k_j\mid c,k_{1:j-1}),
+\end{equation}
+and keeps the top $B$ of the $8K$ candidates. Greedy decoding is $B=1$. Orbit voting uses $B=8$ and keeps all 8 final leaves together with their scores. The prediction is the centre of the best leaf. EXP-034 found that beams up to 8 did not change the single-view greedy result (PoE synthetic-val mean $6.242^\circ$ at $B{=}1$, $6.248^\circ$ at $B{=}8$). The trained tree is decisive, and beams matter only as a source of candidates.
+% src: src/tfpose/fusion.py (fused_beam), outputs/reports/EXP-034_beam_decoding.md
+
+\paragraph{Per-level product of experts.}
+With the two branches, the fused conditional at every node is
+\begin{equation}
+  \log\tilde p^{(\ell)}=\log\mathrm{softmax}\Big(\textstyle\sum_{b}\log\mathrm{softmax}(z_b^{(\ell)})\Big),
+\end{equation}
+which is the renormalised product of experts~\cite{hinton2002poe}. It has no parameters and needs no training. The code also implements an equal mixture and reliability-weighted products (inverse entropy, top-2 margin), but the reported systems use only the product. The same fusion is applied during teacher-forced scoring in orbit voting and in the distillation teachers.
+% src: src/tfpose/fusion.py (combine, fused_beam), scripts/orbit_eval.py (tree_lp)
+
+\paragraph{How the tree was chosen.}
+\Cref{tab:app_lineage} traces how the tree was arrived at. All rows use the full SPEED+ synthetic training set and no augmentation. The MLP tree reads a pooled DINOv3 $4\times4$ grid and the flattened \texttt{normals16\textasciitilde and} vector. Its trunk is $\mathrm{LN}\to\mathrm{Linear}(\cdot,512)\to\mathrm{GELU}\to\mathrm{Linear}(512,512)\to\mathrm{GELU}$, with dropout 0.1. Its child head reads the trunk output together with a 128-d level embedding plus a 128-d projection of $\varphi(\text{parent centre})$. The GRU variant replaces the child head by a GRU cell over the previous decisions (state 256). The tangent residual predicts $\delta\in\mathbb{R}^3$, and the prediction becomes $q_{\text{leaf}}\otimes\Exp(\delta)$; the residual is trained teacher-forced on the ground-truth leaf, in units of $\tau_5$. The Transformer with soft targets (EXP-036) has the lowest PoE synthetic-validation mean, and it is the tree used throughout.
+% src: src/tfpose/predictor.py (HierMLP), src/tfpose/phase3.py (HierGRU, ResidualHead, leaf_rotvec_targets), scripts/train_probe_p3.py, outputs/reports/EXP-030_full_data_mlp_baseline.md ... EXP-036_transformer_soft_targets.md
+
+\begin{table}[t]
+  \centering\footnotesize
+  \caption{\textbf{Decoder and target ablations} on SPEED+ (no augmentation, greedy, 3-seed mean). Synthetic val selects; lightbox and sunlamp are descriptive.}
+  \label{tab:app_lineage}
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{@{}llcccc@{}}
+    \toprule
+    exp. & decoder / targets & DINOv3 val & PoE val & PoE lightbox & PoE sunlamp\\
+    \midrule
+    030 & MLP / hard & 6.64 & 6.242 $\pm$ 0.072 & 31.1 & 43.7\\
+    031 & GRU / hard & 6.29 & 6.149 $\pm$ 0.098 & 31.0 & 40.6\\
+    033 & MLP / soft & 5.69 & 6.068 $\pm$ 0.067 & 28.2 & 42.1\\
+    035 & MLP / hard + residual & 6.58 & 6.214 $\pm$ 0.054 & 32.2 & 43.2\\
+    032 & Transformer / hard & 6.08 & 5.685 $\pm$ 0.103 & 31.6 & 41.8\\
+    036 & Transformer / soft & 5.35 & 5.540 $\pm$ 0.063 & 26.9 & 36.6\\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+% src: outputs/reports/EXP-030_full_data_mlp_baseline.md, EXP-031_gru_path_decoder.md, EXP-032_transformer_decoder.md, EXP-033_geodesic_soft_targets.md, EXP-035_tangent_residual.md, EXP-036_transformer_soft_targets.md
+
+%------------------------------------------------------------------
+\subsection{Augmentation and the exact in-plane roll}\label{app:roll}
+
+\paragraph{Augmented copies.}
+Two augmented copies of every training crop are extracted once, alongside the clean crop. For row $i$ of copy $j\in\{1,2\}$, the roll angle is drawn as $\theta_i\sim\mathcal{U}(-180^\circ,180^\circ)$ from a generator seeded with $j$, in row order. The photometric parameters come from a generator seeded with $[j,i]$. The synthetic validation-augmented set (``val-aug'') is built in the same way, with seed 1000 for both. Each backbone receives its own rendering of the crop at its own resolution ($256$ px for DINOv3, $518$ px for MoGe-2). The photometric generator stream is the same for both, so pixel-unit parameters (blur $\sigma$, blob radius) are relatively stronger at 256 px.
+% src: scripts/extract_compact.py (--rot-random-seed, --photo-seed, Crops), scripts/run_exp109_master.sh, scripts/run_exp064.sh
+
+\paragraph{Geometric warp.}
+The rotated crop is resampled directly from the full image in one warp, so no black corners appear unless the box leaves the image. With crop scale $\sigma=N/s$, the warp is
+\begin{equation}
+  M=\begin{bmatrix}R_\theta & t_\theta\end{bmatrix}\circ\begin{bmatrix}\sigma&0&N/2-\sigma c_x\\0&\sigma&N/2-\sigma c_y\end{bmatrix},
+\end{equation}
+where $[R_\theta\,|\,t_\theta]$ is OpenCV's \texttt{getRotationMatrix2D} about the output centre $(N/2,N/2)$ with unit scale. Positive $\theta$ rotates the content counter-clockwise on screen. Interpolation is bilinear with zero padding.
+% src: src/tfpose/inplane.py (crop_rotated)
+
+\paragraph{Photometric augmentation.}
+The operations are applied in this order to the crop $x\in[0,1]^{H\times W(\times C)}$, after the geometric warp:
+\begin{enumerate}
+  \item brightness: $x\leftarrow x\cdot a$, with $a\sim\mathcal{U}(0.5,1.5)$;
+  \item contrast about the image mean $\bar x$: $x\leftarrow(x-\bar x)\,b+\bar x$, with $b\sim\mathcal{U}(0.6,1.4)$;
+  \item gamma: $x\leftarrow\mathrm{clip}(x,0,1)^{\gamma}$, with $\gamma\sim\mathcal{U}(0.6,1.6)$;
+  \item Gaussian blur with probability 0.5, $\sigma\sim\mathcal{U}(0.01,1.5)$ px;
+  \item glare with probability 0.3: 1--3 additive Gaussian blobs with uniformly random centres, radius $r\sim\mathcal{U}(0.05,0.25)\,H$ and amplitude $\mathcal{U}(0.5,1.5)$;
+  \item additive Gaussian noise with $\sigma_n\sim\mathcal{U}(0,0.06)$, followed by clipping to $[0,1]$;
+  \item random erasing with probability 0.3: one rectangle covering 5--20\% of the area, aspect ratio $\mathcal{U}(0.3,3.3)$, filled with a uniform random value;
+  \item JPEG re-encoding with probability 0.5, quality $\mathcal{U}\{30,\dots,90\}$.
+\end{enumerate}
+Photometric operations do not change the labels. They are not applied to the rotated test views used by orbit voting.
+% src: src/tfpose/inplane.py (photometric), scripts/run_exp109_master.sh (test3_r views without --photo-seed), outputs/reports/EXP-109_real_domain_aug_tokens16_orbit.md
+
+\paragraph{Label transform.}
+The four candidate conventions are listed below, with $d$ the unit ray through the crop centre:
+\begin{center}\footnotesize
+\begin{tabular}{@{}ll@{\qquad}ll@{}}
+  \toprule
+  pre$+$ & $q'=\Exp(+\theta d)\otimes q$ & post$+$ & $q'=q\otimes\Exp(+\theta d)$\\
+  pre$-$ & $q'=\Exp(-\theta d)\otimes q$ & post$-$ & $q'=q\otimes\Exp(-\theta d)$\\
+  \bottomrule
+\end{tabular}
+\end{center}
+We derived the convention from the camera geometry. The pose convention is $p_{\text{cam}}=R(q)\,p_{\text{body}}+t$, and the image $y$ axis points down. A camera rotation $\mathrm{Rot}(d,\phi)$ about the ray through the crop centre fixes that centre. Near the centre, and for $f_x=f_y$, it appears on screen as a \emph{clockwise} rotation by $\phi$. Matching the counter-clockwise warp by $\theta$ therefore requires $\phi=-\theta$. This gives $R'=\mathrm{Rot}(d,-\theta)R$ and $t'=\mathrm{Rot}(d,-\theta)\,t$, \ie the ``pre$-$'' convention of \cref{eq:roll}. All results use it.
+
+On SPEED+, $d$ is computed from the \emph{undistorted} crop centre. The pixel is undistorted with the camera's distortion coefficients, lifted to $z=1$ and normalised. The derivation was checked without any model on 512 synthetic-validation crops at 4 angles. The 11 keypoints projected with $(q,t)$ through the real distorted camera and pushed through the rotated-crop warp agree with the projection of $(q',t')$ through the plain crop to 0.34 px mean, 1.05 px p95 and 4.75 px max in a 224-px crop. The other three conventions are off by 94--242 px. The label error, measured as the angle between $q'$ and the PnP pose that reproduces the warped points, is $0.06^\circ$ mean, $0.20^\circ$ p95 and $1.14^\circ$ max. The residual comes from approximating a distorted homography by an affine warp. The round trip $q\to q'\to q$ is within $0.004^\circ$. The pass rule (p95 label error below $0.5^\circ$, round trip below $0.01^\circ$, and pre$-$ clearly best) was fixed before this measurement.
+
+A predictor check was run afterwards. It compares the frozen EXP-036 trees' predictions on crops rotated by $90^\circ$ and $37^\circ$ with the ground truth under each convention. This check is descriptive only and was not used to choose the convention.
+% src: scripts/exp109_convention_geometry.py (docstring and pass rule), scripts/exp109_gate.py (docstring), src/tfpose/inplane.py (MODES, rotate_label, ray_undistorted), outputs/experiments/exp109_convention.txt, outputs/reports/EXP-109_real_domain_aug_tokens16_orbit.md (amendment 2026-10-15)
+
+\paragraph{Exact roll homography (T-LESS, YCB-V).}
+For objects far from the optical axis, the affine crop rotation is only an approximate camera roll. With it, the label error reached p95 $1.43^\circ$ / $2.40^\circ$ and max $2.5^\circ$ / $6.7^\circ$ on T-LESS / YCB-V, which failed the same pre-set rule. For these datasets we therefore warp with the homography of the camera roll. The images have no distortion, so $d=K^{-1}(c_x,c_y,1)^\top$, normalised. The crop is
+\begin{equation}
+\begin{gathered}
+  x_{\text{crop}}\sim C\,K\,\mathrm{Rot}(d,-\theta)\,K^{-1}\,x,\\
+  C=\begin{bmatrix}\sigma&0&N/2-\sigma c_x\\0&\sigma&N/2-\sigma c_y\\0&0&1\end{bmatrix},
+\end{gathered}
+\end{equation}
+with $\mathrm{Rot}(d,\phi)=I+\sin\phi\,[d]_\times+(1-\cos\phi)[d]_\times^2$ (Rodrigues), bilinear interpolation and zero padding. The crop centre is a fixed point of the roll, so the labels follow exactly:
+\begin{equation}
+\begin{gathered}
+  R'_{\text{ego}}=\mathrm{Rot}(d,-\theta)R_{\text{ego}},\quad t'=\mathrm{Rot}(d,-\theta)\,t,\\
+  R'_{\text{allo}}=R_{\text{ray}}(t')^\top R'_{\text{ego}}.
+\end{gathered}
+\end{equation}
+The allocentric target is recomputed from the rolled translation $t'$. It is not obtained by left-multiplying the old target. With this warp, the label error and the reprojection error are both $0.000$ (degrees and pixels), and the mapping round trip is within $0.004^\circ$. SYMSOL-T uses the full frame, whose centre is the principal point, so the affine rotation is already an exact roll there. It uses egocentric labels and no homography. For every dataset, right-multiplication by an object symmetry $S$ commutes with the roll (the roll multiplies on the left).
+% src: src/tfpose/inplane.py (crop_rolled_homography), src/tfpose/xobj.py (module docstring, crop_ray, roll_pose, roll_target), scripts/run_exp064.sh (--roll-homography except SYMSOL-T), outputs/reports/EXP-064_broader_object_validation.md (amendment 2026-10-18), outputs/reports/EXP-106_tless_multipath_tree.md
+
+%------------------------------------------------------------------
+\subsection{Orbit voting}\label{app:orbit}
+
+\paragraph{Views.}
+The four views $\theta_k\in\{0^\circ,90^\circ,180^\circ,270^\circ\}$ are extracted as separate crops with the warp of \cref{app:roll}: affine on SPEED+ and SYMSOL-T, the roll homography on T-LESS and YCB-V. Their features are standardised with the clean training statistics. For the val-aug set, view $k$ adds $\theta_k$ to the row's random angle and reuses its photometric seed. Orbit inference therefore needs $4\times$ the backbone passes of a single view.
+% src: scripts/orbit_eval.py, scripts/run_exp109_master.sh, scripts/run_exp064.sh, scripts/extract_compact.py (--rot-deg)
+
+\paragraph{Candidates.}
+In every view the fused tree runs beam search with $B=8$ and returns 8 leaf centres $c_{k,1..8}$ with their joint log-probabilities $S_{k,1..8}$. On SPEED+ and SYMSOL-T each leaf is mapped to view 0 by the inverse roll, $c=\Exp(+\theta_k d)\otimes c_k$. On the allocentric datasets the mapping goes through the egocentric frame using the ground-truth translation of each view, $t_k=\mathrm{Rot}(d,-\theta_k)\,t$:
+\begin{equation}
+  c=\mathrm{allo}_{t}\Big(\mathrm{Rot}(d,+\theta_k)\,\mathrm{ego}_{t_k}(c_k)\Big),
+\end{equation}
+where $\mathrm{ego}_{t}(R)=R_{\text{ray}}(t)R$ and $\mathrm{allo}_{t}(R)=R_{\text{ray}}(t)^\top R$. This gives 32 candidates $c_{1..32}$ in the frame of view 0. All four rules below choose among these same candidates.
+% src: scripts/orbit_eval.py (evaluate), scripts/exp064_eval.py (to_view, to_zero), src/tfpose/xobj.py
+
+\paragraph{Scoring rules.}
+Let $\mathrm{geo}(a,b)$ be the geodesic angle in degrees.
+\begin{itemize}
+  \item \textbf{Orbit product} (\cref{eq:orbit}). Each candidate is mapped into every view $k$ with the forward roll and encoded to its own depth-5 path. The fused tree is scored on that path with teacher forcing, and the per-view log-probabilities are summed:
+  \begin{equation}
+  \begin{split}
+    s(c)=\sum_{k}\Big[&\log\tilde p_k^{(0)}(\text{chart})\\
+    &+\textstyle\sum_{\ell=1}^{5}\log\tilde p_k^{(\ell)}(k_\ell\mid\text{prefix})\Big].
+  \end{split}
+  \end{equation}
+  The prediction is $\arg\max_c s(c)$. In each view this costs one encoder pass and one teacher-forced decoder pass per candidate, with no beam search.
+  \item \textbf{Max-confidence}. The candidate with the largest joint beam log-probability $S$ in its own view is chosen. These scores are not normalised across views.
+  \item \textbf{Top-1 vote}. Only the 4 view top-1 candidates are used. Each receives the kernel support $\sum_{j=1}^{4}\exp(-\tfrac12(\mathrm{geo}(c_i,c_j)/5^\circ)^2)$, including its own term. Ties are broken by adding $10^{-6}(S_i-\min_j S_j)$.
+  \item \textbf{Weighted vote} over all 32 candidates. Within each view the beam scores are turned into weights $w=\mathrm{softmax}(S_{k,1..8})$. The support of candidate $i$ is $\sum_{j=1}^{32}w_j\exp(-\tfrac12(\mathrm{geo}(c_i,c_j)/5^\circ)^2)$, also including its own term.
+\end{itemize}
+The kernel is a Gaussian with $\sigma=5^\circ$, which differs from the form $\exp(-(\delta/\tau)^2)$ of the soft targets. Greedy decoding uses view 0 only. Measured in EXP-112/114, the product's re-scoring costs 8.2\,ms (DINOv3-only) or 15.3\,ms (PoE) per image at batch 1, and 0.4 / 1.2\,ms per image batched. The weighted vote needs only a $32\times32$ angle matrix (below 0.1\,ms).
+% src: scripts/orbit_eval.py (tree_lp, evaluate: orbit_product, orbit_maxconf, orbit_vote1, orbit_vote32), scripts/exp064_eval.py, outputs/reports/EXP-114_orbit_scoring_rules.md
+
+%------------------------------------------------------------------
+\subsection{Symmetry-aware targets}\label{app:symtarget}
+
+For an object with symmetry quaternions $\{s\}$ (the matrices of \cref{tab:app_symsets} converted to quaternions), the three label modes of \cref{sec:symtarget} are:
+\begin{itemize}
+  \item \textbf{A0, single label.} The annotated target of the view, $q_v$, with the soft targets of \cref{app:softtargets}.
+  \item \textbf{A1, canonical.} In every view separately, the equivalent rotation closest to the identity, $q_v\otimes s^\star$ with $s^\star=\arg\max_s|(q_v\otimes s)_w|$. Because canonicalisation is per view, the canonical labels of a clean view and its rolled copy need not be related by \cref{eq:roll}.
+  \item \textbf{A2, multi-path} (\cref{eq:symloss}). For each sample, the set $\mathcal{S}'$ is all of $\mathcal{S}$ if $|\mathcal{S}|\le K_s=8$. Otherwise $K_s$ members are drawn without replacement, independently per sample and step. Each $q_v\otimes s$ is encoded to its own path, gets its own soft targets, and is scored by a teacher-forced pass of the decoder over the repeated memory. The loss is the mean of $\mathcal{L}_{\text{GT}}$ over the $B\cdot|\mathcal{S}'|$ rows. For $|\mathcal{S}|=1$ this is exactly A0.
+\end{itemize}
+The pre-registration named the hard-path level-marginal loss for A2. We used the smoothed version above instead: the hard-path loss would neither reduce to A0 for asymmetric objects nor keep the recipe's soft targets. Before training we checked that the quaternion product $q\otimes s$ equals the matrix product $R\,S$ to $10^{-15}$, and that the roll commutes with right-multiplication by $S$. The trees are per object, so the existing single-label trees are a matched A0 with the same code path, recipe, seeds and checkpoint rule.
+% src: scripts/train_xobj.py (--label, --sym-k, canon, multi_loss), outputs/reports/EXP-106_tless_multipath_tree.md (amendment 2026-10-27)
+
+%------------------------------------------------------------------
+\subsection{Orbit distillation}\label{app:distill}
+
+\paragraph{Teacher.}
+The teacher is the frozen orbit system of the same seed and variant, applied to each training image over the three views it already has: clean, augmented copy 1 and augmented copy 2, with known roll angles $\theta_v$ (where $\theta_0=0$). The roll angles are arbitrary, not multiples of $90^\circ$; orbit scoring only needs them to be known.
+\begin{itemize}
+  \item In each view the fused tree returns its beam-8 leaves. They are mapped to the clean frame: on SPEED+ with $\Exp(+\theta_v d)\otimes c$; on T-LESS and SYMSOL-T exactly through \texttt{xobj}, using the ground-truth translation of view $v$. This gives 24 candidates $c_j$.
+  \item Each candidate receives the orbit-product score $s(c_j)$, summed over the three views as in \cref{app:orbit}, and the weight $w_j=\mathrm{softmax}_j\,s(c_j)$ (temperature 1).
+  \item The pairs $(c_j,w_j)$ are computed once and stored. The weights are constants during student training, so no gradient flows through them.
+\end{itemize}
+On SPEED+ the teacher trees are the augmentation-trained trees of EXP-109. On T-LESS and SYMSOL-T they are the trees of the EXP-106 arm with the lowest validation PoE greedy mean. There are two teacher variants: a PoE teacher (DINOv3 + MoGe-2) and a DINOv3-only teacher.
+% src: scripts/exp117_teacher.py, scripts/xobj_teacher.py, outputs/reports/EXP-117_orbit_distillation.md, outputs/reports/EXP-119_xobj_orbit_distillation.md
+
+\paragraph{Student loss.}
+The student is a new tree for one branch, trained from scratch with the recipe of \cref{app:train}. For the view $v$ drawn for a sample, each teacher candidate is transported into that view's frame: with $\Exp(-\theta_v d)\otimes c_j$ on SPEED+, and exactly through \texttt{xobj} on the other datasets. The transported candidate is encoded to its path $(c,k_1,\dots,k_L)$. The student is teacher-forced along that path to obtain the stepwise log-probabilities $a_0=\log p^{(0)}(c)$ and $a_\ell=\log p^{(\ell)}(k_\ell\mid\text{prefix})$. The $\log p^{(\ell)}(\mathrm{pre}_\ell(\cdot))$ of \cref{eq:distill} is the \emph{joint} log-probability of the length-$\ell$ prefix, $\sum_{i\le\ell}a_i$. The distillation term is
+\begin{equation}
+  \mathcal{L}_{\text{dist}}=-\sum_{j=1}^{24}w_j\,\frac{1}{L+1}\sum_{\ell=0}^{L}\sum_{i=0}^{\ell}a_i(c_j),
+\end{equation}
+averaged over the batch. It is added to the view's ground-truth loss with $\beta=1$, which was fixed before any run. On T-LESS and SYMSOL-T the ground-truth term uses the base arm's label mode (A0, A1 or A2). Three students are trained per seed and object:
+\begin{itemize}
+  \item a DINOv3 student from the DINOv3-only teacher, for the DINOv3-only system;
+  \item a DINOv3 student and a MoGe-2 student from the PoE teacher, which together form the PoE system.
+\end{itemize}
+Inference is unchanged: the students are used greedily or with orbit voting, exactly like the base trees. This is data distillation~\cite{radosavovic2018data,hinton2015distilling} with the hierarchical level-marginal target.
+% src: scripts/train_consistency.py (mode distill, level_ce), scripts/train_xobj.py (--teacher, --beta, level_ce), outputs/reports/EXP-117_orbit_distillation.md (amendment 2026-10-17), outputs/reports/EXP-119_xobj_orbit_distillation.md
+
+%------------------------------------------------------------------
+\subsection{Translation block}\label{app:trans}
+
+\paragraph{Target.}
+We keep the SPACE-HOP target~\cite{dutta2026spacehop} unchanged. The box is the ground-truth square crop, $(b_x,b_y,b_w,b_h)=(c_x^{\text{crop}},c_y^{\text{crop}},s,s)$. The image size $(W,H)$ is $1920\times1200$ for SPEED+, $720\times540$ for T-LESS, $640\times480$ for YCB-V and $224\times224$ for SYMSOL-T, and $\alpha=1.6$. With $\kappa=\tfrac12(\alpha b_w/W+b_h/H)$, which equals $\tfrac12(1/s_x+1/s_y)$ for $s_x=W/(\alpha b_w)$ and $s_y=H/b_h$, the forward and inverse maps are
+\begin{align}
+  u&=\Big(\tfrac{f_xX/Z+c_x-b_x}{b_w},\;\tfrac{f_yY/Z+c_y-b_y}{b_h},\;\kappa Z\Big),\\
+  Z&=U_z/\kappa,\quad X=\tfrac{(U_xb_w+b_x-c_x)Z}{f_x},\\
+  Y&=\tfrac{(U_yb_h+b_y-c_y)Z}{f_y}.
+\end{align}
+The camera is pinhole, with no distortion term, as in SPACE-HOP. For a rolled view the box is unchanged and the target is recomputed from $t'=\mathrm{Rot}(d,-\theta)\,t$. On SPEED+ the roll is built as a quaternion by the ``pre$-$'' transform of the identity and applied to $t$. Photometric augmentation leaves $t$ unchanged.
+% src: src/tfpose/trans.py (to_u, from_u, _zscale, ALPHA, W_FULL, H_FULL, quat_rotate), src/tfpose/xobj.py (DATASETS img_wh), scripts/train_probe_p3.py (--trans), outputs/reports/EXP-118_translation_6dof.md, outputs/reports/EXP-126_translation_xobj.md
+
+\paragraph{Block.}
+The block reads the tree's encoded tokens $h$, the output of the encoder layer of \cref{app:treenet}. A learned query $r_t\in\mathbb{R}^{256}$ (init $\mathcal{N}(0,0.02^2)$) cross-attends once to $\mathrm{LN}(h)$, using multi-head attention with 4 heads and dropout 0.1. The attended vector passes through the MLP
+\begin{equation}
+\begin{split}
+  &\mathrm{LN}\to\mathrm{Linear}(256,256)\to\mathrm{GELU}\\
+  &\to\mathrm{Dropout}(0.1)\to\mathrm{Linear}(256,3),
+\end{split}
+\end{equation}
+which outputs $u$. The block has 331,011 parameters: 256 for the query, 512 for the key LayerNorm, 263,168 for the attention and 67,075 for the MLP.
+% src: src/tfpose/trans.py (TransHead), outputs/experiments/EXP-118_translation_6dof/RUN-*/status.json (n_params)
+
+\paragraph{Training.}
+\begin{itemize}
+  \item \textbf{Joint} (SPEED+, arm J). Tree and block are trained together from scratch with $\mathcal{L}=\mathcal{L}_{\text{GT}}+\mathcal{L}_{\text{trans}}$ and $\mathcal{L}_{\text{trans}}=\|u-u^*\|_2^2$, summed over the three components and averaged over the batch. On SPEED+, $u$ is used unstandardised. The checkpoint is chosen by the rotation criterion of \cref{app:train}.
+  \item \textbf{Frozen tree} (SPEED+ arm F, and all other datasets). The tree is loaded from its checkpoint and frozen: no gradients, and evaluation mode, so dropout is off. Only the block is trained, with the same optimiser and schedule. On T-LESS, YCB-V and SYMSOL-T, $u$ is standardised per component with the mean and standard deviation ($+10^{-8}$) of the clean training rows, because units differ (mm, m, scene units). Predictions are de-standardised before inversion. The frozen tree's own feature statistics are reused, and the code checks that they match. The checkpoint is the lowest validation mean $E_T$ of view 0.
+\end{itemize}
+% src: scripts/train_probe_p3.py (--trans joint/frozen, losses, crit), scripts/train_xobj.py (--trans frozen, UV standardisation, val_trans), outputs/reports/EXP-118_translation_6dof.md, outputs/reports/EXP-126_translation_xobj.md
+
+\paragraph{Inference.}
+For the PoE variant, the two branches' $u$ are averaged before the inverse map. For orbit inference, each view's $\hat t_k$ is rolled back to view 0 with $\mathrm{Rot}(d,+\theta_k)$, and the four estimates are averaged. The rotation is predicted independently by the trees. The box-only reference uses no image: $U_x=U_y=0$ (object centre at the box centre) and $U_z$ equal to the training mean, mapped through the same inverse.
+% src: scripts/exp118_eval.py (evaluate, back, tB), outputs/reports/EXP-118_translation_6dof.md
+
+%------------------------------------------------------------------
+\subsection{Flat baselines}\label{app:flat}
+
+\paragraph{Model.}
+The flat classifier is the tree network with the path decoding removed. It keeps the same input layer, positional encoding, encoder and 2-layer decoder, and runs the decoder on the root token alone. The decoder output feeds one linear layer $256\to K$ over $K$ anchors. The unused tree heads remain in the module, so the parameter counts are 36,078,096 (DINOv3) and 35,814,936 (MoGe-2). Of these, $256K+K=33{,}686{,}532$ belong to the flat head for $K=131{,}076$.
+% src: src/tfpose/flatgrid.py (FlatTransformer), outputs/experiments/EXP-113_tesseract_vs_flat_hopf/RUN-*/status.json (n_params)
+
+\paragraph{Anchor grids.}
+\begin{itemize}
+  \item \textbf{SPACE-HOP Hopf grid}~\cite{dutta2026spacehop}, $N$ directions $\times$ $M$ rolls. Directions lie on a Fibonacci lattice, $\phi_i=\arccos(1-2(i+\tfrac12)/N)$ and $\vartheta_i=\pi(1+\sqrt5)\,i$, giving $z_i=(\cos\vartheta_i\sin\phi_i,\sin\vartheta_i\sin\phi_i,\cos\phi_i)$. Each direction gets a frame $x_i=\mathrm{up}\times z_i$ and $y_i=z_i\times x_i$ (normalised), with $\mathrm{up}=e_z$, or $e_x$ when $|z_{i,z}|>0.999$. The anchors are $[x_i\,y_i\,z_i]\,R_z(2\pi j/M)$ for $j=0..M-1$. Our NumPy reproduction matches SPACE-HOP's code to $1.6\cdot10^{-4}$ (float32 rounding).
+  \item The grids used are the count-matched $10{,}923\times12=131{,}076$ (the default), the Tesseract's own 131,072 L5 centres in leaf-id order (same-grid baseline), and the balanced $1{,}771\times74=131{,}054$.
+\end{itemize}
+% src: src/tfpose/grids.py (spacehop_hopf_grid), src/tfpose/flatgrid.py (GRIDS, HOPF_POINTS, HOPF_ROLLS), outputs/reports/EXP-101_tesseract_vs_spacehop_hopf.md
+
+\paragraph{Targets, training and decoding.}
+Training uses geodesic soft targets over the 32 anchors nearest to the label (by $|\langle q,g\rangle|$). The weights are $\mathrm{softmax}(-(\delta/2.51^\circ)^2)$, with the tree's leaf-level width, and the loss is the cross-entropy against these weights. Optimiser, schedule, views, labels, standardisation and checkpoint rule are those of the tree (\cref{app:train}); the checkpoint uses the argmax anchor. The single-view prediction is the argmax anchor. For orbit voting the candidates are the per-view top-8 anchors, and the orbit product sums, over views, the log-probability of the candidate's \emph{hard anchor} in that view. For the Hopf grids the hard anchor is the nearest anchor. For the Tesseract grid it is the candidate's own L5 cell, as for the tree's teacher-forced scoring. PoE fusion adds the two branches' log-softmax outputs over all $K$ anchors and renormalises.
+% src: src/tfpose/flatgrid.py (soft_anchor_targets, soft_ce, hard_anchor, nearest_anchor, TAU_LEAF_DEG, TOPK_TARGET), scripts/train_flat_tf.py (docstring, loss), scripts/orbit_eval.py (flat branch)

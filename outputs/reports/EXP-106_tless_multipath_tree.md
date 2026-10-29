@@ -56,8 +56,23 @@ Requested by the user (DEC-010 addendum). Added next to the other arms; nothing 
 - **What is compared:** K vs the single-path centre tree (EXP-036 recipe, same features, budget and seeds), under each experiment's own metrics and criteria.
 - **Expectation, stated before results:** q and −q are the same rotation, and corners shared between cubes are only a few degrees apart. So the redundancy is not expected by itself to resolve 180° flips (different rotations, far apart on the hypersphere); any gain is expected in precision and at chart seams. Reported whatever the outcome.
 
-## Runs / Results / Decision
-Not started.
+## Runs / Results / Decision (results recorded 2026-10-29; see the 2026-10-27 amendment for the arms actually run)
+- **Evaluations:**
+  - T-LESS: A0 `RUN-20261027-201558`, A1 `RUN-20261027-232339`, A2 `RUN-20261028-221625`.
+  - SYMSOL-T: A0 `RUN-20261028-014408`, A1 `RUN-20261028-041345`, A2 `RUN-20261028-120353`.
+- **Criterion 1** (validation, PoE greedy, object-balanced, 3 seeds):
+  - **T-LESS: PASS.** A2 10.82 ± 0.11 vs the better of A0/A1, A1 at 11.46 ± 0.04.
+  - **SYMSOL-T: PASS.** A2 2.72 ± 0.01 vs A1 3.40 ± 0.01.
+- **Descriptive:**
+  - **T-LESS validation orbit:** A0 9.25, A1 10.71, A2 8.28.
+  - **T-LESS test (PoE + orbit), R@2/5/10 and mean:**
+    - A0: 4.0 / 36.0 / 73.5, 16.6°;
+    - A1: 2.7 / 26.7 / 65.9, 18.2°;
+    - A2: 5.7 / 48.1 / 79.0, 15.2°.
+  - **SYMSOL-T test (DINOv3 orbit):** A2 2.07 vs A0 2.62.
+  - **Canonical labels (A1) break orbit voting:** SYMSOL-T validation orbit is 9.73.
+- **Criterion 2:** not run. The best-fit stage is out of scope (2026-10-27 amendment).
+- **Decision:** A2 is the base arm for EXP-119 on both datasets.
 
 ## Amendment 2026-10-16 (DEC-018, before any run): locked recipe
 This experiment uses the **EXP-109 methodology** (augmentation-trained trees, with the in-plane rotation label transform derived for the dataset's camera / crop convention; orbit PoE voting at test time). It is reported in **both** variants, PoE (DINOv3 + MoGe-2) and DINOv3-only, each with and without orbit voting. The in-plane label transform for each dataset is derived and verified by projecting its 3-D model points, before any training, as in EXP-109 (`scripts/exp109_convention_geometry.py`). Other protocol details are unchanged.

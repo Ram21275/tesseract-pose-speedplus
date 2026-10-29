@@ -34,5 +34,18 @@ A pass shows the recipe needs view-diverse training data on YCB-V. It does not b
 ## Cost
 Extraction of about 72k crops × 3 views × 2 backbones: about 4–5 h. Training: 36 trees, about 5–8 min each. Evaluation: under 1 h.
 
-## Runs / Results / Decision
-Not started.
+## Runs / Results / Decision (recorded 2026-10-29)
+- **Evaluation:** `RUN-20261027-200852-seed0` (36 trees, 3 seeds). Object-balanced symmetry-aware mean in degrees ± seed std; acc@10 is the fraction within 10°.
+
+| split | variant | greedy | orbit_product | orbit_vote32 |
+|---|---|---|---|---|
+| validation | DINOv3 | **8.97 ± 1.05** | 11.53 ± 1.79 | 10.68 ± 1.17 |
+| validation | PoE | 10.52 ± 0.92 | 12.74 ± 1.03 | 12.02 ± 1.39 |
+| test | DINOv3 | 12.92 ± 6.90 (acc@10 0.85) | 13.43 ± 4.73 | 12.11 ± 3.71 |
+| test | PoE | 10.90 ± 4.12 (acc@10 0.87) | 12.16 ± 5.53 | 12.04 ± 5.18 |
+
+- **Criterion 1: PASS.** Validation PoE orbit_product is 12.74 ± 1.03, against 74.06 ± 7.43 for EXP-064 real-only.
+- **Validation-selected system (DEC-006): DINOv3 greedy**, with 8.97° on validation and **12.92° on test**. PoE greedy has the lower test error (10.90°) but is not the validation choice. The paper reports both and names the validation choice.
+- **Orbit voting hurts on YCB-V.** It raises the validation error for both variants (DINOv3 8.97 → 11.53, PoE 10.52 → 12.74). This contradicts EXP-064's statement that "orbit voting transfers wherever the base model generalises", which is now narrowed to T-LESS, SYMSOL-T and SPEED+. Not yet diagnosed.
+- **Per object (test, DINOv3 / PoE):** cracker 5.1 / 5.7, mustard 6.1 / 7.6, banana 6.1 / 5.3, mug 6.5 / 5.6, drill 4.3 / 4.4, scissors 49.4 / 36.9.
+- **Decision:** synthetic data is required for YCB-V. Orbit voting is not used for YCB-V headline numbers.

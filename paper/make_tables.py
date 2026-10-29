@@ -41,6 +41,7 @@ RUNS = {
     "symsolt_A1": E / "EXP-106_tless_multipath_tree/RUN-20261028-041345-seed0",
     "symsolt_A2": E / "EXP-106_tless_multipath_tree/RUN-20261028-120353-seed0",
     "symsolt_A2D": None,                                                               # EXP-119 SYMSOL-T: queued
+    "spp_gt": E / "EXP-124_speedplus_detected_official_score/RUN-20261028-231916-seed0",  # EXP-124 GT-crop reference (S1)
     "spp_det": None,                                                                   # EXP-124 detected crops: queued
     "quant127": E / "EXP-127_hierarchy_vs_flat_same_grid/RUN-20261029-003312-seed0",      # EXP-127 quantization floor (CPU)
     "flat127": None,                                                                   # EXP-127 same-grid / balanced-Hopf flat: queued
@@ -441,7 +442,8 @@ def spp_sota_table():
     L.append(r"\midrule")
     t = csv("distill_poe"); r = {x.domain: x for x in t[(t.family == "tree:teacher_variant=PoE") & (t.variant == "PoE") & (t["mode"] == "orbit_product")].itertuples()}
     six = csv("sixdof"); s2 = {x.domain: x for x in six[(six.arm == "J_joint") & (six.variant == "PoE") & (six.rot_mode == "orbit_product") & (six.trans_mode == "orbit_mean")].itertuples()}
-    L.append(f"Ours, distilled + orbit & GT crop, frozen, 4 views & {r['lightbox'].mean_deg:.2f} & {r['sunlamp'].mean_deg:.2f} &  &  \\\\")
+    g = csv("spp_gt"); g = {x.domain: x for x in g[(g.crops == "gt") & g.system.str.startswith("S1") & (g.rot_mode == "orbit_product") & (g.trans_mode == "orbit_mean")].itertuples()}
+    L.append(f"Ours, distilled + orbit & GT crop, frozen, 4 views & {r['lightbox'].mean_deg:.2f} & {r['sunlamp'].mean_deg:.2f} & {g['lightbox'].score:.3f} & {g['sunlamp'].score:.3f} \\\\")
     L.append(f"Ours, 6-DoF (joint PoE) + orbit & GT crop, frozen, 4 views & {s2['lightbox'].E_R_mean_deg:.2f} & {s2['sunlamp'].E_R_mean_deg:.2f} & {s2['lightbox'].esa_score:.3f} & {s2['sunlamp'].esa_score:.3f} \\\\")
     L.append(r"Ours, distilled + orbit & synthetic-only detector, frozen &  &  &  &  \\")
     L += [r"\bottomrule", r"\end{tabular}"]

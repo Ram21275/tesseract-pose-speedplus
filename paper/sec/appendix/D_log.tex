@@ -1,0 +1,415 @@
+\section{Complete experiment log}\label{app:log}
+% Part D of the technical appendix. Every number below is copied from a project file named in the
+% "% src:" comment that follows the paragraph or table. Nothing here is re-measured.
+\newcommand{\appDnormals}{\texttt{normals16\textasciitilde and}}
+\newcommand{\appDdeg}{\ensuremath{^\circ}}
+
+This section is the complete research log of the project: every experiment identifier that was allocated, what it asked, how it ended, and which decision it triggered. It extends the short summaries in \cref{sec:supp_lineage} (\cref{tab:lineage}) and \cref{sec:supp_negative} (\cref{tab:negative}) with the abandoned and negative directions that do not appear in the main paper. Most experiments were pre-registered in a per-experiment report before their first result, with a written pass rule, and amendments are dated and were written before the runs they affect. The descriptive analyses (EXP-020, 104, 107, 112) had no pass rule, and EXP-045 collated results that were already known when it was written.
+
+\paragraph{Conventions.}
+Unless stated otherwise, errors are mean geodesic rotation errors in degrees, mean over 3 seeds. ``Synth'' is SPEED+~\cite{park2022speedplus} synthetic validation, ``LB'' lightbox and ``SL'' sunlamp; ``val-aug'' is the augmented synthetic-validation proxy introduced with EXP-109. Training always uses synthetic/train only, selection uses synthetic validation only, and lightbox and sunlamp are test-only and never used for selection or tuning (DEC-000, restored by DEC-006). Phase-1/2 numbers (EXP-010--026 and EXP-101) come from a sanity subset (6,000 synthetic-train, 1,500 synthetic-val, 1,000 lightbox and 1,000 sunlamp images); EXP-030 onward uses the full splits. The \emph{keep score} is the project's 0--5 rubric: 5 strong support (pre-registered goal met with a large effect, adopt); 4 support (goal met, carry forward); 3 partial (mixed or one-sided evidence); 2 weak (goal not met, informative side result); 1 negative (fails, reject); 0 inconclusive or not run.
+% src: outputs/EXPERIMENT_INDEX.md (header and rubric); outputs/DECISIONS.md (DEC-000, DEC-006)
+
+\paragraph{Where the sources disagree.}
+We list the known inconsistencies between the master index, the per-experiment reports and the paper tables, and which source we follow.
+\begin{itemize}
+\item \textbf{EXP-106 and EXP-122.} The index lists both as \emph{queued} and both reports end with ``Runs / Results / Decision: Not started''. However, completed runs exist (EXP-106: T-LESS and SYMSOL-T arms A0--A2; EXP-122: evaluation \texttt{RUN-20261027-200852}), and their numbers are in the paper tables (\texttt{tables/sym.tex}, \texttt{tables/tless\_sota.tex}, \texttt{tables/symsol\_sota.tex}, \texttt{tables/ycbv.tex}). We report those numbers, mark the status as ``runs completed; report and index not yet updated'', and record no keep score or verdict that the reports do not contain. \texttt{paper/SOURCES.md} still describes the T-LESS A2 rows as blank, but \texttt{tables/sym.tex} has them filled; we follow the table.
+\item \textbf{EXP-064 and EXP-117.} The status header of each report is stale (``Running'' and ``Pre-registered \ldots\ before any code or run''), but the report bodies contain the full results and the decisions. We follow the bodies and the index.
+\item \textbf{Sunlamp 12.28 vs 12.25.} The same locked-recipe trees (PoE + orbit) give 12.28 in the EXP-109/112 evaluation and 12.25 in the EXP-113/115/117 evaluations; two evaluation passes of the same trees differ in the second decimal. Each row below quotes the number of the experiment it describes.
+\item \textbf{Keep scores.} For EXP-116, 117 and 118 the index puts a PASS/FAIL verdict in the keep-score column instead of a 0--5 number; for EXP-064, 106, 119, 122, 124, 126 and 127 it has none. We copy these entries literally and do not assign scores.
+\end{itemize}
+% src: outputs/EXPERIMENT_INDEX.md; outputs/reports/EXP-106_tless_multipath_tree.md; outputs/reports/EXP-122_ycbv_synthetic_training.md; outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-200852-seed0/tables/object_balanced.md; paper/SOURCES.md; paper/tables/sym.tex; outputs/reports/EXP-064_broader_object_validation.md; outputs/reports/EXP-117_orbit_distillation.md
+
+%==========================================================================================
+\subsection{Phases and decisions}\label{app:log_phases}
+
+\paragraph{Plan.}
+The project followed a phase-wise execution plan in which each phase answers one question and ends with a written gate: Phase 0 (ground truth and rotation geometry), 1 (single-branch representations), 2 (fusion), 3 (fixed-depth Tesseract predictor), 4 (continuous rotation and $SO(3)$ flow), 5 (adaptive depth), 6 (rotation milestone, including broader objects), 7 (translation and 6-DoF), 8 (joint $SE(3)$ flow) and 9 (optional extensions). The plan originally used VGGT as the geometric branch; MoGe-2~\cite{wang2025moge2} replaced it after Phase 1 (DEC-001). Phases 0--4 were run as planned; Phase 5 was reduced to an oracle check; Phases 6--8 were largely replaced by the real-domain and cross-dataset experiments of the EXP-1xx series, which the user requested as results came in.
+% src: TESSERACT_FUSION_EXECUTION_PLAN.md (Sec. 3 phase summary, branch-change note); outputs/DECISIONS.md (DEC-001, DEC-012)
+
+\paragraph{Phase 0: geometry and ground truth (EXP-000--003).}
+EXP-000 fixed the SPEED+ pose convention ($p_\text{cam} = R(q)\,p + r$, scalar-first quaternions): projected keypoint boxes match a cross-check with IoU 0.97 for $R$ against 0.52 for $R^\top$. EXP-001 verified that every one of the 69,491 SPEED+ labels encodes to a valid, antipodally invariant, invertible Tesseract path. EXP-002 measured the fixed-depth precision of the recursive tesseract grid~\cite{kurz2017tesseract}: the error halves per level and depth 5 (131,072 cells) has a 2.51\appDdeg\ mean, 3.97\appDdeg\ p95 and 6.20\appDdeg\ exact worst-case quantisation error, with cell volumes varying by up to 14.4$\times$. EXP-003 compared it with Hopf~\cite{yershova2010hopf} and Super-Fibonacci grids: per hypothesis the Tesseract is \emph{less} precise (Super-Fibonacci needs only 0.61--0.88$\times$ as many points for equal p95 error), and its defensible property is the cheap hierarchy (44 scored nodes for a greedy descent to depth 5). The Phase-0 gate set $L_\text{max}=5$ and kept a Hopf grid as the mandatory matched baseline.
+% src: outputs/reports/EXP-000_loader_conventions.md; EXP-001_gt_tesseract_paths.md; EXP-002_depth_precision.md; EXP-003_grid_comparison.md (all in outputs/reports/)
+
+\paragraph{Phase 1: branch studies on the subset (EXP-010--020).}
+A hierarchical MLP probe on frozen DINOv3~\cite{simeoni2025dinov3} features (EXP-010) selected ViT-L with $4\times4$ spatial pooling (\texttt{grid4}): synthetic-validation mean 27.7\appDdeg\ (median 17.2\appDdeg), with real-domain medians of 62.2\appDdeg\ (LB) and 70.3\appDdeg\ (SL), so the synthetic-to-real gap was about $4\times$ from the start. VGGT tokens and geometry maps (EXP-011) were weaker everywhere (best synthetic mean 48.7\appDdeg) at about $17\times$ the extraction time; the VGGT complementarity audit (EXP-012) found an oracle-of-two gain of +7.7 acc@10 points on synthetic data but almost none on real images. MoGe-2 was then tested as a single-image geometry branch (EXP-013, 39.6\appDdeg\ synthetic mean) and adopted in place of VGGT (DEC-001), although its complementarity to DINOv3 (EXP-014) was no larger than VGGT's and a non-geometric DINOv3-B control was more complementary still. Four user-requested side studies followed: a training-free two-way foreground consensus (EXP-015, kept), its effect on pose (EXP-016, one-way: it fixes MoGe-2 normals but not DINOv3 pooling), and three CASS-inspired spectral options (EXP-017--020), all rejected.
+% src: outputs/reports/EXP-010_dinov3_baseline.md; EXP-011_vggt_controls.md; EXP-012_complementarity.md; EXP-013_moge2_controls.md; EXP-014_moge2_complementarity.md; EXP-015_mask_consensus.md; EXP-016_consensus_pose.md; EXP-017..020 reports
+
+\paragraph{Phase 2: fusion (EXP-025, 026, 029).}
+A training-free per-level product of experts~\cite{hinton2002poe} (PoE) of the DINOv3 \texttt{grid4} probe and the consensus-masked MoGe-2 normals probe (\appDnormals) beat the strongest single branch (EXP-025: synthetic 25.9\appDdeg\ vs 27.7\appDdeg; descriptively LB 62.5\appDdeg\ vs 76.1\appDdeg). No training-free reliability weighting beat equal weights (EXP-026), so the combination and learned-gate experiments of the plan were skipped and the fusion was frozen (DEC-003). The plan's learned-fusion slot was later reopened at the user's request as EXP-029 (DEC-007), run at full data after Phase 3 with the Transformer tree and compared with a PoE of two single-branch trees on the same $8\times8$ grid: it passed its literal rule on synthetic data but equalled DINOv3 alone and was much worse on real images, and PoE was kept (DEC-008).
+% src: outputs/reports/EXP-025_posterior_fusion_controls.md; EXP-026_reliability_weighting.md; EXP-029_panst3r_inspired_fusion.md; outputs/DECISIONS.md (DEC-003, DEC-007, DEC-008)
+
+\paragraph{Phase 3: the tree predictor at full data (EXP-030--036).}
+Training on all 47,966 synthetic-train images cut the error about $4\times$ (EXP-030: PoE 6.24\appDdeg, DINOv3 alone 6.64\appDdeg) and kept the fusion gain. Five decoder and target variants were then tested against this control: a GRU path decoder (EXP-031, failed its rule by 0.005\appDdeg), a cross-attentive Transformer decoder on $8\times8$ tokens (EXP-032, 5.685\appDdeg), geodesic soft targets (EXP-033, 6.068\appDdeg), beam search (EXP-034, no gain) and a tangent residual trained at the ground-truth leaf (EXP-035, no gain). The Transformer with soft targets (EXP-036) was best (PoE 5.540\appDdeg; LB 26.9\appDdeg, SL 36.6\appDdeg) and was frozen (DEC-004 update). From EXP-033 on, DINOv3 alone was better than PoE on synthetic validation (5.35\appDdeg\ vs 5.54\appDdeg\ for EXP-036) while PoE was far better on real images; this selection-policy conflict led to DEC-005 and its withdrawal in DEC-006.
+% src: outputs/reports/EXP-030..036 reports; outputs/DECISIONS.md (DEC-004, DEC-004 update, DEC-005, DEC-006)
+
+\paragraph{Phase 4: continuous refinement, flows and distillation (EXP-040--045), with the flip audit.}
+Phase 4 asked whether a continuous $SO(3)$ model could refine the tree and fix its real-domain failures. A tangent residual at the \emph{predicted} leaf (EXP-040) gained 0.13\appDdeg\ on synthetic data only; a separate cell-conditioned Riemannian flow-matching refiner~\cite{chen2024rfm} (EXP-041) gained 0.30\appDdeg\ but under-covered; an image-conditioned $SO(3)$ flow posterior from a uniform base (EXP-042) gave the best samples (best-of-32 9.7\appDdeg\ on LB) but a worse mode estimate on real images. Flow-induced Tesseract masses (EXP-043) were exactly consistent but a poor decoder, and distilling them into the tree (EXP-044) did not pass its criterion. In parallel, a user-requested audit of the $\sim$180\appDdeg\ failures (EXP-104) ruled out encoder, metric, convention and seam bugs and attributed them to visual near-symmetry: the right mode is among the tree's hypotheses but is not selected. A candidate-expansion study (EXP-105) confirmed that no scorer on the clean features selects the right flip on real images, and also tested the original corner formulation of Kurz et al.\ (arm K). The matched collation EXP-045 kept the flow posterior only as a re-noise verifier over tree candidates. Phase 5 was reduced to the oracle check EXP-050 (DEC-012), whose small synthetic headroom (0.51\appDdeg) and real gains that only hedge towards coarser cells made adaptive depth a low priority.
+% src: outputs/reports/EXP-040..045, EXP-050, EXP-104, EXP-105 reports; outputs/DECISIONS.md (DEC-010, DEC-012)
+
+\paragraph{The real-domain phase (EXP-107--118).}
+After EXP-104/105 showed that the failures are a mode-selection problem, four real-domain levers were proposed (DEC-013): photometric and in-plane rotation augmentation (A), $16\times16$ tokens (B), in-plane orbit voting at test time (C) and a flip verifier on augmented features (D). A, B and C were run as EXP-109 (DEC-014). A discrete flow-matching revision of the tree path (EXP-108) was run first and failed. EXP-109 A + C reached 3.87\appDdeg\ / 12.30\appDdeg\ / 12.28\appDdeg\ (synthetic / LB / SL) against 5.54\appDdeg\ / 26.9\appDdeg\ / 36.7\appDdeg\ for EXP-036; B failed. A weighted PoE (EXP-110) and a flow head on the augmented DINOv3 tree (EXP-111) were not adopted, the recipe was locked on the EXP-109 methodology in a PoE and a DINOv3-only variant (DEC-018), and EXP-112 timed it. The user then asked for three strengthening studies (DEC-019): the tree against a count-matched flat Hopf classifier (EXP-113, tree far better), orbit scoring rules (EXP-114, the product does not beat weighted voting on synthetic data) and an augmentation ablation (EXP-115, photometric augmentation plus orbit voting carries the real-domain gain, not the rotation augmentation). Two training-time alternatives to orbit voting followed (DEC-021): a roll-consistent hierarchical loss (EXP-116, no gain over a leaf-only equivariance loss) and orbit distillation into a single-view student (EXP-117, the best system: 3.69\appDdeg\ / 11.21\appDdeg\ / 11.09\appDdeg). EXP-118 added the SPACE-HOP~\cite{dutta2026spacehop} translation block for full 6-DoF. EXP-107 produced the descriptive figures, log-likelihoods and timings for the Phase-4 system.
+% src: outputs/DECISIONS.md (DEC-013, 014, 015, 016, 017, 018, 019, 021, 022, 023); outputs/EXPERIMENT_INDEX.md (EXP-107..118 rows); outputs/reports/EXP-109_real_domain_aug_tokens16_orbit.md
+
+\paragraph{The cross-dataset phase (EXP-064, 106, 119, 122, 124, 126, 127).}
+EXP-064 retrained per-object trees with the locked recipe on T-LESS, SYMSOL-T and YCB-Video (DEC-009, DEC-018) and added a zero-shot arm with the frozen SPEED+ trees (DEC-022). Orbit voting transferred to T-LESS and SYMSOL-T, MoGe-2 fusion helped only on T-LESS, YCB-V trained on real videos alone failed to generalise, and there was no zero-shot transfer. Three fixes were then approved together (DEC-024): synthetic YCB-V renders (EXP-122), symmetry-aware multi-path training targets on T-LESS and SYMSOL-T (EXP-106, amended) and cross-dataset orbit distillation (EXP-119). For matched comparisons the user chose a ``core matched set'' (DEC-025): SPEED+ with a synthetic-only detector and the official score (EXP-124) and translation on the other datasets (EXP-126); the LiePose instance-set protocol (EXP-125) is reserved but not yet pre-registered. Finally, EXP-127 (DEC-026) was queued to separate hierarchical prediction from grid geometry, because EXP-113's flat baseline used a grid with a much higher quantisation floor. At the time of writing EXP-106 and EXP-122 have completed runs, EXP-127 has its quantisation-floor stage, and EXP-119, 124, 126 and the EXP-127 trainings are queued.
+% src: outputs/DECISIONS.md (DEC-009, 022, 024, 025, 026); outputs/reports/EXP-064_broader_object_validation.md; EXP-124_speedplus_detected_official_score.md; EXP-127_hierarchy_vs_flat_same_grid.md; outputs/experiments/ (run directories of EXP-106, 122, 124, 127)
+
+\paragraph{Decision log.}
+Every architecture, scope and split decision was recorded with the evidence behind it. The entries below give date, decision and reason; ``user'' marks decisions taken by the user, the others were proposed by us and accepted.
+\begin{itemize}
+\item \textbf{DEC-000 (2026-10-05, user). Split policy.} Train on SPEED+ synthetic/train only; select on synthetic/validation; lightbox and sunlamp are test-only and never used for selection or tuning.
+\item \textbf{DEC-001 (2026-10-08, user). MoGe-2 replaces VGGT.} MoGe-2 was the better single geometric branch on synthetic validation (39.6\appDdeg\ vs 48.7\appDdeg\ mean) and about equally complementary to DINOv3 (oracle acc@10 0.289 vs 0.278), with a slightly stronger agreement cue (3.2$\times$ vs 2.6$\times$). Recorded caveats: a non-geometric DINOv3-B branch was more complementary (0.308), and MoGe-2's own foreground mask fails on real images.
+\item \textbf{DEC-002 (2026-10-09). Numbering.} Side experiments EXP-015--020 had collided with the plan's Phase-2 IDs, so the plan's Phase-2 experiments became EXP-025--029 and new user-requested side experiments use the EXP-1xx series; IDs are never renamed.
+\item \textbf{DEC-003 (2026-10-09). Phase-2 gate.} The representation is the training-free equal-weight PoE of DINOv3-L \texttt{grid4} and MoGe-2 \appDnormals\ (EXP-025: 25.9\appDdeg\ vs 27.7\appDdeg). EXP-027 was skipped because no reliability signal helped alone; EXP-028/029 (learned gates, cross-attention) were conditional on training-free fusion failing, which it did not.
+\item \textbf{DEC-004 (2026-10-09). Phase-3 gate.} First froze the MLP tree with geodesic soft targets and greedy decoding (EXP-033, PoE 6.068\appDdeg\ vs 6.242\appDdeg). It flagged the selection-policy problem: DINOv3 alone was lower on synthetic validation (5.69\appDdeg\ vs 6.07\appDdeg) while PoE was far better on lightbox and sunlamp, and three options were put to the user.
+\item \textbf{DEC-004 update (2026-10-09). Phase-3 gate re-decided.} After EXP-032 and EXP-036, the Transformer decoder with geodesic soft targets (PoE 5.540\appDdeg) replaced EXP-033. The selection-policy question remained open (DINOv3 alone 5.35\appDdeg\ vs PoE 5.54\appDdeg\ on synthetic data; PoE 26.9\appDdeg\ vs 37.1\appDdeg\ on LB).
+\item \textbf{DEC-005 (2026-10-10, user). Real-domain validation split.} A seeded 20\% of lightbox (1,348 images) was designated for selection because synthetic validation has almost no errors above 90\appDdeg\ (0.1\% for EXP-036 DINOv3 seed 0, vs 16\% on real images). \emph{Withdrawn the same day by DEC-006}; it never influenced a training run or checkpoint.
+\item \textbf{DEC-006 (2026-10-10, user). Strict split policy restored.} The user clarified that lightbox and sunlamp must stay test-only; DEC-000 applies unchanged, and the pre-registered Phase-4 gate was rewritten to synthetic validation before any result. Recorded limitation: gains in multimodality or flip recovery can only appear in the descriptive real-domain numbers.
+\item \textbf{DEC-007 (2026-10-10, user). Two plan additions.} EXP-029 (PanSt3R-inspired learned feature fusion) reopens the plan's skipped learned-fusion slot; EXP-064 (broader objects) is added to Phase 6. The cancelled LoRA experiment (EXP-102) stays cancelled.
+\item \textbf{DEC-008 (2026-10-13, user). Learned fusion not adopted.} EXP-029's concatenation + MLP passed its literal rule against the $8\times8$ PoE (5.341\appDdeg\ vs 5.582\appDdeg) but equalled DINOv3 alone (5.345\appDdeg) and was much worse on real images (LB 40.8\appDdeg\ vs 27.9\appDdeg); adopting it on synthetic data alone would contradict the ground rule against selecting only by the best synthetic result.
+\item \textbf{DEC-009 (2026-10-13, user). Datasets for EXP-064.} T-LESS, SYMSOL-T and YCB-Video, located on a second drive. Recorded deviations: YCB-V is the original PoseCNN release rather than the BOP version, the local T-LESS test set is the BOP19 subset, and SYMSOL-T was rendered locally.
+\item \textbf{DEC-010 (2026-10-13, user). EXP-105 and EXP-106.} Candidate expansion and best-fit selection on SPEED+ (absorbing the proposed EXP-103 ``rotate and match'' as a template arm), and a T-LESS multi-path tree. The EXP-042 flow serves as the diffusion model because on $SO(3)$ the diffusion score equals the flow-matching target. Addendum: arm K, the original corner formulation of Kurz et al.~\cite{kurz2017tesseract}, added to both, with the stated expectation that redundancy between $q$ and $-q$ cannot by itself fix 180\appDdeg\ flips.
+\item \textbf{DEC-011 (2026-10-13, user). EXP-106 on hold.} SPEED+ phases first; cross-dataset work (EXP-064, 106) last, after the recipe is locked, retraining only the heads.
+\item \textbf{DEC-012 (2026-10-13, user). Run order and scope.} Cross-dataset block at the end of Phase 6; a recipe-lock decision before any cross-dataset run; early CPU-only data pipelines; Phase 5 reduced to the oracle check EXP-050 because errors are dominated by 180\appDdeg\ flips, not depth; LiePose-style visualisations as a separate analysis experiment (EXP-107). LoRA stays cancelled (``might take too much time and only give us a trivial positive result'').
+\item \textbf{DEC-013 (2026-10-15, user). EXP-108 added; real-domain levers proposed.} A direct path flow that revises root and child decisions; real-domain options A (augmentation), B ($16\times16$ tokens), C (orbit voting), D (flip verifier) proposed. Unlabelled real-image adaptation was not proposed because DEC-006 keeps real images test-only.
+\item \textbf{DEC-014 (2026-10-15, user). EXP-109.} A + B + C as one pre-registered experiment, order EXP-050 $\to$ EXP-109 $\to$ EXP-108 $\to$ EXP-107; selection on synthetic validation and the val-aug proxy only.
+\item \textbf{DEC-015 (2026-10-15, user). EXP-108 becomes discrete flow matching; baselines dropped.} The iterative path denoiser and its no-geometry matched control were not run (code kept, disabled). Consequence recorded: whether the geometry token adds value cannot be tested.
+\item \textbf{DEC-016 (2026-10-15, user). EXP-110.} Weighted per-level PoE of the frozen EXP-036 trees, selected on the val-aug proxy because clean synthetic validation is known to favour DINOv3 alone.
+\item \textbf{DEC-017 (2026-10-16, user). EXP-111.} A DINOv3-only augmented tree with the EXP-042 flow head and DINOv3-only timing, later moved to the end of the queue.
+\item \textbf{DEC-018 (2026-10-16, user). Recipe lock.} Frozen DINOv3-L \texttt{tokens8} (+ MoGe-2 \appDnormals\ in the PoE variant), GT square crops, one Tesseract Transformer per branch trained with EXP-109 arm A (2 augmented copies, photometric + in-plane rotation with transformed labels), equal per-level PoE, and EXP-109 C orbit voting (4 views, beam-8 candidates mapped back, product of tree likelihoods). Two variants are reported everywhere: PoE and DINOv3-only, each with and without orbit voting. Excluded: $16\times16$ tokens, weighted PoE, discrete flow matching, flow distillation, arm K; the flow is optional and judged in EXP-111.
+\item \textbf{DEC-019 (2026-10-16, user). Strengthening experiments.} EXP-113 (tree vs matched flat Hopf), EXP-114 (orbit scoring rules) and EXP-115 (augmentation ablation), all with the locked recipe and a shared evaluator, then EXP-064. Optional work (EXP-051--055, EXP-107 re-run, EXP-106) deferred.
+\item \textbf{DEC-020 (2026-10-16, user). Caches moved; obsolete caches deleted.} 105\,GB of caches moved to an 8\,TB drive; 55\,GB deleted, including the $16\times16$ token memmap of the rejected EXP-109 arm B and all subset-v1 caches of Phases 1--2, so those can no longer be re-evaluated without re-extraction. A relative-path bug introduced by the move broke several queued runs (EXP-111 seed 2, EXP-112, EXP-114, the EXP-113 trainings); they were fixed and re-queued, and the failed runs kept as records.
+\item \textbf{DEC-021 (2026-10-17, user). EXP-116 and EXP-117 pre-registered; EXP-064 paused for disk space.}
+\item \textbf{DEC-022 (2026-10-19, user). EXP-064 zero-shot arm and EXP-118.} EXP-064 keeps per-object trees with the unchanged recipe and adds a CPU zero-shot arm with the frozen SPEED+ trees; EXP-118 adds the SPACE-HOP translation formulation unchanged; queue order EXP-064 $\to$ EXP-118 $\to$ EXP-117.
+\item \textbf{DEC-023 (2026-10-21, user). Recipe unchanged; EXP-117 recorded as an enhancement.} Orbit distillation (PoE + orbit 3.69\appDdeg\ / 11.21\appDdeg\ / 11.09\appDdeg\ vs 3.87\appDdeg\ / 12.30\appDdeg\ / 12.25\appDdeg) is reported as a successful add-on; later experiments use it only if the user says so.
+\item \textbf{DEC-024 (2026-10-27, user). Cross-dataset fixes.} EXP-122 (YCB-V with synthetic renders), EXP-106 (amended: per-object A0/A1/A2 on T-LESS and SYMSOL-T) and EXP-119 (cross-dataset orbit distillation); IDs EXP-120 (3-D geometry into DINO), EXP-121 (smaller backbones / Jetson) and EXP-123 (flip-confusion probe) reserved for on-hold ideas.
+\item \textbf{DEC-025 (2026-10-28, user). Core matched set.} EXP-124 (detector + official score on SPEED+), EXP-125 (LiePose T-LESS instance set; to be pre-registered later) and EXP-126 (translation on the other datasets, pre-registered by amendment). A literature check found paper corrections to apply before submission (swapped SPNv2 numbers, SPACE-HOP's swapped lightbox/sunlamp baseline columns, two missing recent crop-based results, and LiePose's use of GT visible masks).
+\item \textbf{DEC-026 (2026-10-29, user). EXP-127.} Hierarchical tree vs a flat classifier over the same 131,072 leaves vs a flat balanced-Hopf ($1771\times74$) classifier, with the locked recipe and without orbit distillation; 12 new flat trainings, queued after the other queues.
+\end{itemize}
+% src: outputs/DECISIONS.md (DEC-000 ... DEC-026)
+
+%==========================================================================================
+\subsection{Experiment table}\label{app:log_table}
+
+\Cref{app:log_tab1,app:log_tab2,app:log_tab3,app:log_tab4} list every experiment in the index, in ID order, with the index wording shortened. \Cref{app:log_tab5} lists the identifiers that were allocated by the plan or a decision but never run. Abbreviations: tr.-free = training-free; pred.\ = trainable predictor; LB/SL = lightbox/sunlamp; ``a/b/c'' triples are synthetic/LB/SL unless stated.
+% src: outputs/EXPERIMENT_INDEX.md
+
+\begin{table*}[p]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{2.5pt}
+  \begin{tabular}{@{}p{0.05\linewidth}p{0.19\linewidth}p{0.085\linewidth}p{0.075\linewidth}p{0.305\linewidth}p{0.17\linewidth}p{0.05\linewidth}@{}}
+    \toprule
+    ID & Question & Track & Status & Key result & Decision & Keep \\
+    \midrule
+    000 & SPEED+ loader and pose convention & tr.-free & done & Convention $R$ ($p_\text{cam}=R(q)p+r$); bbox IoU 0.97 vs 0.52 for $R^\top$ & Keep & 5 \\
+    001 & GT quaternion $\to$ Tesseract path & tr.-free & done & All invariants hold on 69,491 labels & Keep & 5 \\
+    002 & Precision by depth & tr.-free & done & L5: 2.51 mean, 3.97 p95, 6.20 exact max; cell-volume ratio 14.4$\times$ & Keep; $L_\text{max}=5$ & 4 \\
+    003 & Tesseract vs Hopf vs Super-Fibonacci & tr.-free & done & Less precise per hypothesis (1.2--1.6$\times$ the points of Super-Fibonacci for equal p95); cheapest hierarchy (44 nodes at L5) & Keep Tesseract; Hopf as matched baseline & 3 \\
+    010 & DINOv3 representation + MLP tree probe (subset) & pred. & done & ViT-L \texttt{grid4}: synth median 17.2, LB 62.2, SL 70.3 & Primary branch & 4 \\
+    011 & VGGT token / geometry controls (subset) & pred. & done & Best tokens synth median 25--27, LB 84--105; weaker than DINOv3 everywhere, 17$\times$ slower & Kept conditionally for 012; retired by DEC-001 & 1 \\
+    012 & DINOv3--VGGT complementarity, frequency audit & analysis & done (one attempt crashed the host) & Synth oracle-of-two acc@10 +7.7 pts; agreement makes DINOv3 correct 2.6$\times$ more often; real gains small & VGGT kept conditionally (synth only) & 2 \\
+    013 & MoGe-2 single-image geometry controls & pred. & done & \texttt{grid4} synth 39.6 mean / 21.2 median (VGGT 48.7 / 25.4); \texttt{normals16} best geometric acc@10 (0.179); own mask fails on real & MoGe-2 replaces VGGT (DEC-001) & 3 \\
+    014 & DINOv3--MoGe-2 complementarity & analysis & done & Oracle acc@10 0.289$\pm$0.020 vs VGGT 0.278$\pm$0.022; non-geometric DINOv3-B control 0.308 & MoGe-2 adopted; geometric value re-tested later & 2 \\
+    015 & Two-way DINOv3/MoGe-2 foreground consensus & tr.-free & done & AND mask cuts MoGe-2 background leakage 0.52$\to$0.12 (LB), 0.57$\to$0.12 (SL) & Two-way, asymmetric; AND kept & 4 \\
+    016 & Does the consensus mask help pose? & tr.-free + probe & done & Consensus normals mean 84.0$\to$77.1 (LB), 100.1$\to$87.1 (SL); masked DINOv3 pooling no gain & One-way (DINOv3 $\to$ MoGe-2) & 4 \\
+    017 & CASS 1: spectral foreground from fused graph & tr.-free & done & Worse than AND (leakage +0.10/+0.16, recall $-0.10$); splits faces, not figure/ground & Reject & 1 \\
+    018 & CASS 2: spectral attention injection & tr.-free & done & No mask gain; pose worse both ways (MoGe-2 SL 83.9$\to$91.5; DINOv3 synth 27.7$\to$34.2) & Reject & 1 \\
+    019 & CASS 3: spectral part pooling & tr.-free + probe & done & \texttt{parts4} vs matched \texttt{grid2}: synth 53.0 vs 28.5, LB 96.9 vs 79.9 & Reject & 1 \\
+    020 & CASS 4: spectral head-matching complementarity & analysis & done & Weak inverted signal on real ($\rho\approx-0.25$), none on synth (AUROC 0.48); disagreement AUROC 0.68--0.75 & Not adopted & 2 \\
+    \bottomrule
+  \end{tabular}
+  \caption{\textbf{Experiment log, part 1}: Phase 0 and Phase 1 (subset v1 for EXP-010--020). Mean errors in degrees.}
+  \label{app:log_tab1}
+\end{table*}
+% src: outputs/EXPERIMENT_INDEX.md (rows EXP-000..020); outputs/reports/EXP-003_grid_comparison.md; outputs/reports/EXP-012_complementarity.md
+
+\begin{table*}[p]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{2.5pt}
+  \begin{tabular}{@{}p{0.05\linewidth}p{0.19\linewidth}p{0.085\linewidth}p{0.075\linewidth}p{0.305\linewidth}p{0.17\linewidth}p{0.05\linewidth}@{}}
+    \toprule
+    ID & Question & Track & Status & Key result & Decision & Keep \\
+    \midrule
+    025 & Single branches vs training-free posterior fusion (plan 020) & tr.-free fusion & done & PoE synth 25.9 vs 27.7 (DINOv3); LB 62.5 vs 76.1 (median 41.3 vs 62.2); SL 71.4 vs 79.1 & Keep fusion (gate passed) & 5 \\
+    026 & Reliability signals one at a time (plan 021) & tr.-free fusion & done & None beats equal PoE (margin 25.8 vs 25.9, entropy 26.1, agreement gate 27.4) & Equal PoE; 027--028 skipped & 2 \\
+    029 & PanSt3R-inspired learned fusion vs PoE, $8\times8$ grid & trainable fusion & done & Concat+MLP synth 5.341$\pm$0.031 vs PoE8 5.582 (rule PASS) but = DINOv3 alone 5.345; LB 40.8 vs 27.9 & Not adopted (DEC-008) & 2 \\
+    030 & MLP tree baseline on full data & pred. + fusion & done & PoE synth 6.24 vs DINOv3 6.64; LB 31.1 vs 41.8; SL 43.7 vs 53.4; full data cuts error $\sim4\times$ & Phase-3 control & 5 \\
+    031 & GRU path decoder & pred. & done & PoE 6.149 vs 6.242 ($\Delta$ 0.093 $<$ std 0.098, narrow FAIL); DINOv3 6.29 vs 6.64; SL 40.6 vs 43.7 & Not frozen & 3 \\
+    032 & Cross-attentive Tesseract Transformer, hard targets & pred. & done & PoE 5.685 vs 6.242; DINOv3 6.08; LB 31.6, SL 41.8 & Keep & 4 \\
+    033 & Hard vs geodesic soft targets & pred. & done & PoE 6.068 vs 6.242 (PASS); DINOv3 alone 5.69; LB 28.2, SL 42.1 & Frozen (DEC-004); selection issue flagged & 4 \\
+    034 & Greedy vs beam decoding & inference & done & No gain at any width (6.242 greedy vs 6.248 beam 8; up to 6.6$\times$ nodes) & Greedy & 1 \\
+    035 & Tangent residual (GT-leaf teacher forcing) & pred. & done & Refines 0.05 (6.27$\to$6.21); wrong-cell errors dominate & Reject & 1 \\
+    036 & Transformer + geodesic soft targets & pred. & done & PoE 5.540; LB 26.9 (median 9.0), SL 36.6 (median 13.0); DINOv3 alone 5.35 & Frozen (DEC-004 update) & 5 \\
+    040 & Tangent residual at the predicted leaf & pred. & done & Fused 5.414$\pm$0.043 vs 5.544 (PASS, all from DINOv3); LB 26.88 vs 26.91, SL 36.63 vs 36.66 & Sub-ms fast fallback & 3 \\
+    041 & Cell-conditioned $SO(3)$ flow refiner (base $\sigma=3^\circ$) & RFM & done & Fused 5.244$\pm$0.077 (PASS vs leaf and 040); real unchanged; 90\% regions cover 80\%; 19\,ms/img & Dropped in 045 & 3 \\
+    042 & Image-conditioned $SO(3)$ flow posterior (uniform base) & RFM & done & Fused 5.219$\pm$0.149 (PASS; DINOv3 head 4.57); LB best-of-32 9.7 vs greedy 26.9 but KDE mode 29.8; coverage 0.98 at 0.9 & Kept as verifier; samples for 043/044/107 & 4 \\
+    043 & Flow-induced Tesseract masses & analysis & done & Parent--child error 0 (PASS); synth flow top-1 beats tree at L2--5 (L2 0.832 vs 0.787); flow-mass greedy 6.21 vs 5.54 (FAIL); real: tree better at all levels & Masses as 044 target; counting decoder rejected & 3 \\
+    044 & Tree distilled from flow masses, $\beta\in\{0,0.1,0.3,1\}$ & pred. & done (seed 0; stopped by rule) & $\beta=0$ best (5.589; $\beta=1$ 5.622, all within 0.1) $\to$ FAIL; fit 4.38$\to$2.86; $\beta=1$ LB 27.6$\to$26.2 but $>$90\appDdeg\ 0.21\%$\to$0.49\% & EXP-036 stays frozen & 2 \\
+    \bottomrule
+  \end{tabular}
+  \caption{\textbf{Experiment log, part 2}: Phase 2 (EXP-025/026 on the subset; EXP-029 at full data, run after Phase 3), Phase 3 and Phase 4 (full data). Mean errors in degrees on synthetic validation unless a domain is named.}
+  \label{app:log_tab2}
+\end{table*}
+% src: outputs/EXPERIMENT_INDEX.md (rows EXP-025..044); outputs/reports/EXP-044_distilled_tree.md
+
+\begin{table*}[p]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{2.5pt}
+  \begin{tabular}{@{}p{0.05\linewidth}p{0.19\linewidth}p{0.085\linewidth}p{0.075\linewidth}p{0.305\linewidth}p{0.17\linewidth}p{0.05\linewidth}@{}}
+    \toprule
+    ID & Question & Track & Status & Key result & Decision & Keep \\
+    \midrule
+    045 & Phase-4 matched comparison & collation & done & Verifier (tree candidates + re-noise $\tau$ 0.8) synth 4.78, SL 32.7; KDE 5.22; RFM 5.24 with coverage 0.80 vs 0.98; residual 5.41 at 0.33\,ms & Posterior kept as verifier; RFM dropped & 4 \\
+    050 & Oracle adaptive-depth targets & analysis & done & Synth stop headroom 0.51$\pm$0.02 (PASS; oracle bound); LB 4.21, SL 5.83 by hedging, flips unchanged; BRANCH oracle 3.26 synth & 051--055 eligible, wait for user & 3 \\
+    064 & Broader objects: T-LESS, SYMSOL-T, YCB-V (heads retrained) & full system & done$^{a}$ & Test: T-LESS PoE+orbit 16.57 (val 9.25); SYMSOL-T DINOv3+orbit 2.62 (PoE 2.67); YCB-V DINOv3+orbit 69.4. Zero-shot: none & Fusion PASS on T-LESS only; claim narrowed & -- \\
+    101 & Tesseract vs SPACE-HOP Hopf: grid, prediction, timing (subset) & grid + head & done & Tree head faster from 131k hypotheses (A400: 1.2 vs 3.3\,ms; CPU 1.7 vs 12.2\,ms; 9\,M vs 76\,M params); flat faster at 3,072; DINOv3 L3 29.2 vs 50.7; consensus feature ties & Tree for L5--6; flat Hopf-3k as baseline & 3 \\
+    102 & LoRA adapters for DINOv3 / MoGe-2 & backbone adapt. & cancelled by user before any run & -- & Code kept; not run & 0 \\
+    104 & Audit of $\sim$180\appDdeg\ failures & analysis & done & Decoders exact (max 5.78); metric, convention, augmentation ruled out; flat heads flip too; 180\appDdeg\ failures at 2$\times$ chance with clustered body axes; 180\appDdeg\ allowance LB 38.9$\to$23.5 & Cause: visual near-symmetry $\to$ mode selection & 4 \\
+    105 & Candidate expansion + best fit; absorbs 103; arm K (Kurz corners) & verifier & done & Re-noise $\tau$ 0.8 on C3 4.78$\pm$0.11 (PASS); SL 36.6$\to$32.1--32.7, LB 26.6$\to$25.3--26.5; flip oracle LB 9.8 but no scorer repairs real flips; templates fail (flip acc.\ 0.63/0.78); arm K 5.20$\pm$0.09 (PASS) but LB 28.8, SL 39.1 & Re-noise as verifier; templates rejected; K not in recipe & 3 \\
+    106 & Symmetry-aware multi-path targets (A0 single, A1 canonical, A2 all equivalents) on T-LESS, SYMSOL-T & pred. & runs done$^{b}$ & PoE val/test, orbit: T-LESS A0 9.3/16.6, A1 10.7/18.2, A2 8.3/15.2; SYMSOL-T A0 2.65/2.67, A1 9.73/9.69, A2 2.10/2.11; arm K and best fit not run & A2 best; A1 breaks orbit voting & --$^{b}$ \\
+    107 & Paper visuals, metrics, log-likelihood, NFE/M sweep, timing & analysis & done (descriptive) & NFE 10--20 plateau; $M=64$ best (synth 5.05, SL 35.1); GT log-lik.\ flow 3.85 vs tree 0.98 nats (LB); DINOv3 6\,ms, MoGe-2 20.5\,ms, trees 12.8\,ms at batch 1 & Templates; re-run for final recipe & 3 \\
+    108 & Discrete flow matching on the Tesseract path & pred. (flow) & done & NFE 4 / $M$ 8: 7.22$\pm$0.12 vs 5.54 (FAIL); LB 29.8, SL 39.8; repairs $\sim$5\% of $>$150\appDdeg\ failures & Not adopted & 1 \\
+    109 & Augmentation (A), $16\times16$ tokens (B), orbit voting (C) & pred. + inference & done & A+C synth 3.87, val-aug 5.82, LB 12.30, SL 12.28 (EXP-036: 5.54/30.84/26.91/36.66); A alone 4.86/9.75/17.35/20.16; B FAIL (30.51 vs 30.84); C on 036 4.62/19.84/20.25/24.83; A+C fixes 62\%/80\% of $>$150\appDdeg, breaks 0.4\% & Recipe A + C (DEC-018); B rejected & 5 \\
+    110 & Weighted per-level PoE, $w\in[0,1]$ & tr.-free fusion & done & $w^*=0.8$ on val-aug (23.65 vs 30.84, PASS; clean 5.14) but LB 32.0 vs 26.9 (real best $w\approx$0.5--0.7) & Not adopted & 2 \\
+    111 & Augmented DINOv3 tree + $SO(3)$ flow (KDE, verifier) & RFM & done & KDE synth 4.10 vs 4.84 (PASS) but real worse (25.2/24.4 vs 22.6/22.1); verifier 4.42, real $\approx$ tree; 21.6 vs 13.1\,ms & Not adopted; orbit voting better everywhere & 2 \\
+    112 & Locked recipe, PoE vs DINOv3-only, timing & evaluation & done & PoE+orbit 3.87/12.30/12.28 at 279\,ms; DINOv3+orbit 4.21/17.40/15.27 at 70\,ms; DINOv3 greedy 4.84/22.56/22.02 at 15\,ms; MoGe-2 $\approx$41\,ms/view incl.\ 20\,ms CPU mask & Report both variants & 4 \\
+    \bottomrule
+  \end{tabular}
+  \caption{\textbf{Experiment log, part 3}: end of Phase 4, Phase 5 and the real-domain phase. $^{a}$The EXP-064 report's status header still says ``Running''; its body and the index record completion on 2026-10-20. $^{b}$Index: ``Queued''; report: ``Not started''. Completed runs exist and their numbers are taken from the paper tables; no keep score has been assigned.}
+  \label{app:log_tab3}
+\end{table*}
+% src: outputs/EXPERIMENT_INDEX.md (rows EXP-045..112); outputs/reports/EXP-050_oracle_adaptive_depth.md; outputs/reports/EXP-101_tesseract_vs_spacehop_hopf.md; paper/tables/sym.tex (EXP-106 numbers); paper/SOURCES.md
+
+\begin{table*}[p]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{2.5pt}
+  \begin{tabular}{@{}p{0.05\linewidth}p{0.19\linewidth}p{0.085\linewidth}p{0.075\linewidth}p{0.305\linewidth}p{0.17\linewidth}p{0.05\linewidth}@{}}
+    \toprule
+    ID & Question & Track & Status & Key result & Decision & Keep \\
+    \midrule
+    113 & Tree vs count-matched flat Hopf classifier (131,076 anchors), same recipe & grid + pred. & done & PoE+orbit synth 3.87 vs 7.53, val-aug 5.82 vs 9.80; greedy 4.85 vs 8.95; real: tree better in all 8 cases (LB 12.30 vs 13.15, SL 12.25 vs 16.31); 2.4\,M vs 36.1\,M params & Supported (precision); grid confound open (127) & 5 \\
+    114 & Orbit product vs max-confidence vs cluster voting & inference & done & Synth: weighted vote 3.46 $<$ product 3.87 (FAIL); val-aug 5.82 vs 5.98 (marginal PASS, PoE); real: product best 12.30/12.25 vs 12.58/12.88 & Claim limited to orbit consistency & 3 \\
+    115 & Photometric-only vs rotation-only vs combined augmentation & ablation & done & PoE+orbit: combined 3.87/12.30/12.25, photometric 4.25/12.29/12.37, rotation 3.78/18.69/20.70, none 4.62/20.25/24.83 & Real gain = photometric + orbit; keep combined & 4 \\
+    116 & Roll-consistent hierarchical consistency loss (T) vs paired views (C1), leaf-only equivariance (C2) & pred. & done & Greedy val-aug (DINOv3): C2 9.43, T 9.57, A 9.88, C1 10.04; PoE+orbit synth C2 3.71, T 3.74, A 3.87; real $\approx$ A & No hierarchical claim; C2 not adopted & FAIL$^{c}$ \\
+    117 & Orbit distillation into a single-view student & pred. (distill.) & done$^{a}$ & Student greedy val-aug DINOv3 9.33 vs 9.88, PoE 9.22 vs 9.75; student PoE+orbit 3.69/11.21/11.09 (vs 3.87/12.30/12.25) & Enhancement; recipe unchanged (DEC-023) & PASS$^{c}$ \\
+    118 & Full 6-DoF: SPACE-HOP translation block on the tree tokens & pred. (6-DoF) & done & $E_T$ (joint, orbit) DINOv3 0.059/0.185/0.183\,m, PoE 0.093/0.175/0.194\,m; $E_R$ PoE 3.86/12.11/11.73; box only 0.56\,m & Block $\gg$ box only; rotation not hurt & PASS$^{c}$ \\
+    119 & Orbit distillation on T-LESS and SYMSOL-T & pred. (distill.) & queued & -- & Pending & -- \\
+    122 & YCB-V with \texttt{data\_syn} renders on real train backgrounds & training data & run done$^{b}$ & Val PoE+orbit 12.7$\pm$1.0 vs 74.1$\pm$7.4 (real only); test PoE greedy 10.9, PoE+orbit 12.2; orbit worse than greedy on val (PoE 10.5$\to$12.7) & No verdict recorded yet & --$^{b}$ \\
+    124 & SPEED+ with a synthetic-only detector, official score & full system & queued & First detector run aborted by the memory guard (reported 44.3\,GB vs 11\,GB real); retried with identical settings & Pending & -- \\
+    126 & Translation on T-LESS, SYMSOL-T, YCB-V vs box only & full system & queued & -- & Pending & -- \\
+    127 & Hierarchy vs flat at the same 131,072 leaves; flat balanced Hopf ($1771\times74$) & ablation & queued (floors done) & Quantisation floor on synth-val rotations: Tesseract L5 2.51 mean / 5.78 max; balanced Hopf 2.29 / 3.84; SPACE-HOP $10923\times12$ 6.06 / 14.97 & Pending & -- \\
+    \bottomrule
+  \end{tabular}
+  \caption{\textbf{Experiment log, part 4}: strengthening experiments, 6-DoF and the cross-dataset phase. $^{a,b}$As in \cref{app:log_tab3}. $^{c}$The index puts the pre-registered verdict in the keep-score column for these experiments and assigns no 0--5 score.}
+  \label{app:log_tab4}
+\end{table*}
+% src: outputs/EXPERIMENT_INDEX.md (rows EXP-113..127); outputs/reports/EXP-117_orbit_distillation.md; outputs/reports/EXP-124_speedplus_detected_official_score.md; outputs/reports/EXP-127_hierarchy_vs_flat_same_grid.md; outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-200852-seed0/tables/object_balanced.md; paper/tables/ycbv.tex
+
+\begin{table*}[p]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{@{}p{0.12\linewidth}p{0.36\linewidth}p{0.46\linewidth}@{}}
+    \toprule
+    ID(s) & Planned content & Fate and source \\
+    \midrule
+    027 & Best training-free combination of reliability signals (plan 022) & Skipped: no signal helped individually (DEC-003, EXP-026) \\
+    028 & Learned gate (plan 023) & Skipped: conditional on training-free fusion failing, which it did not (DEC-003) \\
+    029 (slot) & Shallow channel projection (plan 024) & Initially skipped (DEC-003), reopened as the PanSt3R-inspired EXP-029 (DEC-007) \\
+    051--055 & Adaptive depth: feature validation, rule-based and MLP controllers, fixed vs adaptive & Eligible after EXP-050 passed; not started, waiting for the user (DEC-014); judged low priority \\
+    060--063 & Phase-6 SPEED+ milestone: domain evaluation, robustness, confidence, efficiency & Proposed / on hold; efficiency covered in part by EXP-107 and EXP-112 \\
+    070--085 & Phases 7--8: translation variants, octree, joint and $SE(3)$ flows & Not run; 6-DoF was obtained with the SPACE-HOP block of EXP-118 instead \\
+    103 & ``Rotate and match'' templates & Merged into EXP-105 as its synthetic-template arm (DEC-010) \\
+    120, 121, 123 & 3-D geometry into DINOv3; smaller backbones / Jetson; DINOv3/MoGe-2 flip-confusion probe & Reserved for on-hold ideas (DEC-024) \\
+    125 & T-LESS on LiePose's instance set and metric & Reserved; to be pre-registered after EXP-124's code (DEC-025, DEC-026) \\
+    \bottomrule
+  \end{tabular}
+  \caption{\textbf{Identifiers allocated but never run.}}
+  \label{app:log_tab5}
+\end{table*}
+% src: outputs/DECISIONS.md (DEC-002, DEC-003, DEC-007, DEC-010, DEC-014, DEC-024, DEC-025, DEC-026); NOVELTY.md (Sec. 1.1 status table); TESSERACT_FUSION_EXECUTION_PLAN.md (Phases 5--8 headings)
+
+\clearpage
+
+%==========================================================================================
+\subsection{Negative and abandoned directions}\label{app:log_negative}
+
+\Cref{tab:negative} in \cref{sec:supp_negative} summarises the refiners and verifiers that failed to fix real flips. Here we record every dropped idea, in roughly chronological order, with what was tried, the numbers and the reason it was dropped. We group them by the question they addressed.
+% src: paper/sec/X_suppl.tex (Sec. Negative results)
+
+\subsubsection{Backbones and features}\label{app:log_neg_feat}
+
+\paragraph{VGGT as the geometric branch (EXP-011, 012).}
+The plan's original second branch was VGGT. With the predictor, budget, subset and seeds of EXP-010, its best tokens reached a synthetic-validation mean of 48.7\appDdeg\ (median 25.4\appDdeg) against 27.7\appDdeg\ for DINOv3 \texttt{grid4}, its lightbox medians were 84--105\appDdeg, and extraction took about $17\times$ longer. Its late layers were worse than its middle layers (medians 44--57\appDdeg\ for layers 17 and 23), the opposite of DINOv3. The complementarity audit showed a real but synthetic-only benefit: errors were weakly correlated (Spearman 0.31), the oracle-of-two acc@10 rose from 0.201 to 0.278, and agreement made DINOv3 correct 2.6$\times$ more often, but 95--98\% of real images were solved by neither branch. VGGT is no more domain-invariant than DINOv3 (feature drift 0.54/0.96 vs 0.48/0.93 on LB/SL). It was replaced by MoGe-2 (DEC-001). One attempt of this audit computed a band-energy FFT over all 9,500 DINOv3-L grids at once (an estimated peak of about 100\,GB on a shared 123\,GB host) and took the machine down; this led to the memory watchdog and cgroup cap used for every later job.
+% src: outputs/reports/EXP-011_vggt_controls.md; outputs/reports/EXP-012_complementarity.md
+
+\paragraph{Geometry-specific complementarity was never shown (EXP-014).}
+MoGe-2 was adopted as the better \emph{single} geometric branch (39.6\appDdeg\ vs 48.7\appDdeg), but on the subset it was not more complementary to DINOv3-L than VGGT (oracle acc@10 0.289$\pm$0.020 vs 0.278$\pm$0.022), and an appearance-only DINOv3-B control was more complementary than both (0.308$\pm$0.022, agreement ratio 3.67$\times$ vs 3.18$\times$). Complementarity tracked the second model's accuracy, not whether it carried geometry. The full-data fusion results (EXP-030, 036) and later the cross-dataset results (EXP-064: PoE helps on T-LESS but not on SYMSOL-T or YCB-V) are the only evidence for the geometric branch, and they are dataset-dependent.
+% src: outputs/reports/EXP-014_moge2_complementarity.md; outputs/reports/EXP-064_broader_object_validation.md
+
+\paragraph{Mask-weighted DINOv3 pooling (EXP-016).}
+The consensus mask that fixes MoGe-2 normals did not help DINOv3: mask-weighted \texttt{grid4} pooling made synthetic validation worse (27.7\appDdeg$\to$31.1\appDdeg, failing the guard) and changed the real domains by less than a degree (LB 76.1$\to$77.0\appDdeg, SL 79.1$\to$78.2\appDdeg). DINOv3's patch tokens use silhouette and near-boundary context that masking removes. The pose-level consensus is one-way.
+% src: outputs/reports/EXP-016_consensus_pose.md
+
+\paragraph{CASS-inspired spectral fusion (EXP-017--020).}
+Four user-requested options were inspired by CASS (spectral object-structure graphs injected across models); all were rejected.
+(1)~A spectral foreground from a fused DINOv3 + MoGe-2 patch graph was worse than the simple AND consensus (leakage +0.098 on LB, +0.160 on SL; recall $-0.10$) and failed the synthetic recall guard (0.784 vs 0.989): the geometric affinity separates spacecraft faces, not figure from ground. A spectral DINOv3-only mask was slightly better than the PCA mask, but was never registered as a separate variant.
+(2)~Injecting one model's spectral attention graph into the other's last encoder block did not reduce MoGe-2's mask leakage (0.523$\to$0.524 on LB) and made pose worse on every domain for all three injected feature sets, e.g.\ MoGe-2 \texttt{grid4} SL 83.9$\to$91.5\appDdeg\ and DINOv3 \texttt{grid4} synthetic 27.7$\to$34.2\appDdeg. Unlike CASS, whose edited block feeds a similarity directly, our edited block feeds downstream heads and a probe that expect the original attention statistics.
+(3)~Pooling DINOv3 tokens into spectral parts (\texttt{parts4}, 4,116 dims) was far worse than a size-matched $2\times2$ grid (synthetic 53.0\appDdeg\ vs 28.5\appDdeg, LB 96.9\appDdeg\ vs 79.9\appDdeg, SL 104.2\appDdeg\ vs 85.8\appDdeg): Laplacian eigenvectors are not ordered consistently across images, so ``part 1'' is not the same physical part from view to view.
+(4)~The spectral head-matching distance between the two backbones carried no signal on synthetic validation (AUROC 0.481 for DINOv3 errors $>$20\appDdeg) and a weak inverted one on real images (Spearman about $-0.25$), while plain prediction disagreement reached AUROC 0.68--0.75.
+% src: outputs/reports/EXP-017_spectral_foreground.md; EXP-018_cass_attention_injection.md; EXP-019_spectral_part_pooling.md; EXP-020_spectral_head_complementarity.md
+
+\paragraph{Finer image tokens (EXP-109 B).}
+Replacing the $8\times8$ DINOv3 tokens by the unpooled $16\times16$ grid (4$\times$ the tokens, about 2\,h of training per seed) gave no gain: val-aug 30.51\appDdeg\ vs 30.84\appDdeg\ (seed std 0.40), clean synthetic 5.56\appDdeg\ vs 5.54\appDdeg, LB 27.01\appDdeg, SL 35.97\appDdeg. The $16\times16$ cache was deleted under DEC-020.
+% src: outputs/reports/EXP-109_real_domain_aug_tokens16_orbit.md; NOVELTY.md (Sec. 1.2, row 109 B); outputs/DECISIONS.md (DEC-020)
+
+\paragraph{Backbone adaptation with LoRA (EXP-102, cancelled).}
+LoRA adapters for DINOv3, MoGe-2 and their fusion were pre-registered as a separately named backbone-adaptation experiment, so that its results would not be mixed into the frozen-backbone comparison. The user cancelled it on 2026-10-09 before any run, and kept it cancelled in DEC-007 and DEC-012 (``might take too much time and only give us a trivial positive result''). The code, tests and an initialisation-equivalence check are kept. All results in this paper therefore use frozen backbones.
+% src: outputs/reports/EXP-102_lora_adapters.md; outputs/DECISIONS.md (DEC-007, DEC-012)
+
+\subsubsection{Fusion}\label{app:log_neg_fusion}
+
+\paragraph{Reliability weighting (EXP-026).}
+Weighting each branch by a fixed, training-free reliability signal did not beat equal-weight PoE by the pre-registered margin (0.46\appDdeg): margin weighting 25.8\appDdeg\ ($-0.08$), entropy weighting 26.1\appDdeg\ (+0.18), and an agreement gate (PoE if the branches agree within 20\appDdeg, else DINOv3) 27.4\appDdeg\ (+1.48). Equal-weight PoE already lets the peaked branch dominate; the gate hurts because it discards PoE exactly on the images where the branches disagree, which are most real images.
+% src: outputs/reports/EXP-026_reliability_weighting.md
+
+\paragraph{PanSt3R-inspired learned feature fusion (EXP-029).}
+Concatenating DINOv3 and MoGe-2 tokens (linear or MLP projection) into one Transformer tree passed the literal rule against an $8\times8$ PoE on synthetic validation (5.341$\pm$0.031\appDdeg\ vs 5.582$\pm$0.103\appDdeg), but equalled DINOv3 alone (5.345\appDdeg; per-seed differences $-0.15$/+0.10/+0.04\appDdeg) and was much worse on real images (LB 40.8\appDdeg\ vs 27.9\appDdeg, SL 46.2\appDdeg\ vs 37.9\appDdeg; on LB it fixed 2.6\% of $>$90\appDdeg\ failures but newly broke 9.0\%). The ``gain'' over PoE is the known DINOv3-vs-PoE synthetic gap. It was not adopted (DEC-008). A source-rebalancing follow-up (per-source normalisation or a gate) was suggested but never run.
+% src: outputs/reports/EXP-029_panst3r_inspired_fusion.md; outputs/DECISIONS.md (DEC-008)
+
+\paragraph{Weighted PoE (EXP-110).}
+A per-level weight on the DINOv3 tree, selected on the val-aug proxy, chose $w^*=0.8$ (val-aug 23.65\appDdeg\ vs 30.84\appDdeg\ at $w=0.5$; clean synthetic 5.14\appDdeg\ vs 5.54\appDdeg), but lightbox became 5.1\appDdeg\ worse (32.0\appDdeg\ vs 26.9\appDdeg) and sunlamp did not change (36.7\appDdeg). The best real weights were about 0.5 (LB) and 0.7 (SL). Following DEC-006 we did not use real data to choose another weight. The experiment was run on the clean EXP-036 trees; whether the balance shifts for the augmentation-trained trees was not tested.
+% src: outputs/reports/EXP-110_weighted_poe.md
+
+\paragraph{MoGe-2 fusion does not transfer to every dataset (EXP-064).}
+On T-LESS, PoE beat DINOv3 alone (validation, orbit 9.25\appDdeg\ vs 9.94\appDdeg; test 16.57\appDdeg\ vs 17.88\appDdeg). On SYMSOL-T it did not (orbit validation 2.65\appDdeg\ vs 2.61\appDdeg): the textureless renders give MoGe-2 normals nothing DINOv3 lacks. On YCB-V trained on real videos it was worse (validation 73.5\appDdeg\ vs 64.3\appDdeg). The fusion claim is therefore restricted to SPEED+ and T-LESS.
+% src: outputs/reports/EXP-064_broader_object_validation.md
+
+\subsubsection{Decoder, targets and continuous refinement}\label{app:log_neg_dec}
+
+\paragraph{GRU path decoder (EXP-031).}
+Conditioning each level on the decoded history with a GRU improved DINOv3 alone (6.64\appDdeg$\to$6.29\appDdeg) and the real domains (SL 43.7\appDdeg$\to$40.6\appDdeg), but the fused gain (6.242\appDdeg$\to$6.149\appDdeg) missed the rule by 0.005\appDdeg\ (gain 0.093 vs seed std 0.098). The planned GRU + soft-target combination was never run, because the cross-attentive Transformer (EXP-032, 036) superseded both.
+% src: outputs/reports/EXP-031_gru_path_decoder.md; outputs/DECISIONS.md (DEC-004)
+
+\paragraph{Beam search (EXP-034).}
+At full data, beams of width 2, 4 and 8 changed the fused synthetic error by at most +0.006\appDdeg\ (6.242\appDdeg\ greedy vs 6.248\appDdeg\ beam 8) at up to 6.6$\times$ the scored nodes (292 vs 44). The trained tree is decisive: wrong branches are confidently wrong. On the subset (EXP-010) beam search had also changed the error by at most 0.4\appDdeg.
+% src: outputs/reports/EXP-034_beam_decoding.md; outputs/reports/EXP-010_dinov3_baseline.md
+
+\paragraph{Tangent residual (EXP-035, 040).}
+A residual trained teacher-forced on the ground-truth leaf moved the fused error by only 0.055\appDdeg\ (6.269\appDdeg\ discrete to 6.214\appDdeg\ refined), because the predicted leaf is correct only about 18\% of the time. Retrained on the \emph{predicted} leaf (EXP-040), it passed on synthetic data (5.414\appDdeg\ vs 5.544\appDdeg), but the gain came entirely from the DINOv3 head (the MoGe-2 residual learned essentially nothing, so averaging halved the correction) and the real domains moved by at most 0.03\appDdeg. It survives only as the sub-millisecond fast fallback.
+% src: outputs/reports/EXP-035_tangent_residual.md; outputs/reports/EXP-040_tangent_residual_predicted_leaf.md
+
+\paragraph{Cell-conditioned flow refiner (EXP-041).}
+A separate Riemannian flow~\cite{chen2024rfm} started from a 3\appDdeg\ Gaussian around the predicted cell gave the best within-mode refinement (fused 5.244\appDdeg, best-of-32 2.64\appDdeg), but a wrong-mode greedy choice cannot be escaped from that base, so lightbox (27.12\appDdeg) and sunlamp (36.65\appDdeg) did not improve. Its nominal 90\% regions covered 80\% on synthetic validation and 34\%/22\% on LB/SL, and it cost 19.4\,ms per image against 0.33\,ms for the residual. It was dropped in EXP-045 as dominated by the coupled posterior on coverage.
+% src: outputs/reports/EXP-041_cell_conditioned_rfm.md; outputs/reports/EXP-045_phase4_matched_comparison.md
+
+\paragraph{Image-conditioned $SO(3)$ posterior as a point estimator (EXP-042, 107, 111).}
+A global flow posterior from a uniform base, conditioned on the tree's encoder memory, was the most accurate single head on synthetic data (DINOv3 head 4.57\appDdeg; fused KDE mode 5.219\appDdeg) and contained the right mode on real images (best-of-32 9.7\appDdeg\ LB, 10.6\appDdeg\ SL), but its samples spread over several modes (fused spread about 41\appDdeg\ on LB) and the KDE mode chose the wrong one more often than the tree (LB 29.85\appDdeg\ vs 26.88\appDdeg). Its coverage was over-dispersed (0.98 at the 0.9 level), so it is not calibrated, and the cross-branch velocity average is a heuristic rather than a product of experts. More samples helped ($M=64$: 5.05\appDdeg\ / 29.6\appDdeg\ / 35.1\appDdeg), more steps did not beyond NFE 10--20 (EXP-107). Repeated on the augmentation-trained DINOv3 tree (EXP-111), the KDE arm improved synthetic error (4.10\appDdeg\ vs 4.84\appDdeg) but was worse on both real domains (25.16\appDdeg\ vs 22.55\appDdeg, 24.39\appDdeg\ vs 22.07\appDdeg), and the verifier arm was about equal to the tree on real images; orbit voting on the same tree (4.21\appDdeg\ / 17.40\appDdeg\ / 15.27\appDdeg) beat both. The flow is kept only for its density: its ground-truth log-likelihood is much higher than the tree's on real images (3.85 vs 0.98 nats on LB, 3.12 vs $-0.76$ on SL).
+% src: outputs/reports/EXP-042_image_conditioned_so3_posterior.md; outputs/reports/EXP-107_paper_visuals_metrics_efficiency.md; outputs/reports/EXP-111_dino_aug_flow.md
+
+\paragraph{Flow-induced masses and distillation into the tree (EXP-043, 044).}
+Tesseract masses counted from the flow's 32 samples are exactly parent--child consistent, but this holds by construction and is not a finding. On synthetic data the flow's most massive cell is the ground-truth cell more often than the tree's greedy choice at levels 2--5 (level 2: 0.832 vs 0.787), but greedy descent over counted masses is worse than the tree (6.210\appDdeg\ vs 5.541\appDdeg) because leaf counts from 32 samples are noisy (TV distance 0.26 between 16 and 32 samples), and on real images the tree is better at every level. Distilling the masses into the tree with a KL term took (fit 4.38$\to$2.86) and improved each branch alone (DINOv3 5.45$\to$5.07\appDdeg, MoGe-2 16.81$\to$14.48\appDdeg\ at $\beta=1$), yet the fused synthetic error did not improve (5.589\appDdeg\ at $\beta=0$ vs 5.622\appDdeg\ at $\beta=1$) and the experiment stopped at seed 0 by rule. Descriptively, $\beta=1$ improved lightbox (27.63$\to$26.17\appDdeg) and top-8 leaf recall (0.69$\to$0.77) but more than doubled the synthetic $>$90\appDdeg\ rate (0.21\%$\to$0.49\%). The $\beta=1$ checkpoints were kept but never used.
+% src: outputs/reports/EXP-043_flow_induced_tesseract_masses.md; outputs/reports/EXP-044_distilled_tree.md
+
+\paragraph{Adaptive depth (EXP-050, 051--055).}
+An oracle that stops decoding at the best depth per image would gain 0.51$\pm$0.02\appDdeg\ on synthetic validation (5.54\appDdeg$\to$5.03\appDdeg), which passes the 0.25\appDdeg\ eligibility rule. On real images the oracle gains 4.21\appDdeg\ (LB) and 5.83\appDdeg\ (SL), but by hedging towards coarser cells, which leaves the flips unchanged. The controllers EXP-051--055 were never started; augmentation and orbit voting were pursued instead.
+% src: outputs/reports/EXP-050_oracle_adaptive_depth.md; outputs/DECISIONS.md (DEC-012, DEC-014)
+
+\paragraph{Discrete flow matching on the tree path (EXP-108).}
+The user asked for a ``direct path flow'' that iteratively revises root and child decisions. It was first designed as an iterative path denoiser with a geometry-aware corruption kernel and a no-geometry matched control; the user then replaced it with discrete flow matching~\cite{gat2024dfm} (DEC-015), so the control was never run and the value of the geometry token cannot be identified. The final model (source = samples of the frozen PoE tree, factorised mixture path $\kappa(t)=t$, time-conditioned posterior, CTMC Euler sampler) reached 7.22$\pm$0.12\appDdeg\ at NFE 4 / $M$ 8, against 5.54\appDdeg\ for the tree, and was worse on both real domains (29.80\appDdeg, 39.84\appDdeg). It changed 66--80\% of paths, almost always at fine levels (root changes 3--7\%), and corrected only 4--5\% of the $>$150\appDdeg\ failures. Two reasons are recorded: the source samples are noisier than the greedy path (training-set leaf mass on the ground truth about 0.35), and token-wise mixing is not geometry-preserving (at $t=0.3$--0.6, 45--53\% of corrupted paths are more than 30\appDdeg\ from both endpoints).
+% src: outputs/reports/EXP-108_path_flow_revision.md; outputs/DECISIONS.md (DEC-013, DEC-015)
+
+\subsubsection{Selecting the right flip}\label{app:log_neg_flip}
+
+\paragraph{Candidate expansion and best-fit scorers (EXP-105).}
+After EXP-104 showed that the large real errors are 180\appDdeg\ body-axis flips caused by visual near-symmetry (they occur in the 165--180\appDdeg\ band at about twice the Haar rate, 0.36--0.41 vs 0.20, and a 180\appDdeg\ allowance about one body axis cuts the DINOv3 lightbox mean from 38.9\appDdeg\ to 23.5\appDdeg), each prediction was expanded into candidates (tree beams, 180\appDdeg\ body-axis flips, leaf-cell corners) and re-scored. The correct flip is usually present (flip oracle: LB 26.6$\to$9.8\appDdeg, where 26.6\appDdeg\ is EXP-105's own evaluation of the EXP-036 baseline), but no scorer selects it on real images: the flow prefers the ground truth over its flips 91--92\% of the time on real images, against 87--91\% for the tree, and the re-ranked flip fractions stay at about 10\%. The flow log-density as a re-ranker was worse than the tree on synthetic data (5.86\appDdeg). Synthetic-template matching, which stood in for render-and-compare because SPEED+ has no 3-D model (absorbing the proposed EXP-103), failed even on synthetic data (flip-discrimination accuracy 0.63 for DINOv3 tokens and 0.78 for normals, vs 0.997 for the tree), because the nearest-rotation renders differ in lighting and background. Re-noise/return re-ranking over the expanded set was the one useful outcome (synthetic 4.78\appDdeg, SL 32.1--32.7\appDdeg), at about 100\,ms per image; it improved precision rather than repairing flips, and was superseded by orbit voting.
+% src: outputs/reports/EXP-104_flip_audit.md; outputs/reports/EXP-105_candidate_expansion_best_fit.md
+
+\paragraph{Kurz corner tree (EXP-105 arm K).}
+At the user's request we implemented the original tesseract formulation of Kurz et al.~\cite{kurz2017tesseract}: all 8 facets (so $q$ and $-q$ are both represented), corners of the subdivided cubes as representatives, and a multi-path target spread over every leaf cube sharing the corner, decoded by corner voting over the top-8 leaves. It passed on synthetic data (5.20$\pm$0.09\appDdeg\ vs 5.54$\pm$0.07\appDdeg), almost entirely from the 8-facet multi-path training rather than from corner decoding (top-1 centre 5.216\appDdeg), but it was worse on both real domains (LB 28.8\appDdeg, SL 39.1\appDdeg; the DINOv3-alone K tree 43.1\appDdeg\ vs 37.1\appDdeg\ on LB). The arm changed both the targets and the loss (level-marginal instead of per-level soft cross-entropy), so the two cannot be separated. It was excluded from the locked recipe (DEC-018), and the T-LESS arm K of EXP-106 was descoped (DEC-024 amendment).
+% src: outputs/reports/EXP-105_candidate_expansion_best_fit.md; outputs/DECISIONS.md (DEC-010, DEC-018); outputs/reports/EXP-106_tless_multipath_tree.md
+
+\paragraph{The rotation augmentation was not what fixed the flips (EXP-115).}
+Our initial hypothesis, recorded in the contribution inventory after EXP-109, was that the geometry-correct in-plane rotation augmentation causes the real-domain flip repair. The ablation refuted it: with orbit voting, photometric-only training matches the combined recipe on real images (LB 12.29\appDdeg\ vs 12.30\appDdeg, SL 12.37\appDdeg\ vs 12.25\appDdeg), while rotation-only training stays near the clean trees (18.69\appDdeg\ / 20.70\appDdeg\ vs 20.25\appDdeg\ / 24.83\appDdeg). Rotation augmentation gives the best synthetic precision (3.78\appDdeg) and is favoured by the val-aug proxy, which itself contains random in-plane rotations and so over-rewards rotation training by construction. The roll transform remains necessary for orbit voting at inference.
+% src: outputs/reports/EXP-115_augmentation_ablation.md; NOVELTY.md (update 2026-10-17, EXP-115)
+
+\paragraph{Learning orbit consistency with a hierarchical transport loss (EXP-116).}
+Transporting the tree's level-wise distribution under a known camera roll ($p(T_\theta I)\approx K_\theta\,p(I)$) beat the base recipe and a paired-view data control on single-view val-aug (DINOv3 greedy 9.57\appDdeg\ vs 9.88\appDdeg\ and 10.04\appDdeg), but not a plain leaf-level transported equivariance loss (9.43\appDdeg); the pre-registered criterion therefore fails and we make no hierarchical-transport claim. The leaf-level loss is a known equivariance regulariser; it improved synthetic precision (PoE + orbit 3.71\appDdeg\ vs 3.87\appDdeg) at zero inference cost, left lightbox unchanged and severe flips unchanged, and was not adopted without a user decision.
+% src: outputs/reports/EXP-116_roll_consistent_tree.md; paper/tables/consistency.tex
+
+\paragraph{The orbit-product scoring rule (EXP-114).}
+The pre-registered claim that the product of tree likelihoods over the orbit adds something beyond simpler voting \emph{failed} on synthetic validation: a kernel-weighted vote over the same 32 candidates was more precise (PoE 3.46$\pm$0.03\appDdeg\ vs 3.87$\pm$0.03\appDdeg; DINOv3-only 3.71\appDdeg\ vs 4.21\appDdeg). The product passed only marginally on val-aug for PoE (5.82\appDdeg\ vs 5.98\appDdeg) and not for DINOv3-only (6.25\appDdeg\ vs 6.30\appDdeg), and was best on the real domains descriptively. Max-confidence and top-1 voting were clearly worse than both. The claim is therefore ``multi-view orbit consistency over hierarchical candidates''; the product remains in the recipe only because DEC-018 fixed it before this experiment.
+% src: outputs/reports/EXP-114_orbit_scoring_rules.md
+
+\subsubsection{Beyond SPEED+}\label{app:log_neg_xds}
+
+\paragraph{Zero-shot transfer of the SPEED+ trees (EXP-064 zero-shot arm).}
+The frozen SPEED+ trees were applied to the other datasets without retraining, with metrics fixed in advance: raw error, uniform chance, a frame-free pair error that cancels the unknown offset between object frames, and a 3-DOF calibrated error. On T-LESS the pre-set rule was literally met (PoE greedy pair error 95.6\appDdeg\ vs 104.5\appDdeg\ uniform chance), but a post-hoc control showed that predicting one constant rotation does better (88.7\appDdeg), because T-LESS objects are viewed from above a table; the same holds on YCB-V (pair error 95.9\appDdeg\ for DINOv3 greedy and 101.6\appDdeg\ for PoE + orbit, vs 57.8\appDdeg\ for a constant). On SYMSOL-T, where rotations are uniform, PoE + orbit beat chance (47.8\appDdeg\ vs 53.7\appDdeg) only because of the cube (PoE greedy pair 27.8\appDdeg\ vs 41.2\appDdeg\ constant); every other shape was at chance. There is no general zero-shot transfer, and the trees must be retrained per object. The constant-prediction control was added after the T-LESS result and is labelled post hoc.
+% src: outputs/reports/EXP-064_broader_object_validation.md (zero-shot arms)
+
+\paragraph{YCB-V trained on real videos only (EXP-064).}
+With per-object trees trained on the real YCB-V training videos (16--20 sequences per object), the test error was 69.4\appDdeg\ (DINOv3 + orbit) against about 126\appDdeg\ for random rotations, and PoE was worse than DINOv3 alone. Four checks ruled out a pipeline error: the trees fit their training frames (3.8\appDdeg\ and 3.9\appDdeg\ for mustard bottle and mug), test poses are covered by training (median nearest training rotation about 5\appDdeg\ for three objects whose test errors are 75--87\appDdeg), every crop contains all object label pixels, and 65--98\% of projected model points fall on the object mask (28--83\% for a transposed-rotation control). The trees memorise the cluttered training videos. Adding the synthetic \texttt{data\_syn} renders composited on real training backgrounds (EXP-122) reduced the validation PoE + orbit error from 74.1\appDdeg\ to 12.7\appDdeg\ and the test error from 79.9\appDdeg\ to 12.2\appDdeg; scissors remain the outlier (49.4\appDdeg\ / 36.9\appDdeg\ for DINOv3 / PoE).
+% src: outputs/reports/EXP-064_broader_object_validation.md (YCB-V block); outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-200852-seed0/tables/object_balanced.md; paper/tables/ycbv.tex; paper/tables/ycbv_perobj.tex
+
+\paragraph{Orbit voting does not always help (EXP-064, EXP-122).}
+Orbit voting is the most consistent gain on SPEED+, T-LESS and SYMSOL-T, but there are two exceptions. On T-LESS real test images it removes few gross errors ($>$90\appDdeg\ fraction 0.055$\to$0.051), unlike on SPEED+. On YCB-V with synthetic training data it makes validation \emph{worse} for both variants (PoE greedy 10.52\appDdeg\ vs orbit 12.74\appDdeg; DINOv3 8.97\appDdeg\ vs 11.53\appDdeg) and does not help the test mean (PoE 10.90\appDdeg\ vs 12.16\appDdeg), with large seed spread on test (DINOv3 greedy $\pm$6.9\appDdeg). ``Orbit voting transfers wherever the base model generalises'' is therefore too strong as stated in the EXP-064 decision; the EXP-122 report has not yet recorded a verdict.
+% src: outputs/reports/EXP-064_broader_object_validation.md; outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-200852-seed0/tables/object_balanced.md
+
+\paragraph{Canonical labels break orbit voting (EXP-106 A1).}
+For symmetric objects, replacing each label by its equivalent rotation closest to identity (A1) removes contradictory labels and helps a single view (T-LESS validation 12.3\appDdeg$\to$11.5\appDdeg; SYMSOL-T 3.87\appDdeg$\to$3.40\appDdeg), but the canonical label is not related across in-plane rotations by the roll transform, so the orbit views disagree: SYMSOL-T orbit error rises to 9.73\appDdeg\ (A0: 2.65\appDdeg) and T-LESS test orbit error to 18.2\appDdeg\ (A0: 16.6\appDdeg; T-LESS R@10 73.4\%$\to$65.9\%). Training on all equivalent rotations (A2) keeps the relation and is best with or without orbit voting (SYMSOL-T orbit 2.10\appDdeg; T-LESS validation orbit 8.3\appDdeg, test 15.2\appDdeg). This negative result motivated keeping A2. Arm K and the render-and-compare and flow best-fit stages of EXP-106 were descoped (DEC-024 amendment). We also record a protocol deviation: the pre-registration named the hard-path level-marginal loss for A2, but the amendment used the recipe's geodesic soft targets averaged over equivalents, because the former would not reduce to A0 for objects without symmetry.
+% src: paper/tables/sym.tex; paper/tables/tless_sota.tex; paper/sec/5_ablations.tex (Sec. abl_sym); outputs/reports/EXP-106_tless_multipath_tree.md (amendment 2026-10-27)
+
+\paragraph{Remaining gap to fine-tuned methods.}
+On SYMSOL-T our best orbit result (A2 + orbit, 2.07\appDdeg\ averaged over the five shapes) is about 4$\times$ LiePose's~\cite{hsiao2024liepose} 0.55\appDdeg; on T-LESS R@2 is 5.7\% against 34.9\%. The depth-5 quantisation floor (2.31\appDdeg\ mean on SYMSOL-T, post hoc), the frozen backbone and LiePose's GT visible masks are confounded in this gap.
+% src: paper/tables/symsol_sota.tex; paper/tables/tless_sota.tex; paper/SOURCES.md (SYMSOL-T floor); outputs/DECISIONS.md (DEC-025)
+
+\subsubsection{Process failures and policy reversals}\label{app:log_neg_proc}
+
+\paragraph{Real-domain validation split, adopted and withdrawn (DEC-005, 006).}
+Because synthetic validation contains almost no errors above 90\appDdeg, a seeded 20\% of lightbox was briefly designated for selection (DEC-005). The user withdrew it the same day; it never influenced a training run or checkpoint, but the per-run files of that period still list \texttt{lightbox\_val}/\texttt{lightbox\_test} rows, which are descriptive only. The price of the strict policy is that flip repair can never be selected for directly; the val-aug proxy of EXP-109 was introduced for this reason, and EXP-110 and EXP-115 show it does not always agree with real data.
+% src: outputs/DECISIONS.md (DEC-005, DEC-006); outputs/reports/EXP-110_weighted_poe.md; outputs/reports/EXP-115_augmentation_ablation.md
+
+\paragraph{Compact-feature gate run late (EXP-064).}
+The augmented and orbit views used since EXP-109 come from a compact feature extractor, and the pre-registered equivalence gate against the full caches was only run after the T-LESS results. It failed its strict tolerance (MoGe-2 max standardised difference 0.51, p99 0.004; DINOv3 0.0108), and its pre-set functional follow-up found no PoE prediction change on 512 crops (single-branch greedy leaves changed for 1 and 3 crops). The failure is kept on record.
+% src: outputs/reports/EXP-064_broader_object_validation.md (Deviation section)
+
+\paragraph{Infrastructure incidents.}
+Besides the EXP-012 host crash, a SYMSOL-T bug produced NaN losses in 9 MoGe-2 trees (always-empty border cells with standard deviation near $10^{-6}$ overflowing float16); they were retrained with a standard-deviation floor and the invalid first evaluation was not reported. The cache move of DEC-020 broke several queued runs through a relative path. For EXP-124, the memory guard aborted the detector training at a reported 44.3\,GB because it summed the shared pages of six DataLoader workers (real peak 11\,GB); the orphaned workers stalled the queue for about 14.7\,h. The guard now counts child processes by unique memory and kills them on abort, and the run was retried with identical settings.
+% src: outputs/reports/EXP-012_complementarity.md; outputs/reports/EXP-064_broader_object_validation.md (SYMSOL-T bug); outputs/DECISIONS.md (DEC-020); outputs/reports/EXP-124_speedplus_detected_official_score.md (incident)
+
+%==========================================================================================
+\subsection{Claim boundaries}\label{app:log_claims}
+
+The project keeps a living claim document. Its contribution inventory and shortlist were written on 2026-10-16 and were later narrowed by dated updates; we give the boundaries as they stand after those updates, and say which earlier entries were superseded.
+% src: NOVELTY.md (header, Sec. 2, Sec. 4, dated updates 2026-10-17 to 2026-10-21)
+
+\paragraph{What is claimed.}
+\begin{itemize}
+\item \textbf{A lightweight hierarchical rotation predictor on frozen features.} One Tesseract-path Transformer per frozen backbone, fused per level by a training-free PoE, about 4.5\,M trainable parameters. Under the locked recipe it is far more accurate than a count-matched flat classifier over SPACE-HOP's Hopf grid (EXP-113: 3.87\appDdeg\ vs 7.53\appDdeg\ synthetic with orbit voting; better in all 8 real comparisons; 2.4\,M vs 36.1\,M parameters per branch).
+\item \textbf{Real-domain error on SPEED+ is a mode-selection problem.} The large errors are 180\appDdeg\ body-axis flips whose correct mode is already among the hypotheses (EXP-104, 105), and scorers that read the clean-trained features cannot select it (EXP-042, 045, 105, 108).
+\item \textbf{Lighting-robust training plus multi-hypothesis orbit voting resolves most flips.} PoE + orbit reaches 3.87\appDdeg\ / 12.30\appDdeg\ / 12.28\appDdeg\ against 5.54\appDdeg\ / 26.9\appDdeg\ / 36.7\appDdeg, fixing 62\%/80\% of the $>$150\appDdeg\ failures and breaking 0.4\% of good predictions (EXP-109); the real-domain share comes from photometric augmentation and orbit voting (EXP-115). The claim is multi-view orbit consistency over hierarchical candidates, not a specific scoring rule (EXP-114).
+\item \textbf{Orbit distillation} improves both the single-view tree and the orbit system on SPEED+ (EXP-117: 3.69\appDdeg\ / 11.21\appDdeg\ / 11.09\appDdeg), reported as an enhancement; self-distillation from test-time-augmentation ensembles is known, so the novelty is limited to its use with hierarchical rotation targets.
+\item \textbf{6-DoF} with the SPACE-HOP translation formulation on the tree tokens, trained jointly without hurting rotation (EXP-118).
+\item \textbf{Cross-dataset}: with per-object retraining, the tree and orbit recipe transfers to T-LESS and SYMSOL-T, and symmetry-aware multi-path targets (EXP-106 A2) improve both and keep orbit voting effective (\cref{sec:abl_sym}).
+\end{itemize}
+% src: NOVELTY.md (Sec. 4 and updates 2026-10-17 to 2026-10-21); outputs/reports/EXP-113..118; paper/tables/sym.tex; paper/sec/1_intro.tex
+
+\paragraph{What is not claimed.}
+\begin{itemize}
+\item \textbf{No ``first'' claims.} Hierarchical $SO(3)$ grids, the recursive tesseract and its corner formulation~\cite{kurz2017tesseract}, flow matching for pose~\cite{chen2024rfm,hsiao2024liepose}, discrete flow matching~\cite{gat2024dfm}, grid-based $SO(3)$ densities~\cite{murphy2021implicitpdf}, augmentation against the SPEED+ domain gap, test-time voting and PoE~\cite{hinton2002poe} all pre-exist. Our tree is a cell-centre, unique-path variant of the tesseract.
+\item \textbf{Not a better discretisation.} Per hypothesis the Tesseract is less precise than Hopf and Super-Fibonacci grids (EXP-003, 101). The tree's head is faster than a flat head only from about $10^5$ hypotheses and depends on hardware: on a large shared GPU at batch 1 the flat 131k-way head was about $3\times$ faster (0.40 vs 1.23\,ms), and at SPACE-HOP's 3,072 anchors the flat head is faster on every device (EXP-101).
+\item \textbf{Hierarchy vs grid is open.} EXP-113's flat baseline used a grid whose quantisation floor is 6.06\appDdeg\ against 2.51\appDdeg\ for the tree's leaves, so the gain is confounded with grid geometry. Until EXP-127's same-grid arm runs (\cref{sec:abl_flat}), we do not attribute the gain to hierarchical prediction; if the same-grid flat head ties the tree, the claim is withdrawn and the gain is attributed to the grid.
+\item \textbf{The flow is not calibrated.} The coupled posterior over-covers (0.98 at the 0.9 level) and the cell-conditioned refiner under-covers (0.80); re-noise/return consistency is not a normalised likelihood (only the CNF log-density is); parent--child consistency of counted masses holds by construction.
+\item \textbf{Flip candidates do not repair real flips}; only augmentation plus orbit voting does, and only for 62--80\% of them.
+\item \textbf{No geometry claim for the path flow (EXP-108)}: token interpolation is not geometry-preserving, the no-geometry control was not run, and the method did not help.
+\item \textbf{No hierarchical-transport claim} (EXP-116) and no claim that the orbit product beats weighted voting (EXP-114).
+\item \textbf{Not training-free and not zero-shot.} The backbones are frozen but the trees are trained; cross-object heads are retrained per object, and the SPEED+ trees do not transfer zero-shot.
+\item \textbf{MoGe-2 fusion is not general}: it helps on SPEED+ and T-LESS, not on SYMSOL-T or YCB-V.
+\item \textbf{External comparisons are unmatched}: SPEED+ numbers use ground-truth crops, the translation relies on the ground-truth box (which alone gives 0.56\,m), and published methods use detected boxes and the official score (EXP-124 is queued for this); our T-LESS crops are not masked, unlike LiePose's.
+\item \textbf{Do not combine experiments never evaluated together}, e.g.\ the locked recipe with the flow verifier or with $w=0.8$.
+\end{itemize}
+% src: NOVELTY.md (Sec. 3 "Where our distinction can lie" and "Claims checked against the implementation", updates 2026-10-17 to 2026-10-21, Sec. 4 "Do not combine"); outputs/reports/EXP-101_tesseract_vs_spacehop_hopf.md; outputs/reports/EXP-127_hierarchy_vs_flat_same_grid.md; outputs/reports/EXP-118_translation_6dof.md; outputs/DECISIONS.md (DEC-025)
+
+\paragraph{Superseded entries of the claim document.}
+Several entries of the 2026-10-16 inventory no longer hold. ``A tree-vs-flat comparison under the final recipe is missing'' was answered by EXP-113 (and is now qualified by the EXP-127 confound). The claim that the geometry-correct rotation augmentation drives flip repair, and the ``missing photometric-only control'', were answered by EXP-115, which moved the real-domain credit to photometric augmentation. ``Cross-object validation: none yet'' was answered by EXP-064 and EXP-106. The DINOv3-only flow variant listed as running (EXP-111) was completed and not adopted, and the unmeasured $4\times$ inference cost was measured in EXP-112 (279\,ms per image at batch 1 for PoE + orbit, 70\,ms for DINOv3-only + orbit).
+% src: NOVELTY.md (Sec. 2 rows a, f, j, k; Sec. 5; updates 2026-10-17 to 2026-10-21); outputs/reports/EXP-112_locked_recipe_eval_timing.md

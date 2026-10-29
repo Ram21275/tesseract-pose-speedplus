@@ -1,0 +1,596 @@
+\section{Datasets, protocol and training details}\label{app:protocol}
+
+This appendix lists the data, protocol, training and evaluation details that \cref{sec:setup} omits. Every number below comes from a file in the repository: a data manifest in \texttt{outputs/data\_manifests/}, an experiment report in \texttt{outputs/reports/}, the decision log \texttt{outputs/DECISIONS.md}, a script, or the per-run records under \texttt{outputs/experiments/}. The source of each paragraph and table is given in a comment in the \LaTeX{} source. Experiment identifiers (EXP-$nnn$) and decision identifiers (DEC-$nnn$) refer to those records. For experiments whose results were still pending when this appendix was written, we give the protocol only.
+% src: outputs/EXPERIMENT_INDEX.md, outputs/DECISIONS.md
+
+%-------------------------------------------------------------------------------
+\subsection{SPEED+}\label{app:speedplus}
+
+\paragraph{Source, splits and label checks.}
+We use the original SPEED+ release~\cite{park2022speedplus}, read-only. Its four annotation files are \texttt{synthetic/train.json}, \texttt{synthetic/validation.json}, \texttt{lightbox/test.json} and \texttt{sunlamp/test.json}. The loader check (EXP-000) found no missing images, no image path shared between splits and unit-norm quaternions to within $10^{-6}$ (\cref{app:tab:spp_splits}). Quaternions are scalar-first (Hamilton), and the pose convention is $p_{\text{cam}}=R(q)\,p_{\text{body}}+r$ in the OpenCV camera frame ($x$ right, $y$ down, $z$ forward).
+We confirmed this convention against its transpose by projecting the 11 Tango keypoints on 200 random images per domain. With $R(q)$, more of the projected keypoints land on bright spacecraft pixels (synthetic 0.482 vs.\ 0.261, lightbox 0.271 vs.\ 0.179, sunlamp 0.560 vs.\ 0.331). On synthetic images the keypoint box also matches an independent box table with mean IoU 0.970, against 0.519 for $R(q)^\top$. The quaternion--matrix round trip is exact to $2.96\times10^{-6}$ degrees.
+% src: outputs/reports/EXP-000_loader_conventions.md
+
+\begin{table}[t]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{llrrc}
+    \toprule
+    Domain & Split & Images & Missing & $t_z$ range (m) \\
+    \midrule
+    synthetic & train      & 47{,}966 & 0 & 2.24--10.00 \\
+    synthetic & validation & 11{,}994 & 0 & 2.23--10.00 \\
+    lightbox  & test       &  6{,}740 & 0 & 2.47--9.55 \\
+    sunlamp   & test       &  2{,}791 & 0 & 2.48--9.53 \\
+    \bottomrule
+  \end{tabular}
+  \caption{\textbf{SPEED+ splits} as read by our loader. Training uses synthetic/train only, selection uses synthetic/validation only, and lightbox and sunlamp are test-only.}
+  \label{app:tab:spp_splits}
+\end{table}
+% src: outputs/reports/EXP-000_loader_conventions.md (metrics/splits.csv); outputs/data_manifests/subset_full.csv (row counts per domain/split)
+
+\paragraph{Camera.}
+Images are $1920\times1200$ grayscale with pixel pitch $5.86\,\mu$m. The intrinsics from \texttt{camera.json} are $f_x=2988.580$, $f_y=2988.340$ and $(c_x,c_y)=(960,600)$ px, with five distortion coefficients $(-0.22383, 0.51410, -0.00066, -0.00021, -0.13124)$. Distortion is applied whenever keypoints are projected, and it is removed when the viewing ray through a crop centre is computed for the in-plane roll (\cref{app:spp_aug}).
+% src: <speedplus_root>/camera.json (configs/paths.yaml: speedplus_root); src/tfpose/inplane.py (ray_undistorted); outputs/reports/EXP-000_loader_conventions.md
+
+\paragraph{Rotation labels and the tree target.}
+Each label is stored twice in the manifests: as the source quaternion (\texttt{q\_src\_*}) and as the sign-canonical quaternion of its tesseract chart (\texttt{q\_can\_*}). The manifests also store the chart, the 5-level child path, the depth-5 leaf id, the leaf centre and the quantisation error of that centre. EXP-001 checked the encoder invariants on all 69{,}491 labels. Over these labels, the leaf-centre quantisation error is $2.51^\circ$ on average (median $2.49^\circ$, maximum $5.78^\circ$). The analytic worst case over $SO(3)$ is $6.20^\circ$, which is the figure quoted in the main text.
+% src: outputs/data_manifests/subset_full.csv (column quant_err_L5_deg: mean 2.5087, median 2.4873, max 5.7757); outputs/EXPERIMENT_INDEX.md (EXP-001, EXP-002)
+
+\paragraph{Ground-truth square crops.}
+The crop is built from the 11 Tango keypoints of the SPEED+ toolkit (\texttt{tangoPoints.mat}), projected with the ground-truth pose and the lens distortion. We take the tight box of the projected points, $[x_0,x_1]\times[y_0,y_1]$. The crop is the square centred on this box with side
+\begin{equation*}
+  s=\max(x_1-x_0,\;y_1-y_0,\;32\,\text{px})\cdot(1+2\cdot0.15),
+\end{equation*}
+\ie a 15\% margin per side, or $1.3\times$ the longer box edge. The square may extend beyond the image. It is resampled with an affine warp (bilinear, zero padding) to the backbone input size: $256\times256$ for DINOv3 ViT-L/16 (a $16\times16$ patch grid, ImageNet normalisation) and $518\times518$ for MoGe-2. The grayscale crop is replicated to three channels.
+The crop side has a median of 724 px on synthetic images (range 309--2{,}570), 738 px on lightbox (339--2{,}286) and 738 px on sunlamp (332--2{,}117).
+After the 2026-10-28 reboot, the keypoint file is read from a second copy of the toolkit. On 200 rows this copy reproduces every manifest crop to $<5\times10^{-6}$ px.
+% src: scripts/make_subset_manifest.py; src/tfpose/data.py (gt_square_box, crop_square); outputs/data_manifests/subset_full.csv (crop_side by domain); outputs/shared_cache/{dinov3_vitl16,moge2_vitl}__subset_full__*/manifest.json (size 256 / 518, norm imagenet, gray_to_rgb replicate); configs/paths.yaml (tango_points comment)
+
+\paragraph{Uses of the keypoints.}
+The 11 keypoints are never a training target. We use them in four places: (i) to build the ground-truth crop boxes; (ii) to verify the pose convention (EXP-000); (iii) to verify the in-plane label transform (EXP-109); and (iv) as the box label of the EXP-124 detector (\cref{app:spp_det}).
+% src: scripts/make_subset_manifest.py; outputs/reports/EXP-000_loader_conventions.md; outputs/reports/EXP-109_real_domain_aug_tokens16_orbit.md; scripts/exp124_yolo_data.py
+
+\paragraph{Manifests.}
+All splits, crops and labels are fixed in CSV manifests, each with a hash file (\cref{app:tab:spp_manifests}). The SPEED+ manifests share the columns \texttt{image\_relpath}, \texttt{domain}, \texttt{split}, \texttt{q\_src\_\{w,x,y,z\}}, \texttt{q\_can\_\{w,x,y,z\}}, \texttt{root\_chart}, \texttt{child\_path}, \texttt{leaf\_id\_L5}, \texttt{leaf\_centre\_\{w,x,y,z\}}, \texttt{quant\_err\_L5\_deg}, \texttt{t\_\{x,y,z\}} and \texttt{source\_annotation}. All of them except the label table also carry \texttt{crop\_cx}, \texttt{crop\_cy}, \texttt{crop\_side} and \texttt{crop\_margin} ($=0.15$ everywhere).
+% src: outputs/data_manifests/*.csv headers; outputs/data_manifests/*.sha256.txt
+
+\begin{table*}[t]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{lrll}
+    \toprule
+    Manifest & Rows & Content & Used by \\
+    \midrule
+    \texttt{speedplus\_tesseract\_L5.csv} & 69{,}491 & all four splits, labels and tree paths, no crop columns & EXP-001/002 \\
+    \texttt{subset\_v1.csv} & 9{,}500 & seed-0 subset: 6{,}000 train, 1{,}500 val, 1{,}000 lightbox, 1{,}000 sunlamp & EXP-010--026, EXP-101 \\
+    \texttt{subset\_full.csv} & 69{,}491 & 47{,}966 train, 11{,}994 val, 6{,}740 lightbox, 2{,}791 sunlamp & EXP-030 onward \\
+    \texttt{exp109\_syn\_train.csv} & 47{,}966 & synthetic train (source rows of the two augmented copies) & EXP-109 onward \\
+    \texttt{exp109\_syn\_val.csv} & 11{,}994 & synthetic validation (source of val-aug) & EXP-109 onward \\
+    \texttt{exp109\_test3.csv} & 21{,}525 & synthetic val + lightbox + sunlamp (source of the 90/180/270$^\circ$ orbit views) & EXP-109 onward, EXP-124 \\
+    \texttt{exp109\_gate512.csv} & 512 & synthetic-val rows of the convention gate & EXP-109, EXP-064 compact gate \\
+    \texttt{lightbox\_val\_DEC005.txt} & 1{,}348 & seeded 20\% lightbox list of the withdrawn DEC-005 split & descriptive only \\
+    \bottomrule
+  \end{tabular}}
+  \caption{\textbf{SPEED+ manifests} (\texttt{outputs/data\_manifests/}). The full-split hash is \texttt{c7c029785fb8458c} (margin 0.15, seed 0); the v1 hash is \texttt{bbdb3e2e3f5b70a1}.}
+  \label{app:tab:spp_manifests}
+\end{table*}
+% src: wc/pandas on outputs/data_manifests/{speedplus_tesseract_L5,subset_v1,subset_full,exp109_syn_train,exp109_syn_val,exp109_test3,exp109_gate512}.csv; outputs/data_manifests/{subset_full,subset_v1,lightbox_val_DEC005}.sha256.txt
+
+\paragraph{Subset v1 and full splits.}
+The early sanity runs used \emph{subset v1}: a seed-0 draw of 6{,}000 synthetic-train, 1{,}500 synthetic-val, 1{,}000 lightbox and 1{,}000 sunlamp images, all with ground-truth crops. These are the Phase-1/2 numbers (EXP-010--026 and EXP-101). Every experiment from EXP-030 on, and every number in the paper, uses the \emph{full} splits. The subset-v1 feature caches were later deleted to free disk space (DEC-020), so those early runs cannot be re-evaluated without re-extracting features; their records are kept.
+% src: outputs/EXPERIMENT_INDEX.md (header); outputs/data_manifests/subset_v1.sha256.txt; outputs/DECISIONS.md (DEC-020)
+
+\paragraph{Evaluation set (test3).}
+All SPEED+ evaluations from EXP-109 on run on the 21{,}525 rows of \texttt{exp109\_test3.csv}: the full synthetic validation set (11{,}994) and the full lightbox (6{,}740) and sunlamp (2{,}791) test sets. View 0 is the clean ground-truth crop. For orbit voting, its in-plane rotations by $90^\circ$, $180^\circ$ and $270^\circ$ are extracted once with the same extractor and cached. These test-time views have no photometric augmentation.
+% src: outputs/data_manifests/exp109_test3.csv; scripts/run_exp109_master.sh (exp109_test3_r{90,180,270} --rot-deg k); scripts/exp124_eval.py
+
+\paragraph{Training augmentation.}\label{app:spp_aug}
+The backbones are frozen, so augmentation happens at the image level and features are re-extracted. Every synthetic-train crop has two pre-extracted augmented copies. At every training step each sample uses one of three views, drawn uniformly: the clean crop, copy 1 or copy 2.
+Copy $j\in\{1,2\}$ uses seed $j$ in two ways. The roll angle of row $i$ is the $i$-th draw of \texttt{default\_rng(j).uniform(-180,180)} in manifest order. The photometric stream of row $i$ is \texttt{default\_rng([j,i])}. Both are fixed once and are identical for the two backbones.
+Augmentation is applied to the $[0,1]$ crop in this order:
+(1) brightness $\times\,\mathcal{U}(0.5,1.5)$;
+(2) contrast about the mean, $\times\,\mathcal{U}(0.6,1.4)$;
+(3) clip, then gamma $\mathcal{U}(0.6,1.6)$;
+(4) with $p=0.5$, Gaussian blur with $\sigma\sim\mathcal{U}(0.01,1.5)$;
+(5) with $p=0.3$, glare: 1--3 additive Gaussian blobs with amplitude $\mathcal{U}(0.5,1.5)$ and radius $\mathcal{U}(0.05,0.25)\cdot H$;
+(6) always, Gaussian noise with $\sigma\sim\mathcal{U}(0,0.06)$, then clip;
+(7) with $p=0.3$, random erasing of one rectangle covering 5--20\% of the area (aspect ratio $\mathcal{U}(0.3,3.3)$, uniform random fill);
+(8) with $p=0.5$, JPEG re-encoding at quality 30--90.
+The in-plane rotation by $\theta$ is applied in the crop warp itself. The rotated crop is sampled from the original image, so it has no black corners.
+The label convention $q'=\Exp(-\theta d)\otimes q$ was derived from the camera geometry, with $d$ the undistorted unit ray through the crop centre. It was then verified on 512 synthetic-val rows at 4 angles. The keypoints pushed through the exact crop and rotation warp match the projection of $(q',r')$ to 0.34 px mean, 1.05 px p95 and 4.75 px maximum on a 224 px crop; the other three candidate conventions are off by 94--242 px. The label error measured by PnP is $0.06^\circ$ mean, $0.20^\circ$ p95 and $1.14^\circ$ maximum, and the round trip is within $0.004^\circ$.
+% src: src/tfpose/inplane.py (photometric); scripts/extract_compact.py (--rot-random-seed, --photo-seed); scripts/run_exp109_master.sh (seeds 1, 2, 1000); outputs/reports/EXP-109_real_domain_aug_tokens16_orbit.md (augmentation and amendment 2026-10-15)
+
+\paragraph{Synthetic val-aug.}
+Real images may not be used for selection, so EXP-109 and later SPEED+ experiments add a second selection domain: \emph{synthetic val-aug}. It is the 11{,}994 synthetic-validation crops with one augmented copy, generated by the same pipeline with seed 1000 for both the roll angle and the photometric stream. For orbit voting on val-aug, the views at $+90^\circ$, $+180^\circ$ and $+270^\circ$ are extracted with the same seed-1000 random angle and photometric draw, plus the fixed offset.
+% src: scripts/run_exp109_master.sh (exp109_valaug, exp109_valaug_r{90,180,270}); outputs/reports/EXP-109_real_domain_aug_tokens16_orbit.md (Selection and metrics)
+
+\paragraph{Detector protocol (EXP-124).}\label{app:spp_det}
+The detected-crop evaluation was pre-registered before the detector was trained and before any detected-crop result existed.
+\emph{Data.} The detector label is the tight box of the 11 projected Tango keypoints, clipped to the image, with one class. This is the box the ground-truth crops are built from. Images are stored once at half resolution ($960\times600$, grayscale JPEG quality 95).
+\emph{Training.} We use Ultralytics YOLO11s (COCO-pretrained), trained on synthetic/train only, with \texttt{imgsz} 960, 20 epochs, batch 32, seed 0 and deterministic mode. Augmentation is horizontal and vertical flips with $p=0.5$, no rotation or shear, mosaic (switched off for the last 5 epochs), brightness jitter \texttt{hsv\_v}=0.6 with no hue or saturation jitter, and the Ultralytics default albumentations. The checkpoint is the one with the best Ultralytics fitness on synthetic/validation, $0.1\,\text{mAP}_{50}+0.9\,\text{mAP}_{50:95}$.
+\emph{Inference.} We keep the top-1 box at confidence $\ge0.001$, scale it to full resolution and turn it into a crop with the ground-truth rule (box centre; side $=\max(w,h,32)\times1.3$). When there is no detection, the whole image is used as the crop, and these cases are counted. Features of the detected crops and of their $90/180/270^\circ$ views are extracted with the same extractor and roll rule as the ground-truth test3 views.
+\emph{Systems.} All systems were fixed before any result:
+S1 (primary) uses the EXP-117 PoE students with orbit voting for rotation and the EXP-118 joint DINOv3 translation block with the orbit mean for translation;
+S2 uses the EXP-118 joint PoE trees and blocks;
+S3 uses the EXP-117 DINOv3 student with the same translation.
+\emph{Reproduction gate.} A ground-truth-crop run with the same code must reproduce EXP-117 rotation ($11.21^\circ/11.09^\circ$) and EXP-118 translation ($0.185/0.183$\,m); otherwise the evaluator is considered wrong and nothing is reported. The ground-truth-crop run gives S1 $11.21^\circ/11.09^\circ$ and $0.185/0.183$\,m on lightbox/sunlamp, so the gate passes.
+At the time of writing the detector training is still running, so no detection statistics are given here.
+% src: outputs/reports/EXP-124_speedplus_detected_official_score.md; scripts/exp124_yolo_data.py; scripts/exp124_train_det.py; scripts/exp124_detect.py; scripts/exp124_eval.py; outputs/experiments/EXP-124_speedplus_detected_official_score/RUN-20261028-231916-seed0/metrics/metrics.csv (S1 orbit_product/orbit_mean: E_R 11.2144/11.0876, E_T 0.1846/0.1829); RUN-20261029-145416-seed0/status.json (state running)
+
+\paragraph{Official score.}
+We use the SPEED+ score~\cite{park2022speedplus,park2023spec} as implemented by SPNv2~\cite{park2024spnv2}. Per image,
+\begin{equation*}
+  e_q=2\arccos|\langle\hat q,q\rangle|\ \text{(rad)},\qquad e_t=\frac{\|\hat t-t\|_2}{\|t\|_2},
+\end{equation*}
+and the score of a domain is the mean over its images of $e_q+e_t$. Each component is set to zero below the precision floor of the challenge: $e_q$ when the rotation error is below $0.169^\circ$, and $e_t$ when it is below $2.173\times10^{-3}$ (primary rule). As a check we also compute the joint rule, which zeroes the image score only when both components are below their floors. In the ground-truth-crop reference run the two rules differ by at most $1.1\times10^{-4}$ in any per-seed domain score.
+% src: scripts/exp124_eval.py (score_rows); outputs/reports/EXP-124_speedplus_detected_official_score.md (Metric); outputs/experiments/EXP-124_speedplus_detected_official_score/RUN-20261028-231916-seed0/metrics/metrics.csv (score vs score_joint_rule)
+
+%-------------------------------------------------------------------------------
+\subsection{T-LESS}\label{app:tless}
+
+\paragraph{Data and objects.}
+We use the BOP release of T-LESS~\cite{hodan2017tless,hodan2020bop}, read-only, with RGB images. Intrinsics are stored per instance in the manifest: $f_x=1075.65$\,px throughout, with the principal point at $(360,270)$ for the PBR images and varying for the real ones. The translation target uses the $720\times540$ image size. The 7 objects were declared before any evaluation and span the symmetry classes in the BOP metadata (\cref{app:tab:tless}):
+objects 1 and 4 have a continuous symmetry;
+objects 5 and 11 have one discrete $180^\circ$ symmetry;
+objects 18 and 21 have no symmetry in the metadata but are visually near-symmetric;
+object 27 has three discrete symmetries.
+Symmetries come from \texttt{models\_cad/models\_info.json} in the model frame, and the equivalent rotations are $R\,S$. Discrete symmetries are used exactly. Continuous ones are discretised in 36 steps of $10^\circ$ about their axis.
+The full symmetry sets have sizes 36, 36, 2, 2, 1, 1 and 4 (identity included).
+% src: outputs/data_manifests/tless_exp106.csv (cam_fx, cam_cx, cam_cy by domain); outputs/reports/EXP-106_tless_multipath_tree.md (Data); scripts/exp106_build_manifest.py (docstring, --cont-steps 36); outputs/data_manifests/tless_exp106_symmetries.npz (set sizes, 10-degree steps for obj1/obj4); src/tfpose/xobj.py (img_wh)
+
+\paragraph{Splits.}
+\emph{Train} is \texttt{train\_pbr} scenes 0--44 plus the real \texttt{train\_primesense} images of the 7 objects. We keep instances with visible fraction $\ge0.3$ and cap each object at 12{,}000 crops (PBR and real together) with rng 0.
+\emph{Validation}, which is used for selection, is the whole held-out \texttt{train\_pbr} scenes 45--49, with the same visibility filter.
+\emph{Test} is every BOP19 target of these objects in \texttt{test\_primesense}, with no visibility filter. These are 2{,}345 targets, whose visible fraction ranges from 0 to 1 (median 0.92). The local \texttt{test\_primesense} contains the BOP19 subset only: 20 scenes $\times$ 50 images, 4{,}904 targets over all 30 objects.
+\Cref{app:tab:tless} gives the counts per object.
+% src: scripts/exp106_build_manifest.py (docstring); outputs/data_manifests/tless_exp106.csv and tless_exp106_checks.json (counts; visib_fract by domain); outputs/DECISIONS.md (DEC-009)
+
+\begin{table}[t]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{lcrrrrr}
+    \toprule
+    Obj. & Symmetry ($|\mathcal{S}|$) & PBR train & Real train & Train & Val (PBR) & Test \\
+    \midrule
+    1  & continuous (36) & 11{,}071 & 929 & 12{,}000 & 1{,}886 & 886 \\
+    4  & continuous (36) & 11{,}103 & 897 & 12{,}000 & 1{,}960 & 646 \\
+    5  & $180^\circ$ (2) & 11{,}178 & 822 & 12{,}000 & 2{,}108 & 190 \\
+    11 & $180^\circ$ (2) & 11{,}210 & 790 & 12{,}000 & 1{,}589 & 183 \\
+    18 & none (1)        & 11{,}250 & 750 & 12{,}000 & 1{,}837 & 146 \\
+    21 & none (1)        & 11{,}211 & 789 & 12{,}000 & 1{,}923 & 198 \\
+    27 & 3 discrete (4)  & 11{,}236 & 764 & 12{,}000 & 2{,}727 &  96 \\
+    \midrule
+    all &                & 78{,}259 & 5{,}741 & 84{,}000 & 14{,}030 & 2{,}345 \\
+    \bottomrule
+  \end{tabular}}
+  \caption{\textbf{T-LESS} instances per object in our manifest. Validation is held-out PBR scenes 45--49; test is all BOP19 targets in the real Primesense test images.}
+  \label{app:tab:tless}
+\end{table}
+% src: outputs/data_manifests/tless_exp106_checks.json (counts); outputs/data_manifests/tless_exp106_symmetries.npz; outputs/data_manifests/exp064_tless_train.csv (84,000 rows)
+
+\paragraph{Crops and rotation target.}
+The crop is the ground-truth square box (margin 0.15 per side, minimum 32 px) around the 8 projected corners of the object's 3-D model bounding box. Its median side is 191 px on PBR training rows, 197 px on PBR validation rows, 212 px on real training rows and 155 px on test rows. Because the box is built from the 3-D bounding-box corners, it is looser than BOP's \texttt{bbox\_obj} silhouette box: their IoU has a median of 0.61 (5th percentile 0.45).
+The tree predicts the \emph{allocentric} rotation $R_{\text{ray}}(t)^\top R$. Rebuilding the egocentric rotation from it reprojects the box corners to within $3.4\times10^{-13}$ px.
+% src: scripts/exp106_build_manifest.py (box_corners, gt_square_box, bbox_iou_bop, reproj); outputs/data_manifests/tless_exp106_checks.json (reprojection_max_px, bbox_iou_median, bbox_iou_p5); outputs/data_manifests/tless_exp106.csv (crop_side by domain)
+
+\paragraph{Augmentation and orbit views.}
+T-LESS objects lie far from the optical axis, so the SPEED+-style affine rotation of the crop is not an exact camera roll. With it, the label error fails the pre-set rule: p95 $1.43^\circ$ and maximum $2.5^\circ$ on T-LESS, and p95 $2.40^\circ$ and maximum $6.7^\circ$ on YCB-V. Rolled views are therefore produced by the roll homography $K\,\mathrm{Rot}(d,-\theta)\,K^{-1}$ about the crop-centre ray. Labels transform exactly:
+\begin{itemize}
+  \item egocentric: $R'=\mathrm{Rot}(d,-\theta)R$ and $t'=\mathrm{Rot}(d,-\theta)t$;
+  \item allocentric: the target is recomputed from $t'$.
+\end{itemize}
+The verified label error is $0.000^\circ$, and the mapping round trip is $\le0.004^\circ$.
+The two augmented training copies use seeds 1 and 2, as on SPEED+, and the orbit views of validation and test rows are rolled by $90/180/270^\circ$ without photometric changes. On these allocentric datasets, mapping an orbit candidate between views needs the translation. We use the ground-truth translation, which is consistent with the ground-truth-crop protocol.
+% src: outputs/reports/EXP-064_broader_object_validation.md (Amendment 2026-10-18, items 1 and 4); src/tfpose/xobj.py (roll_pose, roll_target); scripts/run_exp064.sh (--roll-homography, aug seeds 1/2, eval_r{90,180,270}); scripts/exp064_eval.py
+
+\paragraph{Training-target arms (EXP-106).}
+All three arms are trained per object, with the same trainer, recipe, seeds and checkpoint rule.
+\emph{A0} uses the raw annotated rotation; these are the EXP-064 trees.
+\emph{A1} is canonical: in every view, the label is replaced by the equivalent $R\,S$ closest to the identity.
+\emph{A2} is multi-path: the recipe's geodesic soft-target cross-entropy, averaged over the equivalents $R\,S$. All equivalents are used when $|\mathcal{S}|\le8$; otherwise 8 are drawn per row and step.
+The pre-registration named the hard-path level-marginal loss of EXP-044. That loss would not reduce to A0 for objects without symmetry, which the pre-registration also requires, and it drops the soft targets. The smoothed loss was therefore adopted by an amendment written before any run. Symmetry composition was unit-checked beforehand: $q\,s$ matches $R\,S$ to $10^{-15}$, and the roll commutes with right-multiplication by $S$.
+% src: outputs/reports/EXP-106_tless_multipath_tree.md (Amendment 2026-10-27); scripts/train_xobj.py (--label, --sym-k 8, multi_loss, canon)
+
+\paragraph{Differences from the LiePose protocol.}
+The T-LESS comparison in \cref{tab:tless_sota} is not matched. LiePose~\cite{hsiao2024liepose} differs from our setting in four ways:
+\begin{enumerate}
+  \item it fine-tunes its backbone jointly on all 30 objects, whereas we train frozen-feature trees per object;
+  \item it multiplies the crop by the ground-truth visible mask, whereas we apply no mask;
+  \item its per-object results (its Tab.~8) are averaged over our 7 objects for the comparison;
+  \item its BOP-style symmetry handling discretises continuous symmetries more finely than our $10^\circ$ steps, so our symmetry-aware error for objects 1 and 4 can exceed the true symmetric error by up to $5^\circ$.
+\end{enumerate}
+We also use every BOP19 target with no visibility filter. A protocol on LiePose's own instance set (every ground-truth instance with visible area $>64$\,px, BOP-style fine discretisation) is reserved as EXP-125 and has not been run.
+% src: outputs/DECISIONS.md (DEC-025: LiePose instance set, GT visible masks); paper/sec/4_experiments.tex (tab:tless_sota caption); outputs/data_manifests/tless_exp106_symmetries.npz (10-degree steps)
+
+\paragraph{Symmetry handling and recall.}
+For a predicted target rotation $\hat R$, the symmetry-aware error is
+\begin{equation*}
+  e_{\text{sym}}=\min_{S\in\mathcal{S}}\angle\big(\hat R,\;R\,S\big)=\arccos\Big(\tfrac{\max_S\operatorname{tr}(\hat R^\top R S)-1}{2}\Big),
+\end{equation*}
+computed in the allocentric target frame (re\_sym). The raw error (no minimum) is reported separately. On T-LESS it is $38$--$47^\circ$, which is why the symmetry-aware metric is needed. Recall at $k^\circ$ is the fraction of instances with $e_{\text{sym}}\le k$, for $k\in\{2,5,10,15,30\}$; the main text reports $k=2,5,10$.
+For translation (EXP-126), the BOP symmetry transforms of our 7 objects have zero translation, so te\_sym equals $E_T$. Translation recall T@$c$ is the fraction with $E_T\le c$\,cm, for $c\in\{2,5,10\}$; T-LESS translations are in millimetres and are converted with a factor of 0.1.
+% src: scripts/exp064_eval.py (sym_err, sym_acc@{2,5,10,15,30}, T@{2,5,10}cm with <=); src/tfpose/xobj.py (t_to_cm 0.1); outputs/reports/EXP-126_translation_xobj.md (Metrics); outputs/reports/EXP-064_broader_object_validation.md (raw means 38-47)
+
+%-------------------------------------------------------------------------------
+\subsection{SYMSOL-T}\label{app:symsolt}
+
+\paragraph{Data.}
+SYMSOL-T contains five symmetric solids (tetrahedron, cube, icosahedron, cone, cylinder) at random translations, following LiePose~\cite{hsiao2024liepose}. The local copy was rendered with LiePose's generator using seeds 12345 and 82973, so it follows the published protocol but is not guaranteed to be identical to the published image sets. We follow LiePose's protocol:
+\begin{itemize}
+  \item the input is the non-colour render, the full $224\times224$ frame, with no crop (crop side 224, margin 0);
+  \item the target is the egocentric quaternion of the render;
+  \item the error is the minimum over the annotated \texttt{rotations\_equivalent}.
+\end{itemize}
+The camera has a $60^\circ$ horizontal field of view, so the object origin is at $z=5.25/\tan30^\circ=9.09$ scene units and the focal length is $193.99$ px, with the principal point at the image centre. The in-plane rotation about the image centre is therefore an exact camera roll, with a verified label error of $0.000^\circ$.
+% src: outputs/DECISIONS.md (DEC-009); scripts/exp064_symsolt_manifest.py (docstring); src/tfpose/xobj.py (SYM_Z, SYM_F); outputs/reports/EXP-064_broader_object_validation.md (Amendment 2026-10-18, item 1)
+
+\paragraph{Split.}
+From \texttt{train-45k}, 2{,}000 images per shape are held out with rng 0 for validation, and the remaining 43{,}000 per shape are training images. A pre-registered cap uses only the first 20{,}000 per shape, ordered by a seeded rank, for training, to fit the GPU budget. The test set is \texttt{test-5k}, 5{,}000 per shape. The manifest therefore has 25{,}000 test, 215{,}000 available training and 10{,}000 validation rows, of which 100{,}000 training rows are used.
+% src: outputs/data_manifests/symsolt_exp064.csv and exp064_symsolt_all.csv (counts per split and shape); outputs/reports/EXP-064_broader_object_validation.md (Amendment 2026-10-18, item 2)
+
+\paragraph{Symmetry groups.}
+The groups recovered from the annotations, and checked to be constant across samples, have orders 12 (tetrahedron), 24 (cube) and 60 (icosahedron). The continuous groups are discretised by the annotations in $1^\circ$ steps: 360 elements for the cone and 720 for the cylinder, whose set also contains the flip.
+These sets define the symmetry-aware error. They are also the equivalents of the multi-path arm A2, of which 8 are drawn per row and step for every shape here.
+% src: outputs/data_manifests/symsolt_exp064_symmetries.npz (sizes; angles 0,1,2,... degrees for cone/cyl); scripts/exp064_symsolt_manifest.py; scripts/train_xobj.py (--sym-k 8)
+
+\paragraph{Numerical fix.}
+In the clean renders, some $16\times16$ MoGe-2 border cells are always empty, so their per-dimension training standard deviation is about $10^{-6}$. Rolled views place the object there, and the standardised values overflowed in half precision. As a result, the 9 MoGe-2 trees for the cube, cylinder and icosahedron diverged. These trees were retrained with a floor on the standard deviation, $\max(\mathrm{sd},10^{-2})$ (the features lie in $[-1,1]$), and the diverged runs are marked superseded. The same floor is used for these shapes in every later arm.
+% src: outputs/reports/EXP-064_broader_object_validation.md (SYMSOL-T first evaluation invalid); scripts/train_xobj.py (--sd-floor); outputs/reports/EXP-106_tless_multipath_tree.md (Amendment 2026-10-27)
+
+\paragraph{Metrics.}
+We report the symmetry-aware rotation error (mean and median) and the recall at $2/5/10^\circ$ ($\le$), per shape and averaged over shapes. For translation (EXP-126) we report the mean Euclidean distance in scene units, the unit of LiePose's Tab.~3.
+% src: scripts/exp064_eval.py; outputs/reports/EXP-126_translation_xobj.md
+
+%-------------------------------------------------------------------------------
+\subsection{YCB-V}\label{app:ycbv}
+
+\paragraph{Data and objects.}
+We use the original PoseCNN release of YCB-Video~\cite{xiang2018posecnn} (all 92 sequences, \texttt{data\_syn}, models and keyframes), not the BOP version; this is a recorded deviation. Images are $640\times480$ RGB, with $f_x=1066.778$, $f_y=1067.487$ and $(c_x,c_y)=(312.99,241.31)$.
+We chose 6 objects before any model result, to cover different shapes: cracker box (box), mustard bottle (bottle), banana (elongated), mug (near-symmetric; its handle is the closest analogue of the SPEED+ flips), power drill and scissors (thin). This release has no symmetry metadata, so the declared-symmetric YCB objects (bowl, wood block, clamps, foam brick) are excluded, and errors are raw geodesic errors.
+% src: outputs/DECISIONS.md (DEC-009); scripts/exp064_ycbv_manifest.py (docstring); outputs/data_manifests/ycbv_exp064.csv (cam_fx, cam_fy, cam_cx, cam_cy); src/tfpose/xobj.py (img_wh)
+
+\paragraph{Splits.}
+\emph{Training} uses every third frame of \texttt{image\_sets/train.txt}, without the held-out sequences. We keep instances with $\ge1{,}000$ visible label pixels and at most 12{,}000 crops per object (rng 0). This gives 48{,}316 instances from 64 sequences, 14--20 sequences per object.
+\emph{Validation}, which is used for selection, holds out one training sequence per object (rng 0) with the same stride and filter. Several objects appear in the same sequences, so the held-out set is the union of sequences 0012, 0047, 0065 and 0074, and the mug appears in two of them. Validation has 2{,}797 instances in 1{,}582 frames.
+\emph{Test} is \texttt{image\_sets/keyframe.txt}: the keyframes of sequences 0048--0059, all instances with no visibility filter. Eight of these sequences contain our objects (0048, 0050--0052, 0054--0056, 0059), giving 3{,}478 instances in 2{,}041 keyframes. Test sequences are never used for training, validation or synthetic backgrounds.
+\Cref{app:tab:ycbv} gives the counts per object.
+The crop is the ground-truth square box (margin 0.15, minimum 32 px) of the projected model points (\texttt{points.xyz}). The target is the allocentric rotation, as for T-LESS. Augmentation and orbit views use the exact roll homography, as in \cref{app:tless}.
+% src: scripts/exp064_ycbv_manifest.py (docstring); outputs/data_manifests/ycbv_exp064.csv (counts; seq per split; unique (seq, frame) pairs: 2,041 test, 1,582 val); scripts/run_exp064.sh
+
+\begin{table}[t]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{lrrrr}
+    \toprule
+    Object & Real train & Synthetic & Val & Test \\
+    \midrule
+    003 cracker box     & 8{,}588 & 12{,}000 & 302 &   868 \\
+    006 mustard bottle  & 9{,}435 & 12{,}000 & 217 &   357 \\
+    011 banana          & 9{,}153 & 12{,}000 & 696 &   379 \\
+    025 mug             & 6{,}909 & 12{,}000 & 519 &   636 \\
+    035 power drill     & 6{,}609 & 12{,}000 & 367 & 1{,}057 \\
+    037 scissors        & 7{,}622 & 12{,}000 & 696 &   181 \\
+    \midrule
+    all                 & 48{,}316 & 72{,}000 & 2{,}797 & 3{,}478 \\
+    \bottomrule
+  \end{tabular}
+  \caption{\textbf{YCB-V} instances per object. ``Synthetic'' are the EXP-122 \texttt{data\_syn} composites, which are training-only. Validation is held-out real sequences; test is the real keyframes.}
+  \label{app:tab:ycbv}
+\end{table}
+% src: outputs/data_manifests/ycbv_exp064.csv; outputs/data_manifests/exp064_ycbvsyn_all.csv
+
+\paragraph{Diagnosis of the real-only failure (EXP-064).}
+Trained on real videos only, the trees reach about $69^\circ$ on test. We ran four CPU checks to separate a pipeline bug from a generalisation failure:
+\begin{enumerate}
+  \item The trees fit their training images: for example, $3.8^\circ$ (mustard) and $3.9^\circ$ (mug) mean error on training rows.
+  \item Test poses are covered by training. For the cracker box, mustard and banana, the nearest training rotation is a median of about $5^\circ$ away, yet test errors are $75$--$87^\circ$.
+  \item All of each object's label pixels lie inside its crop.
+  \item The ground-truth rotations match the images: 65--98\% of the projected model points land on the object mask, against 28--83\% for a transposed-rotation control.
+\end{enumerate}
+We conclude that, with 14--20 cluttered training videos per object and unmasked tokens, the per-object trees memorise video context.
+% src: outputs/reports/EXP-064_broader_object_validation.md (YCB-V results, Diagnosis)
+
+\paragraph{Synthetic composites (EXP-122).}
+\texttt{data\_syn} has 80{,}000 renders on black backgrounds. We select instances of the 6 objects with $\ge1{,}000$ visible label pixels, at most 12{,}000 per object (rng 0), which is the same rule as for the real rows. This gives 72{,}000 instance rows from 51{,}253 render frames. Following DenseFusion and FFB6D, each render is pasted where \texttt{label}$\,=0$ onto a real YCB-V frame.
+Backgrounds are drawn with rng 0, with replacement, from the EXP-064 \emph{real training} frames only. The script asserts that no validation or test sequence is among them. In total, 24{,}741 distinct background frames are used, and the frame-to-background map is stored with the composites.
+Crops, allocentric targets and the reprojection check follow the real rows. Features are extracted for the clean composites and for two augmented copies (seeds 1 and 2, exact roll homography). The real rows reuse the EXP-064 caches.
+Training uses the EXP-064 per-object trainer unchanged, except that the composites are appended to the training rows. Normalisation statistics come from the combined clean training rows, and the checkpoint is selected on the held-out \emph{real} validation sequences.
+% src: scripts/exp122_ycbv_syn.py; outputs/reports/EXP-122_ycbv_synthetic_training.md; /media/kavinder/hdd2/RAM/ycbv_syn_composite/backgrounds.csv (51,253 rows, 24,741 distinct backgrounds); outputs/data_manifests/exp064_ycbvsyn_all.csv; scripts/run_queue13.sh (extraction flags, --extra-train ycbvsyn)
+
+%-------------------------------------------------------------------------------
+\subsection{Training details}\label{app:training}
+
+\paragraph{Features and normalisation.}
+Features are extracted once per view and cached.
+\begin{itemize}
+  \item \emph{DINOv3:} last-layer patch tokens of ViT-L/16, average-pooled from $16\times16$ to $8\times8$ ($64\times1024$, stored in fp16).
+  \item \emph{MoGe-2} (\texttt{normals16\textasciitilde and}): surface normals and mask pooled to $16\times16$ ($256\times4$). The consensus mask is the intersection of the MoGe-2 mask ($>0.5$) and a DINOv3 foreground, obtained by Otsu thresholding the first PCA component of the patch tokens.
+\end{itemize}
+Each feature dimension is standardised with the mean and standard deviation of the clean training rows, plus $10^{-6}$; the floor described in \cref{app:symsolt} applies where noted. The statistics are per dataset on SPEED+ and per object on the other benchmarks, and the same statistics are applied to augmented views, validation and test.
+SPEED+ images are grayscale and replicated to three channels; T-LESS, SYMSOL-T and YCB-V are read as RGB.
+% src: src/tfpose/featsets.py (tokens8, normals16, train_stats); scripts/extract_compact.py (consensus rule, --rgb); scripts/run_exp064.sh (--rgb); scripts/train_xobj.py (per-object stats)
+
+\paragraph{Common recipe.}
+All four trainers share one budget, the EXP-036 budget that was fixed at the Phase-3 gate (\cref{app:tab:train}):
+\begin{itemize}
+  \item 100 epochs with batch 256 and dropout 0.1;
+  \item AdamW with learning rate $10^{-3}$ and weight decay 0.05;
+  \item \texttt{OneCycleLR}, peak $10^{-3}$, 5\% warm-up, over $100\cdot\lceil N/256\rceil$ steps;
+  \item bf16 autocast;
+  \item validation every 5 epochs and at the last epoch;
+  \item seeds 0, 1 and 2, set with \texttt{torch.manual\_seed} and \texttt{numpy.random.seed}.
+\end{itemize}
+In \texttt{train\_probe\_p3.py}, bf16 is the \texttt{--amp bf16} flag; the command line of every reported run shows it. The other three trainers always use bf16.
+With augmentation, every sample draws one of its three views (clean, copy 1, copy 2) uniformly at every step.
+The tree Transformer has a width of 256, one encoder layer and two causal decoder layers (4 heads, FFN 512), and a 6-frequency Fourier encoding of the cell centres. It has 2{,}391{,}564 parameters on DINOv3 tokens and 2{,}128{,}404 on MoGe-2 tokens.
+The translation block is one learned query cross-attending (4 heads) to the encoded tokens, followed by $\text{LN}\to256\to\text{GELU}\to3$.
+% src: scripts/train_probe_p3.py; scripts/train_xobj.py; scripts/train_flat_tf.py; scripts/train_consistency.py (argparse defaults, AdamW, OneCycleLR pct_start=0.05, autocast); outputs/experiments/EXP-{036,109,115,118}_*/RUN-*/command.txt (--amp bf16); src/tfpose/phase3.py (HierTransformer defaults); src/tfpose/trans.py (TransHead); outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-{180909,182205}-seed0/status.json (n_params)
+
+\begin{table*}[t]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{llllll}
+    \toprule
+    Trainer & Used by & Model and data & Loss & Checkpoint selection & Notes \\
+    \midrule
+    \texttt{train\_probe\_p3.py} & EXP-036, 109, 115, 118 & tree per branch, SPEED+ full split; clean + 2 aug.\ views & soft-target CE per level (+ $\|u-u^*\|^2$ for 6-DoF) & lowest clean synthetic-val greedy mean $E_R$ & frozen-tree translation arm: lowest synthetic-val mean $E_T$ \\
+    \texttt{train\_xobj.py} & EXP-064, 106, 119, 122, 126 & tree per branch \emph{and object}; clean + 2 aug.\ views & soft-target CE; A1 canonical / A2 mean over $\le8$ equivalents; + $\beta$ level CE (119) & lowest symmetry-aware val greedy mean of the single-branch tree & translation: lowest val mean $E_T$ of view 0, $u$ standardised per dim. \\
+    \texttt{train\_flat\_tf.py} & EXP-113, 127 & flat classifier, same encoder input and views & CE to soft targets on the 32 nearest anchors, $\tau=2.51^\circ$ & lowest clean synthetic-val mean of the arg-max anchor & grids: Hopf $10923\times12$, tesseract L5 leaves, Hopf $1771\times74$ \\
+    \texttt{train\_consistency.py} & EXP-116, 117 & tree per branch, SPEED+, clean + 2 aug.\ views & GT CE + $\lambda$ roll-consistency (116) or + $\beta$ orbit-teacher level CE, $\beta=1$ (117) & lowest clean synthetic-val greedy mean & teacher: 24 candidates and softmax orbit weights per image \\
+    \midrule
+    \multicolumn{6}{l}{All: 100 epochs, batch 256, AdamW ($10^{-3}$, wd 0.05), OneCycle (5\% warm-up), dropout 0.1, bf16, validation every 5 epochs, seeds 0--2.} \\
+    \bottomrule
+  \end{tabular}}
+  \caption{\textbf{Trainers and hyper-parameters.} No hyper-parameter was tuned per dataset; the budget is the one fixed for SPEED+ at the Phase-3 gate and locked by DEC-018. ``Greedy mean'' is the mean rotation error of the single-view greedy prediction.}
+  \label{app:tab:train}
+\end{table*}
+% src: scripts/train_probe_p3.py (crit = et_mean_m if --trans frozen else mean_deg on synthetic_val, beam 1); scripts/train_xobj.py (val_mean, val_trans, multi_loss, level_ce); scripts/train_flat_tf.py (docstring, predict); src/tfpose/flatgrid.py (GRIDS); scripts/train_consistency.py (docstring); outputs/reports/EXP-117_orbit_distillation.md (teacher)
+
+\paragraph{Checkpoint selection.}
+Every trainer keeps the epoch with the lowest validation criterion of \cref{app:tab:train}, evaluated every 5 epochs on the \emph{whole} validation split. On SPEED+, this is the clean synthetic validation set (11{,}994 crops) with the greedy single-branch prediction. No real image enters selection.
+On SPEED+ and T-LESS the selected epoch is almost always late (\cref{app:tab:bestep}). On YCB-V it is early, which matches the overfitting diagnosed above.
+% src: scripts/train_probe_p3.py; scripts/train_xobj.py; outputs/experiments/EXP-*/RUN-*/status.json (best_epoch; completed, non-superseded training runs)
+
+\begin{table}[t]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{llrrr}
+    \toprule
+    Experiment & Dataset & Runs & Median & Min \\
+    \midrule
+    EXP-109 (locked recipe) & SPEED+   &  6 & 100 & 90 \\
+    EXP-113 (flat)          & SPEED+   &  6 & 100 & 90 \\
+    EXP-117 (students)      & SPEED+   &  9 & 100 & 90 \\
+    EXP-064                 & T-LESS   & 42 & 90 & 55 \\
+    EXP-106 (A1, A2)        & T-LESS   & 84 & 90 & 55 \\
+    EXP-064                 & SYMSOL-T & 30 & 95 & 90 \\
+    EXP-106 (A1, A2)        & SYMSOL-T & 60 & 95 & 70 \\
+    EXP-064 (real only)     & YCB-V    & 36 & 35 & 5 \\
+    EXP-122 (real + syn.)   & YCB-V    & 36 & 60 & 25 \\
+    \bottomrule
+  \end{tabular}
+  \caption{\textbf{Selected epoch} (out of 100) of completed, non-superseded training runs.}
+  \label{app:tab:bestep}
+\end{table}
+% src: outputs/experiments/EXP-{109,113,117,064,106,122}_*/RUN-*/status.json (best_epoch, state completed, no superseded key)
+
+%-------------------------------------------------------------------------------
+\subsection{Evaluation metrics}\label{app:metrics}
+
+\paragraph{Rotation error.}
+The geodesic error is $E_R=2\arccos|\langle\hat q,q\rangle|$ in degrees. On SPEED+ and YCB-V it is the raw error. On T-LESS and SYMSOL-T it is the symmetry-aware error of \cref{app:tless}. On T-LESS and YCB-V, $\hat q$ is compared with the ground truth in the allocentric target frame. Converting both to the egocentric frame with the ground-truth translation multiplies them by the same $R_{\text{ray}}(t)$, so the geodesic error is unchanged.
+We report mean, median and p95.
+Recall acc@$k$ is the fraction of images with error below $k^\circ$. On SPEED+, $k\in\{1,3,5,10,20\}$ with a strict $<$. On the other benchmarks, $k\in\{2,5,10,15,30\}$ with $\le$.
+% src: src/tfpose/metrics.py (rotation_metrics, THRESH = (1, 3, 5, 10, 20), e < t); scripts/exp064_eval.py (sym_acc with e <= a); src/tfpose/xobj.py (target)
+
+\paragraph{Severe errors and flips.}
+\emph{Severe flips} are the fraction of images with $E_R>150^\circ$; we also report $E_R>90^\circ$.
+\emph{Flip transitions} compare a system with a reference prediction on the same images. Let $n_{150}$ be the number of images with reference error $>150^\circ$, and $n_{20}$ the number with reference error $<20^\circ$. Then
+\emph{corrected} $=\#\{e_0>150^\circ \wedge e<20^\circ\}/n_{150}$ and
+\emph{broken} $=\#\{e_0<20^\circ \wedge e>150^\circ\}/n_{20}$.
+The denominators are always reported. In the shared evaluator (EXP-113--115, 127), the reference is the greedy prediction of the same model family and variant. In EXP-109 it is the EXP-036 PoE greedy prediction, with $n_{150}=401$ (lightbox) and 206 (sunlamp).
+% src: scripts/orbit_eval.py (frac_gt150_to_lt20, frac_lt20_to_gt150, n_greedy_gt150, n_greedy_lt20); outputs/reports/EXP-109_real_domain_aug_tokens16_orbit.md (flip table, of 401 / of 206)
+
+\paragraph{Retention.}
+For orbit distillation, the retention in each domain is
+\begin{equation*}
+  \rho=\frac{E^{\text{A}}_{\text{greedy}}-E^{\text{student}}_{\text{greedy}}}{E^{\text{A}}_{\text{greedy}}-E^{\text{A}}_{\text{orbit}}},
+\end{equation*}
+the share of the orbit-voting gain of the undistilled tree (A) that the single-view student recovers.
+% src: outputs/reports/EXP-117_orbit_distillation.md (Retention); outputs/reports/EXP-119_xobj_orbit_distillation.md
+
+\paragraph{Translation.}
+$E_T=\|\hat t-t\|_2$ is given in metres (SPEED+), millimetres (T-LESS), metres (YCB-V) or scene units (SYMSOL-T). We also report the normalised error $e_t=E_T/\|t\|_2$ and T@$c$\,cm $=\Pr[E_T\le c\,\text{cm}]$ for $c\in\{2,5,10\}$ (T-LESS, YCB-V).
+The \emph{box-only} baseline predicts $U_x=U_y=0$ and $U_z$ equal to the training mean, mapped through the same inverse. It measures how much translation the ground-truth crop alone carries.
+With orbit voting, each view's $\hat t$ is rolled back to view 0 and the four estimates are averaged.
+% src: scripts/exp064_eval.py (E_T, e_t_norm, T@cm, box_only); src/tfpose/xobj.py (t_to_cm); outputs/reports/EXP-118_translation_6dof.md; outputs/reports/EXP-126_translation_xobj.md
+
+\paragraph{Inference modes.}
+\emph{Greedy} decodes view 0 only (beam 1).
+\emph{Orbit product} collects beam-8 leaves from 4 views ($0/90/180/270^\circ$), maps them back to view 0, and scores each of the 32 candidates by the sum over views of the teacher-forced PoE path log-probability.
+\emph{Weighted vote} (orbit\_vote32) scores each candidate by Gaussian-kernel support ($\sigma=5^\circ$) from all 32 candidates, weighted by their beam probabilities normalised within their view.
+On allocentric datasets, candidates are mapped between views with the ground-truth translation (\cref{app:tless}).
+% src: scripts/exp064_eval.py; scripts/exp124_eval.py; scripts/orbit_eval.py (docstring)
+
+\paragraph{Aggregation.}
+Errors are first averaged over the images of each object (or shape). Within a seed, these per-object means are averaged over objects with equal weight, which gives the object-balanced value. For a single object (SPEED+), this value is the plain mean over images. Medians and recalls are aggregated the same way.
+The reported value is the mean of the per-seed object-balanced values over seeds 0--2. The $\pm$ value is their sample standard deviation (ddof $=1$) across the 3 seeds. Per-object tables average each object over the seeds.
+% src: scripts/exp064_eval.py (per_object_seed -> object-balanced per seed -> mean/std over seeds; pandas std ddof=1); scripts/exp124_eval.py (per_seed -> mean/std)
+
+\paragraph{Timing.}
+End-to-end latency (EXP-112) is measured on real lightbox crops with the image already decoded. It covers the crop warps, backbones, tree encoding and beam search, and orbit scoring. It is measured at batch 1 and batch 64 as the median of 5 repetitions after warm-up, with CUDA synchronisation. The concurrent GPU load is recorded; the GPU is shared, so all timings are upper bounds.
+% src: outputs/reports/EXP-112_locked_recipe_eval_timing.md (Timing protocol)
+
+%-------------------------------------------------------------------------------
+\subsection{Selection and pre-registration protocol}\label{app:prereg}
+
+\paragraph{Split policy.}
+We fixed the split policy at the start of the project (DEC-000) and restored it in DEC-006:
+\begin{itemize}
+  \item train on SPEED+ synthetic/train only;
+  \item select and gate on synthetic/validation only;
+  \item treat all 6{,}740 lightbox and 2{,}791 sunlamp images as test-only and descriptive.
+\end{itemize}
+DEC-005 had briefly allowed a seeded 20\% lightbox validation split (1{,}348 images). DEC-006 withdrew it on the same day, before it influenced any training run or checkpoint, and rewrote the one gate that referred to it before any result.
+The same policy carries over to the other benchmarks: train on the permitted training split, select on a held-out validation split built by whole scenes or sequences, and use the test split for reporting only.
+Synthetic validation contains almost no gross errors, so from EXP-109 on SPEED+ selection also uses the synthetic val-aug proxy (\cref{app:speedplus}).
+% src: outputs/DECISIONS.md (DEC-000, DEC-005, DEC-006, DEC-014); outputs/reports/EXP-064_broader_object_validation.md (Splits)
+
+\paragraph{Recipe lock.}
+DEC-018 fixed the recipe before any cross-dataset run:
+\begin{itemize}
+  \item frozen DINOv3 \texttt{tokens8}, plus MoGe-2 \texttt{normals16\textasciitilde and} in the PoE variant, on ground-truth square crops;
+  \item one tree Transformer per branch, with the EXP-036 architecture and budget;
+  \item training with the two augmented copies;
+  \item equal-weight per-level PoE;
+  \item orbit voting over 4 in-plane views.
+\end{itemize}
+Both variants (PoE and DINOv3-only) are reported everywhere, with and without orbit voting. The following are explicitly not part of the recipe: 16$\times$16 tokens, the weighted PoE, discrete flow matching, flow-teacher distillation and the corner tree.
+DEC-023 kept this recipe after EXP-117 and recorded orbit distillation as a successful add-on, which later experiments do not use unless stated.
+DEC-024 added three cross-dataset fixes:
+\begin{itemize}
+  \item EXP-122: synthetic YCB-V renders;
+  \item EXP-106, amended: multi-path symmetry targets, also on SYMSOL-T;
+  \item EXP-119: orbit distillation on T-LESS and SYMSOL-T.
+\end{itemize}
+DEC-025 set the matched comparisons with published results: EXP-124 (detector and official score), EXP-126 (translation on T-LESS, SYMSOL-T and YCB-V) and the reserved EXP-125. It also recorded the literature corrections to apply before submission.
+DEC-026 added EXP-127 (hierarchical tree vs.\ flat classifiers over the same 131{,}072 leaves and over a balanced Hopf grid). It uses the DEC-018 recipe without distillation.
+% src: outputs/DECISIONS.md (DEC-018, DEC-023, DEC-024, DEC-025, DEC-026)
+
+\paragraph{Pre-registration and the pass rule.}
+Each experiment has a report in \texttt{outputs/reports/}. Before any run, the report records:
+\begin{itemize}
+  \item the question;
+  \item the arms and controls;
+  \item the selection data;
+  \item the metrics;
+  \item the pass criterion;
+  \item for the main experiments, the expected outcome.
+\end{itemize}
+The standard pass rule compares 3-seed means on validation data: a difference passes if it exceeds the larger of the two seed standard deviations. Some criteria add a non-inferiority clause on clean synthetic validation, using the same tolerance.
+Real-domain and test numbers are reported for every arm, whatever their direction, and are never used for selection.
+% src: outputs/reports/EXP-109_real_domain_aug_tokens16_orbit.md (Criteria); outputs/reports/EXP-113_tesseract_vs_flat_hopf.md; outputs/reports/EXP-127_hierarchy_vs_flat_same_grid.md (Criteria: "EXP-113 rule")
+
+\paragraph{Amendments and deviations.}
+A protocol change goes into the report as a dated ``Amendment'' section, written before the affected runs and stating what changes and why. Earlier text is not edited. Deviations found after the fact are recorded as such, with the run identifiers. Examples:
+\begin{itemize}
+  \item \emph{EXP-109.} The predictor-based convention gate was replaced, after an external review and before any augmented run, by a geometric derivation. A pixel threshold chosen before measuring was then replaced, before the degree measurement was taken, by a label-error rule; both runs are kept.
+  \item \emph{Compact-feature gate (EXP-064).} The gate, which compares the compact cache with the full features, was pre-registered to run before use but ran after the T-LESS results. Its strict tolerance fails (MoGe-2 maximum deviation 0.51 standard deviations, p99 0.004). The pre-set functional follow-up shows no impact: on 512 crops no PoE greedy prediction changes, and 1 and 3 single-branch leaves change. Both are on record.
+  \item \emph{EXP-106.} The multi-path loss was changed to the smoothed version (\cref{app:tless}), and the arm K and best-fit stages were left unrun, by an amendment written before any run.
+  \item \emph{SYMSOL-T.} The NaN fix (\cref{app:symsolt}) was recorded as a bug fix, not a recipe change; only the affected trees were retrained.
+  \item \emph{EXP-064 zero-shot arm.} The pre-set rule was met literally on T-LESS. A post-hoc constant-prediction control, labelled as post hoc, shows that this comes from the pose prior, so no transfer is claimed.
+  \item \emph{EXP-127.} An amendment written before any trained-arm run defines per-system inference memory and adds a gate: the tree must reproduce EXP-113 seed 0 to within $0.02^\circ$.
+\end{itemize}
+% src: outputs/reports/EXP-109_real_domain_aug_tokens16_orbit.md (Amendment 2026-10-15); outputs/reports/EXP-064_broader_object_validation.md (Deviation; zero-shot arm); outputs/reports/EXP-106_tless_multipath_tree.md (Amendment 2026-10-27); outputs/reports/EXP-127_hierarchy_vs_flat_same_grid.md (Amendment 2026-10-29)
+
+\begin{table*}[t]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{lll}
+    \toprule
+    Exp. & Pre-registered primary criterion (validation data; 3 seeds; larger-seed-std rule) & Selection data \\
+    \midrule
+    EXP-109 & A or B: PoE val-aug mean below EXP-036, and clean val not worse; C: orbit lowers val-aug without worse clean val & synth.\ val + val-aug \\
+    EXP-113 & tree below flat Hopf ($10923\times12$), PoE + orbit (primary) and PoE greedy; also on val-aug & synth.\ val (+ val-aug) \\
+    EXP-114 & orbit product below the best of max-confidence, top-1 vote and weighted vote (PoE primary) & synth.\ val (+ val-aug) \\
+    EXP-115 & combined aug.\ beats photometric-only, and beats rotation-only (orbit, val-aug); orbit gain by arm descriptive & synth.\ val-aug \\
+    EXP-116 & roll-consistent tree T below A, C1 and C2 on greedy val-aug, clean val not worse; consistency above A and C1 & synth.\ val-aug \\
+    EXP-117 & student greedy val-aug below A greedy (DINOv3 primary), clean val not worse; retention descriptive & synth.\ val-aug \\
+    EXP-118 & translation block $E_T$ below box-only; joint training does not hurt rotation & synth.\ val \\
+    EXP-064 & per dataset, PoE val mean below DINOv3-only; zero-shot: pair error below chance & held-out val per dataset \\
+    EXP-106 & A2 (multi-path) val mean below the better of A0 and A1, PoE greedy (T-LESS, SYMSOL-T) & PBR scenes 45--49; held-out SYMSOL-T \\
+    EXP-119 & student greedy val mean below the base arm's greedy (DINOv3 primary); retention descriptive & held-out val per dataset \\
+    EXP-122 & real + synthetic PoE orbit val mean below real-only (EXP-064) & held-out real sequences \\
+    EXP-124 & descriptive: detected-crop official score of S1 and detection gap; GT-crop reproduction gate & -- (no selection) \\
+    EXP-126 & DINOv3 block val $E_T$ (orbit mean) below box-only, per dataset & held-out val per dataset \\
+    EXP-127 & tree vs flat on the identical 131{,}072 leaves, PoE + orbit; flat-vs-flat and tree vs balanced Hopf ($1771\times74$) & synth.\ val (+ val-aug) \\
+    \bottomrule
+  \end{tabular}}
+  \caption{\textbf{Pre-registered criteria} of the experiments behind the paper. Test and real-domain numbers are reported for every arm and are never used for selection. Outcomes are reported in the main text and in the experiment reports.}
+  \label{app:tab:criteria}
+\end{table*}
+% src: outputs/reports/EXP-{109,113,114,115,116,117,118,064,106,119,122,124,126,127}_*.md (Criteria sections)
+
+%-------------------------------------------------------------------------------
+\subsection{Compute and infrastructure}\label{app:compute}
+
+\paragraph{Hardware and software.}
+Every logged run that records its GPU (740 runs) used one NVIDIA RTX 6000 Ada Generation, in a workstation shared with other users, and Python 3.13.11. The PyTorch build differs by period. Runs of EXP-000 to EXP-042, EXP-101 and EXP-104 (and some smoke tests) used PyTorch 2.11.0 with CUDA 13.0. Runs from EXP-043 on, including every run from EXP-109 onward, used PyTorch 2.8.0 with CUDA 12.8. All runs used cuDNN 9.19. The locked-recipe runs also record timm 1.0.27 and OpenCV 5.0.0. Each run directory stores its own environment, so per-run versions can be checked.
+% src: grep of gpu/torch/python/cuda lines over outputs/experiments/*/RUN-*/environment.txt (gpu 740x RTX 6000 Ada; torch 2.8.0+cu128 x493, 2.11.0+cu130 x255 in EXP-000..042, 099, 101, 104); outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-180909-seed0/environment.txt
+
+\paragraph{Memory guards.}
+Every heavy job runs through \texttt{scripts/guarded.sh}, which provides four protections:
+\begin{itemize}
+  \item a hard kernel cap: a \texttt{systemd-run} scope with \texttt{MemoryMax} (40\,GB by default, set per job), no swap, and at most 4{,}096 tasks;
+  \item admission control: a job starts only when the machine has the job's cap plus 12\,GB of RAM available and, by default, 8\,GB of free GPU memory;
+  \item low priority: the job runs at \texttt{nice} 10 and idle I/O priority;
+  \item maintenance pause: new jobs wait while \texttt{outputs/experiments/QUEUE\_PAUSE} exists, while running jobs are untouched.
+\end{itemize}
+Inside each job, \texttt{tfpose.memguard} acts as a soft guard. Every 0.25\,s it polls the process's own RSS plus the USS of its child processes, and the system's available memory. It aborts the job, writes the reason into the run record and kills the job's children before the kernel cap is reached. Its limit is 85\% of the cap, and it also aborts if available memory falls below 16\,GB.
+Children were first counted by RSS, which counts pages shared with forked DataLoader workers once per worker. During EXP-124 this produced a false abort, reporting 44.3\,GB against a real peak of 11\,GB. The orphaned workers then stalled the queue for about 14.7\,h. Children have been counted by USS since then.
+A watchdog checks the queues every 5 minutes. It kills orphaned DataLoader workers, marks runs whose process has died as failed, and raises alerts for dead or stuck queues, idle jobs and low memory.
+% src: scripts/guarded.sh; src/tfpose/memguard.py (interval_s 0.25, DEFAULT_MIN_AVAIL_GB 16, _rss_gb); scripts/watchdog.py (docstring); outputs/reports/EXP-124_speedplus_detected_official_score.md (Incident)
+
+\paragraph{Feature caches.}
+Features are extracted once per view and stored on an 8\,TB drive (DEC-020): the full SPEED+ caches (105\,GB when moved) and the compact caches, about 170\,GB for the three EXP-064 datasets. Each cache directory is named by backbone, subset tag, preprocessing hash and manifest hash, and stores its specification, git commit, timing and peak GPU memory.
+On the full SPEED+ split, extraction took 11.5\,ms per image for DINOv3 (peak 1.6\,GB GPU) and 29.2\,ms per image for MoGe-2 (peak 3.0\,GB).
+The compact extractor stores only what the recipe needs: \texttt{tokens8}, the DINOv3 foreground, and the MoGe-2 normals and mask. It was checked against the full caches as described above.
+% src: outputs/DECISIONS.md (DEC-020); outputs/reports/EXP-064_broader_object_validation.md (Features; amendment item 6, about 170 GB); outputs/shared_cache/{dinov3_vitl16,moge2_vitl}__subset_full__*/manifest.json (ms_per_image 11.53 / 29.19, peak_gpu_mb 1646.7 / 2993.5); scripts/extract_compact.py
+
+\paragraph{Run records.}
+Every training and evaluation script opens a \texttt{tfpose.runlog.Run}. It claims a directory \path{outputs/experiments/EXP-nnn_<name>/RUN-<timestamp>-seed<s>} and writes the following files:
+\begin{itemize}
+  \item \texttt{config.yaml}: all arguments;
+  \item \texttt{command.txt}: the exact command;
+  \item \texttt{environment.txt}: host, library versions, GPU, git commit and a flag for uncommitted code changes;
+  \item \texttt{status.json}: state, PID, start and end, \texttt{wall\_clock\_s}, peak CPU RSS, peak GPU memory, and for trainings the selected epoch and parameter count.
+\end{itemize}
+Metrics are written as CSV, JSON and TSV, and checkpoints, logs and predictions go to subfolders. Runs that fail or are superseded keep their directories, with the error or the reason in \texttt{status.json}.
+% src: src/tfpose/runlog.py (Run.__init__, status, done, fail); outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-180909-seed0/status.json; outputs/experiments/EXP-064_broader_object_validation/RUN-*/status.json (superseded)
+
+\paragraph{Wall-clock time per tree.}
+\Cref{app:tab:wallclock} summarises \texttt{wall\_clock\_s} over all completed, non-superseded training runs of one tree; frozen-tree translation blocks are excluded. The times include loading and standardising the cached features. They were measured on the shared GPU, so they vary with load (for example, one T-LESS A2 tree took 3{,}629\,s against a median of 664\,s).
+On SPEED+, a locked-recipe tree takes a median of 13.3\,min for DINOv3 (range 12.9--15.8) and 5.8\,min for MoGe-2. On the other benchmarks, per-object trees train on at most 12{,}000 crops per object (20{,}000 per shape on SYMSOL-T; 18{,}609--21{,}435 per object for EXP-122, real plus synthetic). Their median times are 2.3--11.1\,min, and single runs on the loaded GPU took up to 60.5\,min. Distilled students additionally teacher-force the 24 teacher candidates of every sample.
+% src: outputs/experiments/EXP-*/RUN-*/status.json (wall_clock_s; state completed; no superseded key; config trans != frozen); outputs/data_manifests/ycbv_exp064.csv + exp064_ycbvsyn_all.csv (EXP-122 crops per object)
+
+\begin{table}[t]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{llrrr}
+    \toprule
+    Experiment (dataset) & Branch & Runs & Median (min) & Range (min) \\
+    \midrule
+    EXP-109 locked recipe (SPEED+) & DINOv3 & 3 & 13.3 & 12.9--15.8 \\
+                                   & MoGe-2 & 3 & 5.8 & 5.8--5.8 \\
+    EXP-115 aug.\ ablation (SPEED+) & DINOv3 & 6 & 15.5 & 13.8--19.3 \\
+                                    & MoGe-2 & 6 & 6.5 & 6.2--6.6 \\
+    EXP-113 flat Hopf (SPEED+)     & DINOv3 & 3 & 17.3 & 16.8--17.5 \\
+                                   & MoGe-2 & 3 & 8.2 & 8.1--8.3 \\
+    EXP-117 students (SPEED+)      & DINOv3 & 6 & 40.0 & 27.3--41.7 \\
+                                   & MoGe-2 & 3 & 83.6 & 51.0--93.9 \\
+    EXP-118 joint 6-DoF (SPEED+)   & DINOv3 & 3 & 24.9 & 18.7--25.7 \\
+                                   & MoGe-2 & 3 & 12.4 & 12.3--13.8 \\
+    EXP-064 (T-LESS)               & DINOv3 & 21 & 5.7 & 5.3--8.3 \\
+                                   & MoGe-2 & 21 & 3.4 & 3.1--6.9 \\
+    EXP-106 A2 (T-LESS)            & DINOv3 & 21 & 11.1 & 4.6--60.5 \\
+                                   & MoGe-2 & 21 & 10.6 & 3.4--21.1 \\
+    EXP-064 (SYMSOL-T)             & DINOv3 & 15 & 6.4 & 4.5--9.6 \\
+                                   & MoGe-2 & 15 & 4.0 & 3.1--4.8 \\
+    EXP-106 A2 (SYMSOL-T)          & DINOv3 & 15 & 7.1 & 6.5--7.4 \\
+                                   & MoGe-2 & 15 & 9.1 & 9.0--9.3 \\
+    EXP-064 (YCB-V, real)          & DINOv3 & 18 & 4.0 & 3.0--4.7 \\
+                                   & MoGe-2 & 18 & 2.3 & 1.9--3.3 \\
+    EXP-122 (YCB-V, real + syn.)   & DINOv3 & 18 & 7.4 & 5.3--18.0 \\
+                                   & MoGe-2 & 18 & 4.8 & 3.6--17.0 \\
+    \bottomrule
+  \end{tabular}}
+  \caption{\textbf{Training wall-clock per tree} (100 epochs, one tree, shared GPU, feature loading included), from \texttt{status.json} of completed, non-superseded runs.}
+  \label{app:tab:wallclock}
+\end{table}
+% src: outputs/experiments/{EXP-109,EXP-115,EXP-113,EXP-117,EXP-118,EXP-064,EXP-106,EXP-122}_*/RUN-*/status.json (wall_clock_s, seconds converted to minutes: e.g. EXP-109 DINO 774/800/950 s; MoGe 345-348 s; EXP-106 T-LESS DINO multi 278-3629 s, median 664 s)
