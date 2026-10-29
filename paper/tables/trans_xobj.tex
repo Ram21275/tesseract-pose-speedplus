@@ -4,12 +4,15 @@ Dataset & Method & T@2 & T@5 & T@10 & mean $E_T$ \\
 \midrule
 T-LESS & LiePose~\cite{hsiao2024liepose} & 68.0 & 88.4 & 95.2 & -- \\
  & box only & & & & \\
- & ours (frozen tree + block) & & & & \\
+ & ours, 1 view & & & & \\
+ & ours, orbit mean & & & & \\
 \midrule
-YCB-V & box only & & & & \\
- & ours (frozen tree + block) & & & & \\
+YCB-V & box only & 16.0 & 44.7 & 76.7 & 8.14 \\
+ & ours, 1 view & 73.0 & 96.0 & 99.9 & 1.57 \\
+ & ours, orbit mean & 68.8 & 92.9 & 99.6 & 1.83 \\
 \midrule
 SYMSOL-T & box only & & & & \\
- & ours (frozen tree + block) & & & & \\
+ & ours, 1 view & & & & \\
+ & ours, orbit mean & & & & \\
 \bottomrule
 \end{tabular}

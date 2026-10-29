@@ -45,7 +45,8 @@ RUNS = {
     "spp_det": E / "EXP-124_speedplus_detected_official_score/RUN-20261029-232454-seed0",  # EXP-124 detected crops (S1)
     "quant127": E / "EXP-127_hierarchy_vs_flat_same_grid/RUN-20261029-003312-seed0",      # EXP-127 quantization floor (CPU)
     "flat127": None,                                                                   # EXP-127 same-grid / balanced-Hopf flat: queued
-    "trans_tless": None, "trans_symsolt": None, "trans_ycbv": None,                    # EXP-126 translation on general objects: queued
+    "trans_tless": None, "trans_symsolt": None,                                        # EXP-126 translation: running
+    "trans_ycbv": E / "EXP-126_translation_xobj/RUN-20261030-044920-seed0",
     "deploy128": None,                                                                 # EXP-128 head deployment cost: queued
     "quant128": None,                                                                  # EXP-128 accuracy per precision: queued (dict of runs)
 }
@@ -436,14 +437,23 @@ SPP_PUBLISHED = [   # method, setting, E_R LB, E_R SL, score LB, score SL (as pu
 
 
 def trans_xobj_table():
-    """EXP-126 (queued): translation on T-LESS / SYMSOL-T / YCB-V. Blank until the runs exist; LiePose T-LESS average from the
-    paper (Tab. 8 of LiePose, mean over our 7 objects; recorded in outputs/reports/EXP-126_translation_xobj.md)."""
+    """EXP-126: translation on T-LESS / SYMSOL-T / YCB-V, real test sets, DINOv3 block on the frozen selected tree.
+    Rows: box only; view 0 (validation choice where it wins); orbit mean (pre-registered primary). E_T in cm (T-LESS, YCB-V)
+    or scene units (SYMSOL-T). LiePose T-LESS average from Tab. 8 of LiePose over our 7 objects (EXP-126 report)."""
+    TO_CM = {"tless": 0.1, "ycbv": 100.0, "symsolt": 1.0}
     L = [r"\begin{tabular}{@{}ll cccc@{}}", r"\toprule", r"Dataset & Method & T@2 & T@5 & T@10 & mean $E_T$ \\", r"\midrule"]
     L.append(r"T-LESS & LiePose~\cite{hsiao2024liepose} & 68.0 & 88.4 & 95.2 & -- \\")
-    for ds, name in (("tless", "T-LESS"), ("ycbv", "YCB-V"), ("symsolt", "SYMSOL-T")):
-        assert not have(f"trans_{ds}"), "fill trans_xobj_table from the EXP-126 evaluation before enabling its run"
-        L.append(f"{name if ds != 'tless' else ''} & box only & & & & \\\\")
-        L.append(f" & ours (frozen tree + block) & & & & \\\\")
+    for k, (ds, name) in enumerate((("tless", "T-LESS"), ("ycbv", "YCB-V"), ("symsolt", "SYMSOL-T"))):
+        rows = (("box_only", "box only"), ("greedy", "ours, 1 view"), ("orbit_mean", "ours, orbit mean"))
+        if have(f"trans_{ds}"):
+            t = csv(f"trans_{ds}", "trans_object_balanced"); t = t[(t.split == "test") & (t.variant == "DINO")]
+            for n, (mode, lab) in enumerate(rows):
+                r = t[t.trans_mode == mode].iloc[0]; e = r.E_T_mean * TO_CM[ds]
+                rec = " & ".join(f"{100 * r[c]:.1f}" for c in ("T@2cm", "T@5cm", "T@10cm")) if ds != "symsolt" else "-- & -- & --"
+                L.append(f"{name if (n == 0 and ds != 'tless') else ''} & {lab} & {rec} & {e:.{3 if ds == 'symsolt' else 2}f} \\\\")
+        else:
+            for n, (mode, lab) in enumerate(rows):
+                L.append(f"{name if (n == 0 and ds != 'tless') else ''} & {lab} & & & & \\\\")
         if ds != "symsolt":
             L.append(r"\midrule")
     L += [r"\bottomrule", r"\end{tabular}"]

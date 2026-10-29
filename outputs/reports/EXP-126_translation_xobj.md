@@ -38,3 +38,20 @@ EXP-118 evaluated the SPACE-HOP translation block on SPEED+ only. Does the same 
 
 ## Runs / Results / Decision
 Not started.
+
+## Results: YCB-V (evaluation `RUN-20261030-044920-seed0`, 2026-10-30)
+Object-balanced over 6 objects, 3 seeds. E_T in cm; T@k in %.
+
+| split | variant | mode | E_T mean | E_T median | T@2 | T@5 | T@10 |
+|---|---|---|---|---|---|---|---|
+| validation | DINOv3 | box only | 10.70 | 10.07 | 10.9 | 48.4 | 79.3 |
+| validation | DINOv3 | view 0 | **2.73** ± 0.13 | 2.65 | 64.8 | 88.0 | 92.4 |
+| validation | DINOv3 | orbit mean | 3.44 ± 0.33 | 3.24 | 60.7 | 84.6 | 90.6 |
+| validation | PoE | view 0 | 3.00 ± 0.10 | 2.54 | 64.1 | 85.6 | 93.4 |
+| test | DINOv3 | box only | 8.14 | 6.79 | 16.0 | 44.7 | 76.7 |
+| test | DINOv3 | view 0 | **1.57** ± 0.11 | 1.27 | 73.0 | 96.0 | 99.9 |
+| test | DINOv3 | orbit mean | 1.83 ± 0.17 | 1.55 | 68.8 | 92.9 | 99.6 |
+| test | PoE | view 0 | 1.75 ± 0.02 | 1.43 | 70.6 | 93.9 | 99.4 |
+
+- **Criterion 1: PASS.** DINOv3 validation orbit mean is 3.44 ± 0.33, against 10.70 for box only.
+- **Descriptive:** orbit averaging is worse than view 0, as for YCB-V rotation (EXP-122). Validation selects DINOv3 view 0.
