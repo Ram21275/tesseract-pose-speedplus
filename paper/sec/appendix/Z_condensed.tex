@@ -251,7 +251,10 @@ On SYMSOL-T our best orbit result (DINOv3, A2 + orbit, 2.07$^\circ$ test, averag
 % src: paper/tables/symsol_sota.tex; paper/tables/tless_sota.tex; outputs/experiments/EXP-106_tless_multipath_tree/RUN-*/metrics/object_balanced.csv (SYMSOL-T A2 DINOv3 orbit 2.07); paper/SOURCES.md (SYMSOL-T floor); outputs/DECISIONS.md (DEC-025); outputs/reports/EXP-118_translation_6dof.md
 
 \paragraph{Pending.}
-The following are pre-registered, but have no results yet: \textbf{EXP-119} (orbit distillation on T-LESS and SYMSOL-T), \textbf{EXP-124 detected crops} (YOLO11s detector trained on synthetic images only; the GT-crop reference above is complete), \textbf{EXP-126} (translation on T-LESS, SYMSOL-T and YCB-V against box-only) and the \textbf{EXP-127 trainings} (tree vs flat over the identical 131,072 leaves, and vs the balanced Hopf grid). If the same-grid flat head ties the tree, the hierarchy claim is withdrawn and the EXP-113 gain is attributed to the grid.
+\textbf{Detected crops (EXP-124, completed).} With the synthetic-only YOLO11s detector (mean IoU 0.986 / 0.764 / 0.884 on synthetic / lightbox / sunlamp; 54 lightbox misses fall back to the full image), the primary system reaches $3.88^\circ/23.88^\circ/16.42^\circ$, $0.067/0.662/0.270$\,m and a score of $0.081/0.523/0.333$, against $0.075/0.227/0.224$ with ground-truth crops (detection gap $+0.296$ lightbox, $+0.109$ sunlamp). The box-relative translation target passes box errors directly into $E_T$.
+% src: outputs/reports/EXP-124_speedplus_detected_official_score.md (Results); outputs/experiments/EXP-124_speedplus_detected_official_score/RUN-20261029-232454-seed0/metrics/metrics.csv; RUN-20261029-211323-seed0/metrics/detection.csv
+
+The following are pre-registered, but have no results yet: \textbf{EXP-119} (orbit distillation on T-LESS and SYMSOL-T), \textbf{EXP-126} (translation on T-LESS, SYMSOL-T and YCB-V against box-only) and the \textbf{EXP-127 trainings} (tree vs flat over the identical 131,072 leaves, and vs the balanced Hopf grid). EXP-128 (deployment and quantisation of the head) is also pending (\cref{app:deploy}). If the same-grid flat head ties the tree, the hierarchy claim is withdrawn and the EXP-113 gain is attributed to the grid.
 % src: outputs/reports/EXP-119_xobj_orbit_distillation.md; outputs/reports/EXP-124_speedplus_detected_official_score.md; outputs/reports/EXP-126_translation_xobj.md; outputs/reports/EXP-127_hierarchy_vs_flat_same_grid.md
 
 \begin{table*}[t]
@@ -405,7 +408,7 @@ LoRA adaptation of the backbones (EXP-102) was cancelled by the user before any 
   \item The flow models are not calibrated, and the path flow has no geometry claim.
   \item Not training-free and not zero-shot: the trees are trained, and outside SPEED+ they are retrained per object.
   \item MoGe-2 fusion helps on SPEED+ and T-LESS only.
-  \item External comparisons are unmatched: SPEED+ uses ground-truth crops (the box alone gives 0.56\,m translation error), detected-crop results are pending, and our T-LESS crops are not masked, unlike LiePose's~\cite{hsiao2024liepose}.
+  \item External comparisons are unmatched: SPEED+ uses ground-truth crops (the box alone gives 0.56\,m translation error), with a synthetic-only detector the score rises to $0.523/0.333$ (detector IoU 0.76 on lightbox), and our T-LESS crops are not masked, unlike LiePose's~\cite{hsiao2024liepose}.
   \item Experiments never evaluated together are not combined (\eg the recipe with $w=0.8$).
 \end{itemize}
 % src: NOVELTY.md (Sec. 3, Sec. 4 "Do not combine", updates 2026-10-17 to 2026-10-21); outputs/reports/EXP-003_grid_comparison.md; outputs/reports/EXP-101_tesseract_vs_spacehop_hopf.md; outputs/reports/EXP-127_hierarchy_vs_flat_same_grid.md; outputs/reports/EXP-118_translation_6dof.md; outputs/DECISIONS.md (DEC-025)

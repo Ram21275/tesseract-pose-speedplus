@@ -67,3 +67,32 @@ Not started.
   - on abort, memguard kills the job's child processes.
 - The kernel cap (systemd scope `MemoryMax`) and the system available-memory floor are unchanged.
 - The orphans were killed by PID at 14:44 on 2026-10-29. The queue retried with the identical pre-registered settings.
+
+## Results (completed 2026-10-29)
+- **Detector:** `RUN-20261029-145416`, YOLO11s, 20 epochs; synthetic validation mAP50-95 0.993, mAP50 0.995.
+- **Detection on the test sets:** `RUN-20261029-211323`. A miss falls back to the full image and is still scored.
+
+| domain | n | misses | IoU mean | IoU median | IoU < 0.5 | centre error (px) |
+|---|---|---|---|---|---|---|
+| synthetic val | 11,994 | 0 | 0.986 | 0.990 | 0.0% | 13.2 |
+| lightbox | 6,740 | 54 | 0.764 | 0.844 | 15.7% | 66.8 |
+| sunlamp | 2,791 | 0 | 0.884 | 0.915 | 2.0% | 36.4 |
+
+- **Scores:** `RUN-20261029-232454-seed0` (`--crops det`), 3 seeds. S1 is the primary system: distilled PoE students with orbit_product for rotation, the J DINOv3 translation block with orbit_mean. Values are synthetic val / lightbox / sunlamp.
+
+| system | crops | E_R (deg) | E_T (m) | score |
+|---|---|---|---|---|
+| S1 | GT (`RUN-20261028-231916`) | 3.69 / 11.21 / 11.09 | 0.058 / 0.185 / 0.183 | 0.075 / 0.227 / 0.224 |
+| S1 | **detected** | 3.88 / **23.88 / 16.42** | 0.067 / **0.662 / 0.270** | 0.081 / **0.523 / 0.333** |
+| S2 (J PoE, orbit) | detected | 4.04 / 24.74 / 17.10 | 0.101 / 0.718 / 0.288 | 0.090 / 0.547 / 0.348 |
+| S3 (DINOv3 student + J DINOv3 translation) | detected | 3.97 / 24.68 / 17.27 | 0.067 / 0.662 / 0.270 | 0.082 / 0.537 / 0.347 |
+
+- **Criterion 1 (descriptive):** S1 detected-crop score 0.523 (lightbox) / 0.333 (sunlamp). Matched setting: synthetic-only training, detector, no adaptation. SPNv2 offline (full image) scores 0.142 / 0.230, so we are far behind it in this setting.
+- **Criterion 2: detection gap** (S1 detected − GT score) is **+0.296** on lightbox and **+0.109** on sunlamp.
+  - Rotation is 2.1× worse on lightbox and 1.5× worse on sunlamp. Translation is 3.6× worse on lightbox.
+  - Translation is box-relative (SPACE-HOP u), so box errors pass directly into E_T.
+  - The lightbox detector is the bottleneck: 16% of its boxes have IoU < 0.5.
+- **Descriptive:**
+  - orbit_vote32 has the lowest synthetic-val E_R for S1 (3.50 vs 3.88). It would be the synthetic-validation choice, with lightbox / sunlamp 24.96 / 16.90 and scores 0.541 / 0.341.
+  - Severe-flip rates (> 150°) for S1 orbit_product: lightbox 5.3%, sunlamp 3.1%.
+- **Decision:** the paper reports the detected-crop row as measured and states that a real-domain detector, or box-independent translation, is needed for deployment.

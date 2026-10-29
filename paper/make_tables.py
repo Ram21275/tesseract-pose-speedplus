@@ -42,7 +42,7 @@ RUNS = {
     "symsolt_A2": E / "EXP-106_tless_multipath_tree/RUN-20261028-120353-seed0",
     "symsolt_A2D": None,                                                               # EXP-119 SYMSOL-T: queued
     "spp_gt": E / "EXP-124_speedplus_detected_official_score/RUN-20261028-231916-seed0",  # EXP-124 GT-crop reference (S1)
-    "spp_det": None,                                                                   # EXP-124 detected crops: queued
+    "spp_det": E / "EXP-124_speedplus_detected_official_score/RUN-20261029-232454-seed0",  # EXP-124 detected crops (S1)
     "quant127": E / "EXP-127_hierarchy_vs_flat_same_grid/RUN-20261029-003312-seed0",      # EXP-127 quantization floor (CPU)
     "flat127": None,                                                                   # EXP-127 same-grid / balanced-Hopf flat: queued
     "trans_tless": None, "trans_symsolt": None, "trans_ycbv": None,                    # EXP-126 translation on general objects: queued
@@ -486,7 +486,11 @@ def spp_sota_table():
     g = csv("spp_gt"); g = {x.domain: x for x in g[(g.crops == "gt") & g.system.str.startswith("S1") & (g.rot_mode == "orbit_product") & (g.trans_mode == "orbit_mean")].itertuples()}
     L.append(f"Ours, distilled + orbit & GT crop, frozen, 4 views & {r['lightbox'].mean_deg:.2f} & {r['sunlamp'].mean_deg:.2f} & {g['lightbox'].score:.3f} & {g['sunlamp'].score:.3f} \\\\")
     L.append(f"Ours, 6-DoF (joint PoE) + orbit & GT crop, frozen, 4 views & {s2['lightbox'].E_R_mean_deg:.2f} & {s2['sunlamp'].E_R_mean_deg:.2f} & {s2['lightbox'].esa_score:.3f} & {s2['sunlamp'].esa_score:.3f} \\\\")
-    L.append(r"Ours, distilled + orbit & synthetic-only detector, frozen &  &  &  &  \\")
+    if have("spp_det"):
+        dd = csv("spp_det"); dd = {x.domain: x for x in dd[(dd.crops == "det") & dd.system.str.startswith("S1") & (dd.rot_mode == "orbit_product") & (dd.trans_mode == "orbit_mean")].itertuples()}
+        L.append(f"Ours, distilled + orbit & synthetic-only detector, frozen & {dd['lightbox'].E_R_mean_deg:.2f} & {dd['sunlamp'].E_R_mean_deg:.2f} & {dd['lightbox'].score:.3f} & {dd['sunlamp'].score:.3f} \\\\")
+    else:
+        L.append(r"Ours, distilled + orbit & synthetic-only detector, frozen &  &  &  &  \\")
     L += [r"\bottomrule", r"\end{tabular}"]
     write("spp_sota", "\n".join(L))
 

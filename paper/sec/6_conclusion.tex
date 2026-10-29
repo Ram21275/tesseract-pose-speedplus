@@ -1,7 +1,7 @@
 \section{Limitations}
 \label{sec:limitations}
 \begin{itemize}
-\item \textbf{Ground-truth crops.} The reported results use ground-truth boxes; a synthetic-only detector for SPEED+ is being evaluated (\cref{tab:spp_sota}). For translation in particular, the box alone gives $0.55$\,m on SPEED+, so a deployable claim needs detected boxes.
+\item \textbf{Ground-truth crops.} Most reported results use ground-truth boxes. On SPEED+, a synthetic-only detector roughly doubles the rotation error on lightbox ($11.2^\circ\to23.9^\circ$) and raises the score from $0.227$ to $0.523$, mainly through poor real-domain boxes and the box-relative translation target (\cref{tab:spp_sota}). A deployable system therefore needs a detector that transfers to real images, or translation that does not depend on the box.
 \item \textbf{Translation on general objects.} The translation block is evaluated on the spacecraft application; its evaluation on T-LESS, SYMSOL-T and YCB-V is running (\cref{tab:trans_xobj}), so these datasets are currently compared on rotation only.
 \item \textbf{How general the shared design is.} The backbone, head architecture, recipe and inference algorithm are shared, but two options are chosen per application on validation data: orbit voting helps on T-LESS, SYMSOL-T and SPEED+ but hurts on YCB-V, and MoGe-2 fusion does not help on every dataset. YCB-V also needed synthetic training data. Four domains are evidence for, not proof of, the claim that one backbone and one algorithm serve many applications.
 \item \textbf{Matched comparisons.} Published numbers use different crops, masks, object sets and fine-tuned backbones; \cref{tab:tless_sota,tab:symsol_sota,tab:spp_sota} state each setting, and only rows with the same setting are matched.
