@@ -15,6 +15,7 @@ import yaml
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 from tfpose import featsets, phase3 as P, tesseract as T, trans as TR, xobj as XO  # noqa: E402
+from tfpose import precision as PR  # noqa: E402
 from tfpose.fusion import fused_beam  # noqa: E402
 from tfpose.rotations import quat_to_matrix  # noqa: E402
 from tfpose.runlog import Run, md_table  # noqa: E402
@@ -29,6 +30,7 @@ ap.add_argument("--runs-dir", default="EXP-064_broader_object_validation", help=
 ap.add_argument("--filter", default="", help="k=v,... on the train-run config (missing key counts as its default: label=raw)")
 ap.add_argument("--variants", default="PoE,DINO")
 ap.add_argument("--tag", default="", help="label stored in every metrics row (arm name)")
+ap.add_argument("--precision", default="bf16", choices=PR.PRECISIONS, help="EXP-128: head inference precision (default = all earlier results)")
 args = ap.parse_args()
 ds = args.dataset
 run = Run(args.exp, args.exp_name, {**vars(args), "stage": "eval"}, seed=0)
@@ -82,7 +84,7 @@ try:
             MS, FX, HD = {}, {}, {}
             for sp in NEED:
                 ck = torch.load(runs[(obj, seed, sp)] / "checkpoints/best.pt", map_location=dev, weights_only=False)
-                m = P.HierTransformer(SHAPE[sp], 5).to(dev); m.load_state_dict(ck["model"]); m.eval(); MS[sp] = m
+                m = P.HierTransformer(SHAPE[sp], 5).to(dev); m.load_state_dict(ck["model"]); m.eval(); MS[sp] = PR.prepare(m, args.precision)
                 if "trans" in ck:                                                    # EXP-126 translation block
                     h_ = TR.TransHead(m.root_tok.shape[-1]).to(dev); h_.load_state_dict(ck["trans"]); h_.eval(); HD[sp] = (h_, ck)
                 st = (ck["mu"], ck["sd"])
@@ -116,7 +118,7 @@ try:
                         r = np.arange(s0, min(s0 + 256, len(de))); B = len(r); cands, confs, views = [], [], []
                         for k in VIEWS:
                             xs = [FX[(kk, k)][torch.as_tensor(r)].to(dev).float() for kk in keys]; views.append((k, xs))
-                            with torch.autocast("cuda", dtype=torch.bfloat16):
+                            with PR.ctx(args.precision):
                                 c8, p8, sc, _ = fused_beam(ms, xs, "poe", 8, return_all=True)
                             qk = T.decode(c8.cpu().numpy().reshape(-1), p8.cpu().numpy().reshape(-1, 5)).reshape(B, 8, 4)
                             cz = qk if k == 0 else XO.roll_target(ds, XO.from_target(ds, qk.reshape(-1, 4), np.repeat(TV[k][r], 8, 0)),
@@ -124,7 +126,7 @@ try:
                             cands.append(cz); confs.append(sc.float().cpu().numpy())
                         cand = np.concatenate(cands, 1); conf = np.concatenate(confs, 1)
                         if "greedy" in MODES:
-                            with torch.autocast("cuda", dtype=torch.bfloat16):
+                            with PR.ctx(args.precision):
                                 c1, p1 = fused_beam(ms, views[0][1], "poe", 1)
                             preds["greedy"].append(T.decode(c1.cpu().numpy(), p1.cpu().numpy()))
                         if "orbit_product" in MODES:
@@ -132,7 +134,7 @@ try:
                             for k, xs in views:
                                 tt = np.repeat(tvec[r], 32, 0); dd = np.repeat(dray[r], 32, 0)
                                 mk = cand if k == 0 else XO.roll_target(ds, XO.from_target(ds, cand.reshape(-1, 4), tt), tt, float(k), dd).reshape(B, 32, 4)
-                                with torch.autocast("cuda", dtype=torch.bfloat16):
+                                with PR.ctx(args.precision):
                                     score += tree_lp(ms, xs, mk)
                             preds["orbit_product"].append(cand[np.arange(B), score.argmax(1)])
                         if "orbit_vote32" in MODES:

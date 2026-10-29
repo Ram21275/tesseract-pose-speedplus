@@ -259,3 +259,14 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 - **Reuse:** the EXP-109 arm-A tree checkpoints are reused (they are the locked configuration). The EXP-113 flat checkpoints are not, because their grid differs. 12 new flat trainings.
 - **Order:** `scripts/run_queue16.sh` starts only after the `QUEUE15_DONE` and `QUEUE14_DONE` markers (EXP-124 → EXP-126 → EXP-119). It does not touch QUEUE_PAUSE.
 - **Pre-registration:** `reports/EXP-127_hierarchy_vs_flat_same_grid.md`.
+
+## DEC-027 — Paper reframed: general object pose first, spacecraft as an application; EXP-128 head deployment and quantisation (2026-10-29)
+- **Decided by:** the user: "The main aim of the paper is general objects, not spacecraft specific, just showing spacecraft as a robust application … only a small downstream [head] to be trained for applications across various industries with the same backbone and core algo; there should be a section in the appendix where we measure deployment metrics and quantization effect of just the downstream model."
+- **Paper:** the story leads with general objects (T-LESS, SYMSOL-T, YCB-V). SPEED+ becomes an application case study under synthetic-to-real shift. The framing is one frozen backbone and one core algorithm, with a small per-application head.
+- **Claims stay within the evidence:**
+  - heads are per object, and zero-shot transfer failed (EXP-064);
+  - per-dataset options are chosen on validation: orbit voting hurts on YCB-V, and MoGe-2 fusion does not help everywhere;
+  - YCB-V needed synthetic data;
+  - the SPEED+-only ablations are labelled as such.
+- **EXP-128 is pre-registered:** `reports/EXP-128_downstream_deployment_quantization.md`. It is queued in queue16 before the EXP-127 trainings.
+- **Translation on the other datasets** is EXP-126. It was pre-registered on 2026-10-28 and is queued in queue15 directly after EXP-124. It was never dropped.

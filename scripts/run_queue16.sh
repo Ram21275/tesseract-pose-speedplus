@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# DEC-026 / EXP-127: hierarchy vs flat over the same Tesseract leaves vs flat over a balanced Hopf grid (locked EXP-109 recipe).
+# DEC-027 / EXP-128 (downstream-head deployment + quantization) runs first, then DEC-026 / EXP-127: hierarchy vs flat over the same Tesseract leaves vs flat over a balanced Hopf grid (locked EXP-109 recipe).
 # Starts only after the already-authorized queues have finished (QUEUE15_DONE and QUEUE14_DONE markers in their logs), never
 # touches QUEUE_PAUSE (guarded.sh honours it). One GPU job at a time; every job through guarded.sh; completed runs are skipped.
 set -u; cd "$(dirname "$0")/.."
@@ -32,5 +32,18 @@ sources() { { echo "# EXP-127 source checkpoints (sha256  path)"
     [[ -f $d/checkpoints/best.pt ]] && grep -qE 'tokens8|normals16~and' $d/config.yaml && grep -q 'exp109_train_aug1,exp109_train_aug2' $d/config.yaml && sha256sum $d/checkpoints/best.pt
   done; cp outputs/experiments/exp109_convention.txt outputs/experiments/$X/exp109_convention.txt; } > outputs/experiments/$X/source_checkpoints.txt; }
 
+exp128() { local p q=EXP-128; local N="--exp $q --exp-name downstream_deployment_quantization"
+  for p in fp32 fp16 int8w; do echo ">>> $(date +%T) EXP-128 precision $p"
+    R $PY scripts/orbit_eval.py --exp ${q}_downstream_deployment_quantization --precision $p --modes greedy,orbit_product --variants PoE \
+      --families tree:EXP-117_orbit_distillation:$TAGS:teacher_variant=PoE || return 1
+    R $PY scripts/orbit_eval.py --exp ${q}_downstream_deployment_quantization --precision $p --modes greedy,orbit_product --variants DINO \
+      --families tree:EXP-117_orbit_distillation:$TAGS:teacher_variant=DINO || return 1
+    R $PY scripts/exp064_eval.py --dataset tless $N --runs-dir EXP-106_tless_multipath_tree --filter label=multi --tag A2_$p --precision $p --modes greedy,orbit_product || return 1
+    R $PY scripts/exp064_eval.py --dataset symsolt $N --runs-dir EXP-106_tless_multipath_tree --filter label=multi --tag A2_$p --precision $p --modes greedy,orbit_product || return 1
+    R $PY scripts/exp064_eval.py --dataset ycbv $N --runs-dir EXP-122_ycbv_synthetic_training --tag B_$p --precision $p --modes greedy,orbit_product || return 1
+  done
+  R $PY scripts/exp128_deploy.py; }
+
+block EXP-128 exp128
 block EXP-127-smoke smoke && block EXP-127-train train && block EXP-127-eval evaluate && block EXP-127-timing timing && block EXP-127-sources sources
 echo "=== $(date +%T) QUEUE16_DONE"

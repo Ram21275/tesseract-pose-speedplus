@@ -24,6 +24,7 @@ import yaml
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 from tfpose import data as D, featsets, flatgrid as FG, inplane as IP, phase3 as P, tesseract as T  # noqa: E402
+from tfpose import precision as PR  # noqa: E402
 from tfpose.fusion import fused_beam  # noqa: E402
 from tfpose.runlog import Run, md_table  # noqa: E402
 
@@ -34,6 +35,7 @@ ap.add_argument("--modes", default="greedy,orbit_product,orbit_maxconf,orbit_vot
 ap.add_argument("--variants", default="PoE,DINO")
 ap.add_argument("--seeds", default="0,1,2")
 ap.add_argument("--save-preds", action="store_true")
+ap.add_argument("--precision", default="bf16", choices=PR.PRECISIONS, help="EXP-128: head inference precision (default = all earlier results)")
 args = ap.parse_args()
 exp_id, short = args.exp.split("_", 1)
 run = Run(exp_id, short, vars(args), seed=0)
@@ -84,7 +86,7 @@ try:
     def load(family, d, sp, G):
         st = torch.load(d / "checkpoints/best.pt", map_location=dev)["model"]
         m = FG.FlatTransformer(SHAPE[sp], len(G)).to(dev) if family == "flat" else P.HierTransformer(SHAPE[sp], 5).to(dev)
-        m.load_state_dict(st); m.eval(); return m
+        m.load_state_dict(st); m.eval(); return PR.prepare(m, args.precision)
 
     geo = lambda a, b: np.degrees(2 * np.arccos(np.clip(np.abs((a * b).sum(-1)), 0, 1)))
 
@@ -104,7 +106,7 @@ try:
             cands, confs, views, flat_lp = [], [], [], []
             for k in VIEWS:
                 xs = [Fz[(kk, setname, k)][torch.as_tensor(r)].to(dev).float() for kk in keys]; views.append((k, xs))
-                with torch.autocast("cuda", dtype=torch.bfloat16):
+                with PR.ctx(args.precision):
                     if family == "tree":
                         c8, p8, sc, _ = fused_beam(ms, xs, "poe", 8, return_all=True)
                         qk = T.decode(c8.cpu().numpy().reshape(-1), p8.cpu().numpy().reshape(-1, 5)).reshape(B, 8, 4); cf = sc.float().cpu().numpy()
@@ -116,7 +118,7 @@ try:
             cand = np.concatenate(cands, 1); conf = np.concatenate(confs, 1)                     # (B,32,4), (B,32)
             if "greedy" in MODES:
                 if family == "tree":
-                    with torch.autocast("cuda", dtype=torch.bfloat16):
+                    with PR.ctx(args.precision):
                         c1, p1 = fused_beam(ms, views[0][1], "poe", 1)
                     res["greedy"].append(T.decode(c1.cpu().numpy(), p1.cpu().numpy()))
                 else:
@@ -126,7 +128,7 @@ try:
                 for vi, (k, xs) in enumerate(views):
                     mk = IP.rotate_label(cand.reshape(-1, 4), np.full(B * 32, float(k)), np.repeat(dray[r], 32, 0), conv) if k else cand.reshape(-1, 4)
                     if family == "tree":
-                        with torch.autocast("cuda", dtype=torch.bfloat16):
+                        with PR.ctx(args.precision):
                             score += tree_lp(ms, xs, mk.reshape(B, 32, 4))
                     else:
                         ai = FG.hard_anchor(torch.as_tensor(mk, dtype=torch.float32, device=dev), G, gname).view(B, 32)
