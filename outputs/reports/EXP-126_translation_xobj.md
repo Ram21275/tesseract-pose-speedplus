@@ -87,7 +87,7 @@ Object-balanced over 5 shapes, 3 seeds, scene units.
 | validation | DINOv3 | orbit mean | **0.061** ± 0.000 | 0.056 | 0.007 |
 | validation | PoE | orbit mean | 0.077 ± 0.000 | 0.065 | 0.008 |
 | test | DINOv3 | box only | 0.958 | 0.983 | 0.105 |
-| test | DINOv3 | orbit mean | **0.062** ± 0.000 | 0.056 | 0.007 |
+| test | DINOv3 | orbit mean | **0.061** ± 0.000 | 0.056 | 0.007 |
 | test | PoE | orbit mean | 0.078 ± 0.000 | 0.067 | 0.009 |
 
 - **Per shape** (test, DINOv3, orbit mean): tet 0.079, cube 0.054, icosa 0.049, cone 0.072, cyl 0.053.

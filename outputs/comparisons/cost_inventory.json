@@ -1,0 +1,204 @@
+{
+  "sources": {
+    "backbones": [
+      "/home/kavinder/.cache/huggingface/hub/models--timm--vit_large_patch16_dinov3.lvd1689m/snapshots/30c1109559f65dea34316b0d4842d35c5771fe11/model.safetensors",
+      "/home/kavinder/.cache/huggingface/hub/models--Ruicheng--moge-2-vitl-normal/snapshots/cb0e8bbd6b1e243589717c78e750b1ba4c093acf/model.pt"
+    ],
+    "detector": "EXP-124_speedplus_detected_official_score/RUN-20261029-145416-seed0",
+    "timing": "EXP-112_locked_recipe_eval_timing/RUN-20261016-231146-seed0/metrics/timing.csv"
+  },
+  "backbones": {
+    "DINOv3 ViT-L/16": {
+      "params": 303079424,
+      "file_MB": 1156.1848068237305
+    },
+    "MoGe-2 ViT-L": {
+      "params": 330901550,
+      "file_MB": 1262.4892272949219
+    }
+  },
+  "heads": {
+    "tree_dino": 2391564,
+    "tree_moge": 2128404,
+    "translation": 331011
+  },
+  "extraction": {
+    "SPEED+|dinov3_vitl16": {
+      "images": 364074,
+      "gpu_h": 2.1947377611111114
+    },
+    "T-LESS|dinov3_vitl16": {
+      "images": 317500,
+      "gpu_h": 2.166213888888889
+    },
+    "YCB-V|dinov3_vitl16": {
+      "images": 386048,
+      "gpu_h": 2.644515361111111
+    },
+    "SPEED+|moge2_vitl": {
+      "images": 364074,
+      "gpu_h": 3.9072821916666673
+    },
+    "YCB-V|moge2_vitl": {
+      "images": 386048,
+      "gpu_h": 4.284056613888889
+    },
+    "SYMSOL-T|dinov3_vitl16": {
+      "images": 440000,
+      "gpu_h": 2.6372500000000003
+    },
+    "T-LESS|moge2_vitl": {
+      "images": 317500,
+      "gpu_h": 3.648663888888889
+    },
+    "SYMSOL-T|moge2_vitl": {
+      "images": 440000,
+      "gpu_h": 3.3532361111111113
+    }
+  },
+  "training_min": {
+    "SPEED+|rotation tree|dinov3": {
+      "n": 3,
+      "median": 13.3295,
+      "min": 12.903500000000001,
+      "max": 15.837833333333332
+    },
+    "SPEED+|rotation tree|moge2": {
+      "n": 3,
+      "median": 5.785833333333333,
+      "min": 5.748500000000001,
+      "max": 5.799666666666667
+    },
+    "SPEED+|distilled student|dinov3": {
+      "n": 6,
+      "median": 39.97933333333333,
+      "min": 27.301,
+      "max": 41.7405
+    },
+    "SPEED+|distilled student|moge2": {
+      "n": 3,
+      "median": 83.56683333333334,
+      "min": 50.986666666666665,
+      "max": 93.87566666666666
+    },
+    "SPEED+|translation (frozen)|moge2": {
+      "n": 3,
+      "median": 4.500666666666667,
+      "min": 4.478,
+      "max": 5.6635
+    },
+    "SPEED+|translation (frozen)|dinov3": {
+      "n": 3,
+      "median": 16.4105,
+      "min": 13.580333333333334,
+      "max": 21.291833333333333
+    },
+    "SPEED+|translation (joint)|dinov3": {
+      "n": 3,
+      "median": 24.9085,
+      "min": 18.676666666666666,
+      "max": 25.694666666666667
+    },
+    "SPEED+|translation (joint)|moge2": {
+      "n": 3,
+      "median": 12.422,
+      "min": 12.295833333333333,
+      "max": 13.772166666666667
+    },
+    "SYMSOL-T|rotation tree|moge2": {
+      "n": 15,
+      "median": 9.108333333333333,
+      "min": 9.026333333333334,
+      "max": 9.325999999999999
+    },
+    "T-LESS|rotation tree|moge2": {
+      "n": 21,
+      "median": 10.577333333333334,
+      "min": 3.3641666666666667,
+      "max": 21.111
+    },
+    "T-LESS|rotation tree|dinov3": {
+      "n": 21,
+      "median": 11.070166666666667,
+      "min": 4.638166666666667,
+      "max": 60.489000000000004
+    },
+    "SYMSOL-T|rotation tree|dinov3": {
+      "n": 15,
+      "median": 7.059666666666667,
+      "min": 6.4775,
+      "max": 7.3566666666666665
+    },
+    "YCB-V|rotation tree|dinov3": {
+      "n": 18,
+      "median": 7.383333333333333,
+      "min": 5.242500000000001,
+      "max": 18.01833333333333
+    },
+    "YCB-V|rotation tree|moge2": {
+      "n": 18,
+      "median": 4.76225,
+      "min": 3.568166666666667,
+      "max": 16.9785
+    },
+    "YCB-V|translation (frozen)|moge2": {
+      "n": 18,
+      "median": 6.914166666666667,
+      "min": 6.254666666666666,
+      "max": 7.706666666666666
+    },
+    "SYMSOL-T|translation (frozen)|moge2": {
+      "n": 15,
+      "median": 5.526,
+      "min": 2.2285,
+      "max": 9.488833333333334
+    },
+    "YCB-V|translation (frozen)|dinov3": {
+      "n": 18,
+      "median": 9.261000000000001,
+      "min": 7.301333333333333,
+      "max": 13.341333333333333
+    },
+    "T-LESS|translation (frozen)|dinov3": {
+      "n": 21,
+      "median": 6.581833333333334,
+      "min": 5.775166666666666,
+      "max": 7.758166666666667
+    },
+    "SYMSOL-T|translation (frozen)|dinov3": {
+      "n": 15,
+      "median": 6.463166666666667,
+      "min": 5.697666666666667,
+      "max": 9.123166666666666
+    },
+    "T-LESS|translation (frozen)|moge2": {
+      "n": 21,
+      "median": 4.974833333333334,
+      "min": 3.5896666666666666,
+      "max": 5.174333333333333
+    }
+  },
+  "checkpoint_MB": {
+    "SPEED+|rotation tree|dinov3": 9.200655937194824,
+    "SPEED+|rotation tree|moge2": 8.384371757507324,
+    "SPEED+|distilled student|dinov3": 9.200655937194824,
+    "SPEED+|distilled student|moge2": 8.384371757507324,
+    "SPEED+|translation (frozen)|moge2": 9.650044441223145,
+    "SPEED+|translation (frozen)|dinov3": 10.466328620910645,
+    "SPEED+|translation (joint)|dinov3": 10.466328620910645,
+    "SPEED+|translation (joint)|moge2": 9.650044441223145,
+    "SYMSOL-T|rotation tree|moge2": 8.395785331726074,
+    "T-LESS|rotation tree|moge2": 8.396212577819824,
+    "T-LESS|rotation tree|dinov3": 9.895907402038574,
+    "SYMSOL-T|rotation tree|dinov3": 9.930514335632324,
+    "YCB-V|rotation tree|dinov3": 9.897738456726074,
+    "YCB-V|rotation tree|moge2": 8.39624309539795,
+    "YCB-V|translation (frozen)|moge2": 9.664326667785645,
+    "SYMSOL-T|translation (frozen)|moge2": 9.663899421691895,
+    "YCB-V|translation (frozen)|dinov3": 11.165852546691895,
+    "T-LESS|translation (frozen)|dinov3": 11.164021492004395,
+    "SYMSOL-T|translation (frozen)|dinov3": 11.198628425598145,
+    "T-LESS|translation (frozen)|moge2": 9.664265632629395
+  },
+  "detector_training_h": 6.317819444444445
+}
