@@ -87,9 +87,8 @@ Every number in the abstract, introduction and conclusion must come from this fi
 
   On SPEED+ (EXP-118), the jointly trained DINOv3 block (orbit mean) gives 0.185/0.183 m on lightbox/sunlamp; the box alone gives 0.55 m.
 - **Detected crops (SPEED+, EXP-124):**
-  - S1 val-selected (vote32): 24.96°/16.90°, score 0.541/0.341;
-  - pre-registered orbit_product: 23.88°/16.42°, 0.523/0.333;
-  - versus GT crops 0.229/0.239 (val-selected) / 0.227/0.224.
+  - S1, pre-registered orbit_product (primary): 23.88°/16.42°, score 0.523/0.333 (vote: 24.96°/16.90°, 0.541/0.341);
+  - versus GT crops 0.227/0.224 (vote 0.229/0.239).
   - The lightbox detector is the bottleneck (IoU 0.76).
 
 ## Headline numbers (val-selected, primary)
@@ -97,10 +96,11 @@ Every number in the abstract, introduction and conclusion must come from this fi
   - Uses **GT translation** for the frame conversion and orbit mapping; EXP-129 is pending.
 - **SYMSOL-T:** DINOv3 + orbit, 2.07°, translation 0.061.
 - **YCB-V:** DINOv3, 1 view, 12.9°, 85% within 10°, translation 1.6 cm. Uses GT translation for the frame conversion only; EXP-129 is pending.
-- **SPEED+:** distilled PoE + vote32 (val-selected):
-  - GT crop: 11.35°/11.91°, score 0.229/0.239;
-  - detected crop: 24.96°/16.90°, score 0.541/0.341.
-  - The pre-registered orbit_product rows are reported as the alternative.
+- **SPEED+ (user decision 2026-10-30: keep the pre-registered orbit scoring rule as primary):** distilled PoE + orbit product:
+  - GT crop: 11.21°/11.09°, score 0.227/0.224;
+  - detected crop: 23.88°/16.42°, score 0.523/0.333.
+  - The weighted vote, which synthetic validation would prefer (3.27 vs 3.69), is reported as the alternative: GT 11.35°/11.91°, 0.229/0.239; detected 24.96°/16.90°, 0.541/0.341.
+  - All other benchmarks keep their validation-selected configurations.
 
 ## Pending (blank cells only)
 - EXP-119 (cross-dataset distillation);

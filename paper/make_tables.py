@@ -506,11 +506,11 @@ def summary_table():
     v = _ob("ycbv_syn", "test", "DINO", "greedy")
     tv = csv("trans_ycbv", "trans_object_balanced"); tv = tv[(tv.split == "test") & (tv.variant == "DINO") & (tv.trans_mode == "greedy")].iloc[0]
     L.append(f"YCB-V (6 obj.) & real + syn. & GT box & DINOv3, 1 view & {v.sym_mean:.1f} & {100 * v.acc10:.0f}\\% & {tv.E_T_mean * 100:.1f}\\,cm & $^\\ddagger$ \\\\")
-    d = csv("distill_poe"); d = {x.domain: x for x in d[(d.family == "tree:teacher_variant=PoE") & (d.variant == "PoE") & (d["mode"] == "orbit_vote32")].itertuples()}
+    d = csv("distill_poe"); d = {x.domain: x for x in d[(d.family == "tree:teacher_variant=PoE") & (d.variant == "PoE") & (d["mode"] == "orbit_product")].itertuples()}
     for crops, key, lab in (("gt", "spp_gt", "GT box"), ("det", "spp_det", "detector")):
-        g = csv(key); g = {x.domain: x for x in g[(g.crops == crops) & g.system.str.startswith("S1") & (g.rot_mode == "orbit_vote32") & (g.trans_mode == "orbit_mean")].itertuples()}
+        g = csv(key); g = {x.domain: x for x in g[(g.crops == crops) & g.system.str.startswith("S1") & (g.rot_mode == "orbit_product") & (g.trans_mode == "orbit_mean")].itertuples()}
         acc = f"{100 * d['lightbox']._asdict()['_8']:.0f}/{100 * d['sunlamp']._asdict()['_8']:.0f}\\%" if crops == "gt" else "--"
-        L.append(f"{'SPEED+ (LB/SL)' if crops == 'gt' else ''} & {'synthetic' if crops == 'gt' else ''} & {lab} & {'dist. PoE, vote' if crops == 'gt' else ''} & "
+        L.append(f"{'SPEED+ (LB/SL)' if crops == 'gt' else ''} & {'synthetic' if crops == 'gt' else ''} & {lab} & {'dist. PoE, orbit$^\\|$' if crops == 'gt' else ''} & "
                  f"{g['lightbox'].E_R_mean_deg:.1f}/{g['sunlamp'].E_R_mean_deg:.1f} & {acc} & {g['lightbox'].E_T_mean_m:.2f}/{g['sunlamp'].E_T_mean_m:.2f}\\,m & "
                  f"{g['lightbox'].score:.3f}/{g['sunlamp'].score:.3f}$^\\S$ \\\\")
     L += [r"\bottomrule", r"\end{tabular}"]
@@ -556,7 +556,7 @@ COMPONENTS = [   # (component, benchmark, matched comparison, metric, without, w
     ("", "SYMSOL-T", "A2 DINOv3, 1 view vs.\\ orbit", "val $E_R$", "2.54", "2.07", "4.7$\\times$", "EXP-106 RUN-20261028-120353"),
     ("", "YCB-V", "DINOv3, 1 view vs.\\ orbit", "val $E_R$", "8.97", "11.53", "4.7$\\times$", "EXP-122 RUN-20261027-200852"),
     ("", "SPEED+", "aug.\\ tree PoE, 1 view vs.\\ orbit", "LB / SL $E_R$", "17.3 / 20.2", "12.3 / 12.3", "4.4$\\times$", "EXP-109 RUN-20261016-014754"),
-    ("Distillation", "SPEED+", "tree vs.\\ student, PoE + orbit (vote)", "LB / SL $E_R$", "12.58 / 12.88", "11.35 / 11.91", "none", "EXP-117 RUN-20261020-114253 (family tree vs tree:teacher_variant=PoE, orbit_vote32)"),
+    ("Distillation", "SPEED+", "tree vs.\\ student, PoE + orbit", "LB / SL $E_R$", "12.30 / 12.25", "11.21 / 11.09", "none", "EXP-117 RUN-20261020-114253 (family tree vs tree:teacher_variant=PoE, orbit_product)"),
     ("Geometry fusion (PoE)", "SPEED+", "DINOv3 vs.\\ PoE, orbit", "LB $E_R$", "17.4", "12.3", "4.0$\\times$", "EXP-113 RUN-20261017-042606; EXP-112"),
     ("", "T-LESS", "DINOv3 vs.\\ PoE, A2 orbit", "val $E_R$", "8.61", "8.28", "4.0$\\times$", "EXP-106 RUN-20261028-221625"),
     ("", "SYMSOL-T", "DINOv3 vs.\\ PoE, A2 orbit", "val $E_R$", "2.07", "2.10", "4.0$\\times$", "EXP-106 RUN-20261028-120353"),
@@ -590,7 +590,7 @@ def spp_sota_table():
     six = csv("sixdof"); s2 = {x.domain: x for x in six[(six.arm == "J_joint") & (six.variant == "PoE") & (six.rot_mode == "orbit_product") & (six.trans_mode == "orbit_mean")].itertuples()}
     def s1(key, crops, mode):
         g = csv(key); return {x.domain: x for x in g[(g.crops == crops) & g.system.str.startswith("S1") & (g.rot_mode == mode) & (g.trans_mode == "orbit_mean")].itertuples()}
-    for mode, lab in (("orbit_vote32", "Ours, val-selected (vote)"), ("orbit_product", "Ours, pre-registered (product)")):
+    for mode, lab in (("orbit_product", "Ours (pre-registered rule)"), ("orbit_vote32", "Ours, weighted vote (val-preferred)")):
         for key, crops, st in (("spp_gt", "gt", "GT crop, frozen, 4 views"), ("spp_det", "det", "synthetic-only detector, frozen, 4 views")):
             if not have(key):
                 L.append(f"{lab} & {st} &  &  &  &  \\\\"); continue

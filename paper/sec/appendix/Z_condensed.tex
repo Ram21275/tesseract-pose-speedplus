@@ -218,7 +218,7 @@ With synthetic training data, orbit voting makes YCB-V validation \emph{worse} f
 % src: outputs/experiments/EXP-122_ycbv_synthetic_training/RUN-20261027-200852-seed0/tables/object_balanced.md; outputs/reports/EXP-064_broader_object_validation.md
 
 \paragraph{Official score.}
-On ground-truth crops the official SPEED+ score is 0.229/0.239 (LB/SL) for S1 with the validation-selected weighted vote and 0.227/0.224 with the pre-registered likelihood product (S1: the distilled PoE students with orbit aggregation plus the jointly trained DINOv3 translation block). The jointly trained 6-DoF PoE model (S2) scores 0.241/0.238. Applying the floor jointly instead of per component changes any per-seed domain score by at most $1.1\times10^{-4}$. The score is dominated by the rotation term (S1 on LB: 0.196 rotation, 0.031 translation).
+On ground-truth crops the official SPEED+ score is 0.227/0.224 (LB/SL) for S1 with the pre-registered likelihood product and 0.229/0.239 with the weighted vote that synthetic validation would prefer (S1: the distilled PoE students with orbit aggregation plus the jointly trained DINOv3 translation block). The jointly trained 6-DoF PoE model (S2) scores 0.241/0.238. Applying the floor jointly instead of per component changes any per-seed domain score by at most $1.1\times10^{-4}$. The score is dominated by the rotation term (S1 on LB: 0.196 rotation, 0.031 translation).
 % src: outputs/experiments/EXP-124_speedplus_detected_official_score/RUN-20261028-231916-seed0/metrics/metrics.csv (score vs score_joint_rule; s_q, s_t components)
 
 \paragraph{Criteria that failed.}

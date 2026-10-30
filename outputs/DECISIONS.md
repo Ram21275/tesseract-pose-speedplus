@@ -278,3 +278,7 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
   - **Others, verified from the CSVs:** T-LESS selects PoE orbit_product; SYMSOL-T selects DINOv3 orbit_product; YCB-V selects DINOv3 greedy.
 - **EXP-129 (pre-registered):** rotation and joint pose on T-LESS and YCB-V with predicted instead of ground-truth translation, in queue17 after queue16.
 - **Unchanged:** the queue order and the locked training recipe.
+- **Amendment 2026-10-30 (user: "use the pre-registered one … keep the previous primary … the other things do not change to pre-registered"):**
+  - SPEED+ keeps the pre-registered orbit scoring rule (likelihood product) as primary: 11.21° / 11.09°, score 0.227 / 0.224; detected 23.88° / 16.42°, 0.523 / 0.333.
+  - The weighted vote that synthetic validation would prefer is reported as the alternative.
+  - T-LESS, SYMSOL-T and YCB-V keep their validation-selected configurations.
