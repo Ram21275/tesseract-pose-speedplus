@@ -55,3 +55,24 @@ Object-balanced over 6 objects, 3 seeds. E_T in cm; T@k in %.
 
 - **Criterion 1: PASS.** DINOv3 validation orbit mean is 3.44 ± 0.33, against 10.70 for box only.
 - **Descriptive:** orbit averaging is worse than view 0, as for YCB-V rotation (EXP-122). Validation selects DINOv3 view 0.
+
+## Results: T-LESS (evaluation `RUN-20261030-085948-seed0`, 2026-10-30)
+Object-balanced over 7 objects, real BOP19 test targets, 3 seeds. E_T in cm (data in mm × 0.1); T@k in %.
+
+| split | variant | mode | E_T mean | median | T@2 | T@5 | T@10 |
+|---|---|---|---|---|---|---|---|
+| validation | DINOv3 | box only | 4.95 | 4.11 | 24.2 | 60.9 | 91.3 |
+| validation | DINOv3 | view 0 | 2.14 ± 0.02 | 1.61 | 59.9 | 92.1 | 99.1 |
+| validation | DINOv3 | orbit mean | **1.85** ± 0.01 | 1.38 | 66.2 | 94.7 | 99.5 |
+| validation | PoE | orbit mean | 1.99 ± 0.01 | 1.46 | 63.8 | 93.6 | 99.0 |
+| test | DINOv3 | box only | 6.28 | 4.14 | 26.6 | 58.5 | 79.8 |
+| test | DINOv3 | view 0 | 2.79 ± 0.04 | 1.90 | 52.7 | 86.2 | 96.2 |
+| test | DINOv3 | orbit mean | **2.57** ± 0.05 | 1.72 | **57.3** | **88.0** | **96.7** |
+| test | PoE | orbit mean | 2.66 ± 0.04 | 1.66 | 58.5 | 87.1 | 96.0 |
+| LiePose, paper Tab. 8, mean over our 7 objects | | | – | – | 68.0 | 88.4 | 95.2 |
+
+- **Criterion 1: PASS.** DINOv3 validation orbit mean is 1.85 ± 0.01, against 4.95 for box only.
+- **Descriptive:**
+  - On T-LESS, orbit averaging beats view 0 on both splits; on YCB-V it does not.
+  - Against LiePose, the validation-selected and primary system (DINOv3, orbit mean) is −10.7 at 2 cm, −0.4 at 5 cm and +1.5 at 10 cm.
+  - The settings differ: LiePose fine-tunes its backbone on all 30 objects and masks the crop with the ground-truth visible mask; we use frozen backbones and ground-truth boxes with no mask.
