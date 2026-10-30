@@ -270,3 +270,11 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
   - the SPEED+-only ablations are labelled as such.
 - **EXP-128 is pre-registered:** `reports/EXP-128_downstream_deployment_quantization.md`. It is queued in queue16 before the EXP-127 trainings.
 - **Translation on the other datasets** is EXP-126. It was pre-registered on 2026-10-28 and is queued in queue15 directly after EXP-124. It was never dropped.
+
+## DEC-028 — Paper reframed as a reusable frozen-backbone pose architecture; validation-selected headlines; EXP-129 (2026-10-30)
+- **Decided by:** the user's reframing brief: general known-object 6D pose with frozen foundation backbones and small trainable heads. SPEED+ is one evaluated application. Validation-selected configurations are the primary results. Ground-truth crops and detected crops are kept separate. Ground-truth translation dependence is disclosed.
+- **Consequences for headlines:**
+  - **SPEED+:** synthetic validation selects orbit_vote32 for the distilled PoE students (3.27 vs 3.69). The primary GT-crop result is therefore 11.35° / 11.91° and score 0.229 / 0.239. The locked recipe's orbit_product (11.21° / 11.09°, 0.227 / 0.224) is reported as the pre-registered alternative.
+  - **Others, verified from the CSVs:** T-LESS selects PoE orbit_product; SYMSOL-T selects DINOv3 orbit_product; YCB-V selects DINOv3 greedy.
+- **EXP-129 (pre-registered):** rotation and joint pose on T-LESS and YCB-V with predicted instead of ground-truth translation, in queue17 after queue16.
+- **Unchanged:** the queue order and the locked training recipe.

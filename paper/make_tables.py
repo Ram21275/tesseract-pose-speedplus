@@ -46,7 +46,7 @@ RUNS = {
     "quant127": E / "EXP-127_hierarchy_vs_flat_same_grid/RUN-20261029-003312-seed0",      # EXP-127 quantization floor (CPU)
     "flat127": None,                                                                   # EXP-127 same-grid / balanced-Hopf flat: queued
     "trans_tless": E / "EXP-126_translation_xobj/RUN-20261030-085948-seed0",
-    "trans_symsolt": None,                                                             # EXP-126 SYMSOL-T: running
+    "trans_symsolt": E / "EXP-126_translation_xobj/RUN-20261030-141752-seed0",
     "trans_ycbv": E / "EXP-126_translation_xobj/RUN-20261030-044920-seed0",
     "deploy128": None,                                                                 # EXP-128 head deployment cost: queued
     "quant128": None,                                                                  # EXP-128 accuracy per precision: queued (dict of runs)

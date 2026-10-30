@@ -23,7 +23,7 @@ import psutil
 REPO = Path(__file__).resolve().parents[1]
 EXP = REPO / "outputs/experiments"
 LOG, ALERTS = EXP / "watchdog.log", EXP / "watchdog_alerts.log"
-QUEUES = {"14": EXP / "queue14.log", "15": EXP / "queue15.log", "16": EXP / "queue16.log"}
+QUEUES = {"14": EXP / "queue14.log", "15": EXP / "queue15.log", "16": EXP / "queue16.log", "17": EXP / "queue17.log"}
 UID = psutil.Process().uids().real
 INTERVAL, STALL_S, PIPE_S = 300, 1800, 900
 cpu_seen: dict[int, tuple[float, float]] = {}      # pid -> (cpu seconds, time of last change)

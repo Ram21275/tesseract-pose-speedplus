@@ -31,6 +31,10 @@ ap.add_argument("--filter", default="", help="k=v,... on the train-run config (m
 ap.add_argument("--variants", default="PoE,DINO")
 ap.add_argument("--tag", default="", help="label stored in every metrics row (arm name)")
 ap.add_argument("--precision", default="bf16", choices=PR.PRECISIONS, help="EXP-128: head inference precision (default = all earlier results)")
+ap.add_argument("--pose-t", default="gt", choices=["gt", "greedy", "orbit_mean"],
+                help="EXP-129: translation used for the allocentric->egocentric conversion and the orbit mapping (gt = all earlier results; "
+                     "greedy / orbit_mean = the run's own EXP-126 translation block, view 0 or orbit mean). Rotation errors are then also "
+                     "reported in the egocentric frame (ego_*), and joint success (rotation <= a deg and E_T <= b cm) when a block exists.")
 args = ap.parse_args()
 ds = args.dataset
 run = Run(args.exp, args.exp_name, {**vars(args), "stage": "eval"}, seed=0)
@@ -113,6 +117,12 @@ try:
                                               "n": int(msk.sum()), "E_T_mean": et[msk].mean(), "E_T_median": np.median(et[msk]),
                                               "e_t_norm_mean": float((et[msk] / np.linalg.norm(tvec[msk], axis=1)).mean()),
                                               **({f"T@{c}cm": float((et[msk] * cm <= c).mean()) for c in (2, 5, 10)} if cm else {})})
+                if args.pose_t != "gt":                                              # EXP-129: no GT translation at test time
+                    assert all(k in HD for k in keys), "--pose-t needs EXP-126 translation blocks"
+                    T0 = TK[0] if args.pose_t == "greedy" else np.mean(TK, 0)
+                else:
+                    T0 = tvec
+                TVm = {k: XO.roll_pose(q_ego, T0, float(k), dray)[1] for k in VIEWS}   # roll_pose's translation part ignores q_ego
                 with torch.no_grad():
                     for s0 in range(0, len(de), 256):
                         r = np.arange(s0, min(s0 + 256, len(de))); B = len(r); cands, confs, views = [], [], []
@@ -121,8 +131,8 @@ try:
                             with PR.ctx(args.precision):
                                 c8, p8, sc, _ = fused_beam(ms, xs, "poe", 8, return_all=True)
                             qk = T.decode(c8.cpu().numpy().reshape(-1), p8.cpu().numpy().reshape(-1, 5)).reshape(B, 8, 4)
-                            cz = qk if k == 0 else XO.roll_target(ds, XO.from_target(ds, qk.reshape(-1, 4), np.repeat(TV[k][r], 8, 0)),
-                                                                  np.repeat(TV[k][r], 8, 0), -float(k), np.repeat(dray[r], 8, 0)).reshape(B, 8, 4)
+                            cz = qk if k == 0 else XO.roll_target(ds, XO.from_target(ds, qk.reshape(-1, 4), np.repeat(TVm[k][r], 8, 0)),
+                                                                  np.repeat(TVm[k][r], 8, 0), -float(k), np.repeat(dray[r], 8, 0)).reshape(B, 8, 4)
                             cands.append(cz); confs.append(sc.float().cpu().numpy())
                         cand = np.concatenate(cands, 1); conf = np.concatenate(confs, 1)
                         if "greedy" in MODES:
@@ -132,7 +142,7 @@ try:
                         if "orbit_product" in MODES:
                             score = np.zeros(cand.shape[:2])
                             for k, xs in views:
-                                tt = np.repeat(tvec[r], 32, 0); dd = np.repeat(dray[r], 32, 0)
+                                tt = np.repeat(T0[r], 32, 0); dd = np.repeat(dray[r], 32, 0)
                                 mk = cand if k == 0 else XO.roll_target(ds, XO.from_target(ds, cand.reshape(-1, 4), tt), tt, float(k), dd).reshape(B, 32, 4)
                                 with PR.ctx(args.precision):
                                     score += tree_lp(ms, xs, mk)
@@ -141,8 +151,12 @@ try:
                             w = np.exp(conf.reshape(B, 4, 8) - conf.reshape(B, 4, 8).max(-1, keepdims=True)); w = (w / w.sum(-1, keepdims=True)).reshape(B, 32)
                             dd2 = geo(cand[:, :, None], cand[:, None]); sup = (np.exp(-0.5 * (dd2 / 5.0) ** 2) * w[:, None, :]).sum(-1)
                             preds["orbit_vote32"].append(cand[np.arange(B), sup.argmax(1)])
+                Reg = np.einsum("nij,sjk->nsik", quat_to_matrix(q_ego), S)
+                def ego_err(qp_t):           # egocentric symmetry-aware error of target-frame predictions converted with T0
+                    c = np.einsum("nij,nsij->ns", quat_to_matrix(XO.from_target(ds, qp_t, T0)), Reg); return np.degrees(np.arccos(np.clip((c.max(1) - 1) / 2, -1, 1)))
+                etj = np.linalg.norm(T0 - tvec, axis=1) * (XO.DATASETS[ds]["t_to_cm"] or np.nan) if args.pose_t != "gt" else None
                 for mode in MODES:
-                    qp = np.concatenate(preds[mode]); es = sym_err(qp); er = geo(qp, qgt)
+                    qp = np.concatenate(preds[mode]); es = sym_err(qp); er = geo(qp, qgt); eg = ego_err(qp)
                     for split in ("validation", "test"):
                         msk = (de.split == split).to_numpy()
                         if not msk.any():
@@ -150,7 +164,9 @@ try:
                         e = es[msk]
                         rows.append({"dataset": ds, "arm": args.tag, "obj": obj, "seed": seed, "variant": variant, "mode": mode, "split": split, "n": int(msk.sum()),
                                      "sym_mean": e.mean(), "sym_median": np.median(e), **{f"sym_acc@{a}": float((e <= a).mean()) for a in (2, 5, 10, 15, 30)},
-                                     "sym_frac_gt90": float((e > 90).mean()), "raw_mean": er[msk].mean()})
+                                     "sym_frac_gt90": float((e > 90).mean()), "raw_mean": er[msk].mean(),
+                                     "ego_mean": eg[msk].mean(), "ego_median": np.median(eg[msk]), **{f"ego_acc@{a}": float((eg[msk] <= a).mean()) for a in (2, 5, 10)},
+                                     **({f"joint@{a}deg{b}cm": float(((eg[msk] <= a) & (etj[msk] <= b)).mean()) for a, b in ((5, 5), (10, 5), (10, 10))} if etj is not None else {})})
                 print(ds, obj, seed, variant, " | ".join(f"{m} {np.mean(sym_err(np.concatenate(preds[m]))):.2f}" for m in MODES), flush=True)
             del MS, FX; torch.cuda.empty_cache()
     if trows:
@@ -163,9 +179,11 @@ try:
     po = per.groupby(["split", "variant", "mode", "obj"]).agg(sym_mean=("sym_mean", "mean"), sym_mean_std=("sym_mean", "std"), sym_median=("sym_median", "mean"),
                                                            acc10=("sym_acc@10", "mean"), raw_mean=("raw_mean", "mean")).reset_index()
     run.write_metrics(po.to_dict("records"), "per_object"); (run.sub("tables") / "per_object.md").write_text(md_table(po.to_dict("records")))
-    ob = per.groupby(["split", "variant", "mode", "seed"])[["sym_mean", "sym_median", "sym_acc@10", "sym_frac_gt90", "raw_mean"]].mean().reset_index()   # object-balanced per seed
+    EXTRA = [c for c in per.columns if c.startswith(("ego_", "joint@"))]                  # EXP-129 columns
+    ob = per.groupby(["split", "variant", "mode", "seed"])[["sym_mean", "sym_median", "sym_acc@10", "sym_frac_gt90", "raw_mean"] + EXTRA].mean().reset_index()   # object-balanced per seed
     agg = ob.groupby(["split", "variant", "mode"]).agg(sym_mean=("sym_mean", "mean"), sym_mean_std=("sym_mean", "std"), sym_median=("sym_median", "mean"),
-                                                    acc10=("sym_acc@10", "mean"), frac_gt90=("sym_frac_gt90", "mean"), raw_mean=("raw_mean", "mean")).reset_index()
+                                                    acc10=("sym_acc@10", "mean"), frac_gt90=("sym_frac_gt90", "mean"), raw_mean=("raw_mean", "mean"),
+                                                    **{c.replace("@", "_at_"): (c, "mean") for c in EXTRA}).reset_index()
     run.write_metrics(agg.to_dict("records"), "object_balanced"); (run.sub("tables") / "object_balanced.md").write_text(md_table(agg.to_dict("records")))
     run.done(); print(md_table(agg.to_dict("records"))); print("RUN", run.rel())
 except Exception:

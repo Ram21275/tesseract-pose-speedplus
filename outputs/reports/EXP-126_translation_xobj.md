@@ -76,3 +76,22 @@ Object-balanced over 7 objects, real BOP19 test targets, 3 seeds. E_T in cm (dat
   - On T-LESS, orbit averaging beats view 0 on both splits; on YCB-V it does not.
   - Against LiePose, the validation-selected and primary system (DINOv3, orbit mean) is −10.7 at 2 cm, −0.4 at 5 cm and +1.5 at 10 cm.
   - The settings differ: LiePose fine-tunes its backbone on all 30 objects and masks the crop with the ground-truth visible mask; we use frozen backbones and ground-truth boxes with no mask.
+
+## Results: SYMSOL-T (evaluation `RUN-20261030-141752-seed0`, 2026-10-30; completed after the 12:05 crash via run_queue15r.sh)
+Object-balanced over 5 shapes, 3 seeds, scene units.
+
+| split | variant | mode | E_T mean | median | e_t / ‖t‖ |
+|---|---|---|---|---|---|
+| validation | DINOv3 | box only | 0.958 | 0.980 | 0.105 |
+| validation | DINOv3 | view 0 | 0.082 ± 0.001 | 0.073 | 0.009 |
+| validation | DINOv3 | orbit mean | **0.061** ± 0.000 | 0.056 | 0.007 |
+| validation | PoE | orbit mean | 0.077 ± 0.000 | 0.065 | 0.008 |
+| test | DINOv3 | box only | 0.958 | 0.983 | 0.105 |
+| test | DINOv3 | orbit mean | **0.062** ± 0.000 | 0.056 | 0.007 |
+| test | PoE | orbit mean | 0.078 ± 0.000 | 0.067 | 0.009 |
+
+- **Per shape** (test, DINOv3, orbit mean): tet 0.079, cube 0.054, icosa 0.049, cone 0.072, cyl 0.053.
+- **Criterion 1: PASS.** Validation orbit mean is 0.061, against 0.958 for box only. On SYMSOL-T the crop is the full frame, so the box carries no position information.
+- **Descriptive:**
+  - LiePose (Tab. 3) reports 0.011–0.016, so it is about 4–5× more accurate, similar to the rotation gap.
+  - Orbit averaging helps, as it does on T-LESS.
