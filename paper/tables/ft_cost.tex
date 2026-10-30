@@ -1,0 +1,14 @@
+\begin{tabular}{@{}l l l l l c l c l@{}}
+\toprule
+Method & Backbone & Backbone in training & Trainable & Schedule (reported) & Backprop passes$^\ddagger$ & Scope & SPEED+ $E_R$ LB / SL & Setting \\
+\midrule
+Church \& Nikolian~\cite{church2026vfm} & DINOv3-H+ (840\,M) & frozen + LoRA & adapters, 0.5--3\% & 30 ep., 448$^2$ & 1.4\,M & 1 target & 1.17 / 1.56 & GT crop, 12 passes \\
+SPNv3-B~\cite{park2026spnv3} & ViT-B (86\,M) & fine-tuned & 86\,M & 30 ep.\ $\times$3 models, 448$^2$ & 4.3\,M & 1 target & 2.03 / 3.40 & GT crop, ensemble \\
+SPNv2~\cite{park2024spnv2} & EfficientDet (12\,M enc.) & trained & $\ge$12\,M & 20 ep., 768$\times$512 & 1.0\,M & 1 target & 6.48 / 11.07 & full image \\
+FastPose-ViT~\cite{ancey2026fastpose} & ViT-B (86\,M) & fine-tuned & 86\,M & 150 ep. & 7.2\,M & 1 target & 12.26 / 18.28 & detector \\
+PAID-ViT~\cite{xie2026paidvit} & ViT-B/16 & end-to-end & n.r. & 90 ep.$^a$, 224$^2$ & 4.3\,M$^a$ & 1 target & 12.29 / 11.76 & crop \\
+frozen DINOv3-L + head~\cite{church2026vfm} & DINOv3-L (303\,M) & frozen & head only & 30 ep., 448$^2$ & 0 & 1 target & 15.47 / 24.49 & GT crop \\
+\midrule
+\textbf{Ours} & DINOv3-L + MoGe-2 (634\,M) & frozen, shared & 4.85\,M$^b$ & 100 ep.\ on cached tokens & 0 & per object & 11.21 / 11.09 & GT crop \\
+\bottomrule
+\end{tabular}

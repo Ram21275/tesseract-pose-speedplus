@@ -578,6 +578,33 @@ def components_table():
     write("components", "\n".join(L))
 
 
+# ---------------------------------------------------------------- adaptation cost vs fine-tuned methods (as reported; derived columns marked)
+# Sources (exact quotes collected 2026-10-30): Church & Nikolian arXiv 2609.26561 (Sec. II, Tab. III); SPNv3 arXiv 2409.11661 (Sec. VI.B.1, Tab. 8);
+# SPNv2 arXiv 2203.04275 (Sec. 5.3, Tab. 4); FastPose-ViT arXiv 2512.09792 (Tab. 1, Sec. 4.1); PAID-ViT arXiv 2606.11619 (Sec. III-B, IV-D);
+# LiePose arXiv 2305.15873 (Suppl. 9.6, Tab. 10; full fine-tuning read from the official code). None reports training wall-clock time.
+N_SPP = 47966
+FT = [  # method, backbone (params), backbone in training, trainable, schedule (reported), backprop image-passes through backbone (derived), scope, accuracy, crop
+    (r"Church \& Nikolian~\cite{church2026vfm}", "DINOv3-H+ (840\\,M)", "frozen + LoRA", "adapters, 0.5--3\\%", "30 ep., 448$^2$", f"{30 * N_SPP / 1e6:.1f}\\,M", "1 target", "1.17 / 1.56", "GT crop, 12 passes"),
+    (r"SPNv3-B~\cite{park2026spnv3}", "ViT-B (86\\,M)", "fine-tuned", "86\\,M", "30 ep.\\ $\\times$3 models, 448$^2$", f"{3 * 30 * N_SPP / 1e6:.1f}\\,M", "1 target", "2.03 / 3.40", "GT crop, ensemble"),
+    (r"SPNv2~\cite{park2024spnv2}", "EfficientDet (12\\,M enc.)", "trained", "$\\ge$12\\,M", "20 ep., 768$\\times$512", f"{20 * N_SPP / 1e6:.1f}\\,M", "1 target", "6.48 / 11.07", "full image"),
+    (r"FastPose-ViT~\cite{ancey2026fastpose}", "ViT-B (86\\,M)", "fine-tuned", "86\\,M", "150 ep.", f"{150 * N_SPP / 1e6:.1f}\\,M", "1 target", "12.26 / 18.28", "detector"),
+    (r"PAID-ViT~\cite{xie2026paidvit}", "ViT-B/16", "end-to-end", "n.r.", "90 ep.$^a$, 224$^2$", f"{90 * N_SPP / 1e6:.1f}\\,M$^a$", "1 target", "12.29 / 11.76", "crop"),
+    (r"frozen DINOv3-L + head~\cite{church2026vfm}", "DINOv3-L (303\\,M)", "frozen", "head only", "30 ep., 448$^2$", "0", "1 target", "15.47 / 24.49", "GT crop"),
+    (r"\textbf{Ours}", "DINOv3-L + MoGe-2 (634\\,M)", "frozen, shared", "4.85\\,M$^b$", "100 ep.\\ on cached tokens", "0", "per object", "11.21 / 11.09", "GT crop"),
+]
+
+
+def ft_table():
+    L = [r"\begin{tabular}{@{}l l l l l c l c l@{}}", r"\toprule",
+         r"Method & Backbone & Backbone in training & Trainable & Schedule (reported) & Backprop passes$^\ddagger$ & Scope & SPEED+ $E_R$ LB / SL & Setting \\", r"\midrule"]
+    for row in FT:
+        if row[0].startswith(r"\textbf{Ours}"):
+            L.append(r"\midrule")
+        L.append(" & ".join(row) + r" \\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("ft_cost", "\n".join(L))
+
+
 def spp_sota_table():
     f = lambda v, d=2: "" if v is None else f"{v:.{d}f}"
     L = [r"\begin{tabular}{@{}l l cc cc@{}}", r"\toprule",
@@ -602,7 +629,7 @@ def spp_sota_table():
 
 
 if __name__ == "__main__":
-    trans_xobj_table(); deploy_tables(); summary_table(); cost_tables(); components_table()
+    trans_xobj_table(); deploy_tables(); summary_table(); cost_tables(); components_table(); ft_table()
     main_table(); flips_table(); sixdof_table(); xds_table(); flat_table(); scoring_table(); augment_table()
     consistency_table(); timing_table(); zeroshot_table()
     sym_table(); tless_sota_table(); symsol_sota_table(); ycbv_table(); spp_sota_table()

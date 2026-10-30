@@ -30,3 +30,29 @@ Note: two evaluation passes of the same base-recipe trees differ in the second d
 
 Figure 1: `make_figure.py` (one SPEED+ lightbox crop).
 - SYMSOL-T leaf-quantisation floor (2.31° mean, post hoc, 2026-10-22): symmetry-aware error of the GT rotation's own depth-5 leaf centre on the SYMSOL-T test set (per shape: cone 2.02, cube 2.50, cyl 2.02, icosa 2.51, tet 2.51), computed with `tfpose.tesseract` + `tfpose.xobj` on the EXP-064 manifests.
+
+## Fine-tuning cost comparison (Tab. ft_cost, Sec. sec:ft), collected 2026-10-30 from primary sources
+**No source reports the training wall-clock time of its pose network.** "Backprop passes" are derived as epochs × 47,966 SPEED+ training images (× models in an ensemble); LiePose's figure is steps × batch.
+
+- **Church & Nikolian** (arXiv 2609.26561):
+  - Sec. II: "30 epochs at batch size 32 … roughly 0.5–3% of total encoder weights … original encoder weights remaining frozen".
+  - Inputs are 448×448.
+  - Tab. III: frozen DINOv3-L head 15.47 / 24.49.
+  - Best result: DINOv3-H+ LoRA, 12 passes, 1.17 / 1.56.
+- **SPNv3** (arXiv 2409.11661):
+  - Sec. VI.B.1: "NVIDIA RTX 4090 … 30 epochs with the batch size 32".
+  - 448×448 input.
+  - Tab. 8: SPNv3-B 86.3M; "† … ensemble of three training sessions".
+- **SPNv2** (arXiv 2203.04275):
+  - Sec. 5.3: "20 epochs … 768 × 512 … ϕ = 3 … roughly 12M parameters … 4 NVIDIA V100 GPUs".
+  - Tab. 4 counts encoder parameters only.
+- **FastPose-ViT** (arXiv 2512.09792):
+  - Tab. 1: ViT-B-384/16, 86.1M.
+  - Sec. 4.1: "150 epochs on SPEED+ … batch size of 8".
+- **PAID-ViT** (arXiv 2606.11619):
+  - Sec. IV-D: "All ablation models are trained for 90 epochs … batch size is 24 per GPU".
+  - ViT-Base/16 at 224×224; parameters not reported.
+- **LiePose** (arXiv 2305.15873):
+  - Suppl. 9.6 / Tab. 10: "pre-trained ResNet34 … T-LESS … batch … 32 … 400k steps" (the official repo config uses batch 64).
+  - Sec. 5.4: "a single model … trained across 30 T-LESS objects".
+  - Full fine-tuning is read from the official code (no frozen layers), not stated in the paper.
