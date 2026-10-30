@@ -484,6 +484,100 @@ def deploy_tables():
     write("deploy_quant", "\n".join(L))
 
 
+# ---------------------------------------------------------------- DEC-028 tables: A (accuracy across applications), B/C (cost), D (components)
+import json as _json
+COST = REPO / "outputs/comparisons/cost_inventory.json"       # scripts/cost_inventory.py
+
+
+def _ob(key, split, variant, mode):
+    m = csv(key, "object_balanced"); return m[(m.split == split) & (m.variant == variant) & (m["mode"] == mode)].iloc[0]
+
+
+def summary_table():
+    """Table A: validation-selected configuration per application (selection verified from the validation rows, DEC-028)."""
+    L = [r"\begin{tabular}{@{}l l l l cc c c@{}}", r"\toprule",
+         r"Application & Train data & Crop & Selected (val) & $E_R$ ($^\circ$) & $\le10^\circ$ / R@10 & $E_T$ & 6D \\", r"\midrule"]
+    t = _ob("tless_A2", "test", "PoE", "orbit_product"); r10 = recall("tless_A2", "PoE", "orbit_product")[2]
+    tt = csv("trans_tless", "trans_object_balanced"); tt = tt[(tt.split == "test") & (tt.variant == "DINO") & (tt.trans_mode == "orbit_mean")].iloc[0]
+    L.append(f"T-LESS (7 obj.) & PBR + real & GT box & PoE, orbit & {t.sym_mean:.1f} & {r10:.1f}\\% & {tt.E_T_mean * 0.1:.1f}\\,cm & $^\\ddagger$ \\\\")
+    y = csv("symsolt_A2", "object_balanced"); y = y[(y.split == "test") & (y.variant == "DINO") & (y["mode"] == "orbit_product")].iloc[0]
+    ty = csv("trans_symsolt", "trans_object_balanced"); ty = ty[(ty.split == "test") & (ty.variant == "DINO") & (ty.trans_mode == "orbit_mean")].iloc[0]
+    L.append(f"SYMSOL-T (5 shapes) & synthetic & full frame & DINOv3, orbit & {y.sym_mean:.2f} & {100 * y.acc10:.0f}\\% & {ty.E_T_mean:.3f}\\,u & -- \\\\")
+    v = _ob("ycbv_syn", "test", "DINO", "greedy")
+    tv = csv("trans_ycbv", "trans_object_balanced"); tv = tv[(tv.split == "test") & (tv.variant == "DINO") & (tv.trans_mode == "greedy")].iloc[0]
+    L.append(f"YCB-V (6 obj.) & real + syn. & GT box & DINOv3, 1 view & {v.sym_mean:.1f} & {100 * v.acc10:.0f}\\% & {tv.E_T_mean * 100:.1f}\\,cm & $^\\ddagger$ \\\\")
+    d = csv("distill_poe"); d = {x.domain: x for x in d[(d.family == "tree:teacher_variant=PoE") & (d.variant == "PoE") & (d["mode"] == "orbit_vote32")].itertuples()}
+    for crops, key, lab in (("gt", "spp_gt", "GT box"), ("det", "spp_det", "detector")):
+        g = csv(key); g = {x.domain: x for x in g[(g.crops == crops) & g.system.str.startswith("S1") & (g.rot_mode == "orbit_vote32") & (g.trans_mode == "orbit_mean")].itertuples()}
+        acc = f"{100 * d['lightbox']._asdict()['_8']:.0f}/{100 * d['sunlamp']._asdict()['_8']:.0f}\\%" if crops == "gt" else "--"
+        L.append(f"{'SPEED+ (LB/SL)' if crops == 'gt' else ''} & {'synthetic' if crops == 'gt' else ''} & {lab} & {'dist. PoE, vote' if crops == 'gt' else ''} & "
+                 f"{g['lightbox'].E_R_mean_deg:.1f}/{g['sunlamp'].E_R_mean_deg:.1f} & {acc} & {g['lightbox'].E_T_mean_m:.2f}/{g['sunlamp'].E_T_mean_m:.2f}\\,m & "
+                 f"{g['lightbox'].score:.3f}/{g['sunlamp'].score:.3f}$^\\S$ \\\\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("summary", "\n".join(L))
+
+
+def cost_tables():
+    c = _json.loads(COST.read_text()); bb = c["backbones"]; h = c["heads"]; tm = c["training_min"]; ck = c["checkpoint_MB"]; ex = c["extraction"]
+    M = lambda n: f"{n / 1e6:.1f}\\,M" if n > 1e7 else f"{n / 1e6:.2f}\\,M"
+    L = [r"\begin{tabular}{@{}l l r r@{}}", r"\toprule", r"Component & Status & Parameters & Storage \\", r"\midrule",
+         f"DINOv3 ViT-L/16 & frozen, shared & {M(bb['DINOv3 ViT-L/16']['params'])} & {bb['DINOv3 ViT-L/16']['file_MB'] / 1024:.2f}\\,GB \\\\",
+         f"MoGe-2 ViT-L (optional) & frozen, shared & {M(bb['MoGe-2 ViT-L']['params'])} & {bb['MoGe-2 ViT-L']['file_MB'] / 1024:.2f}\\,GB \\\\", r"\midrule",
+         f"Rotation tree, DINOv3 branch & trained per object & {M(h['tree_dino'])} & {ck['T-LESS|rotation tree|dinov3']:.1f}\\,MB \\\\",
+         f"Rotation tree, MoGe-2 branch & trained per object & {M(h['tree_moge'])} & {ck['T-LESS|rotation tree|moge2']:.1f}\\,MB \\\\",
+         f"Translation block & trained per object & {M(h['translation'])} & {(h['translation'] * 4) / 2**20:.1f}\\,MB$^*$ \\\\",
+         r"\bottomrule", r"\end{tabular}"]
+    write("cost_params", "\n".join(L))
+    L = [r"\begin{tabular}{@{}l cc cc c@{}}", r"\toprule",
+         r" & \multicolumn{2}{c}{Feature extraction (GPU-h, once)} & \multicolumn{2}{c}{Rotation tree (min/head)} & Translation \\",
+         r"\cmidrule(lr){2-3}\cmidrule(lr){4-5} Application & DINOv3 & MoGe-2 & DINOv3 & MoGe-2 & (min/head) \\", r"\midrule"]
+    for ds in ("T-LESS", "SYMSOL-T", "YCB-V", "SPEED+"):
+        f = lambda k: f"{tm[k]['median']:.0f}" if k in tm else "--"
+        L.append(f"{ds} & {ex[ds + '|dinov3_vitl16']['gpu_h']:.1f} & {ex[ds + '|moge2_vitl']['gpu_h']:.1f} & {f(ds + '|rotation tree|dinov3')} & {f(ds + '|rotation tree|moge2')} & {f(ds + '|translation (frozen)|dinov3')} \\\\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("cost_adapt", "\n".join(L))
+    t = csv("timing", "timing")
+    L = [r"\begin{tabular}{@{}l r rrr r r r@{}}", r"\toprule",
+         r"Configuration & Batch & DINOv3 & MoGe-2 + mask & Head$^\dagger$ & Total (ms/img) & FPS & Peak GPU (GB) \\", r"\midrule"]
+    for sysname, lab in (("A-DINO greedy", "DINOv3, 1 view"), ("A-DINO + orbit", "DINOv3, orbit (4)"), ("A-PoE greedy", "PoE, 1 view"), ("A-PoE + orbit", "PoE, orbit (4)")):
+        for b in (1, 64):
+            r = t[(t.system == sysname) & (t.batch == b)].iloc[0]
+            L.append(f"{lab if b == 1 else ''} & {b} & {r.ms_per_img_dino:.1f} & {r.ms_per_img_moge + r.ms_per_img_moge_post:.1f} & {r.ms_per_img_tree + r.ms_per_img_orbit_scoring:.1f} & "
+                     f"{r.ms_per_img_total:.1f} & {r.fps_or_img_per_s:.1f} & {r.peak_gpu_mb / 1024:.1f} \\\\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("cost_infer", "\n".join(L))
+
+
+COMPONENTS = [   # (component, benchmark, matched comparison, metric, without, with, extra inference) -- verified values; sources in the comment column
+    ("Multi-path targets", "T-LESS", "A0 vs.\\ A2, PoE + orbit", "test R@10 (\\%)", "73.5", "79.0", "none", "EXP-106 RUN-20261027-201558 / RUN-20261028-221625"),
+    ("", "SYMSOL-T", "A0 vs.\\ A2, DINOv3 + orbit", "test $E_R$", "2.62", "2.07", "none", "EXP-106 RUN-20261028-014408 / RUN-20261028-120353"),
+    ("Canonical labels", "SYMSOL-T", "A0 vs.\\ A1, PoE + orbit", "val $E_R$", "2.65", "9.73", "none", "EXP-106 (canonical labels break orbit voting)"),
+    ("Orbit voting", "T-LESS", "A2 PoE, 1 view vs.\\ orbit", "val $E_R$", "10.82", "8.28", "4.4$\\times$", "EXP-106 RUN-20261028-221625; EXP-112"),
+    ("", "SYMSOL-T", "A2 DINOv3, 1 view vs.\\ orbit", "val $E_R$", "2.54", "2.07", "4.7$\\times$", "EXP-106 RUN-20261028-120353"),
+    ("", "YCB-V", "DINOv3, 1 view vs.\\ orbit", "val $E_R$", "8.97", "11.53", "4.7$\\times$", "EXP-122 RUN-20261027-200852"),
+    ("", "SPEED+", "aug.\\ tree PoE, 1 view vs.\\ orbit", "LB / SL $E_R$", "17.3 / 20.2", "12.3 / 12.3", "4.4$\\times$", "EXP-109 RUN-20261016-014754"),
+    ("Distillation", "SPEED+", "tree vs.\\ student, PoE + orbit", "LB / SL $E_R$", "12.3 / 12.3", "11.2 / 11.1", "none", "EXP-117 RUN-20261020-114253"),
+    ("Geometry fusion (PoE)", "SPEED+", "DINOv3 vs.\\ PoE, orbit", "LB $E_R$", "17.4", "12.3", "4.0$\\times$", "EXP-113 RUN-20261017-042606; EXP-112"),
+    ("", "T-LESS", "DINOv3 vs.\\ PoE, A2 orbit", "val $E_R$", "8.61", "8.28", "4.0$\\times$", "EXP-106 RUN-20261028-221625"),
+    ("", "SYMSOL-T", "DINOv3 vs.\\ PoE, A2 orbit", "val $E_R$", "2.07", "2.10", "4.0$\\times$", "EXP-106 RUN-20261028-120353"),
+    ("", "YCB-V", "DINOv3 vs.\\ PoE, 1 view", "val $E_R$", "8.97", "10.52", "4.4$\\times$", "EXP-122 RUN-20261027-200852"),
+    ("Synthetic training data", "YCB-V", "real only vs.\\ + renders, val-selected", "test $E_R$", "69.4", "12.9", "none", "EXP-064 RUN-20261019-224920; EXP-122"),
+    ("Hierarchical tree$^\\P$", "SPEED+", "flat 10,923$\\times$12 Hopf vs.\\ tree, PoE + orbit", "synth.\\ $E_R$", "7.53", "3.87", "--", "EXP-113 RUN-20261017-042606"),
+    ("Translation block", "T-LESS", "box only vs.\\ block (orbit mean)", "test $E_T$ (cm)", "6.3", "2.6", "+0.33\\,M", "EXP-126 RUN-20261030-085948"),
+    ("", "YCB-V", "box only vs.\\ block (1 view)", "test $E_T$ (cm)", "8.1", "1.6", "+0.33\\,M", "EXP-126 RUN-20261030-044920"),
+]
+
+
+def components_table():
+    L = [r"\begin{tabular}{@{}l l l l cc c@{}}", r"\toprule", r"Component & Benchmark & Matched comparison & Metric & Without & With & Extra cost \\", r"\midrule"]
+    for comp, bm, cmpr, met, a, b, cost, src in COMPONENTS:
+        if comp and len(L) > 4:
+            L.append(r"\addlinespace[2pt]")
+        L.append(f"{comp} & {bm} & {cmpr} & {met} & {a} & {b} & {cost} \\\\  % src: {src}")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("components", "\n".join(L))
+
+
 def spp_sota_table():
     f = lambda v, d=2: "" if v is None else f"{v:.{d}f}"
     L = [r"\begin{tabular}{@{}l l cc cc@{}}", r"\toprule",
@@ -494,20 +588,21 @@ def spp_sota_table():
     L.append(r"\midrule")
     t = csv("distill_poe"); r = {x.domain: x for x in t[(t.family == "tree:teacher_variant=PoE") & (t.variant == "PoE") & (t["mode"] == "orbit_product")].itertuples()}
     six = csv("sixdof"); s2 = {x.domain: x for x in six[(six.arm == "J_joint") & (six.variant == "PoE") & (six.rot_mode == "orbit_product") & (six.trans_mode == "orbit_mean")].itertuples()}
-    g = csv("spp_gt"); g = {x.domain: x for x in g[(g.crops == "gt") & g.system.str.startswith("S1") & (g.rot_mode == "orbit_product") & (g.trans_mode == "orbit_mean")].itertuples()}
-    L.append(f"Ours, distilled + orbit & GT crop, frozen, 4 views & {r['lightbox'].mean_deg:.2f} & {r['sunlamp'].mean_deg:.2f} & {g['lightbox'].score:.3f} & {g['sunlamp'].score:.3f} \\\\")
-    L.append(f"Ours, 6-DoF (joint PoE) + orbit & GT crop, frozen, 4 views & {s2['lightbox'].E_R_mean_deg:.2f} & {s2['sunlamp'].E_R_mean_deg:.2f} & {s2['lightbox'].esa_score:.3f} & {s2['sunlamp'].esa_score:.3f} \\\\")
-    if have("spp_det"):
-        dd = csv("spp_det"); dd = {x.domain: x for x in dd[(dd.crops == "det") & dd.system.str.startswith("S1") & (dd.rot_mode == "orbit_product") & (dd.trans_mode == "orbit_mean")].itertuples()}
-        L.append(f"Ours, distilled + orbit & synthetic-only detector, frozen & {dd['lightbox'].E_R_mean_deg:.2f} & {dd['sunlamp'].E_R_mean_deg:.2f} & {dd['lightbox'].score:.3f} & {dd['sunlamp'].score:.3f} \\\\")
-    else:
-        L.append(r"Ours, distilled + orbit & synthetic-only detector, frozen &  &  &  &  \\")
+    def s1(key, crops, mode):
+        g = csv(key); return {x.domain: x for x in g[(g.crops == crops) & g.system.str.startswith("S1") & (g.rot_mode == mode) & (g.trans_mode == "orbit_mean")].itertuples()}
+    for mode, lab in (("orbit_vote32", "Ours, val-selected (vote)"), ("orbit_product", "Ours, pre-registered (product)")):
+        for key, crops, st in (("spp_gt", "gt", "GT crop, frozen, 4 views"), ("spp_det", "det", "synthetic-only detector, frozen, 4 views")):
+            if not have(key):
+                L.append(f"{lab} & {st} &  &  &  &  \\\\"); continue
+            g = s1(key, crops, mode)
+            L.append(f"{lab if crops == 'gt' else ''} & {st} & {g['lightbox'].E_R_mean_deg:.2f} & {g['sunlamp'].E_R_mean_deg:.2f} & {g['lightbox'].score:.3f} & {g['sunlamp'].score:.3f} \\\\")
+    L.append(f"Ours, joint 6-DoF PoE (product) & GT crop, frozen, 4 views & {s2['lightbox'].E_R_mean_deg:.2f} & {s2['sunlamp'].E_R_mean_deg:.2f} & {s2['lightbox'].esa_score:.3f} & {s2['sunlamp'].esa_score:.3f} \\\\")
     L += [r"\bottomrule", r"\end{tabular}"]
     write("spp_sota", "\n".join(L))
 
 
 if __name__ == "__main__":
-    trans_xobj_table(); deploy_tables()
+    trans_xobj_table(); deploy_tables(); summary_table(); cost_tables(); components_table()
     main_table(); flips_table(); sixdof_table(); xds_table(); flat_table(); scoring_table(); augment_table()
     consistency_table(); timing_table(); zeroshot_table()
     sym_table(); tless_sota_table(); symsol_sota_table(); ycbv_table(); spp_sota_table()

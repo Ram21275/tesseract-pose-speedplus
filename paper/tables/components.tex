@@ -1,0 +1,29 @@
+\begin{tabular}{@{}l l l l cc c@{}}
+\toprule
+Component & Benchmark & Matched comparison & Metric & Without & With & Extra cost \\
+\midrule
+Multi-path targets & T-LESS & A0 vs.\ A2, PoE + orbit & test R@10 (\%) & 73.5 & 79.0 & none \\  % src: EXP-106 RUN-20261027-201558 / RUN-20261028-221625
+ & SYMSOL-T & A0 vs.\ A2, DINOv3 + orbit & test $E_R$ & 2.62 & 2.07 & none \\  % src: EXP-106 RUN-20261028-014408 / RUN-20261028-120353
+\addlinespace[2pt]
+Canonical labels & SYMSOL-T & A0 vs.\ A1, PoE + orbit & val $E_R$ & 2.65 & 9.73 & none \\  % src: EXP-106 (canonical labels break orbit voting)
+\addlinespace[2pt]
+Orbit voting & T-LESS & A2 PoE, 1 view vs.\ orbit & val $E_R$ & 10.82 & 8.28 & 4.4$\times$ \\  % src: EXP-106 RUN-20261028-221625; EXP-112
+ & SYMSOL-T & A2 DINOv3, 1 view vs.\ orbit & val $E_R$ & 2.54 & 2.07 & 4.7$\times$ \\  % src: EXP-106 RUN-20261028-120353
+ & YCB-V & DINOv3, 1 view vs.\ orbit & val $E_R$ & 8.97 & 11.53 & 4.7$\times$ \\  % src: EXP-122 RUN-20261027-200852
+ & SPEED+ & aug.\ tree PoE, 1 view vs.\ orbit & LB / SL $E_R$ & 17.3 / 20.2 & 12.3 / 12.3 & 4.4$\times$ \\  % src: EXP-109 RUN-20261016-014754
+\addlinespace[2pt]
+Distillation & SPEED+ & tree vs.\ student, PoE + orbit & LB / SL $E_R$ & 12.3 / 12.3 & 11.2 / 11.1 & none \\  % src: EXP-117 RUN-20261020-114253
+\addlinespace[2pt]
+Geometry fusion (PoE) & SPEED+ & DINOv3 vs.\ PoE, orbit & LB $E_R$ & 17.4 & 12.3 & 4.0$\times$ \\  % src: EXP-113 RUN-20261017-042606; EXP-112
+ & T-LESS & DINOv3 vs.\ PoE, A2 orbit & val $E_R$ & 8.61 & 8.28 & 4.0$\times$ \\  % src: EXP-106 RUN-20261028-221625
+ & SYMSOL-T & DINOv3 vs.\ PoE, A2 orbit & val $E_R$ & 2.07 & 2.10 & 4.0$\times$ \\  % src: EXP-106 RUN-20261028-120353
+ & YCB-V & DINOv3 vs.\ PoE, 1 view & val $E_R$ & 8.97 & 10.52 & 4.4$\times$ \\  % src: EXP-122 RUN-20261027-200852
+\addlinespace[2pt]
+Synthetic training data & YCB-V & real only vs.\ + renders, val-selected & test $E_R$ & 69.4 & 12.9 & none \\  % src: EXP-064 RUN-20261019-224920; EXP-122
+\addlinespace[2pt]
+Hierarchical tree$^\P$ & SPEED+ & flat 10,923$\times$12 Hopf vs.\ tree, PoE + orbit & synth.\ $E_R$ & 7.53 & 3.87 & -- \\  % src: EXP-113 RUN-20261017-042606
+\addlinespace[2pt]
+Translation block & T-LESS & box only vs.\ block (orbit mean) & test $E_T$ (cm) & 6.3 & 2.6 & +0.33\,M \\  % src: EXP-126 RUN-20261030-085948
+ & YCB-V & box only vs.\ block (1 view) & test $E_T$ (cm) & 8.1 & 1.6 & +0.33\,M \\  % src: EXP-126 RUN-20261030-044920
+\bottomrule
+\end{tabular}

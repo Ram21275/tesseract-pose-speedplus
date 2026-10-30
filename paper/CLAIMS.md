@@ -4,8 +4,8 @@ Every number in the abstract, introduction and conclusion must come from this fi
 
 ## C1. Reusable frozen-backbone 6D architecture, small per-object heads (method + measured cost)
 - **What is shared:**
-  - frozen DINOv3 ViT-L/16, 303.1 M parameters, 1.16 GB fp32;
-  - optional frozen MoGe-2 ViT-L, 330.9 M parameters, 1.26 GB;
+  - frozen DINOv3 ViT-L/16, 303.1 M parameters, 1.13 GiB fp32;
+  - optional frozen MoGe-2 ViT-L, 330.9 M parameters, 1.23 GiB;
   - one head architecture, one training recipe, one inference algorithm.
   - Source: `outputs/comparisons/cost_inventory.json` (`scripts/cost_inventory.py`).
 - **What is trained per object:**

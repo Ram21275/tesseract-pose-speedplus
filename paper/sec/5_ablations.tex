@@ -2,6 +2,16 @@
 \label{sec:ablations}
 All ablations use the PoE variant, 3 seeds and the same evaluation run within each table. The training-target ablation runs on the general-object benchmarks (T-LESS, SYMSOL-T). The ablations of the head architecture, the orbit scoring rule and the augmentation were run on the spacecraft application (SPEED+), where the synthetic-to-real shift makes their effects largest; we do not assume that their magnitudes carry over to the other benchmarks.
 
+\begin{table*}[t]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \input{tables/components}
+  \caption{\textbf{Component contributions under matched controls.} Each row changes one component and keeps features, recipe, seeds and evaluation fixed; values are means over 3 seeds ($^\circ$ unless stated; lower is better except recall). Extra cost: end-to-end inference time relative to the configuration without the component (\cref{tab:cost_infer}), or added parameters. $^\P$\,the flat grid has a $6.06^\circ$ quantisation floor against $2.51^\circ$ for the tree, so this row does not isolate hierarchy; the same-grid control is pending (\cref{tab:flat}). Source runs are recorded next to each row in the table generator.}
+  \label{tab:components}
+\end{table*}
+
+\paragraph{Overview (\cref{tab:components}).} The table isolates one component per row. Multi-path targets and the translation block help on every benchmark where they apply, at no or negligible inference cost. Orbit aggregation helps on T-LESS, SYMSOL-T and SPEED+ at about $4\text{--}5\times$ the inference cost, but hurts on YCB-V, so it is an option selected on validation. Geometry fusion is the most application-dependent component: it gives the largest single gain on the nearly symmetric spacecraft, a small gain on T-LESS, and none on SYMSOL-T and YCB-V, at about $4\times$ the cost. Distillation is evaluated only on SPEED+ so far. For the shared architecture this means that the core (frozen DINOv3, hierarchical head, multi-path targets, translation block) transfers across applications, while the expensive options have to be chosen per application.
+
 \begin{table}[t]
   \centering\footnotesize
   \setlength{\tabcolsep}{2.4pt}
@@ -28,7 +38,7 @@ We replace the tree with a count-matched flat classifier over 131,076 Hopf-fibra
 
 This comparison does not isolate hierarchical prediction. With only 12 in-plane rolls, the SPACE-HOP grid alone has a quantisation floor of $6.06^\circ$ on the synthetic-validation rotations, against $2.51^\circ$ for the tree's leaves, so part of the gap is due to the grid. We therefore run a controlled comparison with two further flat heads, trained with the identical recipe and evaluated with identical orbit inference (4 views, top-8 candidates per view, orbit-product scoring). The first classifies the tree's \emph{own} 131,072 leaf centres, and scores an orbit candidate by the probability of its Tesseract cell, exactly as the tree does; only the prediction (hierarchical vs.\ flat) differs. The second classifies a balanced Hopf grid of 1,771 Fibonacci directions $\times$ 74 rolls (131,054 anchors), an alternative discretisation of the same size whose floor ($2.29^\circ$ mean, $3.8^\circ$ max) is \emph{lower} than the tree's ($2.51^\circ$, $5.8^\circ$). Both flat heads have about 33.6\,M output-layer parameters per branch. Their results will fill the blank rows of \cref{tab:flat}; if the same-grid flat head matches the tree, the advantage in the first comparison is due to the grid rather than to hierarchical prediction.
 
-\paragraph{Cost of the output layer.} Measured on the prediction head alone with an earlier version of the architecture, a flat 131k-way head is about $3\times$ faster than the tree's greedy decoding on a large GPU at batch 1 ($0.40$ vs.\ $1.23$\,ms), but $1.5\times$ slower at batch 256, $2.7\times$ slower on a small GPU and $7\times$ slower on one CPU thread. Either head is small compared with the backbone (DINOv3 about 6\,ms per view), so the tree's practical advantage is its size and its behaviour on constrained hardware, not GPU latency. The controlled comparison above also measures head and full-pipeline latency and training and inference memory for all three heads under identical conditions.
+\paragraph{Cost of the output layer.} Measured on the prediction head alone with an earlier version of the architecture, a flat 131k-way head is about $3\times$ faster than the tree's greedy decoding on a large GPU at batch 1 ($0.40$ vs.\ $1.23$\,ms), but $1.5\times$ slower at batch 256, $2.7\times$ slower on a small GPU and $7\times$ slower on one CPU thread. In the full pipeline at batch 1, the autoregressive tree costs about as much as the DINOv3 backbone (7.4 vs.\ 6.4\,ms, \cref{tab:cost_infer}), while at batch 64 it costs 0.1\,ms per image. The tree's established advantages are therefore its size and its behaviour on constrained hardware, not GPU latency at batch 1. The controlled comparison above also measures head and full-pipeline latency and training and inference memory for all three heads under identical conditions.
 
 \begin{table}[t]
   \centering\small

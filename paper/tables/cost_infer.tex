@@ -1,0 +1,14 @@
+\begin{tabular}{@{}l r rrr r r r@{}}
+\toprule
+Configuration & Batch & DINOv3 & MoGe-2 + mask & Head$^\dagger$ & Total (ms/img) & FPS & Peak GPU (GB) \\
+\midrule
+DINOv3, 1 view & 1 & 6.4 & 0.0 & 7.4 & 14.7 & 68.1 & 2.4 \\
+ & 64 & 2.4 & 0.0 & 0.1 & 2.9 & 346.8 & 3.1 \\
+DINOv3, orbit (4) & 1 & 26.3 & 0.0 & 40.0 & 69.6 & 14.4 & 2.4 \\
+ & 64 & 9.6 & 0.0 & 1.0 & 12.1 & 82.4 & 3.1 \\
+PoE, 1 view & 1 & 6.9 & 41.2 & 14.1 & 64.0 & 15.6 & 2.8 \\
+ & 64 & 2.4 & 45.3 & 0.3 & 50.0 & 20.0 & 28.2 \\
+PoE, orbit (4) & 1 & 28.1 & 164.9 & 76.4 & 278.5 & 3.6 & 2.8 \\
+ & 64 & 9.9 & 185.5 & 2.7 & 206.8 & 4.8 & 28.2 \\
+\bottomrule
+\end{tabular}
