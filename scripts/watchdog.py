@@ -85,7 +85,7 @@ def tick():
     qproc = {}
     for p in procs:
         cl = " ".join(p.info["cmdline"] or [])
-        m = re.fullmatch(r"bash scripts/run_queue(\d+)\.sh", cl)
+        m = re.fullmatch(r"bash scripts/run_queue(\d+)r?\.sh", cl)
         if m:
             qproc[m.group(1)] = p
     gp = gpu_pids(); t = time.time(); status = []
