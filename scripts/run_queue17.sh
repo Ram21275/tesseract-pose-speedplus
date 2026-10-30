@@ -12,7 +12,7 @@ echo "=== $(date +%T) queue17 starts"
 exp129() { local ds=$1 t
   for t in gt greedy orbit_mean; do echo ">>> $(date +%T) EXP-129 $ds pose-t $t"
     R $PY scripts/exp064_eval.py --dataset $ds --exp EXP-129 --exp-name rotation_with_predicted_translation --runs-dir EXP-126_translation_xobj \
-      --filter trans=frozen --tag pose_t_$t --pose-t $t || return 1; done; }
+      --filter trans=frozen --tag pose_t_$t --pose-t $t --pose-t-variant DINO || return 1; done; }
 block EXP-129-tless exp129 tless
 block EXP-129-ycbv exp129 ycbv
 echo "=== $(date +%T) QUEUE17_DONE"

@@ -35,6 +35,8 @@ ap.add_argument("--pose-t", default="gt", choices=["gt", "greedy", "orbit_mean"]
                 help="EXP-129: translation used for the allocentric->egocentric conversion and the orbit mapping (gt = all earlier results; "
                      "greedy / orbit_mean = the run's own EXP-126 translation block, view 0 or orbit mean). Rotation errors are then also "
                      "reported in the egocentric frame (ego_*), and joint success (rotation <= a deg and E_T <= b cm) when a block exists.")
+ap.add_argument("--pose-t-variant", default="same", choices=["same", "DINO"],
+                help="EXP-129: translation branch(es) for --pose-t (same = the rotation variant's branches; DINO = the DINOv3 block only)")
 args = ap.parse_args()
 ds = args.dataset
 run = Run(args.exp, args.exp_name, {**vars(args), "stage": "eval"}, seed=0)
@@ -97,16 +99,17 @@ try:
                     _, xk = featsets.load_rows(sp, f"exp064_{ds}_eval_r{k}", e_ev); FX[(sp, k)] = featsets.standardize_to_tensor(xk, None, "cpu", torch.float16, stats=st)
             for variant, keys in VAR:
                 ms = [MS[k] for k in keys]; preds = {m: [] for m in MODES}
-                if all(k in HD for k in keys):                                       # EXP-126: translation, view 0 and orbit mean
+                tkeys = (SD,) if args.pose_t_variant == "DINO" else keys                # EXP-129: translation branch(es)
+                if all(k in HD for k in tkeys):                                      # EXP-126: translation, view 0 and orbit mean
                     W_, H_ = XO.DATASETS[ds]["img_wh"]; box = (de.crop_cx.to_numpy(), de.crop_cy.to_numpy(), de.crop_side.to_numpy(), de.crop_side.to_numpy())
                     TK = []
                     with torch.no_grad():
                         for k in VIEWS:
                             u = np.concatenate([sum((HD[kk][0](MS[kk].encode(FX[(kk, k)][s0:s0 + 512].to(dev).float())).float().cpu().numpy()
-                                                     * HD[kk][1]["u_sd"] + HD[kk][1]["u_mu"]) for kk in keys) / len(keys) for s0 in range(0, len(de), 512)])
+                                                     * HD[kk][1]["u_sd"] + HD[kk][1]["u_mu"]) for kk in tkeys) / len(tkeys) for s0 in range(0, len(de), 512)])
                             tk = TR.from_u(u, K, *box, W_, H_)
                             TK.append(tk if k == 0 else XO.roll_pose(q_ego, tk, -float(k), dray)[1])   # back to view 0
-                    tb = TR.from_u(np.stack([np.zeros(len(de)), np.zeros(len(de)), np.full(len(de), np.mean([HD[kk][1]["uz_train_mean"] for kk in keys]))], 1), K, *box, W_, H_)
+                    tb = TR.from_u(np.stack([np.zeros(len(de)), np.zeros(len(de)), np.full(len(de), np.mean([HD[kk][1]["uz_train_mean"] for kk in tkeys]))], 1), K, *box, W_, H_)
                     cm = XO.DATASETS[ds]["t_to_cm"]
                     for tmode, tp in (("greedy", TK[0]), ("orbit_mean", np.mean(TK, 0)), ("box_only", tb)):
                         et = np.linalg.norm(tp - tvec, axis=1)
@@ -118,7 +121,7 @@ try:
                                               "e_t_norm_mean": float((et[msk] / np.linalg.norm(tvec[msk], axis=1)).mean()),
                                               **({f"T@{c}cm": float((et[msk] * cm <= c).mean()) for c in (2, 5, 10)} if cm else {})})
                 if args.pose_t != "gt":                                              # EXP-129: no GT translation at test time
-                    assert all(k in HD for k in keys), "--pose-t needs EXP-126 translation blocks"
+                    assert all(k in HD for k in tkeys), "--pose-t needs EXP-126 translation blocks"
                     T0 = TK[0] if args.pose_t == "greedy" else np.mean(TK, 0)
                 else:
                     T0 = tvec

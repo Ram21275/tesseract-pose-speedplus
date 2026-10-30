@@ -28,5 +28,9 @@ SPEED+ and SYMSOL-T use egocentric targets, and their roll axis is the crop-cent
    - YCB-V: DINOv3 greedy, with greedy translation.
 3. **Paper headline:** the configuration that uses no ground-truth information at test time becomes the primary rotation result for T-LESS and YCB-V, whatever the outcome. GT-translation results are kept as an upper reference, clearly labelled.
 
+## Amendment 2026-10-30 (before any run)
+- **Translation source:** always the **DINOv3** translation block (`--pose-t-variant DINO`). This is the validation-selected translation branch on T-LESS and YCB-V (EXP-126) and the pairing used in the paper's Table A. Without the amendment, the PoE rotation variant would have averaged the DINOv3 and MoGe-2 blocks.
+- **Code change:** the default (`same`) keeps every earlier evaluation unchanged.
+
 ## Results
 Not run.

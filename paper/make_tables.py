@@ -556,7 +556,7 @@ COMPONENTS = [   # (component, benchmark, matched comparison, metric, without, w
     ("", "SYMSOL-T", "A2 DINOv3, 1 view vs.\\ orbit", "val $E_R$", "2.54", "2.07", "4.7$\\times$", "EXP-106 RUN-20261028-120353"),
     ("", "YCB-V", "DINOv3, 1 view vs.\\ orbit", "val $E_R$", "8.97", "11.53", "4.7$\\times$", "EXP-122 RUN-20261027-200852"),
     ("", "SPEED+", "aug.\\ tree PoE, 1 view vs.\\ orbit", "LB / SL $E_R$", "17.3 / 20.2", "12.3 / 12.3", "4.4$\\times$", "EXP-109 RUN-20261016-014754"),
-    ("Distillation", "SPEED+", "tree vs.\\ student, PoE + orbit", "LB / SL $E_R$", "12.3 / 12.3", "11.2 / 11.1", "none", "EXP-117 RUN-20261020-114253"),
+    ("Distillation", "SPEED+", "tree vs.\\ student, PoE + orbit (vote)", "LB / SL $E_R$", "12.58 / 12.88", "11.35 / 11.91", "none", "EXP-117 RUN-20261020-114253 (family tree vs tree:teacher_variant=PoE, orbit_vote32)"),
     ("Geometry fusion (PoE)", "SPEED+", "DINOv3 vs.\\ PoE, orbit", "LB $E_R$", "17.4", "12.3", "4.0$\\times$", "EXP-113 RUN-20261017-042606; EXP-112"),
     ("", "T-LESS", "DINOv3 vs.\\ PoE, A2 orbit", "val $E_R$", "8.61", "8.28", "4.0$\\times$", "EXP-106 RUN-20261028-221625"),
     ("", "SYMSOL-T", "DINOv3 vs.\\ PoE, A2 orbit", "val $E_R$", "2.07", "2.10", "4.0$\\times$", "EXP-106 RUN-20261028-120353"),

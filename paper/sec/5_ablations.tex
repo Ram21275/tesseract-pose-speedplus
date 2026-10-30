@@ -6,7 +6,7 @@ All ablations use the PoE variant, 3 seeds and the same evaluation run within ea
   \centering\footnotesize
   \setlength{\tabcolsep}{4pt}
   \input{tables/components}
-  \caption{\textbf{Component contributions under matched controls.} Each row changes one component and keeps features, recipe, seeds and evaluation fixed; values are means over 3 seeds ($^\circ$ unless stated; lower is better except recall). Extra cost: end-to-end inference time relative to the configuration without the component (\cref{tab:cost_infer}), or added parameters. $^\P$\,the flat grid has a $6.06^\circ$ quantisation floor against $2.51^\circ$ for the tree, so this row does not isolate hierarchy; the same-grid control is pending (\cref{tab:flat}). Source runs are recorded next to each row in the table generator.}
+  \caption{\textbf{Component contributions under matched controls.} Each row changes one component and keeps features, recipe, seeds and evaluation fixed; values are means over 3 seeds ($^\circ$ unless stated; lower is better except recall). Extra cost: end-to-end inference time relative to the configuration without the component, measured on SPEED+ crops (\cref{tab:cost_infer}; the roll-homography warp used for T-LESS and YCB-V is not timed), or added parameters. $^\P$\,the flat grid has a $6.06^\circ$ quantisation floor against $2.51^\circ$ for the tree, so this row does not isolate hierarchy; the same-grid control is pending (\cref{tab:flat}). Source runs are recorded next to each row in the table generator.}
   \label{tab:components}
 \end{table*}
 
