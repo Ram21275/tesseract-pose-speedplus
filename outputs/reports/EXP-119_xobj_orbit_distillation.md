@@ -37,3 +37,26 @@ Teachers: 2 variants × 3 seeds × 12 objects, small. Students: 108 trees, about
 
 ## Runs / Results / Decision
 Not started.
+
+## Results: SYMSOL-T (2026-10-31)
+- **Evaluation runs:**
+  - PoE students: `RUN-20261031-112902-seed0`;
+  - DINOv3 students: `RUN-20261031-120353-seed0`.
+- **Base:** EXP-106 A2 (`RUN-20261028-120353`).
+- **Format:** object-balanced over 5 shapes, 3 seeds; symmetry-aware mean in degrees ± seed std.
+
+| variant | inference | base val | student val | base test | student test |
+|---|---|---|---|---|---|
+| DINOv3 | greedy | 2.539 ± 0.009 | **2.520** ± 0.005 | 2.565 | 2.527 |
+| DINOv3 | orbit_product | **2.071** ± 0.003 | 2.156 ± 0.003 | **2.067** | 2.167 |
+| PoE | greedy | 2.717 ± 0.011 | **2.629** ± 0.010 | 2.714 | 2.621 |
+| PoE | orbit_product | **2.100** ± 0.007 | 2.264 ± 0.004 | **2.107** | 2.265 |
+
+- **Criterion 1: PASS for both variants, but small.**
+  - DINOv3 (primary): Δ 0.019 > 0.009.
+  - PoE: Δ 0.088 > 0.011.
+- **Descriptive:**
+  - **Retention** = (base greedy − student greedy) / (base greedy − base orbit): DINOv3 4%, PoE 14%.
+  - **Unlike on SPEED+, the students are a worse base for orbit aggregation:** student + orbit is 0.085 (DINOv3) and 0.164 (PoE) worse than base + orbit on validation.
+  - **Validation selection is unchanged:** SYMSOL-T keeps the base A2 DINOv3 + orbit (2.071 validation, 2.067 test).
+- **Evaluator note:** first live run of `exp064_eval.py` after the EXP-129 `--pose-t` edit. The `gt` code path is unchanged in effect (T0 = tvec), SYMSOL-T uses egocentric targets, and the values fall in the range of the base trees.

@@ -40,7 +40,8 @@ RUNS = {
     "symsolt_A0": E / "EXP-106_tless_multipath_tree/RUN-20261028-014408-seed0",
     "symsolt_A1": E / "EXP-106_tless_multipath_tree/RUN-20261028-041345-seed0",
     "symsolt_A2": E / "EXP-106_tless_multipath_tree/RUN-20261028-120353-seed0",
-    "symsolt_A2D": None,                                                               # EXP-119 SYMSOL-T: queued
+    "symsolt_A2D": E / "EXP-119_xobj_orbit_distillation/RUN-20261031-112902-seed0",      # EXP-119 SYMSOL-T, PoE students
+    "symsolt_A2D_dino": E / "EXP-119_xobj_orbit_distillation/RUN-20261031-120353-seed0", # EXP-119 SYMSOL-T, DINOv3 students
     "spp_gt": E / "EXP-124_speedplus_detected_official_score/RUN-20261028-231916-seed0",  # EXP-124 GT-crop reference (S1)
     "spp_det": E / "EXP-124_speedplus_detected_official_score/RUN-20261029-232454-seed0",  # EXP-124 detected crops (S1)
     "quant127": E / "EXP-127_hierarchy_vs_flat_same_grid/RUN-20261029-003312-seed0",      # EXP-127 quantization floor (CPU)
@@ -389,7 +390,7 @@ def symsol_sota_table():
     L = [r"\begin{tabular}{@{}l " + "c" * (len(shapes) + 1) + r"@{}}", r"\toprule", "Method & " + " & ".join(shapes) + r" & avg. \\", r"\midrule"]
     L.append("LiePose~\\cite{hsiao2024liepose} & " + " & ".join(f"{v:.2f}" for v in LIEPOSE_SYMSOLT.values()) + f" & {np.mean(list(LIEPOSE_SYMSOLT.values())):.2f} \\\\")
     L.append(r"\midrule")
-    for k, name in (("symsolt_A0", "Ours, A0 + orbit"), ("symsolt_A2", "Ours, A2 + orbit"), ("symsolt_A2D", "Ours, A2 + distill.\\ + orbit")):
+    for k, name in (("symsolt_A0", "Ours, A0 + orbit"), ("symsolt_A2", "Ours, A2 + orbit"), ("symsolt_A2D_dino", "Ours, A2 + distill.\\ + orbit")):
         if have(k):
             p = csv(k, "per_object"); p = p[(p.split == "test") & (p.variant == "DINO") & (p["mode"] == "orbit_product")].set_index("obj").sym_mean
             L.append(f"{name} & " + " & ".join(f"{p[s_]:.2f}" for s_ in shapes) + f" & {p[shapes].mean():.2f} \\\\")
@@ -557,6 +558,7 @@ COMPONENTS = [   # (component, benchmark, matched comparison, metric, without, w
     ("", "YCB-V", "DINOv3, 1 view vs.\\ orbit", "val $E_R$", "8.97", "11.53", "4.7$\\times$", "EXP-122 RUN-20261027-200852"),
     ("", "SPEED+", "aug.\\ tree PoE, 1 view vs.\\ orbit", "LB / SL $E_R$", "17.3 / 20.2", "12.3 / 12.3", "4.4$\\times$", "EXP-109 RUN-20261016-014754"),
     ("Distillation", "SPEED+", "tree vs.\\ student, PoE + orbit", "LB / SL $E_R$", "12.30 / 12.25", "11.21 / 11.09", "none", "EXP-117 RUN-20261020-114253 (family tree vs tree:teacher_variant=PoE, orbit_product)"),
+    ("", "SYMSOL-T", "A2 tree vs.\\ student, DINOv3, 1 view / orbit", "val $E_R$", "2.54 / 2.07", "2.52 / 2.16", "none", "EXP-119 RUN-20261031-120353 vs EXP-106 RUN-20261028-120353"),
     ("Geometry fusion (PoE)", "SPEED+", "DINOv3 vs.\\ PoE, orbit", "LB $E_R$", "17.4", "12.3", "4.0$\\times$", "EXP-113 RUN-20261017-042606; EXP-112"),
     ("", "T-LESS", "DINOv3 vs.\\ PoE, A2 orbit", "val $E_R$", "8.61", "8.28", "4.0$\\times$", "EXP-106 RUN-20261028-221625"),
     ("", "SYMSOL-T", "DINOv3 vs.\\ PoE, A2 orbit", "val $E_R$", "2.07", "2.10", "4.0$\\times$", "EXP-106 RUN-20261028-120353"),

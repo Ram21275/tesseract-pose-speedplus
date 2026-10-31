@@ -8,7 +8,7 @@
 \item \textbf{Hierarchy vs.\ grid.} The flat-baseline comparison of \cref{sec:abl_flat} uses a coarser grid than the tree; the same-grid control is still running, so the share of the gain due to hierarchical prediction is not yet established.
 \item \textbf{Quantisation floor.} The depth-5 leaf quantisation ($2.51^\circ$ mean) bounds fine accuracy for asymmetric objects. Our best synthetic SPEED+ errors ($3.3$--$3.7^\circ$) are close to it, and it caps fine-threshold recall on T-LESS. A continuous refinement on top of the selected mode is a natural next step; the refiners we tried helped only on synthetic data (\cref{sec:supp_negative}).
 \item \textbf{Cost.} The heads are small, but the system is not: the two backbones hold 634\,M parameters, feature extraction is the dominant adaptation cost, orbit aggregation multiplies inference cost by about 4.5, and the geometry branch by about 4. Head-only latency and reduced-precision accuracy are not yet measured. Timings come from a shared GPU and are upper bounds.
-\item \textbf{Distillation} has so far been evaluated only on SPEED+; its cross-dataset evaluation is running.
+\item \textbf{Distillation} helps on SPEED+, but on SYMSOL-T it improves the single view only slightly (validation $2.54^\circ\to2.52^\circ$) and makes the orbit system worse ($2.07^\circ\to2.16^\circ$); its T-LESS evaluation is running.
 \end{itemize}
 
 \section{Conclusion}
