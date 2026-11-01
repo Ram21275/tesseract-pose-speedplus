@@ -60,3 +60,27 @@ Not started.
   - **Unlike on SPEED+, the students are a worse base for orbit aggregation:** student + orbit is 0.085 (DINOv3) and 0.164 (PoE) worse than base + orbit on validation.
   - **Validation selection is unchanged:** SYMSOL-T keeps the base A2 DINOv3 + orbit (2.071 validation, 2.067 test).
 - **Evaluator note:** first live run of `exp064_eval.py` after the EXP-129 `--pose-t` edit. The `gt` code path is unchanged in effect (T0 = tvec), SYMSOL-T uses egocentric targets, and the values fall in the range of the base trees.
+
+## Results: T-LESS (2026-11-01)
+- **Evaluation runs:**
+  - PoE students: `RUN-20261101-065144-seed0`;
+  - DINOv3 students: `RUN-20261101-071036-seed0`.
+- **Base:** EXP-106 A2 (`RUN-20261028-221625`).
+- **Format:** object-balanced over 7 objects, real BOP19 test targets, 3 seeds; symmetry-aware mean in degrees ± seed std.
+
+| variant | inference | base val | student val | base test | student test |
+|---|---|---|---|---|---|
+| DINOv3 | greedy | 10.893 ± 0.076 | **10.111** ± 0.032 | 16.11 | 15.42 |
+| DINOv3 | orbit_product | 8.609 ± 0.015 | **7.970** ± 0.051 | 16.06 | 14.98 |
+| PoE | greedy | 10.818 ± 0.110 | **10.076** ± 0.103 | 15.71 | 15.20 |
+| PoE | orbit_product | 8.282 ± 0.045 | **7.875** ± 0.096 | 15.19 | **14.50** |
+
+- **Criterion 1: PASS for both variants.**
+  - DINOv3 (primary): Δ 0.78 > 0.076.
+  - PoE: Δ 0.74 > 0.110.
+- **Descriptive:**
+  - **Retention** = (base greedy − student greedy) / (base greedy − base orbit): DINOv3 34%, PoE 30%.
+  - **Unlike on SYMSOL-T, the students are also a better base for orbit aggregation:** PoE 8.28 → 7.88 on validation, 15.19 → 14.50 on test.
+  - **Test recall** (PoE + orbit) at 2/5/10° is 6.5 / 48.1→50.8 / 79.0→80.4, against 5.7 / 48.1 / 79.0 for A2.
+  - **Validation selection:** T-LESS now selects distilled PoE + orbit (7.875 validation).
+- **Overall:** distillation transfers to SPEED+ and T-LESS but not to SYMSOL-T.

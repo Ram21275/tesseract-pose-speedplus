@@ -36,7 +36,7 @@ RUNS = {
     "tless_A0": E / "EXP-106_tless_multipath_tree/RUN-20261027-201558-seed0",
     "tless_A1": E / "EXP-106_tless_multipath_tree/RUN-20261027-232339-seed0",
     "tless_A2": E / "EXP-106_tless_multipath_tree/RUN-20261028-221625-seed0",
-    "tless_A2D": None,                                                                 # EXP-119 T-LESS: queued
+    "tless_A2D": E / "EXP-119_xobj_orbit_distillation/RUN-20261101-065144-seed0",       # EXP-119 T-LESS, PoE students
     "symsolt_A0": E / "EXP-106_tless_multipath_tree/RUN-20261028-014408-seed0",
     "symsolt_A1": E / "EXP-106_tless_multipath_tree/RUN-20261028-041345-seed0",
     "symsolt_A2": E / "EXP-106_tless_multipath_tree/RUN-20261028-120353-seed0",
@@ -498,9 +498,9 @@ def summary_table():
     """Table A: validation-selected configuration per application (selection verified from the validation rows, DEC-028)."""
     L = [r"\begin{tabular}{@{}l l l l cc c c@{}}", r"\toprule",
          r"Application & Train data & Crop & Selected (val) & $E_R$ ($^\circ$) & $\le10^\circ$ / R@10 & $E_T$ & 6D \\", r"\midrule"]
-    t = _ob("tless_A2", "test", "PoE", "orbit_product"); r10 = recall("tless_A2", "PoE", "orbit_product")[2]
+    t = _ob("tless_A2D", "test", "PoE", "orbit_product"); r10 = recall("tless_A2D", "PoE", "orbit_product")[2]   # val-selected: distilled students
     tt = csv("trans_tless", "trans_object_balanced"); tt = tt[(tt.split == "test") & (tt.variant == "DINO") & (tt.trans_mode == "orbit_mean")].iloc[0]
-    L.append(f"T-LESS (7 obj.) & PBR + real & GT box & PoE, orbit & {t.sym_mean:.1f} & {r10:.1f}\\% & {tt.E_T_mean * 0.1:.1f}\\,cm & $^\\ddagger$ \\\\")
+    L.append(f"T-LESS (7 obj.) & PBR + real & GT box & dist.\\ PoE, orbit & {t.sym_mean:.1f} & {r10:.1f}\\% & {tt.E_T_mean * 0.1:.1f}\\,cm & $^\\ddagger$ \\\\")
     y = csv("symsolt_A2", "object_balanced"); y = y[(y.split == "test") & (y.variant == "DINO") & (y["mode"] == "orbit_product")].iloc[0]
     ty = csv("trans_symsolt", "trans_object_balanced"); ty = ty[(ty.split == "test") & (ty.variant == "DINO") & (ty.trans_mode == "orbit_mean")].iloc[0]
     L.append(f"SYMSOL-T (5 shapes) & synthetic & full frame & DINOv3, orbit & {y.sym_mean:.2f} & {100 * y.acc10:.0f}\\% & {ty.E_T_mean:.3f}\\,u & -- \\\\")
@@ -558,6 +558,7 @@ COMPONENTS = [   # (component, benchmark, matched comparison, metric, without, w
     ("", "YCB-V", "DINOv3, 1 view vs.\\ orbit", "val $E_R$", "8.97", "11.53", "4.7$\\times$", "EXP-122 RUN-20261027-200852"),
     ("", "SPEED+", "aug.\\ tree PoE, 1 view vs.\\ orbit", "LB / SL $E_R$", "17.3 / 20.2", "12.3 / 12.3", "4.4$\\times$", "EXP-109 RUN-20261016-014754"),
     ("Distillation", "SPEED+", "tree vs.\\ student, PoE + orbit", "LB / SL $E_R$", "12.30 / 12.25", "11.21 / 11.09", "none", "EXP-117 RUN-20261020-114253 (family tree vs tree:teacher_variant=PoE, orbit_product)"),
+    ("", "T-LESS", "A2 tree vs.\\ student, PoE, 1 view / orbit", "val $E_R$", "10.82 / 8.28", "10.08 / 7.88", "none", "EXP-119 RUN-20261101-065144 vs EXP-106 RUN-20261028-221625"),
     ("", "SYMSOL-T", "A2 tree vs.\\ student, DINOv3, 1 view / orbit", "val $E_R$", "2.54 / 2.07", "2.52 / 2.16", "none", "EXP-119 RUN-20261031-120353 vs EXP-106 RUN-20261028-120353"),
     ("Geometry fusion (PoE)", "SPEED+", "DINOv3 vs.\\ PoE, orbit", "LB $E_R$", "17.4", "12.3", "4.0$\\times$", "EXP-113 RUN-20261017-042606; EXP-112"),
     ("", "T-LESS", "DINOv3 vs.\\ PoE, A2 orbit", "val $E_R$", "8.61", "8.28", "4.0$\\times$", "EXP-106 RUN-20261028-221625"),
