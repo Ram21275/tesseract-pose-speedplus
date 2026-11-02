@@ -5,7 +5,7 @@
 set -u; cd "$(dirname "$0")/.."
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 PY=.venv/bin/python; X=EXP-127_hierarchy_vs_flat_same_grid; TAGS=exp109_train_aug1+exp109_train_aug2
-G() { GUARD_GPU_GB=${GG:-16} scripts/guarded.sh ${GMEM:-56} -- "$@" 2>&1 | grep -v -i warn | grep -v nn.Transformer; return ${PIPESTATUS[0]}; }
+G() { GUARD_GPU_GB=${GG:-12} scripts/guarded.sh ${GMEM:-56} -- "$@" 2>&1 | grep -v -i warn | grep -v nn.Transformer; return ${PIPESTATUS[0]}; }
 R() { local i; for i in $(seq 1 12); do G "$@" && return 0; echo "RETRY $i $(date +%T)"; sleep 900; done; return 1; }   # shared GPU: patient retries
 block() { local name=$1; shift; echo "=== $(date +%T) BLOCK $name"; if "$@"; then echo "=== $(date +%T) BLOCK_DONE $name"; else echo "=== $(date +%T) BLOCK_FAILED $name"; return 1; fi; }
 until grep -q QUEUE15_DONE outputs/experiments/queue15.log 2>/dev/null && grep -q QUEUE14_DONE outputs/experiments/queue14.log 2>/dev/null; do sleep 120; done
