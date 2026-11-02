@@ -5,8 +5,8 @@
 set -u; cd "$(dirname "$0")/.."
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 PY=.venv/bin/python; X=EXP-127_hierarchy_vs_flat_same_grid; TAGS=exp109_train_aug1+exp109_train_aug2
-G() { GUARD_GPU_GB=${GG:-8} scripts/guarded.sh ${GMEM:-56} -- "$@" 2>&1 | grep -v -i warn | grep -v nn.Transformer; return ${PIPESTATUS[0]}; }
-R() { local i; for i in 1 2 3; do G "$@" && return 0; echo "RETRY $i $(date +%T)"; sleep 600; done; return 1; }
+G() { GUARD_GPU_GB=${GG:-16} scripts/guarded.sh ${GMEM:-56} -- "$@" 2>&1 | grep -v -i warn | grep -v nn.Transformer; return ${PIPESTATUS[0]}; }
+R() { local i; for i in $(seq 1 12); do G "$@" && return 0; echo "RETRY $i $(date +%T)"; sleep 900; done; return 1; }   # shared GPU: patient retries
 block() { local name=$1; shift; echo "=== $(date +%T) BLOCK $name"; if "$@"; then echo "=== $(date +%T) BLOCK_DONE $name"; else echo "=== $(date +%T) BLOCK_FAILED $name"; return 1; fi; }
 until grep -q QUEUE15_DONE outputs/experiments/queue15.log 2>/dev/null && grep -q QUEUE14_DONE outputs/experiments/queue14.log 2>/dev/null; do sleep 120; done
 echo "=== $(date +%T) queue16 starts (queue14 and queue15 done)"
@@ -32,17 +32,21 @@ sources() { { echo "# EXP-127 source checkpoints (sha256  path)"
     [[ -f $d/checkpoints/best.pt ]] && grep -qE 'tokens8|normals16~and' $d/config.yaml && grep -q 'exp109_train_aug1,exp109_train_aug2' $d/config.yaml && sha256sum $d/checkpoints/best.pt
   done; cp outputs/experiments/exp109_convention.txt outputs/experiments/$X/exp109_convention.txt; } > outputs/experiments/$X/source_checkpoints.txt; }
 
+# done128 PATTERN...: true if a completed EXP-128 run's command line contains every pattern (resume after the 2026-11-01 GPU loss)
+done128() { local d c ok; for d in outputs/experiments/EXP-128_downstream_deployment_quantization/RUN-*; do
+  grep -q '"completed"' $d/status.json 2>/dev/null || continue; c=$(cat $d/command.txt); ok=1
+  for pat in "$@"; do [[ "$c" == *"$pat"* ]] || { ok=0; break; }; done; [[ $ok == 1 ]] && return 0; done; return 1; }
 exp128() { local p q=EXP-128; local N="--exp $q --exp-name downstream_deployment_quantization"
   for p in fp32 fp16 int8w; do echo ">>> $(date +%T) EXP-128 precision $p"
-    R $PY scripts/orbit_eval.py --exp ${q}_downstream_deployment_quantization --precision $p --modes greedy,orbit_product --variants PoE \
+    done128 "--precision $p " "--variants PoE" || R $PY scripts/orbit_eval.py --exp ${q}_downstream_deployment_quantization --precision $p --modes greedy,orbit_product --variants PoE \
       --families tree:EXP-117_orbit_distillation:$TAGS:teacher_variant=PoE || return 1
-    R $PY scripts/orbit_eval.py --exp ${q}_downstream_deployment_quantization --precision $p --modes greedy,orbit_product --variants DINO \
+    done128 "--precision $p " "--variants DINO" || R $PY scripts/orbit_eval.py --exp ${q}_downstream_deployment_quantization --precision $p --modes greedy,orbit_product --variants DINO \
       --families tree:EXP-117_orbit_distillation:$TAGS:teacher_variant=DINO || return 1
-    R $PY scripts/exp064_eval.py --dataset tless $N --runs-dir EXP-106_tless_multipath_tree --filter label=multi --tag A2_$p --precision $p --modes greedy,orbit_product || return 1
-    R $PY scripts/exp064_eval.py --dataset symsolt $N --runs-dir EXP-106_tless_multipath_tree --filter label=multi --tag A2_$p --precision $p --modes greedy,orbit_product || return 1
-    R $PY scripts/exp064_eval.py --dataset ycbv $N --runs-dir EXP-122_ycbv_synthetic_training --tag B_$p --precision $p --modes greedy,orbit_product || return 1
+    done128 "--dataset tless" "--tag A2_$p " || R $PY scripts/exp064_eval.py --dataset tless $N --runs-dir EXP-106_tless_multipath_tree --filter label=multi --tag A2_$p --precision $p --modes greedy,orbit_product || return 1
+    done128 "--dataset symsolt" "--tag A2_$p " || R $PY scripts/exp064_eval.py --dataset symsolt $N --runs-dir EXP-106_tless_multipath_tree --filter label=multi --tag A2_$p --precision $p --modes greedy,orbit_product || return 1
+    done128 "--dataset ycbv" "--tag B_$p " || R $PY scripts/exp064_eval.py --dataset ycbv $N --runs-dir EXP-122_ycbv_synthetic_training --tag B_$p --precision $p --modes greedy,orbit_product || return 1
   done
-  R $PY scripts/exp128_deploy.py; }
+  done128 "exp128_deploy.py" || R $PY scripts/exp128_deploy.py; }
 
 block EXP-128 exp128
 block EXP-127-smoke smoke && block EXP-127-train train && block EXP-127-eval evaluate && block EXP-127-timing timing && block EXP-127-sources sources
