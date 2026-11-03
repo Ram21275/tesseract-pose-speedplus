@@ -23,7 +23,8 @@ Geometry fusion (PoE) & SPEED+ & DINOv3 vs.\ PoE, orbit & LB $E_R$ & 17.4 & 12.3
 \addlinespace[2pt]
 Synthetic training data & YCB-V & real only vs.\ + renders, val-selected & test $E_R$ & 69.4 & 12.9 & none \\  % src: EXP-064 RUN-20261019-224920; EXP-122
 \addlinespace[2pt]
-Hierarchical tree$^\P$ & SPEED+ & flat 10,923$\times$12 Hopf vs.\ tree, PoE + orbit & synth.\ $E_R$ & 7.53 & 3.87 & -- \\  % src: EXP-113 RUN-20261017-042606
+Hierarchical tree & SPEED+ & flat, same 131,072 leaves vs.\ tree, PoE + orbit & synth.\ $E_R$ & 5.34 & 3.87 & $\approx14\times$ fewer params \\  % src: EXP-127 RUN-20261103-143538
+ & SPEED+ & flat, balanced Hopf 1771$\times$74 vs.\ tree, PoE + orbit & synth.\ $E_R$ & 5.28 & 3.87 &  \\  % src: EXP-127 RUN-20261103-143538
 \addlinespace[2pt]
 Translation block & T-LESS & box only vs.\ block (orbit mean) & test $E_T$ (cm) & 6.3 & 2.6 & +0.33\,M \\  % src: EXP-126 RUN-20261030-085948
  & YCB-V & box only vs.\ block (1 view) & test $E_T$ (cm) & 8.1 & 1.6 & +0.33\,M \\  % src: EXP-126 RUN-20261030-044920

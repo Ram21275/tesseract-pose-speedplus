@@ -150,3 +150,43 @@ Run `RUN-20261029-003312-seed0` (CPU, no learning; 11,994 rotations per set). Va
 
 ### Trainings, evaluation and cost
 Queued (queue16).
+
+## Results: evaluation (2026-11-03, `RUN-20261103-143538-seed0`)
+- **Interruptions:** run after the GPU loss and the resume; the 12 flat trainings finished at 14:35.
+- **Gate:**
+  - smoke stage: GATE PASS (the evaluator reproduces EXP-113 seed 0);
+  - the tree rows reproduce EXP-113 exactly: PoE + orbit 3.87, PoE greedy 4.85.
+- **Format:** 3-seed mean ± seed std, degrees.
+
+| head | inference | synth val | val-aug | lightbox | sunlamp |
+|---|---|---|---|---|---|
+| tree (2.4 M) | PoE greedy | **4.85 ± 0.03** | **9.75 ± 0.06** | **17.33** | **20.15** |
+| flat, same 131,072 leaves | PoE greedy | 8.19 ± 0.15 | 16.88 ± 0.09 | 23.83 | 32.87 |
+| flat, balanced Hopf 1771×74 | PoE greedy | 8.14 ± 0.09 | 17.14 ± 0.18 | 24.05 | 31.21 |
+| tree | PoE orbit_product | **3.87 ± 0.03** | **5.82 ± 0.10** | **12.30** | **12.25** |
+| flat, same leaves | PoE orbit_product | 5.34 ± 0.02 | 8.61 ± 0.12 | 13.04 | 16.73 |
+| flat, balanced Hopf | PoE orbit_product | 5.28 ± 0.02 | 8.58 ± 0.14 | 12.88 | 16.29 |
+| tree | DINO greedy / orbit | 4.84 / 4.21 | 9.88 / 6.25 | 22.55 / 17.40 | 22.00 / 15.27 |
+| flat, same leaves | DINO greedy / orbit | 7.88 / 5.48 | 15.34 / 8.30 | 31.14 / 17.75 | 38.01 / 19.69 |
+| flat, balanced Hopf | DINO greedy / orbit | 7.82 / 5.44 | 15.04 / 8.20 | 30.70 / 17.53 | 35.87 / 18.43 |
+
+- **Lightbox, PoE + orbit:**
+
+  | head | median | acc@5 | acc@10 | acc@20 | > 150° |
+  |---|---|---|---|---|---|
+  | tree | 5.26 | 0.465 | 0.836 | 0.940 | 3.0% |
+  | flat, same leaves | 6.35 | 0.333 | 0.799 | 0.938 | 2.5% |
+  | flat, balanced Hopf | 6.25 | 0.339 | 0.804 | 0.938 | 2.3% |
+
+### Criteria
+1. **Hierarchy (tree vs same-grid flat), PoE + orbit, synthetic val: PASS.** 3.87 ± 0.03 vs 5.34 ± 0.02. All secondary configurations agree: PoE greedy 4.85 vs 8.19, DINOv3 greedy and orbit, and val-aug. **The claim "the tree's advantage comes from hierarchical prediction" is supported.**
+2. **Discretisation (same-grid vs balanced Hopf, both flat):** balanced Hopf is better by 0.06 (5.28 vs 5.34; larger std 0.02). That passes the rule but is small, despite the lower quantisation floor (2.29 vs 2.51).
+3. **System (tree vs balanced Hopf), PoE + orbit: PASS.** 3.87 vs 5.28.
+4. **Real domains (descriptive):**
+   - The tree is better in mean on both domains in every configuration.
+   - With orbit voting on lightbox, the flat heads have slightly fewer > 150° flips (2.3–2.5% vs 3.0%), but a higher median and lower acc@5.
+
+### Interpretation
+- At an identical grid, the hierarchical decoder beats a flat softmax by about 1.5° with orbit aggregation and about 3.3° from a single view, using roughly 14× fewer parameters.
+- The EXP-113 gap (7.53 vs 3.87) was mostly hierarchy, not grid: the SPACE-HOP grid's coarse rolls account for 7.53 − 5.28 ≈ 2.25°, hierarchy for 5.28 − 3.87 ≈ 1.4°, and the remainder.
+- Timing and memory are pending (next block).

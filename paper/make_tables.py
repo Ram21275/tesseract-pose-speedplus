@@ -45,7 +45,7 @@ RUNS = {
     "spp_gt": E / "EXP-124_speedplus_detected_official_score/RUN-20261028-231916-seed0",  # EXP-124 GT-crop reference (S1)
     "spp_det": E / "EXP-124_speedplus_detected_official_score/RUN-20261029-232454-seed0",  # EXP-124 detected crops (S1)
     "quant127": E / "EXP-127_hierarchy_vs_flat_same_grid/RUN-20261029-003312-seed0",      # EXP-127 quantization floor (CPU)
-    "flat127": None,                                                                   # EXP-127 same-grid / balanced-Hopf flat: queued
+    "flat127": E / "EXP-127_hierarchy_vs_flat_same_grid/RUN-20261103-143538-seed0",   # EXP-127 eval
     "trans_tless": E / "EXP-126_translation_xobj/RUN-20261030-085948-seed0",
     "trans_symsolt": E / "EXP-126_translation_xobj/RUN-20261030-141752-seed0",
     "trans_ycbv": E / "EXP-126_translation_xobj/RUN-20261030-044920-seed0",
@@ -598,7 +598,8 @@ COMPONENTS = [   # (component, benchmark, matched comparison, metric, without, w
     ("", "SYMSOL-T", "DINOv3 vs.\\ PoE, A2 orbit", "val $E_R$", "2.07", "2.10", "4.0$\\times$", "EXP-106 RUN-20261028-120353"),
     ("", "YCB-V", "DINOv3 vs.\\ PoE, 1 view", "val $E_R$", "8.97", "10.52", "4.4$\\times$", "EXP-122 RUN-20261027-200852"),
     ("Synthetic training data", "YCB-V", "real only vs.\\ + renders, val-selected", "test $E_R$", "69.4", "12.9", "none", "EXP-064 RUN-20261019-224920; EXP-122"),
-    ("Hierarchical tree$^\\P$", "SPEED+", "flat 10,923$\\times$12 Hopf vs.\\ tree, PoE + orbit", "synth.\\ $E_R$", "7.53", "3.87", "--", "EXP-113 RUN-20261017-042606"),
+    ("Hierarchical tree", "SPEED+", "flat, same 131,072 leaves vs.\\ tree, PoE + orbit", "synth.\\ $E_R$", "5.34", "3.87", "$\\approx14\\times$ fewer params", "EXP-127 RUN-20261103-143538"),
+    ("", "SPEED+", "flat, balanced Hopf 1771$\\times$74 vs.\\ tree, PoE + orbit", "synth.\\ $E_R$", "5.28", "3.87", "", "EXP-127 RUN-20261103-143538"),
     ("Translation block", "T-LESS", "box only vs.\\ block (orbit mean)", "test $E_T$ (cm)", "6.3", "2.6", "+0.33\\,M", "EXP-126 RUN-20261030-085948"),
     ("", "YCB-V", "box only vs.\\ block (1 view)", "test $E_T$ (cm)", "8.1", "1.6", "+0.33\\,M", "EXP-126 RUN-20261030-044920"),
 ]

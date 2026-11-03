@@ -34,7 +34,7 @@ This section compares the shared design with published results on the three gene
   \centering\footnotesize
   \setlength{\tabcolsep}{4pt}
   \input{tables/tless_sota}
-  \caption{\textbf{T-LESS}, real BOP19 test targets of our 7 objects. Symmetry-aware rotation recall (\%) at 2/5/10$^\circ$ and mean error, PoE variant, 3 seeds. LiePose numbers are its per-object results (Tab.~8 of~\cite{hsiao2024liepose}) averaged over the same 7 objects; it fine-tunes its backbone jointly on all 30 objects and multiplies the crop by the ground-truth visible mask. Ours: frozen backbones, ground-truth box, no mask; continuous symmetries (objects 1 and 4) are discretised in $10^\circ$ steps for the error, which can add up to $5^\circ$ for those objects. A0/A1/A2: single, canonical and multi-path targets (\cref{sec:symtarget}). Blank cells: runs not yet completed.}
+  \caption{\textbf{T-LESS}, real BOP19 test targets of our 7 objects. Symmetry-aware rotation recall (\%) at 2/5/10$^\circ$ and mean error, PoE variant, 3 seeds. LiePose numbers are its per-object results (Tab.~8 of~\cite{hsiao2024liepose}) averaged over the same 7 objects; it fine-tunes its backbone jointly on all 30 objects and multiplies the crop by the ground-truth visible mask. Ours: frozen backbones, ground-truth box, no mask; continuous symmetries (objects 1 and 4) are discretised in $10^\circ$ steps for the error, which can add up to $5^\circ$ for those objects. A0/A1/A2: single, canonical and multi-path targets (\cref{sec:symtarget}).}
   \label{tab:tless_sota}
 \end{table}
 
@@ -42,7 +42,7 @@ This section compares the shared design with published results on the three gene
   \centering\footnotesize
   \setlength{\tabcolsep}{3.5pt}
   \resizebox{\linewidth}{!}{\input{tables/symsol_sota}}
-  \caption{\textbf{SYMSOL-T} test, symmetry-aware mean rotation error ($^\circ$) per shape. Ours: DINOv3 variant (selected on validation), orbit voting, 3 seeds. LiePose: SE(3) model, Tab.~3 of~\cite{hsiao2024liepose}. Blank cells: runs not yet completed.}
+  \caption{\textbf{SYMSOL-T} test, symmetry-aware mean rotation error ($^\circ$) per shape. Ours: DINOv3 variant (selected on validation), orbit voting, 3 seeds. LiePose: SE(3) model, Tab.~3 of~\cite{hsiao2024liepose}.}
   \label{tab:symsol_sota}
 \end{table}
 
@@ -66,7 +66,7 @@ This section compares the shared design with published results on the three gene
   \centering\footnotesize
   \setlength{\tabcolsep}{3pt}
   \resizebox{\linewidth}{!}{\input{tables/trans_xobj}}
-  \caption{\textbf{Translation on general objects}, real test sets, ground-truth boxes. Translation recall (\%) within 2/5/10\,cm and mean error (cm; SYMSOL-T in scene units). Box only: the translation implied by the ground-truth box and the training-mean depth scale; ours: the DINOv3 translation block on the frozen selected tree (\cref{sec:sixdof_method}), from the original view or averaged over the 4 orbit views. 3 seeds. LiePose: average over the same 7 T-LESS objects (Tab.~8 of~\cite{hsiao2024liepose}). SYMSOL-T is in scene units, so only the mean distance is reported. Blank cells: runs not yet completed.}
+  \caption{\textbf{Translation on general objects}, real test sets, ground-truth boxes. Translation recall (\%) within 2/5/10\,cm and mean error (cm; SYMSOL-T in scene units). Box only: the translation implied by the ground-truth box and the training-mean depth scale; ours: the DINOv3 translation block on the frozen selected tree (\cref{sec:sixdof_method}), from the original view or averaged over the 4 orbit views. 3 seeds. LiePose: average over the same 7 T-LESS objects (Tab.~8 of~\cite{hsiao2024liepose}). SYMSOL-T is in scene units, so only the mean distance is reported.}
   \label{tab:trans_xobj}
 \end{table}
 
@@ -80,7 +80,7 @@ We now apply the same design, unchanged, to spacecraft pose estimation for auton
   \centering\small
   \setlength{\tabcolsep}{3.5pt}
   \input{tables/spp_sota}
-  \caption{\textbf{SPEED+ real domains} (lightbox LB, sunlamp SL): mean rotation error and the official SPEED+ score (rotation error in radians plus normalised translation error, averaged over images; lower is better). Published values as reported by each source. $^*$\,uses real or unlabelled test-domain images during training or adaptation. $^\dagger$\,ensemble of 3 models. Settings differ (detector or ground-truth crop, fine-tuned or frozen backbone), so only rows with the same setting are matched comparisons. Blank cells: runs not yet completed.}
+  \caption{\textbf{SPEED+ real domains} (lightbox LB, sunlamp SL): mean rotation error and the official SPEED+ score (rotation error in radians plus normalised translation error, averaged over images; lower is better). Published values as reported by each source. $^*$\,uses real or unlabelled test-domain images during training or adaptation. $^\dagger$\,ensemble of 3 models. Settings differ (detector or ground-truth crop, fine-tuned or frozen backbone), so only rows with the same setting are matched comparisons.}
   \label{tab:spp_sota}
 \end{table*}
 

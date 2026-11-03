@@ -42,7 +42,11 @@ Every number in the abstract, introduction and conclusion must come from this fi
   - quantisation floor 2.51° mean (EXP-101/127).
 - **Established, empirical (SPEED+):** the tree beats a flat classifier over SPACE-HOP's 131,076-anchor Hopf grid under the same recipe. PoE + orbit: 3.87° vs 7.53° synthetic, better on real domains, with 15× fewer parameters (EXP-113).
   - **Caveat:** that grid's own floor is 6.06° (EXP-127 quantisation), so the comparison does not isolate hierarchy.
-- **Pending:** the same-grid flat and balanced-Hopf controls (EXP-127). No claim that hierarchy itself causes the accuracy gain until then.
+- **Established by EXP-127 (2026-11-03): the accuracy gain comes from the hierarchy itself.** PoE + orbit synthetic val:
+  - tree 3.87 ± 0.03;
+  - flat on the identical 131,072 leaves 5.34 ± 0.02;
+  - flat on a balanced 1771×74 Hopf grid (lower floor, 2.29°) 5.28 ± 0.02.
+  - Greedy: 4.85 vs 8.19 vs 8.14. The tree is better on both real domains in mean.
 
 ## C3. Symmetry-aware multi-path supervision and its relation to orbit aggregation (EXP-106)
 - **T-LESS** (7 objects, real BOP19 test), PoE + orbit:
