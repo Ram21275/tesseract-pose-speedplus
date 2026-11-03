@@ -1,0 +1,5 @@
+tless	outputs/experiments/FIG-qualitative_qualitative_figures/RUN-20261103-233949-seed0
+ycbv	outputs/experiments/FIG-qualitative_qualitative_figures/RUN-20261103-235247-seed0
+symsolt	outputs/experiments/FIG-qualitative_qualitative_figures/RUN-20261103-235636-seed0
+speedplus_gt	outputs/experiments/FIG-qualitative_qualitative_figures/RUN-20261104-000830-seed0
+speedplus_det	outputs/experiments/FIG-qualitative_qualitative_figures/RUN-20261104-001739-seed0

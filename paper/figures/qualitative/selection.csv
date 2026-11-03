@@ -1,0 +1,119 @@
+figure,column,row,image,E_R_deg,E_R_greedy_deg,E_T
+tless_quantiles,1,10th pct,test_primesense/000005/rgb/000208.png,2.56,4.41,2.5 cm
+tless_quantiles,1,median,test_primesense/000020/rgb/000327.png,5.46,2.53,0.5 cm
+tless_quantiles,1,90th pct,test_primesense/000020/rgb/000260.png,75.31,21.43,1.2 cm
+tless_quantiles,1,worst,test_primesense/000020/rgb/000482.png,174.21,166.45,8.5 cm
+tless_quantiles,4,10th pct,test_primesense/000020/rgb/000398.png,2.46,2.46,1.5 cm
+tless_quantiles,4,median,test_primesense/000009/rgb/000179.png,4.95,5.31,3.6 cm
+tless_quantiles,4,90th pct,test_primesense/000018/rgb/000092.png,22.59,29.12,7.1 cm
+tless_quantiles,4,worst,test_primesense/000018/rgb/000391.png,173.02,167.4,26.8 cm
+tless_quantiles,5,10th pct,test_primesense/000004/rgb/000000.png,2.02,6.03,2.6 cm
+tless_quantiles,5,median,test_primesense/000004/rgb/000058.png,4.39,4.39,1.6 cm
+tless_quantiles,5,90th pct,test_primesense/000004/rgb/000078.png,8.14,4.31,1.3 cm
+tless_quantiles,5,worst,test_primesense/000002/rgb/000434.png,88.44,82.91,0.2 cm
+tless_quantiles,11,10th pct,test_primesense/000003/rgb/000459.png,2.51,8.87,3.0 cm
+tless_quantiles,11,median,test_primesense/000016/rgb/000238.png,4.61,4.37,0.4 cm
+tless_quantiles,11,90th pct,test_primesense/000016/rgb/000275.png,14.32,87.36,0.4 cm
+tless_quantiles,11,worst,test_primesense/000006/rgb/000442.png,154.53,45.85,14.3 cm
+tless_quantiles,18,10th pct,test_primesense/000003/rgb/000024.png,2.81,7.05,1.5 cm
+tless_quantiles,18,median,test_primesense/000003/rgb/000088.png,6.14,3.78,1.8 cm
+tless_quantiles,18,90th pct,test_primesense/000007/rgb/000478.png,21.13,16.06,3.0 cm
+tless_quantiles,18,worst,test_primesense/000019/rgb/000494.png,178.52,175.35,1.2 cm
+tless_quantiles,21,10th pct,test_primesense/000008/rgb/000263.png,3.01,3.01,0.5 cm
+tless_quantiles,21,median,test_primesense/000008/rgb/000228.png,7.48,8.28,0.2 cm
+tless_quantiles,21,90th pct,test_primesense/000013/rgb/000084.png,164.83,138.42,7.7 cm
+tless_quantiles,21,worst,test_primesense/000010/rgb/000020.png,178.89,1.94,1.0 cm
+tless_quantiles,27,10th pct,test_primesense/000005/rgb/000493.png,1.99,3.23,2.7 cm
+tless_quantiles,27,median,test_primesense/000005/rgb/000239.png,4.01,3.87,1.2 cm
+tless_quantiles,27,90th pct,test_primesense/000005/rgb/000025.png,8.34,18.94,4.4 cm
+tless_quantiles,27,worst,test_primesense/000015/rgb/000427.png,134.78,73.76,2.7 cm
+ycbv_quantiles,003_cracker_box,10th pct,data/0054/001389-color.jpg,1.87,1.87,1.4 cm
+ycbv_quantiles,003_cracker_box,median,data/0050/000831-color.jpg,4.11,4.11,2.7 cm
+ycbv_quantiles,003_cracker_box,90th pct,data/0054/000032-color.jpg,7.95,7.95,0.5 cm
+ycbv_quantiles,003_cracker_box,worst,data/0054/000524-color.jpg,98.06,98.06,0.5 cm
+ycbv_quantiles,006_mustard_bottle,10th pct,data/0052/000343-color.jpg,2.12,2.12,0.9 cm
+ycbv_quantiles,006_mustard_bottle,median,data/0050/001389-color.jpg,3.88,3.88,0.3 cm
+ycbv_quantiles,006_mustard_bottle,90th pct,data/0050/000315-color.jpg,6.77,6.77,0.5 cm
+ycbv_quantiles,006_mustard_bottle,worst,data/0050/000076-color.jpg,179.83,179.83,0.6 cm
+ycbv_quantiles,011_banana,10th pct,data/0050/001485-color.jpg,2.09,2.09,0.6 cm
+ycbv_quantiles,011_banana,median,data/0050/001564-color.jpg,5.88,5.88,0.3 cm
+ycbv_quantiles,011_banana,90th pct,data/0056/000260-color.jpg,13.93,13.93,9.6 cm
+ycbv_quantiles,011_banana,worst,data/0056/000598-color.jpg,176.2,176.2,2.2 cm
+ycbv_quantiles,025_mug,10th pct,data/0048/001854-color.jpg,2.05,2.05,1.7 cm
+ycbv_quantiles,025_mug,median,data/0048/001195-color.jpg,4.55,4.55,1.9 cm
+ycbv_quantiles,025_mug,90th pct,data/0048/001576-color.jpg,13.27,13.27,2.4 cm
+ycbv_quantiles,025_mug,worst,data/0048/000818-color.jpg,22.98,22.98,1.4 cm
+ycbv_quantiles,035_power_drill,10th pct,data/0059/001486-color.jpg,2.04,2.04,0.7 cm
+ycbv_quantiles,035_power_drill,median,data/0059/000429-color.jpg,3.63,3.63,1.2 cm
+ycbv_quantiles,035_power_drill,90th pct,data/0059/001787-color.jpg,6.35,6.35,0.4 cm
+ycbv_quantiles,035_power_drill,worst,data/0059/001800-color.jpg,20.46,20.46,0.3 cm
+ycbv_quantiles,037_scissors,10th pct,data/0051/001275-color.jpg,2.14,2.14,1.1 cm
+ycbv_quantiles,037_scissors,median,data/0051/000284-color.jpg,7.01,7.01,3.0 cm
+ycbv_quantiles,037_scissors,90th pct,data/0051/000852-color.jpg,19.44,19.44,0.3 cm
+ycbv_quantiles,037_scissors,worst,data/0051/001111-color.jpg,178.34,178.34,0.9 cm
+symsolt_quantiles,tet,10th pct,test-5k/tet/images/001936.png,1.2,1.07,0.132 u
+symsolt_quantiles,tet,median,test-5k/tet/images/003230.png,2.37,3.04,0.144 u
+symsolt_quantiles,tet,90th pct,test-5k/tet/images/001452.png,3.8,4.83,0.047 u
+symsolt_quantiles,tet,worst,test-5k/tet/images/004472.png,9.3,1.97,0.122 u
+symsolt_quantiles,cube,10th pct,test-5k/cube/images/003336.png,1.16,1.16,0.042 u
+symsolt_quantiles,cube,median,test-5k/cube/images/000122.png,2.24,2.24,0.065 u
+symsolt_quantiles,cube,90th pct,test-5k/cube/images/004640.png,3.47,3.3,0.091 u
+symsolt_quantiles,cube,worst,test-5k/cube/images/001170.png,6.91,6.91,0.054 u
+symsolt_quantiles,icosa,10th pct,test-5k/icosa/images/002579.png,1.24,0.64,0.043 u
+symsolt_quantiles,icosa,median,test-5k/icosa/images/002321.png,2.46,2.08,0.032 u
+symsolt_quantiles,icosa,90th pct,test-5k/icosa/images/001548.png,3.82,3.82,0.043 u
+symsolt_quantiles,icosa,worst,test-5k/icosa/images/003544.png,8.18,3.63,0.035 u
+symsolt_quantiles,cone,10th pct,test-5k/cone/images/000972.png,0.63,0.22,0.034 u
+symsolt_quantiles,cone,median,test-5k/cone/images/003658.png,1.41,4.67,0.049 u
+symsolt_quantiles,cone,90th pct,test-5k/cone/images/002543.png,2.74,3.13,0.029 u
+symsolt_quantiles,cone,worst,test-5k/cone/images/003405.png,7.18,1.87,0.040 u
+symsolt_quantiles,cyl,10th pct,test-5k/cyl/images/002914.png,0.6,2.02,0.038 u
+symsolt_quantiles,cyl,median,test-5k/cyl/images/000809.png,1.39,2.42,0.039 u
+symsolt_quantiles,cyl,90th pct,test-5k/cyl/images/003709.png,2.47,1.83,0.038 u
+symsolt_quantiles,cyl,worst,test-5k/cyl/images/003971.png,5.97,5.97,0.058 u
+speedplus_quantiles,lightbox,10th pct,lightbox/images/img004469.jpg,2.3,8.54,0.07 m
+speedplus_quantiles,lightbox,median,lightbox/images/img006445.jpg,5.04,11.71,0.13 m
+speedplus_quantiles,lightbox,90th pct,lightbox/images/img003394.jpg,12.04,3.73,0.07 m
+speedplus_quantiles,lightbox,worst,lightbox/images/img006439.jpg,179.99,1.9,0.26 m
+speedplus_quantiles,sunlamp,10th pct,sunlamp/images/img001508.jpg,2.64,4.17,0.36 m
+speedplus_quantiles,sunlamp,median,sunlamp/images/img001350.jpg,5.98,1.26,0.14 m
+speedplus_quantiles,sunlamp,90th pct,sunlamp/images/img001116.jpg,14.83,10.18,0.24 m
+speedplus_quantiles,sunlamp,worst,sunlamp/images/img000566.jpg,179.74,4.18,0.35 m
+speedplus_detected_quantiles,lightbox,10th pct,lightbox/images/img000237.jpg,2.59,3.7,0.50 m
+speedplus_detected_quantiles,lightbox,median,lightbox/images/img001269.jpg,6.5,11.22,0.70 m
+speedplus_detected_quantiles,lightbox,90th pct,lightbox/images/img003096.jpg,86.14,64.33,2.50 m
+speedplus_detected_quantiles,lightbox,worst,lightbox/images/img002168.jpg,180.0,170.57,0.24 m
+speedplus_detected_quantiles,sunlamp,10th pct,sunlamp/images/img000785.jpg,2.78,6.22,0.11 m
+speedplus_detected_quantiles,sunlamp,median,sunlamp/images/img002369.jpg,6.48,8.35,0.55 m
+speedplus_detected_quantiles,sunlamp,90th pct,sunlamp/images/img000777.jpg,22.39,101.95,0.13 m
+speedplus_detected_quantiles,sunlamp,worst,sunlamp/images/img002632.jpg,179.79,6.17,0.26 m
+overview_medians,1,tless,test_primesense/000020/rgb/000327.png,5.46,2.53,0.5 cm
+overview_medians,4,tless,test_primesense/000009/rgb/000179.png,4.95,5.31,3.6 cm
+overview_medians,5,tless,test_primesense/000004/rgb/000058.png,4.39,4.39,1.6 cm
+overview_medians,11,tless,test_primesense/000016/rgb/000238.png,4.61,4.37,0.4 cm
+overview_medians,18,tless,test_primesense/000003/rgb/000088.png,6.14,3.78,1.8 cm
+overview_medians,21,tless,test_primesense/000008/rgb/000228.png,7.48,8.28,0.2 cm
+overview_medians,27,tless,test_primesense/000005/rgb/000239.png,4.01,3.87,1.2 cm
+overview_medians,003_cracker_box,ycbv,data/0050/000831-color.jpg,4.11,4.11,2.7 cm
+overview_medians,006_mustard_bottle,ycbv,data/0050/001389-color.jpg,3.88,3.88,0.3 cm
+overview_medians,011_banana,ycbv,data/0050/001564-color.jpg,5.88,5.88,0.3 cm
+overview_medians,025_mug,ycbv,data/0048/001195-color.jpg,4.55,4.55,1.9 cm
+overview_medians,035_power_drill,ycbv,data/0059/000429-color.jpg,3.63,3.63,1.2 cm
+overview_medians,037_scissors,ycbv,data/0051/000284-color.jpg,7.01,7.01,3.0 cm
+overview_medians,tet,symsolt,test-5k/tet/images/003230.png,2.37,3.04,0.144 u
+overview_medians,cube,symsolt,test-5k/cube/images/000122.png,2.24,2.24,0.065 u
+overview_medians,icosa,symsolt,test-5k/icosa/images/002321.png,2.46,2.08,0.032 u
+overview_medians,cone,symsolt,test-5k/cone/images/003658.png,1.41,4.67,0.049 u
+overview_medians,cyl,symsolt,test-5k/cyl/images/000809.png,1.39,2.42,0.039 u
+overview_medians,lightbox,speedplus,lightbox/images/img006445.jpg,5.04,11.71,0.13 m
+overview_medians,sunlamp,speedplus,sunlamp/images/img001350.jpg,5.98,1.26,0.14 m
+orbit_voting_speedplus,,repaired flip,lightbox/images/img001185.jpg,4.42,159.1,0.14 m
+so3_symmetry_symsolt,tet,median,test-5k/tet/images/003230.png,2.37,3.04,0.144 u
+so3_symmetry_symsolt,cube,median,test-5k/cube/images/000122.png,2.24,2.24,0.065 u
+so3_symmetry_symsolt,icosa,median,test-5k/icosa/images/002321.png,2.46,2.08,0.032 u
+so3_symmetry_symsolt,cone,median,test-5k/cone/images/003658.png,1.41,4.67,0.049 u
+so3_symmetry_symsolt,cyl,median,test-5k/cyl/images/000809.png,1.39,2.42,0.039 u
+so3_symmetry_tless,1,median,test_primesense/000020/rgb/000327.png,5.46,2.53,0.5 cm
+so3_symmetry_tless,4,median,test_primesense/000009/rgb/000179.png,4.95,5.31,3.6 cm
+so3_symmetry_tless,5,median,test_primesense/000004/rgb/000058.png,4.39,4.39,1.6 cm
+so3_symmetry_tless,11,median,test_primesense/000016/rgb/000238.png,4.61,4.37,0.4 cm

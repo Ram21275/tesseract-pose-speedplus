@@ -37,6 +37,8 @@ ap.add_argument("--pose-t", default="gt", choices=["gt", "greedy", "orbit_mean"]
                      "reported in the egocentric frame (ego_*), and joint success (rotation <= a deg and E_T <= b cm) when a block exists.")
 ap.add_argument("--pose-t-variant", default="same", choices=["same", "DINO"],
                 help="EXP-129: translation branch(es) for --pose-t (same = the rotation variant's branches; DINO = the DINOv3 block only)")
+ap.add_argument("--save-preds", action="store_true",
+                help="figures: also save per-image poses, translations and the 32 orbit candidates with scores (predictions/*.npz); metrics unchanged")
 args = ap.parse_args()
 ds = args.dataset
 run = Run(args.exp, args.exp_name, {**vars(args), "stage": "eval"}, seed=0)
@@ -98,7 +100,7 @@ try:
                 for k in VIEWS[1:]:
                     _, xk = featsets.load_rows(sp, f"exp064_{ds}_eval_r{k}", e_ev); FX[(sp, k)] = featsets.standardize_to_tensor(xk, None, "cpu", torch.float16, stats=st)
             for variant, keys in VAR:
-                ms = [MS[k] for k in keys]; preds = {m: [] for m in MODES}
+                ms = [MS[k] for k in keys]; preds = {m: [] for m in MODES}; SV = {"cand": [], "score": [], "conf": []}
                 tkeys = (SD,) if args.pose_t_variant == "DINO" else keys                # EXP-129: translation branch(es)
                 if all(k in HD for k in tkeys):                                      # EXP-126: translation, view 0 and orbit mean
                     W_, H_ = XO.DATASETS[ds]["img_wh"]; box = (de.crop_cx.to_numpy(), de.crop_cy.to_numpy(), de.crop_side.to_numpy(), de.crop_side.to_numpy())
@@ -137,7 +139,7 @@ try:
                             cz = qk if k == 0 else XO.roll_target(ds, XO.from_target(ds, qk.reshape(-1, 4), np.repeat(TVm[k][r], 8, 0)),
                                                                   np.repeat(TVm[k][r], 8, 0), -float(k), np.repeat(dray[r], 8, 0)).reshape(B, 8, 4)
                             cands.append(cz); confs.append(sc.float().cpu().numpy())
-                        cand = np.concatenate(cands, 1); conf = np.concatenate(confs, 1)
+                        cand = np.concatenate(cands, 1); conf = np.concatenate(confs, 1); SV["cand"].append(cand); SV["conf"].append(conf)
                         if "greedy" in MODES:
                             with PR.ctx(args.precision):
                                 c1, p1 = fused_beam(ms, views[0][1], "poe", 1)
@@ -149,7 +151,7 @@ try:
                                 mk = cand if k == 0 else XO.roll_target(ds, XO.from_target(ds, cand.reshape(-1, 4), tt), tt, float(k), dd).reshape(B, 32, 4)
                                 with PR.ctx(args.precision):
                                     score += tree_lp(ms, xs, mk)
-                            preds["orbit_product"].append(cand[np.arange(B), score.argmax(1)])
+                            preds["orbit_product"].append(cand[np.arange(B), score.argmax(1)]); SV["score"].append(score)
                         if "orbit_vote32" in MODES:
                             w = np.exp(conf.reshape(B, 4, 8) - conf.reshape(B, 4, 8).max(-1, keepdims=True)); w = (w / w.sum(-1, keepdims=True)).reshape(B, 32)
                             dd2 = geo(cand[:, :, None], cand[:, None]); sup = (np.exp(-0.5 * (dd2 / 5.0) ** 2) * w[:, None, :]).sum(-1)
@@ -170,6 +172,14 @@ try:
                                      "sym_frac_gt90": float((e > 90).mean()), "raw_mean": er[msk].mean(),
                                      "ego_mean": eg[msk].mean(), "ego_median": np.median(eg[msk]), **{f"ego_acc@{a}": float((eg[msk] <= a).mean()) for a in (2, 5, 10)},
                                      **({f"joint@{a}deg{b}cm": float(((eg[msk] <= a) & (etj[msk] <= b)).mean()) for a, b in ((5, 5), (10, 5), (10, 10))} if etj is not None else {})})
+                if args.save_preds:                                                 # per-image arrays for figures (target frame unless *_ego)
+                    np.savez_compressed(run.sub("predictions") / f"{ds}_{obj}_seed{seed}_{variant}.npz", image_relpath=de.image_relpath.to_numpy().astype(str),
+                                        split=de.split.to_numpy().astype(str), q_ego_gt=q_ego, q_tgt_gt=qgt, t_gt=tvec, t_used=T0, K=K, dray=dray,
+                                        crop=np.stack([de.crop_cx, de.crop_cy, de.crop_side], 1), sym=S,
+                                        t_views=np.stack(TK) if "TK" in dir() and len(TK) == 4 else np.zeros(0),
+                                        **{f"q_{m}": np.concatenate(preds[m]) for m in MODES}, **{f"q_ego_{m}": XO.from_target(ds, np.concatenate(preds[m]), T0) for m in MODES},
+                                        **{f"err_{m}": sym_err(np.concatenate(preds[m])) for m in MODES}, **{f"egoerr_{m}": ego_err(np.concatenate(preds[m])) for m in MODES},
+                                        **{k: np.concatenate(v) for k, v in SV.items() if v})
                 print(ds, obj, seed, variant, " | ".join(f"{m} {np.mean(sym_err(np.concatenate(preds[m]))):.2f}" for m in MODES), flush=True)
             del MS, FX; torch.cuda.empty_cache()
     if trows:

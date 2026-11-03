@@ -27,8 +27,12 @@ from tfpose.runlog import Run, md_table  # noqa: E402
 ap = argparse.ArgumentParser()
 ap.add_argument("--crops", choices=["gt", "det"], required=True)
 ap.add_argument("--seeds", default="0,1,2")
+ap.add_argument("--exp", default="EXP-124", help="figures: write the run elsewhere")
+ap.add_argument("--exp-name", default="speedplus_detected_official_score")
+ap.add_argument("--save-preds", action="store_true", help="figures: save per-image S1 poses and orbit candidates (predictions/*.npz); metrics unchanged")
+ap.add_argument("--systems", default="S1,S2,S3")
 args = ap.parse_args()
-run = Run("EXP-124", "speedplus_detected_official_score", {**vars(args), "stage": "eval"}, seed=0)
+run = Run(args.exp, args.exp_name, {**vars(args), "stage": "eval"}, seed=0)
 SD, SM = "dinov3_vitl16:tokens8", "moge2_vitl:normals16~and"; SHAPE = {SD: (64, 1024), SM: (256, 4)}
 VIEWS = (0, 90, 180, 270); MODES = ("greedy", "orbit_product", "orbit_vote32")
 geo = lambda a, b: np.degrees(2 * np.arccos(np.clip(np.abs((a * b).sum(-1)), 0, 1)))
@@ -83,7 +87,7 @@ try:
 
     @torch.no_grad()
     def rotate(ms, keys):
-        R = {m: [] for m in MODES}
+        R = {m: [] for m in MODES}; R["cand"] = []; R["score"] = []
         for s in range(0, len(t3), 256):
             r = np.arange(s, min(s + 256, len(t3))); B = len(r); cands, confs, views = [], [], []
             for k in VIEWS:
@@ -102,7 +106,7 @@ try:
                 mk = IP.rotate_label(cand.reshape(-1, 4), np.full(B * 32, float(k)), np.repeat(d3[r], 32, 0), conv) if k else cand.reshape(-1, 4)
                 with torch.autocast("cuda", dtype=torch.bfloat16):
                     score += tree_lp(ms, xs, mk.reshape(B, 32, 4))
-            R["orbit_product"].append(cand[np.arange(B), score.argmax(1)])
+            R["orbit_product"].append(cand[np.arange(B), score.argmax(1)]); R["cand"].append(cand); R["score"].append(score)
             w = np.exp(conf.reshape(B, 4, 8) - conf.reshape(B, 4, 8).max(-1, keepdims=True)); w = (w / w.sum(-1, keepdims=True)).reshape(B, 32)
             sup = (np.exp(-0.5 * (geo(cand[:, :, None], cand[:, None]) / 5.0) ** 2) * w[:, None, :]).sum(-1)
             R["orbit_vote32"].append(cand[np.arange(B), sup.argmax(1)])
@@ -146,7 +150,13 @@ try:
         for system, rot_ms, rkeys, trn in (("S1_studentPoE_rot+J_DINO_trans", [load_tree(st_poe[k], k) for k in (SD, SM)], (SD, SM), tJD),
                                            ("S2_J_PoE", [load_tree(jj[k], k) for k in (SD, SM)], (SD, SM), tJP),
                                            ("S3_studentDINO_rot+J_DINO_trans", [load_tree(st_dino[SD], SD)], (SD,), tJD)):
+            if system.split("_")[0] not in args.systems.split(","):
+                continue
             R = rotate(rot_ms, rkeys)
+            if args.save_preds:
+                np.savez_compressed(run.sub("predictions") / f"speedplus_{args.crops}_{system.split('_')[0]}_seed{seed}.npz", image_relpath=t3.image_relpath.to_numpy().astype(str),
+                                    domain=dom3.astype(str), q_gt=q3, t_gt=tv3, crop=np.stack(BOX[:3], 1), **{f"q_{m}": R[m] for m in R},
+                                    **{f"err_{m}": geo(R[m], q3) for m in MODES}, t_greedy=trn["greedy"], t_orbit_mean=trn["orbit_mean"])
             for rm in MODES:
                 for tm in ("greedy", "orbit_mean"):
                     rows += score_rows(system, seed, rm, tm, R[rm], trn[tm])
