@@ -56,3 +56,56 @@ The backbone is frozen, shared, and not quantised here. Its cost is quoted once,
 
 ## Results
 Not run.
+
+## Results (completed 2026-11-03)
+- **Interruptions:** the run was cut short by the 2026-11-01 GPU loss and by shared-GPU out-of-memory errors. It was resumed with completed evaluations skipped (`run_queue16.sh`).
+- **Accuracy runs:** `EXP-128_downstream_deployment_quantization`, RUN ids:
+
+  | precision | SPEED+ PoE | SPEED+ DINO | T-LESS | SYMSOL-T | YCB-V |
+  |---|---|---|---|---|---|
+  | fp32 | 072122 | 073932 | 074839 | 014830 | 030824 |
+  | fp16 | 032357 | 035642 | 041348 | 043959 | 052728 |
+  | int8w | 053630 | 060756 | 062145 | 065417 | 075706 |
+
+- **Cost run:** `RUN-20261103-080855`.
+
+### Accuracy vs the paper's bf16 results
+Real test sets, validation-selected head, 3 seeds. Mean error in degrees, Δ against bf16.
+
+| application | bf16 (± seed std) | fp32 | fp16 | int8 weights |
+|---|---|---|---|---|
+| SPEED+ distilled PoE + orbit, lightbox | 11.214 ± 0.416 | +0.006 | +0.007 | −0.004 |
+| SPEED+ distilled PoE + orbit, sunlamp | 11.088 ± 0.490 | −0.009 | −0.009 | −0.021 |
+| SPEED+ DINO student + orbit, lightbox | 16.431 ± 0.751 | +0.003 | +0.002 | −0.000 |
+| T-LESS A2 PoE + orbit | 15.187 ± 0.272 | +0.004 | +0.008 | −0.003 |
+| SYMSOL-T A2 DINO + orbit | 2.067 ± 0.002 | +0.000 | −0.000 | +0.002 |
+| YCB-V DINO greedy | 12.917 ± 6.905 | +0.042 | +0.046 | +0.045 |
+
+**Criterion (negligible loss, |Δ| within the larger seed std): PASS for every precision and application.**
+
+### Size
+| head | parameters | fp32 | fp16 | int8 ideal | PyTorch dynamic int8 file |
+|---|---|---|---|---|---|
+| DINOv3 tree | 2,391,564 | 9.2 MB | 4.6 MB | 2.3 MB | 6.2 MB |
+| MoGe-2 tree | 2,128,404 | 8.4 MB | 4.2 MB | 2.1 MB | 6.1 MB |
+| translation block | 331,011 | 1.3 MB | 0.6 MB | 0.3 MB | 1.1 MB |
+
+`quantize_dynamic` converted 20 of 20 linear modules per tree, attention out-projections included.
+
+### Head-only latency
+In ms per image. Shared RTX 6000 Ada at full load from other jobs; Intel Core Ultra 9 285K.
+
+| system | GPU b1 fp32 / bf16 / fp16 | GPU b64 fp32 / bf16 / fp16 | CPU 1 thread fp32 / int8 |
+|---|---|---|---|
+| DINO, 1 view | 18.9 / 19.3 / 19.2 | 0.33 / 0.31 / 0.32 | 6.7 / 7.4 |
+| DINO, orbit | 111.6 / 111.1 / 109.9 | 4.09 / 2.36 / 2.39 | 129.8 / 126.6 |
+| PoE, 1 view | 35.6 / 35.9 / 36.0 | 0.68 / 0.60 / 0.60 | 20.6 / 20.9 |
+| PoE, orbit | 191.8 / 191.5 / 190.3 | 13.93 / 6.82 / 6.65 | 577.6 / 567.6 |
+
+- **Peak transient GPU memory** of the head is 1–41 MB.
+- **Multi-thread CPU timings** (24 threads) were 0.9–16 s per image. They were dominated by contention with other processes on the shared machine, so they are recorded but not reported.
+- **Conclusions:**
+  - Precision does not affect batch-1 latency, which is limited by launch overhead in the autoregressive decoder.
+  - fp16/bf16 halve the batched orbit cost.
+  - Dynamic int8 gives no CPU speed-up for heads this small.
+- **Paper:** `tab:deploy_size`, `tab:deploy_latency` and `tab:deploy_quant` in the appendix section "Deployment of the downstream head"; one clause in contribution (1).

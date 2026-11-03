@@ -49,7 +49,7 @@ RUNS = {
     "trans_tless": E / "EXP-126_translation_xobj/RUN-20261030-085948-seed0",
     "trans_symsolt": E / "EXP-126_translation_xobj/RUN-20261030-141752-seed0",
     "trans_ycbv": E / "EXP-126_translation_xobj/RUN-20261030-044920-seed0",
-    "deploy128": None,                                                                 # EXP-128 head deployment cost: queued
+    "deploy128": E / "EXP-128_downstream_deployment_quantization/RUN-20261103-080855-seed0",   # EXP-128 head cost
     "quant128": None,                                                                  # EXP-128 accuracy per precision: queued (dict of runs)
 }
 DOM = ["synthetic_val", "lightbox", "sunlamp"]
@@ -463,24 +463,57 @@ def trans_xobj_table():
 
 
 def deploy_tables():
-    """EXP-128 (queued): downstream-head cost (size, latency, memory per precision) and accuracy per precision. Blank until run."""
-    assert not have("deploy128"), "fill deploy_tables from the EXP-128 runs before enabling them"
-    L = [r"\begin{tabular}{@{}l r ccc@{}}", r"\toprule", r"Head module & Params & fp32 (MB) & fp16 (MB) & int8 (MB) \\", r"\midrule",
-         r"Tree, DINOv3 branch & 2,391,564 & & & \\", r"Tree, MoGe-2 branch & 2,128,404 & & & \\", r"Translation block & 331,011 & & & \\",
-         r"\bottomrule", r"\end{tabular}"]
+    """EXP-128: downstream-head size, latency and memory per precision, and accuracy per precision vs the bf16 results.
+    Accuracy runs (EXP-128_downstream_deployment_quantization/RUN-<id>-seed0) per precision; bf16 = the paper's own runs."""
+    D = RUNS["deploy128"]
+    sz = pd.read_csv(D / "metrics/size.csv").set_index("module")
+    L = [r"\begin{tabular}{@{}l r cccc@{}}", r"\toprule", r"Head module & Params & fp32 & fp16 & int8 (ideal) & int8 (PyTorch file) \\", r"\midrule"]
+    for mod, lab in (("tree DINOv3", "Tree, DINOv3 branch"), ("tree MoGe-2", "Tree, MoGe-2 branch"), ("translation block", "Translation block")):
+        r = sz.loc[mod]
+        L.append(f"{lab} & {int(r.params):,} & {r.fp32_MB:.1f}\\,MB & {r.fp16_MB:.1f}\\,MB & {r.int8w_ideal_MB:.1f}\\,MB & {r.int8_dynamic_MB:.1f}\\,MB \\\\")
+    L += [r"\bottomrule", r"\end{tabular}"]
     write("deploy_size", "\n".join(L))
-    L = [r"\begin{tabular}{@{}ll cccc cc@{}}", r"\toprule",
-         r" & & \multicolumn{4}{c}{GPU (ms/img)} & \multicolumn{2}{c}{CPU, 1 thread (ms/img)} \\", r"\cmidrule(lr){3-6}\cmidrule(lr){7-8}",
-         r"Head & Inference & fp32 & bf16 & fp16 & peak MB & fp32 & int8 \\", r"\midrule"]
-    for v in ("DINOv3", "PoE"):
-        for inf in ("1 view", "orbit (4)"):
-            L.append(f"{v if inf == '1 view' else ''} & {inf} & & & & & & \\\\")
+    lt = pd.read_csv(D / "metrics/latency.csv")
+    def ms(v, inf, dev, prec, b, th=None):
+        q = lt[(lt.variant == v) & (lt.inference == inf) & (lt.device == dev) & (lt.precision == prec) & (lt.batch == b)]
+        if th is not None:
+            q = q[q.threads == th]
+        return q.ms_per_img.iloc[0]
+    def pk(v, inf, prec):
+        return lt[(lt.variant == v) & (lt.inference == inf) & (lt.device == "GPU") & (lt.precision == prec) & (lt.batch == 1)].peak_transient_gpu_mb.iloc[0]
+    L = [r"\begin{tabular}{@{}ll ccc ccc cc@{}}", r"\toprule",
+         r" & & \multicolumn{3}{c}{GPU, batch 1} & \multicolumn{3}{c}{GPU, batch 64 (per image)} & \multicolumn{2}{c}{CPU, 1 thread} \\",
+         r"\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-10}",
+         r"Head & Inference & fp32 & bf16 & fp16 & fp32 & bf16 & fp16 & fp32 & int8 \\", r"\midrule"]
+    for v, vl in (("DINO", "DINOv3"), ("PoE", "PoE")):
+        for inf, il in (("greedy", "1 view"), ("orbit", "orbit (4)")):
+            c = [f"{ms(v, inf, 'GPU', p, 1):.1f}" for p in ("fp32", "bf16", "fp16")] + [f"{ms(v, inf, 'GPU', p, 64):.2f}" for p in ("fp32", "bf16", "fp16")]
+            c += [f"{ms(v, inf, 'CPU', p, 1, 1):.1f}" for p in ("fp32", "int8_dynamic")]
+            L.append(f"{vl if inf == 'greedy' else ''} & {il} & " + " & ".join(c) + r" \\")
     L += [r"\bottomrule", r"\end{tabular}"]
     write("deploy_latency", "\n".join(L))
-    L = [r"\begin{tabular}{@{}ll cccc@{}}", r"\toprule", r"Application & Inference & fp32 & bf16 & fp16 & int8 (w) \\", r"\midrule"]
-    for app in ("T-LESS (A2, PoE)", "SYMSOL-T (A2, DINOv3)", "YCB-V (syn., DINOv3)", "SPEED+ (distilled, PoE)"):
-        for inf in ("1 view", "orbit (4)"):
-            L.append(f"{app if inf == '1 view' else ''} & {inf} & & & & \\\\")
+    # accuracy per precision (real test; validation-selected configuration per application)
+    Q = E / "EXP-128_downstream_deployment_quantization"
+    runs = {"fp32": {"spp": "072122", "tless": "074839", "symsolt": "014830", "ycbv": "030824"},
+            "fp16": {"spp": "032357", "tless": "041348", "symsolt": "043959", "ycbv": "052728"},
+            "int8w": {"spp": "053630", "tless": "062145", "symsolt": "065417", "ycbv": "075706"}}
+    ref = {"spp": RUNS["distill_poe"], "tless": RUNS["tless_A2"], "symsolt": RUNS["symsolt_A2"], "ycbv": RUNS["ycbv_syn"]}
+    def acc(path, app, mode):
+        if app == "spp":
+            m = pd.read_csv(path / "metrics/metrics.csv"); m = m[(m.family == "tree:teacher_variant=PoE") & (m["mode"] == mode)]
+            return {d: m[m.domain == d].mean_deg.iloc[0] for d in ("lightbox", "sunlamp")}
+        m = pd.read_csv(path / "metrics/object_balanced.csv"); var = {"tless": "PoE", "symsolt": "DINO", "ycbv": "DINO"}[app]
+        return m[(m.split == "test") & (m.variant == var) & (m["mode"] == mode)].sym_mean.iloc[0]
+    rows = (("spp", "SPEED+ (dist.\\ PoE), LB / SL", "orbit_product"), ("tless", "T-LESS (A2, PoE)", "orbit_product"),
+            ("symsolt", "SYMSOL-T (A2, DINOv3)", "orbit_product"), ("ycbv", "YCB-V (syn., DINOv3)", "greedy"))
+    L = [r"\begin{tabular}{@{}ll cccc@{}}", r"\toprule", r"Application & Inference & bf16 (paper) & fp32 & fp16 & int8 weights \\", r"\midrule"]
+    for app, lab, mode in rows:
+        vals = [acc(ref[app], app, mode)] + [acc(next(Q.glob(f"RUN-*{runs[p][app]}-seed0")), app, mode) for p in ("fp32", "fp16", "int8w")]
+        if app == "spp":
+            cells = [f"{v['lightbox']:.2f} / {v['sunlamp']:.2f}" for v in vals]
+        else:
+            cells = [f"{v:.2f}" for v in vals]
+        L.append(f"{lab} & {'orbit (4)' if mode == 'orbit_product' else '1 view'} & " + " & ".join(cells) + r" \\")
     L += [r"\bottomrule", r"\end{tabular}"]
     write("deploy_quant", "\n".join(L))
 

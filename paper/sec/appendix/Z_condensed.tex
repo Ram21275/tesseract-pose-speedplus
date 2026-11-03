@@ -297,24 +297,26 @@ Every application shares the same frozen backbones and the same inference algori
 
 \paragraph{Criterion.} A precision's loss is \emph{negligible} if its mean error differs from fp32 by no more than the larger seed standard deviation, per application, inference mode and split (the pass rule used throughout the paper).
 
+\paragraph{Results.} Reduced precision costs essentially no accuracy (\cref{tab:deploy_quant}). Against the bf16 results of the paper, fp32, fp16 and int8 weights change the mean test error by at most $0.05^\circ$ (YCB-V) and by $0.02^\circ$ or less on SPEED+, T-LESS and SYMSOL-T, always within the seed standard deviation, so the pre-registered criterion passes for every precision and application. With int8 weights a DINOv3 tree needs 2.3\,MB and a complete two-branch 6D head about 4.7\,MB (\cref{tab:deploy_size}). Speed is a different matter (\cref{tab:deploy_latency}): at batch 1 the autoregressive decoder is limited by kernel launches, so precision does not change GPU latency, and on the fully loaded shared GPU a single CPU thread was faster (6.7\,ms for the DINOv3 head). At batch 64, fp16 and bf16 halve the cost of orbit aggregation (2.4 vs.\ 4.1\,ms per image for DINOv3). PyTorch's dynamic int8 kernels give no CPU speed-up for heads this small. The head therefore deploys at a quarter of its fp32 size without accuracy loss; its latency is governed by the decoding schedule and the hardware load, not by precision.
+
 \begin{table}[!htbp]
   \centering\footnotesize
   \resizebox{\linewidth}{!}{\input{tables/deploy_size}}
-  \caption{\textbf{Size of the downstream head} per module and precision (bytes of the saved weights). Blank cells: run not yet completed.}
+  \caption{\textbf{Size of the downstream head} per module and precision: fp32/fp16 saved weights, the ideal int8-weight size (int8 matmul weights plus fp32 for the rest), and the file written by PyTorch dynamic int8 quantisation (which stores extra packing metadata).}
   \label{tab:deploy_size}
 \end{table}
 
 \begin{table}[!htbp]
   \centering\footnotesize
   \resizebox{\linewidth}{!}{\input{tables/deploy_latency}}
-  \caption{\textbf{Head-only latency} (ms per image, batch 1) and peak transient GPU memory, excluding the shared backbone. Orbit: 4 views $\times$ beam 8 plus scoring of 32 candidates. Shared GPU; times are upper bounds. Blank cells: run not yet completed.}
+  \caption{\textbf{Head-only latency} (ms per image), excluding the shared backbone and preprocessing: GPU at batch 1 and 64 (fp32, bf16 and fp16 autocast) and CPU with one thread (fp32 and PyTorch dynamic int8). Orbit: 4 views $\times$ beam 8 plus scoring of 32 candidates. One shared NVIDIA RTX 6000 Ada (at full utilisation by other jobs during the run) and one Intel Core Ultra 9 285K thread; times are upper bounds. Multi-thread CPU timings were dominated by contention with other processes and are not reported. Peak transient GPU memory of the head is 1--41\,MB.}
   \label{tab:deploy_latency}
 \end{table}
 
 \begin{table}[!htbp]
   \centering\footnotesize
   \resizebox{\linewidth}{!}{\input{tables/deploy_quant}}
-  \caption{\textbf{Accuracy of the head under reduced precision}: mean rotation error ($^\circ$, symmetry-aware where applicable, real test sets; SPEED+ lightbox) of the validation-selected head per application, 3 seeds. Blank cells: run not yet completed.}
+  \caption{\textbf{Accuracy of the head under reduced precision}: mean rotation error ($^\circ$, symmetry-aware where applicable) on the real test sets for the validation-selected head of each application, 3 seeds. bf16 is the precision of every other result in the paper; int8: weight-only int8 for all matmul weights.}
   \label{tab:deploy_quant}
 \end{table}
 % src: outputs/reports/EXP-128_downstream_deployment_quantization.md; src/tfpose/precision.py; parameter counts from instantiating phase3.HierTransformer and trans.TransHead

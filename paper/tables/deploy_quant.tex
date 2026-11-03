@@ -1,14 +1,10 @@
 \begin{tabular}{@{}ll cccc@{}}
 \toprule
-Application & Inference & fp32 & bf16 & fp16 & int8 (w) \\
+Application & Inference & bf16 (paper) & fp32 & fp16 & int8 weights \\
 \midrule
-T-LESS (A2, PoE) & 1 view & & & & \\
- & orbit (4) & & & & \\
-SYMSOL-T (A2, DINOv3) & 1 view & & & & \\
- & orbit (4) & & & & \\
-YCB-V (syn., DINOv3) & 1 view & & & & \\
- & orbit (4) & & & & \\
-SPEED+ (distilled, PoE) & 1 view & & & & \\
- & orbit (4) & & & & \\
+SPEED+ (dist.\ PoE), LB / SL & orbit (4) & 11.21 / 11.09 & 11.22 / 11.08 & 11.22 / 11.08 & 11.21 / 11.07 \\
+T-LESS (A2, PoE) & orbit (4) & 15.19 & 15.19 & 15.20 & 15.18 \\
+SYMSOL-T (A2, DINOv3) & orbit (4) & 2.07 & 2.07 & 2.07 & 2.07 \\
+YCB-V (syn., DINOv3) & 1 view & 12.92 & 12.96 & 12.96 & 12.96 \\
 \bottomrule
 \end{tabular}
