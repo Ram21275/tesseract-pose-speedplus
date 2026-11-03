@@ -50,6 +50,8 @@ RUNS = {
     "trans_symsolt": E / "EXP-126_translation_xobj/RUN-20261030-141752-seed0",
     "trans_ycbv": E / "EXP-126_translation_xobj/RUN-20261030-044920-seed0",
     "deploy128": E / "EXP-128_downstream_deployment_quantization/RUN-20261103-080855-seed0",   # EXP-128 head cost
+    "nogt_tless": E / "EXP-129_rotation_with_predicted_translation/RUN-20261103-162450-seed0",   # EXP-129 T-LESS, orbit-mean predicted t
+    "nogt_ycbv": E / "EXP-129_rotation_with_predicted_translation/RUN-20261103-165739-seed0",    # EXP-129 YCB-V, greedy predicted t
     "quant128": None,                                                                  # EXP-128 accuracy per precision: queued (dict of runs)
 }
 DOM = ["synthetic_val", "lightbox", "sunlamp"]
@@ -531,15 +533,17 @@ def summary_table():
     """Table A: validation-selected configuration per application (selection verified from the validation rows, DEC-028)."""
     L = [r"\begin{tabular}{@{}l l l l cc c c@{}}", r"\toprule",
          r"Application & Train data & Crop & Selected (val) & $E_R$ ($^\circ$) & $\le10^\circ$ / R@10 & $E_T$ & 6D \\", r"\midrule"]
+    J = lambda k, v, m: (lambda r: f"{100 * r.joint_at_5deg5cm:.0f}/{100 * r.joint_at_10deg5cm:.0f}\\%")(_ob(k, "test", v, m))   # EXP-129: no GT translation
+    jt = J("nogt_tless", "PoE", "orbit_product") + "$^\\ddagger$"; jy = J("nogt_ycbv", "DINO", "greedy")
     t = _ob("tless_A2D", "test", "PoE", "orbit_product"); r10 = recall("tless_A2D", "PoE", "orbit_product")[2]   # val-selected: distilled students
     tt = csv("trans_tless", "trans_object_balanced"); tt = tt[(tt.split == "test") & (tt.variant == "DINO") & (tt.trans_mode == "orbit_mean")].iloc[0]
-    L.append(f"T-LESS (7 obj.) & PBR + real & GT box & dist.\\ PoE, orbit & {t.sym_mean:.1f} & {r10:.1f}\\% & {tt.E_T_mean * 0.1:.1f}\\,cm & $^\\ddagger$ \\\\")
+    L.append(f"T-LESS (7 obj.) & PBR + real & GT box & dist.\\ PoE, orbit & {t.sym_mean:.1f} & {r10:.1f}\\% & {tt.E_T_mean * 0.1:.1f}\\,cm & {jt} \\\\")
     y = csv("symsolt_A2", "object_balanced"); y = y[(y.split == "test") & (y.variant == "DINO") & (y["mode"] == "orbit_product")].iloc[0]
     ty = csv("trans_symsolt", "trans_object_balanced"); ty = ty[(ty.split == "test") & (ty.variant == "DINO") & (ty.trans_mode == "orbit_mean")].iloc[0]
     L.append(f"SYMSOL-T (5 shapes) & synthetic & full frame & DINOv3, orbit & {y.sym_mean:.2f} & {100 * y.acc10:.0f}\\% & {ty.E_T_mean:.3f}\\,u & -- \\\\")
     v = _ob("ycbv_syn", "test", "DINO", "greedy")
     tv = csv("trans_ycbv", "trans_object_balanced"); tv = tv[(tv.split == "test") & (tv.variant == "DINO") & (tv.trans_mode == "greedy")].iloc[0]
-    L.append(f"YCB-V (6 obj.) & real + syn. & GT box & DINOv3, 1 view & {v.sym_mean:.1f} & {100 * v.acc10:.0f}\\% & {tv.E_T_mean * 100:.1f}\\,cm & $^\\ddagger$ \\\\")
+    L.append(f"YCB-V (6 obj.) & real + syn. & GT box & DINOv3, 1 view & {v.sym_mean:.1f} & {100 * v.acc10:.0f}\\% & {tv.E_T_mean * 100:.1f}\\,cm & {jy} \\\\")
     d = csv("distill_poe"); d = {x.domain: x for x in d[(d.family == "tree:teacher_variant=PoE") & (d.variant == "PoE") & (d["mode"] == "orbit_product")].itertuples()}
     for crops, key, lab in (("gt", "spp_gt", "GT box"), ("det", "spp_det", "detector")):
         g = csv(key); g = {x.domain: x for x in g[(g.crops == crops) & g.system.str.startswith("S1") & (g.rot_mode == "orbit_product") & (g.trans_mode == "orbit_mean")].itertuples()}

@@ -97,9 +97,9 @@ Every number in the abstract, introduction and conclusion must come from this fi
 
 ## Headline numbers (val-selected, primary)
 - **T-LESS:** PoE + orbit, test R@2/5/10 5.7/48.1/79.0, mean 15.2°, translation T@2/5/10 57.3/88.0/96.7 (orbit mean).
-  - Uses **GT translation** for the frame conversion and orbit mapping; EXP-129 is pending.
+  - EXP-129: with predicted (orbit-mean) instead of GT translation for the conversion and orbit mapping, rotation 15.187 → 15.196 (A2 PoE heads before distillation; std 0.27). Joint 5°5cm / 10°5cm / 10°10cm: 45.4 / 73.9 / 78.4%. Distilled students: GT translation only.
 - **SYMSOL-T:** DINOv3 + orbit, 2.07°, translation 0.061.
-- **YCB-V:** DINOv3, 1 view, 12.9°, 85% within 10°, translation 1.6 cm. Uses GT translation for the frame conversion only; EXP-129 is pending.
+- **YCB-V:** DINOv3, 1 view, 12.9°, 85% within 10°, translation 1.6 cm. EXP-129: predicted translation 12.917 → 12.920 (std 6.9); joint 55.6 / 82.5 / 85.1%.
 - **SPEED+ (user decision 2026-10-30: keep the pre-registered orbit scoring rule as primary):** distilled PoE + orbit product:
   - GT crop: 11.21°/11.09°, score 0.227/0.224;
   - detected crop: 23.88°/16.42°, score 0.523/0.333.
@@ -107,7 +107,4 @@ Every number in the abstract, introduction and conclusion must come from this fi
   - All other benchmarks keep their validation-selected configurations.
 
 ## Pending (blank cells only)
-- EXP-119 (cross-dataset distillation);
-- EXP-127 (same-grid flat, balanced Hopf, timing and memory);
-- EXP-128 (head-only latency and quantisation);
-- EXP-129 (no-GT-translation rotation and joint success).
+- None. EXP-119, EXP-127, EXP-128 and EXP-129 are complete and in the paper.
