@@ -190,3 +190,21 @@ Queued (queue16).
 - At an identical grid, the hierarchical decoder beats a flat softmax by about 1.5° with orbit aggregation and about 3.3° from a single view, using roughly 14× fewer parameters.
 - The EXP-113 gap (7.53 vs 3.87) was mostly hierarchy, not grid: the SPACE-HOP grid's coarse rolls account for 7.53 − 5.28 ≈ 2.25°, hierarchy for 5.28 − 3.87 ≈ 1.4°, and the remainder.
 - Timing and memory are pending (next block).
+
+## Results: cost (`RUN-20261103-151108-seed0`; one interleaved run, shared RTX 6000 Ada under load; upper bounds)
+
+| head (DINOv3 branch) | params | head ms b1 greedy / orbit | full pipeline ms b1 greedy / orbit | head ms/img b64 greedy / orbit | train step ms (b256) | train peak GB | inference memory GB |
+|---|---|---|---|---|---|---|---|
+| tree | **2.39 M** | 34.3 / 184.4 | 58.5 / 270.5 | 0.53 / 3.58 | **18.4** | **3.6** | 1.18 |
+| flat, same leaves | 36.08 M | **9.7** / 71.7 | **33.5** / 150.6 | **0.13** / 1.16 | 37.7 | 4.5 | 1.36 |
+| flat, balanced Hopf | 36.07 M | 9.7 / **62.0** | 38.9 / 158.3 | 0.13 / 1.35 | 37.3 | 4.5 | 1.36 |
+
+- **PoE variant:**
+  - head at batch 1, greedy: tree 63.6 ms vs flat 15 ms;
+  - full pipeline at batch 1, greedy: 236 ms vs 177–189 ms. MoGe-2 and the CPU mask dominate it.
+  - Inference memory is 2.8 vs 3.1 GB, dominated by the backbones.
+- **Verdict (descriptive):**
+  - On a GPU the flat heads are faster (one matmul vs six sequential decoder steps): about 3.5× for the head and about 1.7× end-to-end at batch 1.
+  - The tree is 15× smaller and trains about 2× faster per step with about 20% less memory.
+  - The tree's case is accuracy, size and training cost, not GPU latency. CPU timing was not repeated here; EXP-101's older-architecture CPU result favoured the tree.
+- **Paper:** "Cost of the output layer" paragraph (`sec/5_ablations.tex`).
