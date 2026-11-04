@@ -23,10 +23,13 @@ import argparse
 import sys
 from pathlib import Path
 
+import textwrap
+
 import cv2
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
+from matplotlib.lines import Line2D  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 import yaml  # noqa: E402
@@ -62,6 +65,16 @@ def latest_run(pattern):
 def save(fig, name):
     fig.savefig(OUT / f"{name}.pdf", bbox_inches="tight"); fig.savefig(OUT / f"{name}.png", dpi=300, bbox_inches="tight"); plt.close(fig)
     print("wrote", name)
+
+
+def pose_legend(fig, ncol=9, fs=6.5, y=0.0):
+    """Key shared by every pose overlay: what the colours, line styles and crosses mean."""
+    h = [Line2D([], [], color=GT_C, lw=1.6, label="ground truth: box"), Line2D([], [], color=PR_C, lw=1.6, label="prediction: box"),
+         Line2D([], [], color=GT_C, marker="+", ms=8, mew=1.8, ls="", label="GT object centre"), Line2D([], [], color=PR_C, marker="+", ms=8, mew=1.8, ls="", label="predicted centre"),
+         Line2D([], [], color="#ff4040", lw=2, label="x axis"), Line2D([], [], color="#40ff40", lw=2, label="y axis"), Line2D([], [], color="#4080ff", lw=2, label="z axis"),
+         Line2D([], [], color="k", lw=1.6, label="solid: GT axes"), Line2D([], [], color="k", lw=1.6, ls=(0, (2, 1)), label="dashed: predicted axes")]
+    fig.legend(handles=h, loc="upper center", bbox_to_anchor=(0.5, y), ncol=ncol, fontsize=fs, frameon=True, framealpha=1, edgecolor="#bbbbbb",
+               handlelength=1.8, columnspacing=1.0, handletextpad=0.5, borderpad=0.5)
 
 
 def load_general(ds):
@@ -186,7 +199,8 @@ def quantile_grid(df, name, title, cols, col_label):
                 axs[i, j].text(0.5, 1.22, col_label(c), transform=axs[i, j].transAxes, ha="center", fontsize=8, weight="bold")
             if j == 0:
                 axs[i, j].set_ylabel(QL[q], fontsize=8)
-    fig.suptitle(title, fontsize=9, y=1.0); fig.tight_layout(h_pad=0.6, w_pad=0.3); save(fig, name)
+    fig.suptitle(textwrap.fill(title, int(fig.get_figwidth() * 15)), fontsize=8.5, y=1.0); fig.tight_layout(h_pad=0.6, w_pad=0.3)
+    pose_legend(fig, ncol=max(2, min(9, len(cols) + 2)), fs=6.5 if len(cols) > 3 else 6); save(fig, name)
 
 
 # ---------------------------------------------------------------- figures
@@ -220,6 +234,7 @@ for i, (ds, cols) in enumerate(ROWS):
             ax.set_ylabel({"tless": "T-LESS", "ycbv": "YCB-V", "symsolt": "SYMSOL-T", "speedplus": "SPEED+"}[ds], fontsize=8, weight="bold")
 fig.suptitle("Median-error test image per object (seed 0, final configurations). Green: ground truth; magenta: prediction "
              "(rotation and predicted translation)", fontsize=7, y=0.95)
+pose_legend(fig, ncol=9, fs=5.8, y=0.08)
 save(fig, "overview_medians")
 
 # orbit voting repairing a flip (SPEED+ lightbox, GT crops) and on T-LESS
@@ -246,7 +261,7 @@ def orbit_figure(df, ds_name, name, dom=None):
     for a in axs[0, :4]:
         a.set_xticks([]); a.set_yticks([])
     fig.suptitle(f"{ds_name}: each rolled view proposes 8 hypotheses (beam), mapped back to view 0; all 32 are scored in all four views", fontsize=7.5)
-    fig.tight_layout(); save(fig, name)
+    fig.tight_layout(); pose_legend(fig, ncol=9, fs=6); save(fig, name)
     SEL.append(dict(figure=name, column="", row="repaired flip", image=r.image, E_R_deg=round(r.err, 2), E_R_greedy_deg=round(r.err_greedy, 2), E_T=et_text(r)))
 
 
@@ -272,7 +287,12 @@ def so3_figure(df, cols, name, title, label):
         eq = np.array([np.roll(Rotation.from_matrix(quat_to_matrix(r.q_tgt_gt) @ S).as_quat(), 1) for S in r.sym])
         V.plot_so3(ax, r.cand, prob=p, q_gt=eq[:: max(1, len(eq) // 72)], size_scale=500, const_size=4, gt_size=45)
         SEL.append(dict(figure=name, column=c, row="median", image=r.image, E_R_deg=round(r.err, 2), E_R_greedy_deg=round(r.err_greedy, 2), E_T=et_text(r)))
-    fig.suptitle(title, fontsize=7.5, y=1.0); save(fig, name)
+    fig.suptitle(title, fontsize=7.5, y=1.0)
+    h = [Line2D([], [], color="#3060c0", marker="o", ms=5, ls="", label="orbit candidate (area = orbit score)"),
+         Line2D([], [], color="k", marker="o", ms=8, mfc="none", ls="", label="ground truth and its symmetry-equivalent poses"),]
+    fig.legend(handles=h, loc="upper left", bbox_to_anchor=(0.02, 0.03), ncol=2, fontsize=7, frameon=True, edgecolor="#bbbbbb",
+               title="position: where the object's x axis points; colour: rotation about that axis (wheel)", title_fontsize=7)
+    V.tilt_wheel(fig, (0.86, -0.17, 0.09, 0.17)); save(fig, name)
 
 
 so3_figure(DATA["symsolt"], ["tet", "cube", "icosa", "cone", "cyl"], "so3_symmetry_symsolt",
@@ -294,11 +314,13 @@ for j, ds in enumerate(("tless", "ycbv", "symsolt", "speedplus")):
         a.set_ylabel("predicted depth", fontsize=7)
     lat = np.linalg.norm(tp[:, :2] - tg[:, :2], axis=1); dep = np.abs(tp[:, 2] - tg[:, 2])
     b = axs[1, j]; mx = np.percentile(e, 98)
-    b.hist([lat, dep], bins=np.linspace(0, mx, 30), color=["#e08020", "#3060c0"], label=["lateral (x,y)", "depth (z)"], histtype="step", lw=1.2)
+    b.hist([lat, dep], bins=np.linspace(0, mx, 30), color=["#e08020", "#3060c0"], histtype="step", lw=1.2)
     b.axvline(e.mean(), color="k", lw=0.8, ls=":"); b.set_xlabel(f"error ({u}); mean |Δt| {e.mean():.3g}", fontsize=7); b.tick_params(labelsize=6); b.set_yticks([])
-    if j == 0:
-        b.legend(fontsize=6, frameon=False)
-fig.suptitle("Translation predicted from the frozen tokens (DINOv3 block): predicted vs GT depth (top) and error split into depth and lateral parts (bottom)", fontsize=8); fig.tight_layout(); save(fig, "translation_depth_lateral")
+fig.suptitle("Translation predicted from the frozen tokens (DINOv3 block): predicted vs GT depth (top) and error split into depth and lateral parts (bottom)", fontsize=8); fig.tight_layout()
+fig.legend(handles=[Line2D([], [], color="#3060c0", marker="o", ms=3, ls="", label="one test image"), Line2D([], [], color="k", ls="--", lw=0.8, label="perfect depth (y = x)"),
+                    Line2D([], [], color="#3060c0", lw=1.2, label="depth error"), Line2D([], [], color="#e08020", lw=1.2, label="lateral (x, y) error"),
+                    Line2D([], [], color="k", ls=":", lw=0.8, label="mean total error |Δt|")], loc="upper center", bbox_to_anchor=(0.5, 0.0), ncol=5, fontsize=7, edgecolor="#bbbbbb")
+save(fig, "translation_depth_lateral")
 
 # rotation error CDFs: 1 view (greedy) vs the selected configuration
 fig, axs = plt.subplots(1, 4, figsize=(7.4, 2.0))
