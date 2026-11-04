@@ -680,9 +680,9 @@ def spp_sota_table():
 YCBV_OBJ = ["003_cracker_box", "006_mustard_bottle", "011_banana", "025_mug", "035_power_drill", "037_scissors"]
 # (method, setting, six objects in YCBV_OBJ order or None, published mean over all 21 objects)
 YCBV_AUC_ADD = [
-    (r"PoseCNN~\cite{xiang2018posecnn}", "own segmentation", [51.7, 79.9, 72.3, 57.7, 55.1, 35.8], 53.7),
+    (r"PoseCNN~\cite{xiang2018posecnn}", "own segmentation", [51.7, 79.9, 72.3, 57.7, 55.1, 35.8], r"61.3$^\ddagger$"),
     (r"PVNet$^\ddagger$~\cite{peng2019pvnet}", "own segmentation", [80.5, 88.3, 51.8, 81.5, 83.4, 54.8], 73.4),
-    (r"PoseCNN + DeepIM~\cite{li2020deepim}", "PoseCNN init.", [83.6, 91.5, 81.2, 81.4, 85.5, 60.9], 71.7),
+    (r"PoseCNN + DeepIM~\cite{li2020deepim}", "PoseCNN init.", [83.6, 91.5, 81.2, 81.4, 85.5, 60.9], r"81.9$^\ddagger$"),
     (r"CosyPose~\cite{labbe2020cosypose}", "PoseCNN det.", None, 84.5),
     (r"GDR-Net~\cite{wang2021gdrnet}", "FCOS det.", [88.8, 92.8, 85.8, 94.0, 90.1, 49.5], 84.3),
     (r"ZebraPose~\cite{su2022zebrapose}", "FCOS det.", [87.8, 92.6, 84.6, 90.8, 89.7, 84.5], 85.3),
@@ -712,7 +712,7 @@ def ycbv_lit_table():
         L += [r"\midrule", rf"\multicolumn{{10}}{{@{{}}l}}{{\emph{{{title}}}}} \\"]
         for m, st, v, m21 in rows:
             cells = " & ".join(f"{x:.1f}" for x in v) + f" & {np.mean(v):.1f}" if v else " & ".join(["--"] * 7)
-            L.append(f"{m} & {st} & {cells} & {m21:.1f} \\\\")
+            L.append(f"{m} & {st} & {cells} & {m21 if isinstance(m21, str) else format(m21, '.1f')} \\\\")
         po = p.groupby("obj")[col].mean() * 100; bs = p.groupby("seed")[col].mean() * 100
         L.append("\\textbf{Ours} & GT crop & " + " & ".join(f"{po[o]:.1f}" for o in YCBV_OBJ) + f" & \\textbf{{{bs.mean():.1f}}}\\,{{\\scriptsize$\\pm${bs.std():.1f}}} & -- \\\\")
     L += [r"\bottomrule", r"\end{tabular}"]
