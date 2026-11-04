@@ -1,0 +1,18 @@
+\begin{tabular}{@{}l l l c cccc@{}}
+\toprule
+Method & Input & Crop & Objects & VSD & MSSD & MSPD & AR \\
+\midrule
+OPFormer, coarse (frozen DINOv2)~\cite{moroz2025opformer} & RGB & CNOS masks & 30 & 41.9 & 44.1 & 55.5 & 47.1 \\
+CosyPose (PBR)~\cite{labbe2020cosypose} & RGB & detections & 30 & 57.1 & 58.9 & 76.1 & 64.0 \\
+CosyPose (synth.\ + real)~\cite{labbe2020cosypose} & RGB & detections & 30 & 66.9 & 69.5 & 82.1 & 72.8 \\
+SurfEmb~\cite{haugaard2022surfemb} & RGB & detections & 30 & 66.8 & 69.6 & 86.0 & 74.1 \\
+ZebraPose SAT (PBR)~\cite{su2022zebrapose} & RGB & detections & 30 & 65.9 & 69.5 & 81.7 & 72.3 \\
+ZebraPose SAT~\cite{su2022zebrapose} & RGB & FCOS det. & 30 & 73.0 & 77.7 & 91.1 & 80.6 \\
+GDRNPP (PBR)~\cite{liu2025gdrnpp} & RGB & detections & 30 & 70.0 & 76.3 & 92.4 & 79.6 \\
+HccePose(BF)~\cite{wang2025hccepose} & RGB & detections & 30 & 78.5 & 83.4 & 94.8 & 85.6 \\
+GPose2023 (BOP leaderboard) & RGB-D & detections & 30 & 87.5 & 92.1 & 94.6 & 91.4 \\
+\midrule
+\textbf{Ours}, PoE A2 + orbit, instance-pooled & RGB & GT crop & 7 & -- & 43.4\,{\scriptsize$\pm$1.0} & 85.4\,{\scriptsize$\pm$0.2} & -- \\
+\quad same, object-balanced & RGB & GT crop & 7 & -- & 51.8\,{\scriptsize$\pm$0.4} & 84.6\,{\scriptsize$\pm$0.2} & -- \\
+\bottomrule
+\end{tabular}

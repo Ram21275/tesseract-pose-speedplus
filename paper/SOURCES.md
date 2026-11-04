@@ -56,3 +56,13 @@ Figure 1: `make_figure.py` (one SPEED+ lightbox crop).
   - Suppl. 9.6 / Tab. 10: "pre-trained ResNet34 … T-LESS … batch … 32 … 400k steps" (the official repo config uses batch 64).
   - Sec. 5.4: "a single model … trained across 30 T-LESS objects".
   - Full fine-tuning is read from the official code (no frozen layers), not stated in the paper.
+
+## Literature tables (EXP-130; published values hand-entered in `make_tables.py`, checked against primary PDFs, BOP leaderboard fetched 2026-11-04)
+- **Ours:** `outputs/experiments/EXP-130_literature_matched_metrics/RUN-20261104-150433-seed0`; SPEED+ rows EXP-124 as above.
+- **`ycbv_lit`:** AUC ADD(-S) and ADD-S: PoseCNN Tab. II, DeepIM Tab. 10, GDR-Net Tab. C.2, ZebraPose Tab. 6, CheckerPose Tab. 14, CosyPose Tab. 1a (means only). PVNet via GDR-Net Tab. C.2. ADD(-S) 0.1d: GDR-Net Tab. B.1 (also the source for PoseCNN), ZebraPose Tab. 5, CheckerPose Tab. 13. Mean (6) recomputed by us.
+- **`tless_ar`:** BOP leaderboard, except SurfEmb (paper Tab. 2; leaderboard entry is 66.1/68.6/85.7, AR 73.5) and OPFormer (paper). CosyPose PBR AR is the mean of its three components. GDRNPP PBR+real (TPAMI Tab. 5: 68.7/76.0/91.3, AR 78.6) and ZebraPose SAT with GDRNPP detections (74.3/79.1/93.0, AR 82.1) are omitted for space.
+- **`foundation_lit`:** FoundPose Tab. 1 and Tab. 2 row 11 (GT masks); B2TFPose (arXiv 2609.06726); OPFormer; GigaPose (other papers quote 27.3/29.0 for the coarse stage); FreeZe; Geo6DPose; SAM-6D; FoundationPose with SAM-6D masks from BOP 2024 Tab. 2.
+- **`symsol_sota`, `trans_xobj` (SYMSOL-T):** LiePose (arXiv 2305.15873v2) Tab. 3, the only per-shape source. No average column in the paper: all averages derived. Cone is .54 in Tab. 3 and .55 in Tab. 6.
+- **`spp_lit`:** Legrand 2406.11743 Tab. 2; Legrand 2605.19649 Tab. 2, Tab. 4; Cov2Pose 2603.19961 Supp. Tab. S7; CAPLR 2606.21287 Tab. XII; LIRR-SDA 2509.13792 Tab. 1; SPNv3 2409.11661 Tab. 8; Church & Nikolian 2609.26561.
+- **Unverified, shown as `--` or noted:** Cov2Pose crop source; NeRF source images in Legrand 2605.19649. Legrand prints SPNv2 without ODR as 7.99/10.37, against 6.48/11.07 in `spp_sota`; variant undetermined.
+- **Excluded (secondary sources only):** Bergia et al., VPU, FA-VAE, PVSPE, UAKD, YOLOv8s-pose.

@@ -1,0 +1,20 @@
+\begin{tabular}{@{}l l l l l c c@{}}
+\toprule
+Method & Frozen / pretrained model & Per-object training & Input & Masks & T-LESS AR & YCB-V AR \\
+\midrule
+GigaPose (coarse)~\cite{nguyen2024gigapose} & fine-tuned features & none & RGB & CNOS & 26.4 & 27.8 \\
+FoundPose (coarse)~\cite{ornek2024foundpose} & DINOv2 ViT-L & none & RGB & CNOS & 33.8 & 45.2 \\
+FoundPose (coarse)~\cite{ornek2024foundpose} & DINOv2 ViT-L & none & RGB & GT masks & 53.1 & 50.9 \\
+FoundPose + MegaPose, 5 hyp.~\cite{ornek2024foundpose} & DINOv2 ViT-L + refiner & none & RGB & CNOS & 57.0 & 69.0 \\
+B2TFPose~\cite{rafiaei2026b2tfpose} & DINOv3 & none & RGB & CNOS & 34.6 & 48.7 \\
+B2TFPose + MegaPose~\cite{rafiaei2026b2tfpose} & DINOv3 + refiner & none & RGB & CNOS & 50.0 & 65.1 \\
+OPFormer (coarse)~\cite{moroz2025opformer} & DINOv2 + trained transf. & none & RGB & CNOS & 47.1 & 65.1 \\
+FreeZe~\cite{caraffa2024freeze} & DINOv2 + GeDi & none & RGB-D & CNOS & 49.3 & 78.7 \\
+Geo6DPose~\cite{toro2025geo6dpose} & DINOv2 & none & RGB-D & CNOS & 47.8 & 59.8 \\
+Geo6DPose~\cite{toro2025geo6dpose} & DINOv2 & none & RGB-D & GT masks & 78.4 & 58.3 \\
+SAM-6D~\cite{lin2024sam6d} & trained model & none & RGB-D & CNOS & 47.9 & 81.5 \\
+FoundationPose~\cite{wen2024foundationpose} & trained model & none & RGB-D & SAM-6D masks & 64.6 & 88.9 \\
+\midrule
+\textbf{Ours} (7 / 6 objects) & DINOv3, MoGe-2 & 2.1--2.4\,M tree, 0.33\,M transl. & RGB & GT crop & -- & -- \\
+\bottomrule
+\end{tabular}

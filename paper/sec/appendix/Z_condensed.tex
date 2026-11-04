@@ -209,6 +209,7 @@ All logged runs used one NVIDIA RTX 6000 Ada in a workstation shared with other 
     \raggedright 124 & \raggedright Official score, GT-crop reference & \raggedright S1 (distilled + orbit) score LB/SL 0.227 / 0.224; S2 (joint PoE) 0.241 / 0.238; gate reproduces 11.21 / 11.09$^\circ$ and 0.185 / 0.183\,m & \raggedright descriptive; gate passed\tabularnewline
     \raggedright 127 & \raggedright Tree vs flat over the same leaves vs flat balanced Hopf & \raggedright floor 2.51 / 2.51 / 2.29; PoE+orbit synth 3.87 / 5.34 / 5.28; greedy 4.85 / 8.19 / 8.14; params 2.4 / 36.1 / 36.1\,M; head b1 34.3 / 9.7 / 9.7\,ms & \raggedright hierarchy PASS; flat faster on GPU\tabularnewline
     \raggedright 129 & \raggedright Predicted instead of GT translation (T-LESS, YCB-V) & \raggedright gate reproduces 15.187 / 12.917; predicted $t$: 15.196 / 12.920; joint 5$^\circ$5\,cm 45.4 / 55.6\%, 10$^\circ$5\,cm 73.9 / 82.5\% & \raggedright negligible (PASS)\tabularnewline
+    \raggedright 130 & \raggedright Literature metrics (YCB-V ADD(-S)/AUC, T-LESS AR$_\text{MSSD}$/AR$_\text{MSPD}$) & \raggedright gate reproduces EXP-129 (max diff $<10^{-14}$); YCB-V AUC ADD 82.1, AUC ADD-S 91.0, ADD $0.1d$ 68.5; T-LESS pooled MSSD 43.4, MSPD 85.4 & \raggedright descriptive; no overall AR\tabularnewline
     \bottomrule
   \end{tabular}
 \end{table*}

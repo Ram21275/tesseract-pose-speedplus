@@ -110,6 +110,24 @@ These results support the diagnosis of \cref{sec:diagnosis}: the right mode is r
 Retention of the orbit gain by the single-view students, defined as (base greedy $-$ student greedy)/(base greedy $-$ base orbit), is 43\%/18\%/22\% (DINOv3) and 30\%/28\%/23\% (PoE) on synthetic/lightbox/sunlamp, and 13--15\% on the rotated proxy.
 For the joint 6-DoF model, the ESA-style score (rotation error in radians plus normalised translation error, with the challenge precision floors) is 0.084/0.241/0.238 for PoE.
 
+\section{Extended literature comparison}
+\label{sec:supp_lit}
+\begin{table*}[t]
+  \centering\footnotesize
+  \setlength{\tabcolsep}{3.5pt}
+  \resizebox{\linewidth}{!}{\input{tables/spp_lit}}
+  \caption{\textbf{SPEED+ real domains, further published results} (lightbox LB, sunlamp SL), complementing \cref{tab:spp_sota}, as reported by each source. Blank (--) means not reported, or for crops that we could not verify it from the source. $^*$\,uses real or unlabelled test-domain images in training. $^\P$\,evaluated on reduced test splits. $^\S$\,inference settings chosen on the real test sets by the source. The SPNv2 rows are the retraining in~\cite{legrand2026cadfree}, which differs from the published SPNv2 numbers in \cref{tab:spp_sota}. Ours: distilled PoE students, orbit voting (pre-registered rule), DINOv3 translation block, 3 seeds. Settings differ, so only rows with the same training data and crop are matched.}
+  \label{tab:spp_lit}
+\end{table*}
+With ground-truth crops and synthetic training only, our $11.21^\circ/11.09^\circ$ is better than the direct regressor Cov2Pose ($15.10^\circ/29.13^\circ$) and the frozen-backbone heads of~\cite{church2026vfm} ($15.47^\circ/24.49^\circ$ for DINOv3-L). On lightbox it is behind every synthetic-only keypoint or landmark row ($1.34^\circ$--$8.98^\circ$); on sunlamp it is ahead of Lite-HRNet ($15.12^\circ$), the SPNv2 retraining ($14.56^\circ$) and CAPLR-s ($18.93^\circ$), level with CAPLR-m ($11.09^\circ$) and behind the others. These comparisons are subject to the crop differences in the table.
+
+\begin{table}[h]
+  \centering\footnotesize
+  \input{tables/tless_ar_perobj}
+  \caption{\textbf{Per-object BOP metrics of our T-LESS system} (\%; \cref{tab:tless_ar}). We found no published per-object AR for these objects.}
+  \label{tab:tless_ar_perobj}
+\end{table}
+
 \section{Per-object results}
 \begin{table}[h]
   \centering\footnotesize

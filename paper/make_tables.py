@@ -52,6 +52,7 @@ RUNS = {
     "deploy128": E / "EXP-128_downstream_deployment_quantization/RUN-20261103-080855-seed0",   # EXP-128 head cost
     "nogt_tless": E / "EXP-129_rotation_with_predicted_translation/RUN-20261103-162450-seed0",   # EXP-129 T-LESS, orbit-mean predicted t
     "nogt_ycbv": E / "EXP-129_rotation_with_predicted_translation/RUN-20261103-165739-seed0",    # EXP-129 YCB-V, greedy predicted t
+    "lit130": E / "EXP-130_literature_matched_metrics/RUN-20261104-150433-seed0",   # EXP-130 ADD(-S)/AUC (YCB-V), AR_MSSD/MSPD (T-LESS)
     "quant128": None,                                                                  # EXP-128 accuracy per precision: queued (dict of runs)
 }
 DOM = ["synthetic_val", "lightbox", "sunlamp"]
@@ -385,12 +386,16 @@ def tless_sota_table():
 
 # ---------------------------------------------------------------- SYMSOL-T vs LiePose (per shape, test)
 LIEPOSE_SYMSOLT = {"tet": 0.59, "cube": 0.58, "icosa": 0.64, "cone": 0.54, "cyl": 0.41}             # LiePose Tab. 3 (SE(3) model)
+LIEPOSE_SYMSOLT_BASE = (("Iterative regression", (4.25, 4.2, 29.33, 1.63, 2.34)), ("Regression", (2.92, 2.86, 2.46, 1.84, 2.24)), ("R$^3$SO(3) diffusion", (1.38, 1.93, 29.35, 1.33, 0.86)))   # LiePose Tab. 3
+LIEPOSE_T_SYMSOLT = (("Iterative regression", (.048, .037, .026, .037, .032)), ("Regression", (.064, .05, .037, .058, .049)), ("R$^3$SO(3) diffusion", (.017, .010, .009, .016, .010)), ("SE(3) diffusion", (.016, .011, .012, .016, .011)))   # LiePose Tab. 3, same shape order
 
 
 def symsol_sota_table():
     shapes = list(LIEPOSE_SYMSOLT)
     L = [r"\begin{tabular}{@{}l " + "c" * (len(shapes) + 1) + r"@{}}", r"\toprule", "Method & " + " & ".join(shapes) + r" & avg. \\", r"\midrule"]
-    L.append("LiePose~\\cite{hsiao2024liepose} & " + " & ".join(f"{v:.2f}" for v in LIEPOSE_SYMSOLT.values()) + f" & {np.mean(list(LIEPOSE_SYMSOLT.values())):.2f} \\\\")
+    for nm, v in LIEPOSE_SYMSOLT_BASE:
+        L.append(f"{nm}~\\cite{{hsiao2024liepose}} & " + " & ".join(f"{x:.2f}" for x in v) + f" & {np.mean(v):.2f} \\\\")
+    L.append("LiePose, SE(3)~\\cite{hsiao2024liepose} & " + " & ".join(f"{v:.2f}" for v in LIEPOSE_SYMSOLT.values()) + f" & {np.mean(list(LIEPOSE_SYMSOLT.values())):.2f} \\\\")
     L.append(r"\midrule")
     for k, name in (("symsolt_A0", "Ours, A0 + orbit"), ("symsolt_A2", "Ours, A2 + orbit"), ("symsolt_A2D_dino", "Ours, A2 + distill.\\ + orbit")):
         if have(k):
@@ -460,6 +465,8 @@ def trans_xobj_table():
                 L.append(f"{name if (n == 0 and ds != 'tless') else ''} & {lab} & & & & \\\\")
         if ds != "symsolt":
             L.append(r"\midrule")
+    for nm, v in LIEPOSE_T_SYMSOLT:
+        L.append(f" & {nm}~\\cite{{hsiao2024liepose}} & -- & -- & -- & {np.mean(v):.3f} \\\\")
     L += [r"\bottomrule", r"\end{tabular}"]
     write("trans_xobj", "\n".join(L))
 
@@ -669,8 +676,154 @@ def spp_sota_table():
     write("spp_sota", "\n".join(L))
 
 
+# ---------------------------------------------------------------- EXP-130: literature tables (published values hand-entered, see SOURCES.md)
+YCBV_OBJ = ["003_cracker_box", "006_mustard_bottle", "011_banana", "025_mug", "035_power_drill", "037_scissors"]
+# (method, setting, six objects in YCBV_OBJ order or None, published mean over all 21 objects)
+YCBV_AUC_ADD = [
+    (r"PoseCNN~\cite{xiang2018posecnn}", "own segmentation", [51.7, 79.9, 72.3, 57.7, 55.1, 35.8], 53.7),
+    (r"PVNet$^\ddagger$~\cite{peng2019pvnet}", "own segmentation", [80.5, 88.3, 51.8, 81.5, 83.4, 54.8], 73.4),
+    (r"PoseCNN + DeepIM~\cite{li2020deepim}", "PoseCNN init.", [83.6, 91.5, 81.2, 81.4, 85.5, 60.9], 71.7),
+    (r"CosyPose~\cite{labbe2020cosypose}", "PoseCNN det.", None, 84.5),
+    (r"GDR-Net~\cite{wang2021gdrnet}", "FCOS det.", [88.8, 92.8, 85.8, 94.0, 90.1, 49.5], 84.3),
+    (r"ZebraPose~\cite{su2022zebrapose}", "FCOS det.", [87.8, 92.6, 84.6, 90.8, 89.7, 84.5], 85.3),
+    (r"CheckerPose~\cite{lian2023checkerpose}", "FCOS det.", [86.7, 90.9, 90.1, 92.7, 88.8, 81.6], 86.4),
+]
+YCBV_AUC_ADDS = [
+    (r"PoseCNN~\cite{xiang2018posecnn}", "own segmentation", [76.9, 90.2, 85.9, 78.0, 72.8, 56.2], 75.9),
+    (r"PoseCNN + DeepIM~\cite{li2020deepim}", "PoseCNN init.", [91.0, 95.1, 91.3, 91.3, 92.3, 75.4], 88.1),
+    (r"CosyPose~\cite{labbe2020cosypose}", "PoseCNN det.", None, 89.8),
+    (r"GDR-Net~\cite{wang2021gdrnet}", "FCOS det.", [97.0, 100.0, 96.3, 99.6, 97.5, 63.8], 91.6),
+    (r"ZebraPose~\cite{su2022zebrapose}", "FCOS det.", [93.0, 96.0, 92.6, 96.1, 95.0, 92.5], 90.1),
+    (r"CheckerPose~\cite{lian2023checkerpose}", "FCOS det.", [93.2, 95.7, 95.7, 96.9, 94.7, 91.7], 91.3),
+]
+YCBV_ADD01 = [
+    (r"PoseCNN$^\ddagger$~\cite{xiang2018posecnn}", "own segmentation", [25.1, 61.9, 30.3, 5.2, 29.9, 2.2], 21.3),
+    (r"GDR-Net~\cite{wang2021gdrnet}", "FCOS det.", [83.2, 90.2, 64.1, 61.5, 78.5, 3.9], 60.1),
+    (r"ZebraPose~\cite{su2022zebrapose}", "FCOS det.", [98.5, 100.0, 71.2, 77.5, 97.4, 71.8], 80.5),
+    (r"CheckerPose~\cite{lian2023checkerpose}", "FCOS det.", [94.2, 99.2, 96.0, 89.0, 95.9, 62.4], 81.4),
+]
+
+
+def ycbv_lit_table():
+    p = csv("lit130", "ycbv_per_object_seed"); p = p[(p.variant == "DINO") & (p["mode"] == "greedy")]
+    L = [r"\begin{tabular}{@{}l l cccccc cc@{}}", r"\toprule",
+         r"Method & Crop / init. & cracker & mustard & banana & mug & drill & scissors & mean (6) & mean (21) \\"]
+    for title, col, rows in (("AUC of ADD(-S), 0--10\\,cm", "AUC_ADD", YCBV_AUC_ADD), ("AUC of ADD-S, 0--10\\,cm", "AUC_ADDS", YCBV_AUC_ADDS), ("ADD(-S) recall at $0.1d$", "ADD_01d", YCBV_ADD01)):
+        L += [r"\midrule", rf"\multicolumn{{10}}{{@{{}}l}}{{\emph{{{title}}}}} \\"]
+        for m, st, v, m21 in rows:
+            cells = " & ".join(f"{x:.1f}" for x in v) + f" & {np.mean(v):.1f}" if v else " & ".join(["--"] * 7)
+            L.append(f"{m} & {st} & {cells} & {m21:.1f} \\\\")
+        po = p.groupby("obj")[col].mean() * 100; bs = p.groupby("seed")[col].mean() * 100
+        L.append("\\textbf{Ours} & GT crop & " + " & ".join(f"{po[o]:.1f}" for o in YCBV_OBJ) + f" & \\textbf{{{bs.mean():.1f}}}\\,{{\\scriptsize$\\pm${bs.std():.1f}}} & -- \\\\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("ycbv_lit", "\n".join(L))
+
+
+TLESS_BOP = [   # method, input, crop, VSD, MSSD, MSPD, AR (x100, all 30 objects, 6423 instances); BOP leaderboard unless SOURCES.md says otherwise
+    (r"OPFormer, coarse (frozen DINOv2)~\cite{moroz2025opformer}", "RGB", "CNOS masks", 41.9, 44.1, 55.5, 47.1),
+    (r"CosyPose (PBR)~\cite{labbe2020cosypose}", "RGB", "detections", 57.1, 58.9, 76.1, 64.0),
+    (r"CosyPose (synth.\ + real)~\cite{labbe2020cosypose}", "RGB", "detections", 66.9, 69.5, 82.1, 72.8),
+    (r"SurfEmb~\cite{haugaard2022surfemb}", "RGB", "detections", 66.8, 69.6, 86.0, 74.1),
+    (r"ZebraPose SAT (PBR)~\cite{su2022zebrapose}", "RGB", "detections", 65.9, 69.5, 81.7, 72.3),
+    (r"ZebraPose SAT~\cite{su2022zebrapose}", "RGB", "FCOS det.", 73.0, 77.7, 91.1, 80.6),
+    (r"GDRNPP (PBR)~\cite{liu2025gdrnpp}", "RGB", "detections", 70.0, 76.3, 92.4, 79.6),
+    (r"HccePose(BF)~\cite{wang2025hccepose}", "RGB", "detections", 78.5, 83.4, 94.8, 85.6),
+    (r"GPose2023 (BOP leaderboard)", "RGB-D", "detections", 87.5, 92.1, 94.6, 91.4),
+]
+
+
+def tless_ar_table():
+    s = csv("lit130", "tless_summary"); s = s[(s.variant == "PoE") & (s["mode"] == "orbit_product")].set_index("avg")
+    L = [r"\begin{tabular}{@{}l l l c cccc@{}}", r"\toprule", r"Method & Input & Crop & Objects & VSD & MSSD & MSPD & AR \\", r"\midrule"]
+    for m, inp, cr, a, b, c, d in TLESS_BOP:
+        L.append(f"{m} & {inp} & {cr} & 30 & {a:.1f} & {b:.1f} & {c:.1f} & {d:.1f} \\\\")
+    L.append(r"\midrule")
+    for av, lab in (("instance_pooled", r"\textbf{Ours}, PoE A2 + orbit, instance-pooled"), ("object_balanced", r"\quad same, object-balanced")):
+        r = s.loc[av]
+        L.append(f"{lab} & RGB & GT crop & 7 & -- & {100 * r.AR_MSSD_mean:.1f}\\,{{\\scriptsize$\\pm${100 * r.AR_MSSD_std:.1f}}} & {100 * r.AR_MSPD_mean:.1f}\\,{{\\scriptsize$\\pm${100 * r.AR_MSPD_std:.1f}}} & -- \\\\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("tless_ar", "\n".join(L))
+    po = csv("lit130", "tless_per_object"); po = po[(po.variant == "PoE") & (po["mode"] == "orbit_product")].set_index("obj")
+    ob = [1, 4, 5, 11, 18, 21, 27]; q = csv("lit130", "tless_per_object_seed"); n = q.drop_duplicates("obj").set_index("obj").n
+    L = [r"\begin{tabular}{@{}l " + "c" * len(ob) + r"@{}}", r"\toprule", "Object & " + " & ".join(map(str, ob)) + r" \\", r"\midrule",
+         "Instances & " + " & ".join(str(int(n[o])) for o in ob) + r" \\",
+         r"AR$_\text{MSSD}$ & " + " & ".join(f"{100 * po.AR_MSSD[o]:.1f}" for o in ob) + r" \\", r"AR$_\text{MSPD}$ & " + " & ".join(f"{100 * po.AR_MSPD[o]:.1f}" for o in ob) + r" \\",
+         r"\bottomrule", r"\end{tabular}"]
+    write("tless_ar_perobj", "\n".join(L))
+
+
+FOUNDATION = [   # method, backbone, trained per object, input, masks/crops, AR T-LESS, AR YCB-V
+    (r"GigaPose (coarse)~\cite{nguyen2024gigapose}", "fine-tuned features", "none", "RGB", "CNOS", "26.4", "27.8"),
+    (r"FoundPose (coarse)~\cite{ornek2024foundpose}", "DINOv2 ViT-L", "none", "RGB", "CNOS", "33.8", "45.2"),
+    (r"FoundPose (coarse)~\cite{ornek2024foundpose}", "DINOv2 ViT-L", "none", "RGB", "GT masks", "53.1", "50.9"),
+    (r"FoundPose + MegaPose, 5 hyp.~\cite{ornek2024foundpose}", "DINOv2 ViT-L + refiner", "none", "RGB", "CNOS", "57.0", "69.0"),
+    (r"B2TFPose~\cite{rafiaei2026b2tfpose}", "DINOv3", "none", "RGB", "CNOS", "34.6", "48.7"),
+    (r"B2TFPose + MegaPose~\cite{rafiaei2026b2tfpose}", "DINOv3 + refiner", "none", "RGB", "CNOS", "50.0", "65.1"),
+    (r"OPFormer (coarse)~\cite{moroz2025opformer}", "DINOv2 + trained transf.", "none", "RGB", "CNOS", "47.1", "65.1"),
+    (r"FreeZe~\cite{caraffa2024freeze}", "DINOv2 + GeDi", "none", "RGB-D", "CNOS", "49.3", "78.7"),
+    (r"Geo6DPose~\cite{toro2025geo6dpose}", "DINOv2", "none", "RGB-D", "CNOS", "47.8", "59.8"),
+    (r"Geo6DPose~\cite{toro2025geo6dpose}", "DINOv2", "none", "RGB-D", "GT masks", "78.4", "58.3"),
+    (r"SAM-6D~\cite{lin2024sam6d}", "trained model", "none", "RGB-D", "CNOS", "47.9", "81.5"),
+    (r"FoundationPose~\cite{wen2024foundationpose}", "trained model", "none", "RGB-D", "SAM-6D masks", "64.6", "88.9"),
+]
+
+
+def foundation_lit_table():
+    s = csv("lit130", "tless_summary"); r = s[(s.avg == "instance_pooled") & (s.variant == "PoE") & (s["mode"] == "orbit_product")].iloc[0]
+    y = csv("lit130", "ycbv_summary"); y = y[(y.avg == "object_balanced") & (y.variant == "DINO") & (y["mode"] == "greedy")].iloc[0]
+    L = [r"\begin{tabular}{@{}l l l l l c c@{}}", r"\toprule", r"Method & Frozen / pretrained model & Per-object training & Input & Masks & T-LESS AR & YCB-V AR \\", r"\midrule"]
+    for row in FOUNDATION:
+        L.append(" & ".join(row) + r" \\")
+    L.append(r"\midrule")
+    L.append(f"\\textbf{{Ours}} (7 / 6 objects) & DINOv3, MoGe-2 & 2.1--2.4\\,M tree, 0.33\\,M transl. & RGB & GT crop & -- & -- \\\\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("foundation_lit", "\n".join(L))
+
+
+SPP_LIT = [   # method, training data, crop, E_R LB/SL, E_T LB/SL (m), score LB/SL
+    (r"Cov2Pose (direct regr.)~\cite{ousalah2026cov2pose}", "synthetic", "--", 15.096, 29.128, .300, .430, .3101, .574),
+    (r"Lite-HRNet~\cite{legrand2024domain}", "synthetic", "GT keypoints", 7.42, 15.12, .14, .20, .15, .30),
+    (r"HRNet + PEM~\cite{legrand2024domain}", "synthetic", "GT keypoints", 4.32, 6.94, .09, .14, .09, .14),
+    (r"SPNv2, synth.~\cite{legrand2026cadfree}", "synthetic", "full image", 8.90, 14.56, .2298, .2573, .193, .295),
+    (r"SPNv2, NeRF aug.~\cite{legrand2026cadfree}", "synth.\\ + NeRF renders", "full image", 6.75, 8.96, None, None, .155, .183),
+    (r"CAD-free$^*$~\cite{legrand2026cadfree}", "400 real SHIRT images", "--", 4.80, 9.01, None, None, .109, .191),
+    (r"CAPLR-m~\cite{chenni2026caplr}", "synthetic", "768$\\times$512", 5.31, 11.09, .162, .288, .119, .237),
+    (r"CAPLR-m UDA$^*$~\cite{chenni2026caplr}", "+ unlabelled HIL", "768$\\times$512", 3.54, 5.77, None, None, .080, .122),
+    (r"CAPLR-m labelled$^*$~\cite{chenni2026caplr}", "+ labelled real", "768$\\times$512", 2.99, 3.69, None, None, .068, .082),
+    (r"CAPLR-s~\cite{chenni2026caplr}", "synthetic", "--", 8.98, 18.93, None, None, .193, .395),
+    (r"CAPLR-s UDA$^*$~\cite{chenni2026caplr}", "+ unlabelled HIL", "--", 7.80, 11.17, None, None, .165, .230),
+    (r"LIRR-SDA, 250 labels$^{*\P}$~\cite{singh2025lirr}", "+ labelled target", "GT box + 5\\%", 11.57, 11.58, None, None, .29, .29),
+    (r"LIRR-SDA, 500 labels$^{*\P}$~\cite{singh2025lirr}", "+ labelled target", "GT box + 5\\%", 9.93, 7.84, None, None, .25, .21),
+    (r"SPNv3-B, single model~\cite{park2026spnv3}", "synthetic", "GT crop", 2.183, 3.612, None, None, .051, .079),
+    (r"DINOv3-H+ LoRA, 1 pass$^\S$~\cite{church2026vfm}", "synthetic", "GT crop", 1.34, 1.84, None, None, .0312, .0428),
+    (r"DINOv3-L LoRA, 1 pass$^\S$~\cite{church2026vfm}", "synthetic", "GT crop", 1.90, 2.26, None, None, .0428, .0510),
+    (r"22\,M CNN baseline$^\S$~\cite{church2026vfm}", "synthetic", "GT crop", 3.60, 5.19, None, None, None, None),
+    (r"Frozen SigLIP2-L + head~\cite{church2026vfm}", "synthetic", "GT crop", 44.37, 58.92, None, None, None, None),
+    (r"Frozen DINOv3-L + head~\cite{church2026vfm}", "synthetic", "GT crop", 15.47, 24.49, None, None, None, None),
+]
+for _r in SPP_LIT:     # score = E_R(rad) + normalised translation, so it can never be below E_R in radians: catches transposed columns
+    for _a, _s in ((_r[3], _r[7]), (_r[4], _r[8])):
+        assert _s is None or _s >= np.radians(_a) - 0.015, _r[0]
+
+
+def spp_lit_table():
+    f = lambda v, d: "--" if v is None else f"{v:.{d}f}"
+    L = [r"\begin{tabular}{@{}l l l cc cc cc@{}}", r"\toprule", r" & & & \multicolumn{2}{c}{$E_R$ ($^\circ$)} & \multicolumn{2}{c}{$E_T$ (m)} & \multicolumn{2}{c}{score} \\",
+         r"\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9} Method & Training data & Crop & LB & SL & LB & SL & LB & SL \\", r"\midrule"]
+    for m, tr, cr, a, b, c, d, e, g in SPP_LIT:
+        L.append(f"{m} & {tr} & {cr} & {f(a, 2)} & {f(b, 2)} & {f(c, 3)} & {f(d, 3)} & {f(e, 3)} & {f(g, 3)} \\\\")
+    L.append(r"\midrule")
+    for key, crops, st in (("spp_gt", "gt", "GT crop"), ("spp_det", "det", "synth.\\ detector")):
+        g = csv(key); g = {x.domain: x for x in g[(g.crops == crops) & g.system.str.startswith("S1") & (g.rot_mode == "orbit_product") & (g.trans_mode == "orbit_mean")].itertuples()}
+        lb, sl = g["lightbox"], g["sunlamp"]
+        L.append(f"\\textbf{{Ours}} (frozen) & synthetic & {st} & {lb.E_R_mean_deg:.2f} & {sl.E_R_mean_deg:.2f} & {lb.E_T_mean_m:.3f} & {sl.E_T_mean_m:.3f} & {lb.score:.3f} & {sl.score:.3f} \\\\")
+    L += [r"\bottomrule", r"\end{tabular}"]
+    write("spp_lit", "\n".join(L))
+
+
 if __name__ == "__main__":
     trans_xobj_table(); deploy_tables(); summary_table(); cost_tables(); components_table(); ft_table()
     main_table(); flips_table(); sixdof_table(); xds_table(); flat_table(); scoring_table(); augment_table()
     consistency_table(); timing_table(); zeroshot_table()
     sym_table(); tless_sota_table(); symsol_sota_table(); ycbv_table(); spp_sota_table()
+    ycbv_lit_table(); tless_ar_table(); foundation_lit_table(); spp_lit_table()

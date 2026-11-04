@@ -282,3 +282,8 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
   - SPEED+ keeps the pre-registered orbit scoring rule (likelihood product) as primary: 11.21° / 11.09°, score 0.227 / 0.224; detected 23.88° / 16.42°, 0.523 / 0.333.
   - The weighted vote that synthetic validation would prefer is reported as the alternative.
   - T-LESS, SYMSOL-T and YCB-V keep their validation-selected configurations.
+
+## DEC-029 — EXP-130: literature metrics on the finalised T-LESS and YCB-V systems (2026-11-04)
+- **Decided by:** the user: "compare with sota and literature and add tables".
+- **Reason:** YCB-V and most T-LESS literature report ADD(-S) / AUC / BOP AR, which we had not computed, so no matched comparison was possible.
+- **Scope:** evaluation only, EXP-129 configurations, 3 seeds, test sets. Pre-registered in `outputs/reports/EXP-130_literature_matched_metrics.md`. AR_VSD not computed.

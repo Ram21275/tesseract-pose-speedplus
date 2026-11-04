@@ -106,5 +106,10 @@ Every number in the abstract, introduction and conclusion must come from this fi
   - The weighted vote, which synthetic validation would prefer (3.27 vs 3.69), is reported as the alternative: GT 11.35°/11.91°, 0.229/0.239; detected 24.96°/16.90°, 0.541/0.341.
   - All other benchmarks keep their validation-selected configurations.
 
+## Literature comparison (EXP-130, `outputs/experiments/EXP-130_literature_matched_metrics/RUN-20261104-150433-seed0`)
+- **YCB-V, 6 objects, GT crops, 3 seeds:** AUC ADD 82.1 ± 1.8, AUC ADD-S 91.0 ± 0.8, ADD 0.1d 68.5 ± 2.0. Published means over the same six: `paper/tables/ycbv_lit.tex`.
+- **T-LESS, 7 objects, GT crops, A2 PoE + orbit before distillation:** instance-pooled AR_MSSD 43.4 ± 1.0, AR_MSPD 85.4 ± 0.2. No AR_VSD, so no overall AR.
+- **Not claimed:** any win over a published row with a detector, or any AR comparison with frozen-backbone methods.
+
 ## Pending (blank cells only)
-- None. EXP-119, EXP-127, EXP-128 and EXP-129 are complete and in the paper.
+- None. EXP-119, EXP-127, EXP-128, EXP-129 and EXP-130 are complete and in the paper.
