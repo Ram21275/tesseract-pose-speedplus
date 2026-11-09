@@ -1,0 +1,272 @@
+[
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "box_only",
+    "obj": "cone",
+    "E_T_mean": 0.9550073475625152,
+    "E_T_median": 0.9776381437252438,
+    "e_t_norm_mean": 0.10510206757152393
+  },
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "box_only",
+    "obj": "cube",
+    "E_T_mean": 0.9632112188870622,
+    "E_T_median": 0.9844992825061076,
+    "e_t_norm_mean": 0.1059672125671838
+  },
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "box_only",
+    "obj": "cyl",
+    "E_T_mean": 0.95849451493762,
+    "E_T_median": 0.9890639791900677,
+    "e_t_norm_mean": 0.10532326600145572
+  },
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "box_only",
+    "obj": "icosa",
+    "E_T_mean": 0.9556995473905401,
+    "E_T_median": 0.9798755028251394,
+    "e_t_norm_mean": 0.10517305481847725
+  },
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "box_only",
+    "obj": "tet",
+    "E_T_mean": 0.959652790933814,
+    "E_T_median": 0.9831269924996094,
+    "e_t_norm_mean": 0.10556752639466695
+  },
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "greedy",
+    "obj": "cone",
+    "E_T_mean": 0.09811808695758352,
+    "E_T_median": 0.0860563895972597,
+    "e_t_norm_mean": 0.01074977707848617
+  },
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "greedy",
+    "obj": "cube",
+    "E_T_mean": 0.07379421326733766,
+    "E_T_median": 0.06510248245137659,
+    "e_t_norm_mean": 0.008087214985580283
+  },
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "greedy",
+    "obj": "cyl",
+    "E_T_mean": 0.06489452847480247,
+    "E_T_median": 0.05791855225215682,
+    "e_t_norm_mean": 0.007100990596988254
+  },
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "greedy",
+    "obj": "icosa",
+    "E_T_mean": 0.06325161985565778,
+    "E_T_median": 0.05721785847194123,
+    "e_t_norm_mean": 0.006928539627811005
+  },
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "greedy",
+    "obj": "tet",
+    "E_T_mean": 0.11386153543517732,
+    "E_T_median": 0.09877031457841562,
+    "e_t_norm_mean": 0.012480593234349198
+  },
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "orbit_mean",
+    "obj": "cone",
+    "E_T_mean": 0.07153229768972297,
+    "E_T_median": 0.06427184057296144,
+    "e_t_norm_mean": 0.007829395187906601
+  },
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "orbit_mean",
+    "obj": "cube",
+    "E_T_mean": 0.053869059962266715,
+    "E_T_median": 0.05010625642001704,
+    "e_t_norm_mean": 0.005896317218643011
+  },
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "orbit_mean",
+    "obj": "cyl",
+    "E_T_mean": 0.05325703719886428,
+    "E_T_median": 0.04950227706660108,
+    "e_t_norm_mean": 0.00582075218260584
+  },
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "orbit_mean",
+    "obj": "icosa",
+    "E_T_mean": 0.04892122120076459,
+    "E_T_median": 0.04612780517472753,
+    "e_t_norm_mean": 0.005355638549923631
+  },
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "orbit_mean",
+    "obj": "tet",
+    "E_T_mean": 0.07987028109500285,
+    "E_T_median": 0.07036155583470632,
+    "e_t_norm_mean": 0.008747297574605257
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "box_only",
+    "obj": "cone",
+    "E_T_mean": 0.9653181023523064,
+    "E_T_median": 0.9844761815212664,
+    "e_t_norm_mean": 0.10594435002407827
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "box_only",
+    "obj": "cube",
+    "E_T_mean": 0.9540665337122084,
+    "E_T_median": 0.9754575049288925,
+    "e_t_norm_mean": 0.1054207595613912
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "box_only",
+    "obj": "cyl",
+    "E_T_mean": 0.9524129417593592,
+    "E_T_median": 0.9759861134269943,
+    "e_t_norm_mean": 0.10475499575542008
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "box_only",
+    "obj": "icosa",
+    "E_T_mean": 0.9549658367232516,
+    "E_T_median": 0.9784281482198629,
+    "e_t_norm_mean": 0.10490399493026584
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "box_only",
+    "obj": "tet",
+    "E_T_mean": 0.9626689576510482,
+    "E_T_median": 0.9870932334257823,
+    "e_t_norm_mean": 0.10593944910032849
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "greedy",
+    "obj": "cone",
+    "E_T_mean": 0.09696515292208423,
+    "E_T_median": 0.08446441355999647,
+    "e_t_norm_mean": 0.010610458956779034
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "greedy",
+    "obj": "cube",
+    "E_T_mean": 0.07435234968052748,
+    "E_T_median": 0.06664245999411511,
+    "e_t_norm_mean": 0.008182516556563857
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "greedy",
+    "obj": "cyl",
+    "E_T_mean": 0.06332686982197697,
+    "E_T_median": 0.057371552878019594,
+    "e_t_norm_mean": 0.006938796151357957
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "greedy",
+    "obj": "icosa",
+    "E_T_mean": 0.06232288034459039,
+    "E_T_median": 0.0564176737678482,
+    "e_t_norm_mean": 0.006815882722339679
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "greedy",
+    "obj": "tet",
+    "E_T_mean": 0.11154168281221209,
+    "E_T_median": 0.09825540733542956,
+    "e_t_norm_mean": 0.012224543632217408
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "orbit_mean",
+    "obj": "cone",
+    "E_T_mean": 0.07214825772307462,
+    "E_T_median": 0.06562463991017228,
+    "e_t_norm_mean": 0.007878344065992818
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "orbit_mean",
+    "obj": "cube",
+    "E_T_mean": 0.05520482722378433,
+    "E_T_median": 0.051696865454032806,
+    "e_t_norm_mean": 0.006068349045486761
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "orbit_mean",
+    "obj": "cyl",
+    "E_T_mean": 0.05155905129107802,
+    "E_T_median": 0.04852419214503685,
+    "e_t_norm_mean": 0.005641967031936547
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "orbit_mean",
+    "obj": "icosa",
+    "E_T_mean": 0.048288797571594544,
+    "E_T_median": 0.045820964828446414,
+    "e_t_norm_mean": 0.0052764020936370845
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "orbit_mean",
+    "obj": "tet",
+    "E_T_mean": 0.07926666490770817,
+    "E_T_median": 0.07018841871581777,
+    "e_t_norm_mean": 0.00868343430477463
+  }
+]

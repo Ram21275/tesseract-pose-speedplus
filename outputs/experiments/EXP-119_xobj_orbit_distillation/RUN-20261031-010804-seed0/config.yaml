@@ -1,0 +1,7 @@
+stage: teacher
+dataset: symsolt
+obj: cyl
+variant: DINO
+seed: 0
+runs_dir: EXP-106_tless_multipath_tree
+filter: label=multi

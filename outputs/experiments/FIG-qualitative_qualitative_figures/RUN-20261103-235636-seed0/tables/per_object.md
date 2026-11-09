@@ -1,0 +1,22 @@
+| split | variant | mode | obj | sym_mean | sym_mean_std | sym_median | acc10 | raw_mean |
+|---|---|---|---|---|---|---|---|---|
+| test | DINO | greedy | cone | 1.790 | nan | 1.658 | 1.000 | 87.997 |
+| test | DINO | greedy | cube | 3.019 | nan | 2.731 | 0.993 | 129.073 |
+| test | DINO | greedy | cyl | 1.710 | nan | 1.605 | 1.000 | 133.522 |
+| test | DINO | greedy | icosa | 3.021 | nan | 2.952 | 1.000 | 128.025 |
+| test | DINO | greedy | tet | 3.305 | nan | 2.999 | 0.994 | 124.352 |
+| test | DINO | orbit_product | cone | 1.589 | nan | 1.409 | 1.000 | 89.333 |
+| test | DINO | orbit_product | cube | 2.294 | nan | 2.237 | 1.000 | 129.329 |
+| test | DINO | orbit_product | cyl | 1.486 | nan | 1.395 | 1.000 | 134.286 |
+| test | DINO | orbit_product | icosa | 2.512 | nan | 2.456 | 1.000 | 129.224 |
+| test | DINO | orbit_product | tet | 2.461 | nan | 2.368 | 1.000 | 124.411 |
+| validation | DINO | greedy | cone | 1.796 | nan | 1.682 | 1.000 | 91.290 |
+| validation | DINO | greedy | cube | 2.972 | nan | 2.721 | 0.994 | 127.625 |
+| validation | DINO | greedy | cyl | 1.671 | nan | 1.555 | 1.000 | 135.169 |
+| validation | DINO | greedy | icosa | 3.011 | nan | 2.962 | 1.000 | 128.438 |
+| validation | DINO | greedy | tet | 3.273 | nan | 2.964 | 0.996 | 124.924 |
+| validation | DINO | orbit_product | cone | 1.586 | nan | 1.424 | 1.000 | 88.769 |
+| validation | DINO | orbit_product | cube | 2.312 | nan | 2.243 | 1.000 | 130.406 |
+| validation | DINO | orbit_product | cyl | 1.469 | nan | 1.368 | 1.000 | 133.598 |
+| validation | DINO | orbit_product | icosa | 2.534 | nan | 2.508 | 1.000 | 127.203 |
+| validation | DINO | orbit_product | tet | 2.457 | nan | 2.373 | 1.000 | 124.819 |

@@ -1,0 +1,3 @@
+ep 5 loss 0.2886 val_trans_mean 0.1310
+ep 10 loss 0.2211 val_trans_mean 0.1092
+ep 15 loss 0.1999 val_trans_mean 0.1133

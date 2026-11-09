@@ -1,0 +1,8 @@
+crops: gt
+seeds: '0'
+exp: FIG-qualitative
+exp_name: qualitative_figures
+save_preds: true
+systems: S1
+stage: eval
+seed: 0

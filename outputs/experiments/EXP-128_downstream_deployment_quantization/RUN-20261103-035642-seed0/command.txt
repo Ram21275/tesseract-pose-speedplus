@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/orbit_eval.py --exp EXP-128_downstream_deployment_quantization --precision fp16 --modes greedy,orbit_product --variants DINO --families tree:EXP-117_orbit_distillation:exp109_train_aug1+exp109_train_aug2:teacher_variant=DINO

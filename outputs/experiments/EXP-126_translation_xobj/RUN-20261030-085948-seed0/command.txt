@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/exp064_eval.py --dataset tless --exp EXP-126 --exp-name translation_xobj --runs-dir EXP-126_translation_xobj --filter trans=frozen --tag F

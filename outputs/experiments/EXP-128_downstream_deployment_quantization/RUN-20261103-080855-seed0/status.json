@@ -1,0 +1,12 @@
+{
+  "state": "completed",
+  "pid": 2560477,
+  "start": "2026-11-03T08:08:55.039059",
+  "wall_clock_s": 2124.91,
+  "peak_cpu_rss_mb": 5171.0,
+  "peak_gpu_mb": 1659.7,
+  "end": "2026-11-03T08:44:19.952021",
+  "gpu": "NVIDIA RTX 6000 Ada Generation\nNVIDIA RTX A400",
+  "cpu": "Model name:                              Intel(R) Core(TM) Ultra 9 285K",
+  "cpu_count": 24
+}

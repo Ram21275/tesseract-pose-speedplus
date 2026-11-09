@@ -1,0 +1,10 @@
+| domain | family | train_aug | variant | mode | mean_deg | median_deg | acc@5 | acc@10 | acc@20 | frac_gt90 | frac_gt150 | n_greedy_gt150 | frac_gt150_to_lt20 | n_greedy_lt20 | frac_lt20_to_gt150 | view_consistency@10 | mean_deg_std |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| lightbox | tree:teacher_variant=PoE | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 15.917 | 6.373 | 0.337 | 0.763 | 0.907 | 0.052 | 0.037 | 249.333 | 0.000 | 6111.000 | 0.000 | 0.571 | 0.533 |
+| lightbox | tree:teacher_variant=PoE | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 11.211 | 5.025 | 0.496 | 0.858 | 0.948 | 0.032 | 0.026 | 249.333 | 0.456 | 6111.000 | 0.005 | 0.571 | 0.444 |
+| sunlamp | tree:teacher_variant=PoE | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 18.262 | 7.905 | 0.242 | 0.644 | 0.868 | 0.057 | 0.030 | 83.000 | 0.000 | 2423.667 | 0.000 | 0.479 | 0.737 |
+| sunlamp | tree:teacher_variant=PoE | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 11.066 | 5.908 | 0.393 | 0.798 | 0.940 | 0.024 | 0.014 | 83.000 | 0.619 | 2423.667 | 0.004 | 0.479 | 0.558 |
+| synthetic_val | tree:teacher_variant=PoE | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 4.559 | 4.151 | 0.663 | 0.981 | 0.998 | 0.001 | 0.000 | 4.667 | 0.000 | 11975.000 | 0.000 | 0.790 | 0.024 |
+| synthetic_val | tree:teacher_variant=PoE | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 3.697 | 3.305 | 0.810 | 0.988 | 0.999 | 0.000 | 0.000 | 4.667 | 0.533 | 11975.000 | 0.000 | 0.790 | 0.015 |
+| synthetic_val_aug | tree:teacher_variant=PoE | exp109_train_aug1,exp109_train_aug2 | PoE | greedy | 9.209 | 5.665 | 0.412 | 0.855 | 0.961 | 0.017 | 0.009 | 105.667 | 0.000 | 11526.000 | 0.000 | 0.650 | 0.097 |
+| synthetic_val_aug | tree:teacher_variant=PoE | exp109_train_aug1,exp109_train_aug2 | PoE | orbit_product | 5.419 | 3.665 | 0.728 | 0.950 | 0.984 | 0.007 | 0.003 | 105.667 | 0.605 | 11526.000 | 0.000 | 0.650 | 0.158 |

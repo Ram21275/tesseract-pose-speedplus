@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_xobj.py --dataset tless --obj 11 --features dinov3_vitl16:tokens8 --token-shape 64x1024 --seed 0 --label multi --teacher outputs/experiments/EXP-119_xobj_orbit_distillation/teacher_tless_11_DINO_seed0.npz --teacher-variant DINO --beta 1 --exp EXP-119 --exp-name xobj_orbit_distillation

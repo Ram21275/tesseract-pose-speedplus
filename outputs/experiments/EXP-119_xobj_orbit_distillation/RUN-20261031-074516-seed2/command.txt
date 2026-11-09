@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/xobj_teacher.py --dataset symsolt --obj cube --variant PoE --seed 2 --runs-dir EXP-106_tless_multipath_tree --filter label=multi

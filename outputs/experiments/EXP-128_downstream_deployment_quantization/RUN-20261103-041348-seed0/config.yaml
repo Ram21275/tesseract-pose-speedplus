@@ -1,0 +1,14 @@
+dataset: tless
+seeds: 0,1,2
+modes: greedy,orbit_product
+exp: EXP-128
+exp_name: downstream_deployment_quantization
+runs_dir: EXP-106_tless_multipath_tree
+filter: label=multi
+variants: PoE,DINO
+tag: A2_fp16
+precision: fp16
+pose_t: gt
+pose_t_variant: same
+stage: eval
+seed: 0

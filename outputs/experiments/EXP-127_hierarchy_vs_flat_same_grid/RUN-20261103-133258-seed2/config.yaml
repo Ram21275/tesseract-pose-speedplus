@@ -1,0 +1,15 @@
+exp: EXP-127_hierarchy_vs_flat_same_grid
+features: dinov3_vitl16:tokens8
+token_shape: 64x1024
+aug_tags: exp109_train_aug1,exp109_train_aug2
+aug_convention: pre-
+epochs: 100
+batch: 256
+lr: 0.001
+wd: 0.05
+dropout: 0.1
+eval_every: 5
+seed: 2
+grid: hopf1771x74
+model: flat_hopf
+n_anchors: 131054

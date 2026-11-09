@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/xobj_teacher.py --dataset symsolt --obj cyl --variant DINO --seed 1 --runs-dir EXP-106_tless_multipath_tree --filter label=multi

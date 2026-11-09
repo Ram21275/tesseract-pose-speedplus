@@ -1,0 +1,7 @@
+stage: teacher
+dataset: tless
+obj: '11'
+variant: PoE
+seed: 1
+runs_dir: EXP-106_tless_multipath_tree
+filter: label=multi

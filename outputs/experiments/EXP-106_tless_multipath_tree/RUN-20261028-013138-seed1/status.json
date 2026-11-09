@@ -1,0 +1,10 @@
+{
+  "state": "failed",
+  "pid": 1855844,
+  "start": "2026-10-28T01:31:38.728112",
+  "wall_clock_s": 145.47,
+  "peak_cpu_rss_mb": 2788.7,
+  "peak_gpu_mb": 637.2,
+  "error": "Traceback (most recent call last):\n  File \"/home/kavinder/RAM/pose-estimation/scripts/train_xobj.py\", line 146, in <module>\n    loss = multi_loss(h, v, pb)\n  File \"/home/kavinder/RAM/pose-estimation/scripts/train_xobj.py\", line 120, in multi_loss\n    rl, cl = model.logits_tf(h.repeat_interleave(k, 0), torch.as_tensor(c, device=dev), torch.as_tensor(p, device=dev))\n                             ~~~~~~~~~~~~~~~~~~~^^^^^^\ntorch.OutOfMemoryError: CUDA out of memory. Tried to allocate 128.00 MiB. GPU 0 has a total capacity of 47.37 GiB of which 154.06 MiB is free. Process 1822702 has 35.96 GiB memory in use. Including non-PyTorch memory, this process has 1.10 GiB memory in use. Process 1856532 has 9.37 GiB memory in use. Of the allocated memory 605.20 MiB is allocated by PyTorch, and 10.80 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)\n",
+  "end": "2026-10-28T01:34:04.194180"
+}

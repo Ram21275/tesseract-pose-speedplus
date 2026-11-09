@@ -1,0 +1,12 @@
+dataset: symsolt
+seeds: 0,1,2
+modes: greedy,orbit_product,orbit_vote32
+exp: EXP-126
+exp_name: translation_xobj
+runs_dir: EXP-126_translation_xobj
+filter: trans=frozen
+variants: PoE,DINO
+tag: F
+precision: bf16
+stage: eval
+seed: 0

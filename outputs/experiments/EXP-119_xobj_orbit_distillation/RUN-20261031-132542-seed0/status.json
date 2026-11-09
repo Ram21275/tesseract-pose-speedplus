@@ -1,0 +1,12 @@
+{
+  "state": "completed",
+  "pid": 3337320,
+  "start": "2026-10-31T13:25:42.059195",
+  "wall_clock_s": 451.31,
+  "peak_cpu_rss_mb": 8517.8,
+  "peak_gpu_mb": 5086.4,
+  "end": "2026-10-31T13:33:13.370995",
+  "teacher": "outputs/experiments/EXP-119_xobj_orbit_distillation/teacher_tless_4_PoE_seed0.npz",
+  "mean_max_weight": 0.2400987595319748,
+  "teacher_top_raw_mean_deg": 89.53819777875498
+}

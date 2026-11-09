@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_xobj.py --dataset ycbv --obj 011_banana --features moge2_vitl:normals16~and --token-shape 256x4 --seed 2 --extra-train ycbvsyn --trans frozen --init-from EXP-122_ycbv_synthetic_training/RUN-20261027-191257-seed2 --exp EXP-126 --exp-name translation_xobj

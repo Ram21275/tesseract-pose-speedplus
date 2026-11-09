@@ -1,0 +1,12 @@
+{
+  "state": "completed",
+  "pid": 2988231,
+  "start": "2026-10-31T10:35:06.713768",
+  "wall_clock_s": 83.41,
+  "peak_cpu_rss_mb": 12481.5,
+  "peak_gpu_mb": 1552.0,
+  "end": "2026-10-31T10:36:30.121163",
+  "teacher": "outputs/experiments/EXP-119_xobj_orbit_distillation/teacher_symsolt_cyl_DINO_seed2.npz",
+  "mean_max_weight": 0.1514820009469986,
+  "teacher_top_raw_mean_deg": 134.4074658192362
+}

@@ -1,0 +1,14 @@
+dataset: ycbv
+seeds: 0,1,2
+modes: greedy,orbit_product,orbit_vote32
+exp: EXP-129
+exp_name: rotation_with_predicted_translation
+runs_dir: EXP-126_translation_xobj
+filter: trans=frozen
+variants: PoE,DINO
+tag: pose_t_gt
+precision: bf16
+pose_t: gt
+pose_t_variant: DINO
+stage: eval
+seed: 0

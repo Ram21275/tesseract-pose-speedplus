@@ -1,0 +1,56 @@
+[
+  {
+    "family": "tree",
+    "features": "dinov3_vitl16:tokens8",
+    "source_run": "outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-180909-seed0",
+    "trainable_params": 2391564,
+    "head_params": 0,
+    "train_peak_gpu_mb": 3615.49853515625,
+    "train_ms_per_step_b256": 18.425299000227824
+  },
+  {
+    "family": "tree",
+    "features": "moge2_vitl:normals16~and",
+    "source_run": "outputs/experiments/EXP-109_real_domain_aug_tokens16_orbit/RUN-20261015-182205-seed0",
+    "trainable_params": 2128404,
+    "head_params": 0,
+    "train_peak_gpu_mb": 4118.44091796875,
+    "train_ms_per_step_b256": 52.73456500435714
+  },
+  {
+    "family": "flat_tesseract_L5",
+    "features": "dinov3_vitl16:tokens8",
+    "source_run": "outputs/experiments/EXP-127_hierarchy_vs_flat_same_grid/RUN-20261103-090646-seed0",
+    "trainable_params": 36077068,
+    "head_params": 33685504,
+    "train_peak_gpu_mb": 4453.12646484375,
+    "train_ms_per_step_b256": 37.70356600580271
+  },
+  {
+    "family": "flat_tesseract_L5",
+    "features": "moge2_vitl:normals16~and",
+    "source_run": "outputs/experiments/EXP-127_hierarchy_vs_flat_same_grid/RUN-20261103-093644-seed0",
+    "trainable_params": 35813908,
+    "head_params": 33685504,
+    "train_peak_gpu_mb": 4884.17919921875,
+    "train_ms_per_step_b256": 71.02993299486116
+  },
+  {
+    "family": "flat_hopf1771x74",
+    "features": "dinov3_vitl16:tokens8",
+    "source_run": "outputs/experiments/EXP-127_hierarchy_vs_flat_same_grid/RUN-20261103-095956-seed0",
+    "trainable_params": 36072442,
+    "head_params": 33680878,
+    "train_peak_gpu_mb": 4453.00341796875,
+    "train_ms_per_step_b256": 37.27919400262181
+  },
+  {
+    "family": "flat_hopf1771x74",
+    "features": "moge2_vitl:normals16~and",
+    "source_run": "outputs/experiments/EXP-127_hierarchy_vs_flat_same_grid/RUN-20261103-102948-seed0",
+    "trainable_params": 35809282,
+    "head_params": 33680878,
+    "train_peak_gpu_mb": 4884.05615234375,
+    "train_ms_per_step_b256": 71.34166899777483
+  }
+]

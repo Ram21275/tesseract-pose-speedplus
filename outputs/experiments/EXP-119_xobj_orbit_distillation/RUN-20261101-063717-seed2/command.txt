@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_xobj.py --dataset tless --obj 27 --features moge2_vitl:normals16~and --token-shape 256x4 --seed 2 --label multi --teacher outputs/experiments/EXP-119_xobj_orbit_distillation/teacher_tless_27_PoE_seed2.npz --teacher-variant PoE --beta 1 --exp EXP-119 --exp-name xobj_orbit_distillation

@@ -1,0 +1,12 @@
+{
+  "state": "completed",
+  "pid": 2870981,
+  "start": "2026-10-31T09:36:52.830251",
+  "wall_clock_s": 134.2,
+  "peak_cpu_rss_mb": 12482.1,
+  "peak_gpu_mb": 5086.4,
+  "end": "2026-10-31T09:39:07.031613",
+  "teacher": "outputs/experiments/EXP-119_xobj_orbit_distillation/teacher_symsolt_cone_PoE_seed2.npz",
+  "mean_max_weight": 0.245834618806839,
+  "teacher_top_raw_mean_deg": 89.77016968019937
+}

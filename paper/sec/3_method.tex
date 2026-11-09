@@ -26,11 +26,24 @@ The result is a shared architecture with per-object heads, not a single universa
 
 \subsection{Tesseract tree on $SO(3)$}
 \label{sec:tree}
-Following the recursive tesseract subdivision~\cite{kurz2017tesseract}, a quaternion is assigned to a \emph{chart} $c=\arg\max_i|q_i|$, sign-normalised so that $q_c>0$ (this identifies $q$ and $-q$), and projected to the cube $x=q/q_c$. Its three free coordinates in $[-1,1]$ are halved recursively, so each level selects one of 8 children.
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/method/tesseract_partition.png}
+  \caption{\textbf{Tesseract partition of $SO(3)$.} (a)~A unit quaternion is assigned to the chart of its largest coordinate and sign-normalised; its three other coordinates, divided by the largest, give a point $u$ in the cube $[-1,1]^3$. (b)~Each level halves the cube along all three axes, so a cell has 8 children; levels 1--3 are drawn in place and levels 4--5 in the magnified level-3 cell. (c)~The rotation is the path $(\text{chart};k_1,\dots,k_5)$; the error of the cell centre at each level for this rotation, and the mean over random rotations, which halves per level to $2.51^\circ$ at the $131{,}072$ leaves. All cells, digits and errors are computed with our encoder for one example rotation.}
+  \label{fig:tesseract}
+\end{figure*}
+Following the recursive tesseract subdivision~\cite{kurz2017tesseract} (\cref{fig:tesseract}), a quaternion is assigned to a \emph{chart} $c=\arg\max_i|q_i|$, sign-normalised so that $q_c>0$ (this identifies $q$ and $-q$), and projected to the cube $x=q/q_c$. Its three free coordinates in $[-1,1]$ are halved recursively, so each level selects one of 8 children.
 We use \emph{cell centres} (lifted back to the unit sphere) as representatives. Unlike corner representatives, every rotation then has a unique root-to-leaf path. With 4 charts and depth 5 there are $4\cdot 8^5=131{,}072$ cells. The quantisation error of the leaf centre is $2.51^\circ$ on average ($3.97^\circ$ p95, $6.20^\circ$ worst case), and it halves per level. For objects without symmetry this floor bounds the fine accuracy of our rotation results; for symmetric objects the nearest leaf to \emph{any} equivalent rotation is closer.
 
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/method/tree_decoder_multipath.png}
+  \caption{\textbf{Tree head, decoding and symmetric targets.} (a)~The tree Transformer reads the frozen tokens through one encoder layer and decodes the path with a causal decoder: the root position predicts the chart (4 logits), each later position one of 8 children, and every decision is embedded as the next token. Digits shown are the path of the label in (c). (b)~Beam search keeps the 8 most likely partial paths at each level (schematic: which nodes are kept is illustrative). (c)~For a T-LESS object with a 2-fold symmetry, the two equivalent labels of one training image lie in different charts with no shared prefix. A single label therefore gives contradictory targets for identical-looking views; multi-path targets (\cref{eq:symloss}) supervise both paths.}
+  \label{fig:tree}
+\end{figure*}
+
 \paragraph{Tree Transformer.}
-For each backbone, a small decoder predicts the path autoregressively. The frozen tokens are layer-normalised, linearly projected to $d=256$, given 2-D positional encodings and passed through one encoder layer. A causal decoder with 2 layers (4 heads, FFN 512) then reads a sequence that starts with a root token followed by one token per decided level. Each such token embeds the level and a 6-frequency Fourier encoding of the current cell centre, and cross-attends to the encoded image tokens. The root position predicts the chart (4 logits) and position $\ell$ predicts the child (8 logits). The model has 2.4\,M parameters.
+For each backbone, a small decoder predicts the path autoregressively (\cref{fig:tree}a). The frozen tokens are layer-normalised, linearly projected to $d=256$, given 2-D positional encodings and passed through one encoder layer. A causal decoder with 2 layers (4 heads, FFN 512) then reads a sequence that starts with a root token followed by one token per decided level. Each such token embeds the level and a 6-frequency Fourier encoding of the current cell centre, and cross-attends to the encoded image tokens. The root position predicts the chart (4 logits) and position $\ell$ predicts the child (8 logits). The model has 2.4\,M parameters.
 We train with geodesic soft targets: at each level, the target over the candidate cells is $\propto\exp(-(\delta/\tau_\ell)^2)$, where $\delta$ is the angle between the ground truth and each cell centre. The widths $\tau_\ell$ ($39.3^\circ$ for the root and level 1, $20.0^\circ$, $10.0^\circ$, $5.0^\circ$, $2.5^\circ$) halve with the cell size. Training uses teacher forcing on the ground-truth path and a cross-entropy at every level; inference is greedy or beam search, and the prediction is the leaf centre.
 
 \paragraph{Frozen features.}
@@ -42,7 +55,7 @@ The two trees are fused without training. At every decoding step, the log-softma
 \subsection{Symmetry-aware multi-path targets}
 \label{sec:symtarget}
 For a symmetric object, the annotated rotation $q$ is one arbitrary member of the equivalence set $\{q\,s : s\in\mathcal{S}\}$, where $\mathcal{S}$ holds the object-frame symmetries (continuous symmetries discretised). Training on $q$ alone (\emph{single label}) gives contradictory targets for identical images. The usual fix maps every label to a \emph{canonical} member, \eg the one closest to identity. This removes the contradiction but makes the target a discontinuous function of the image: two nearly identical views can receive canonical labels far apart, and the in-plane relation of \cref{eq:roll} no longer holds between views.
-Instead, we train the tree on all equivalent rotations. The loss is the soft-target cross-entropy of \cref{sec:tree}, averaged over the members of the set, each with teacher forcing along its own path:
+Instead, we train the tree on all equivalent rotations (\cref{fig:tree}c). The loss is the soft-target cross-entropy of \cref{sec:tree}, averaged over the members of the set, each with teacher forcing along its own path:
 \begin{equation}
   \mathcal{L}_{\text{sym}}=\frac{1}{|\mathcal{S}'|}\sum_{s\in\mathcal{S}'}\mathcal{L}_{\text{GT}}\big(q\,s\big),
   \label{eq:symloss}
@@ -61,7 +74,13 @@ We derived this convention from the camera geometry rather than fitting it to a 
 
 \subsection{Orbit voting}
 \label{sec:orbit}
-At test time we form $K{=}4$ views of the crop rotated by $\theta_k\in\{0^\circ,90^\circ,180^\circ,270^\circ\}$. In view $k$ the fused tree's beam search returns 8 leaves $c_{k,1..8}$, which are mapped back to the original frame by the inverse of \cref{eq:roll}, $c=\Exp(+\theta_k d)\otimes c_k$, giving 32 candidates. Each candidate $c$ is then scored by the tree likelihood of its own path when mapped into every view:
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/method/orbit_voting.png}
+  \caption{\textbf{Orbit voting} on a real SPEED+ lightbox image (fixed selection rule: among test images where the single view is wrong by more than $150^\circ$ and orbit voting is within $10^\circ$, the median of that group). (a)~Four views rolled by $\theta_k$; below each, its most likely beam hypothesis mapped back to the original view. Two views propose a near-$180^\circ$ flip, two the correct mode. (b)~All 32 mapped-back candidates (8 per view), scored by \cref{eq:orbit}, relative to the best. Every candidate proposed by the original view is a flip and is penalised by 27--58 nats, because it is unlikely in the other views. (c)~The selected candidate ($4.4^\circ$) and greedy decoding of the original view alone ($159^\circ$). Final SPEED+ system, ground-truth crop.}
+  \label{fig:orbit}
+\end{figure*}
+At test time (\cref{fig:orbit}) we form $K{=}4$ views of the crop rotated by $\theta_k\in\{0^\circ,90^\circ,180^\circ,270^\circ\}$. In view $k$ the fused tree's beam search returns 8 leaves $c_{k,1..8}$, which are mapped back to the original frame by the inverse of \cref{eq:roll}, $c=\Exp(+\theta_k d)\otimes c_k$, giving 32 candidates. Each candidate $c$ is then scored by the tree likelihood of its own path when mapped into every view:
 \begin{equation}
   s(c)=\sum_{k=1}^{K}\log p_k\big(\mathrm{path}(\Exp(-\theta_k d)\otimes c)\big),
   \label{eq:orbit}

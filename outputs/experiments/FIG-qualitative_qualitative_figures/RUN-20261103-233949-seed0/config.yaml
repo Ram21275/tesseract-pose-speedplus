@@ -1,0 +1,15 @@
+dataset: tless
+seeds: '0'
+modes: greedy,orbit_product
+exp: FIG-qualitative
+exp_name: qualitative_figures
+runs_dir: EXP-126_translation_xobj
+filter: trans=frozen
+variants: PoE,DINO
+tag: fig_tless
+precision: bf16
+pose_t: orbit_mean
+pose_t_variant: DINO
+save_preds: true
+stage: eval
+seed: 0

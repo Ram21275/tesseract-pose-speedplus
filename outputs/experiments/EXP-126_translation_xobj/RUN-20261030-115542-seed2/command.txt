@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_xobj.py --dataset symsolt --obj icosa --features dinov3_vitl16:tokens8 --token-shape 64x1024 --seed 2 --trans frozen --init-from EXP-106_tless_multipath_tree/RUN-20261028-080638-seed2 --exp EXP-126 --exp-name translation_xobj

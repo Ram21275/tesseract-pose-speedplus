@@ -1,0 +1,5 @@
+seed0 student_PoE dinov3_vitl16:tokens8 EXP-117_orbit_distillation/RUN-20261020-043709-seed0
+seed0 student_PoE moge2_vitl:normals16~and EXP-117_orbit_distillation/RUN-20261020-051752-seed0
+seed0 student_DINO dinov3_vitl16:tokens8 EXP-117_orbit_distillation/RUN-20261020-035524-seed0
+seed0 J dinov3_vitl16:tokens8 EXP-118_translation_6dof/RUN-20261020-002053-seed0
+seed0 J moge2_vitl:normals16~and EXP-118_translation_6dof/RUN-20261020-010800-seed0

@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/exp124_eval.py --exp FIG-qualitative --exp-name qualitative_figures --crops det --seeds 0 --systems S1 --save-preds

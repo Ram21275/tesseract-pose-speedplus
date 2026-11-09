@@ -1,0 +1,32 @@
+[
+  {
+    "module": "tree DINOv3",
+    "params": 2391564,
+    "fp32_MB": 9.205120086669922,
+    "fp16_MB": 4.612346649169922,
+    "int8_dynamic_MB": 6.1652069091796875,
+    "int8w_ideal_MB": 2.3262176513671875,
+    "linear_or_mha_modules": 20,
+    "converted_by_dynamic_int8": 20
+  },
+  {
+    "module": "tree MoGe-2",
+    "params": 2128404,
+    "fp32_MB": 8.388835906982422,
+    "fp16_MB": 4.204265594482422,
+    "int8_dynamic_MB": 6.0959930419921875,
+    "int8w_ideal_MB": 2.0694122314453125,
+    "linear_or_mha_modules": 20,
+    "converted_by_dynamic_int8": 20
+  },
+  {
+    "module": "translation block",
+    "params": 331011,
+    "fp32_MB": 1.2669029235839844,
+    "fp16_MB": 0.6355552673339844,
+    "int8_dynamic_MB": 1.0784759521484375,
+    "int8w_ideal_MB": 0.3230094909667969,
+    "linear_or_mha_modules": 4,
+    "converted_by_dynamic_int8": 4
+  }
+]

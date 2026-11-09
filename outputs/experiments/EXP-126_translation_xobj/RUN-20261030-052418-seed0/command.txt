@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_xobj.py --dataset tless --obj 5 --features dinov3_vitl16:tokens8 --token-shape 64x1024 --seed 0 --trans frozen --init-from EXP-106_tless_multipath_tree/RUN-20261028-000914-seed0 --exp EXP-126 --exp-name translation_xobj

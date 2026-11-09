@@ -1,0 +1,14 @@
+dataset: ycbv
+seeds: 0,1,2
+modes: greedy,orbit_product
+exp: EXP-128
+exp_name: downstream_deployment_quantization
+runs_dir: EXP-122_ycbv_synthetic_training
+filter: ''
+variants: PoE,DINO
+tag: B_int8w
+precision: int8w
+pose_t: gt
+pose_t_variant: same
+stage: eval
+seed: 0

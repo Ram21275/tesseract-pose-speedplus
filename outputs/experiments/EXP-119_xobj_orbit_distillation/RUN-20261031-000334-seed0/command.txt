@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_xobj.py --dataset symsolt --obj cone --features dinov3_vitl16:tokens8 --token-shape 64x1024 --seed 0 --label multi --teacher outputs/experiments/EXP-119_xobj_orbit_distillation/teacher_symsolt_cone_PoE_seed0.npz --teacher-variant PoE --beta 1 --exp EXP-119 --exp-name xobj_orbit_distillation

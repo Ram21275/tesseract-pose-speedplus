@@ -1,0 +1,74 @@
+[
+  {
+    "set": "synthetic_val",
+    "n": 11994,
+    "grid": "tesseract_L5 encode-decode (tree leaf / flat same-grid hard anchor)",
+    "mean_deg": 2.506935863767436,
+    "median_deg": 2.4857389853793714,
+    "p95_deg": 3.950101590477505,
+    "max_deg": 5.775684280982314
+  },
+  {
+    "set": "synthetic_val",
+    "n": 11994,
+    "grid": "tesseract_L5 nearest centre",
+    "mean_deg": 2.476242854731742,
+    "median_deg": 2.4494769465957695,
+    "p95_deg": 3.9141610498405797,
+    "max_deg": 5.775684280982062
+  },
+  {
+    "set": "synthetic_val",
+    "n": 11994,
+    "grid": "hopf1771x74 nearest (balanced Hopf)",
+    "mean_deg": 2.2906406112631115,
+    "median_deg": 2.374302785800225,
+    "p95_deg": 3.213663717826135,
+    "max_deg": 3.8399018532996525
+  },
+  {
+    "set": "synthetic_val",
+    "n": 11994,
+    "grid": "hopf10923x12 nearest (EXP-113 grid, descriptive)",
+    "mean_deg": 6.0566507722198315,
+    "median_deg": 5.435648752289119,
+    "p95_deg": 12.947140042261621,
+    "max_deg": 14.972623999227594
+  },
+  {
+    "set": "synthetic_val_aug",
+    "n": 11994,
+    "grid": "tesseract_L5 encode-decode (tree leaf / flat same-grid hard anchor)",
+    "mean_deg": 2.504145106192253,
+    "median_deg": 2.4800401414523483,
+    "p95_deg": 3.963073616569428,
+    "max_deg": 5.854755835876009
+  },
+  {
+    "set": "synthetic_val_aug",
+    "n": 11994,
+    "grid": "tesseract_L5 nearest centre",
+    "mean_deg": 2.4736933876084928,
+    "median_deg": 2.4493739411239748,
+    "p95_deg": 3.906765697528585,
+    "max_deg": 5.820469537874807
+  },
+  {
+    "set": "synthetic_val_aug",
+    "n": 11994,
+    "grid": "hopf1771x74 nearest (balanced Hopf)",
+    "mean_deg": 2.304969125369392,
+    "median_deg": 2.38423328864914,
+    "p95_deg": 3.2347398565271295,
+    "max_deg": 3.811145509891918
+  },
+  {
+    "set": "synthetic_val_aug",
+    "n": 11994,
+    "grid": "hopf10923x12 nearest (EXP-113 grid, descriptive)",
+    "mean_deg": 6.03153228003908,
+    "median_deg": 5.393993537359854,
+    "p95_deg": 12.899161633079768,
+    "max_deg": 15.003687737740218
+  }
+]

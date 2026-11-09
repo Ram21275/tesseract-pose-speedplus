@@ -1,0 +1,10 @@
+{
+  "state": "failed",
+  "pid": 166726,
+  "start": "2026-11-04T15:02:55.888425",
+  "wall_clock_s": 80.64,
+  "peak_cpu_rss_mb": 1218.9,
+  "peak_gpu_mb": 0.0,
+  "error": "Traceback (most recent call last):\n  File \"/home/kavinder/RAM/pose-estimation/scripts/exp130_metrics.py\", line 91, in <module>\n    print(ds, \"gate: rows\", len(g), \"max |d sym_mean| vs EXP-129\", d, flush=True); assert len(g) == len(df) and d < 0.01, \"gate failed\"\n                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: gate failed\n",
+  "end": "2026-11-04T15:04:16.528078"
+}

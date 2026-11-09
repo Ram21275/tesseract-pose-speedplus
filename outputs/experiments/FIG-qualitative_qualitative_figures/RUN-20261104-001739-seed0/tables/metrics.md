@@ -1,0 +1,20 @@
+| crops | system | rot_mode | trans_mode | domain | E_R_mean_deg | E_R_median_deg | E_T_mean_m | E_T_median_m | e_t_norm_mean | score_q | score_t | score | score_joint_rule | frac_ER_gt150 | score_std | E_R_mean_deg_std | E_T_mean_m_std |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| det | S1_studentPoE_rot+J_DINO_trans | greedy | greedy | lightbox | 29.803 | 8.415 | 0.662 | 0.220 | 0.106 | 0.520 | 0.106 | 0.626 | 0.626 | 0.068 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | greedy | greedy | sunlamp | 23.829 | 8.580 | 0.291 | 0.174 | 0.049 | 0.416 | 0.049 | 0.465 | 0.465 | 0.049 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | greedy | greedy | synthetic_val | 5.079 | 4.254 | 0.083 | 0.062 | 0.015 | 0.089 | 0.015 | 0.104 | 0.104 | 0.001 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | greedy | orbit_mean | lightbox | 29.803 | 8.415 | 0.647 | 0.206 | 0.104 | 0.520 | 0.104 | 0.624 | 0.624 | 0.068 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | greedy | orbit_mean | sunlamp | 23.829 | 8.580 | 0.266 | 0.151 | 0.045 | 0.416 | 0.045 | 0.461 | 0.461 | 0.049 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | greedy | orbit_mean | synthetic_val | 5.079 | 4.254 | 0.066 | 0.049 | 0.013 | 0.089 | 0.013 | 0.101 | 0.102 | 0.001 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | orbit_product | greedy | lightbox | 23.816 | 6.500 | 0.662 | 0.220 | 0.106 | 0.416 | 0.106 | 0.522 | 0.522 | 0.052 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | orbit_product | greedy | sunlamp | 16.620 | 6.478 | 0.291 | 0.174 | 0.049 | 0.290 | 0.049 | 0.340 | 0.340 | 0.029 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | orbit_product | greedy | synthetic_val | 3.905 | 3.307 | 0.083 | 0.062 | 0.015 | 0.068 | 0.015 | 0.083 | 0.084 | 0.001 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | orbit_product | orbit_mean | lightbox | 23.816 | 6.500 | 0.647 | 0.206 | 0.104 | 0.416 | 0.104 | 0.519 | 0.519 | 0.052 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | orbit_product | orbit_mean | sunlamp | 16.620 | 6.478 | 0.266 | 0.151 | 0.045 | 0.290 | 0.045 | 0.335 | 0.335 | 0.029 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | orbit_product | orbit_mean | synthetic_val | 3.905 | 3.307 | 0.066 | 0.049 | 0.013 | 0.068 | 0.013 | 0.081 | 0.081 | 0.001 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | orbit_vote32 | greedy | lightbox | 24.873 | 6.276 | 0.662 | 0.220 | 0.106 | 0.434 | 0.106 | 0.540 | 0.540 | 0.058 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | orbit_vote32 | greedy | sunlamp | 17.408 | 6.193 | 0.291 | 0.174 | 0.049 | 0.304 | 0.049 | 0.353 | 0.353 | 0.032 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | orbit_vote32 | greedy | synthetic_val | 3.515 | 2.836 | 0.083 | 0.062 | 0.015 | 0.061 | 0.015 | 0.077 | 0.077 | 0.001 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | orbit_vote32 | orbit_mean | lightbox | 24.873 | 6.276 | 0.647 | 0.206 | 0.104 | 0.434 | 0.104 | 0.538 | 0.538 | 0.058 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | orbit_vote32 | orbit_mean | sunlamp | 17.408 | 6.193 | 0.266 | 0.151 | 0.045 | 0.304 | 0.045 | 0.349 | 0.349 | 0.032 | nan | nan | nan |
+| det | S1_studentPoE_rot+J_DINO_trans | orbit_vote32 | orbit_mean | synthetic_val | 3.515 | 2.836 | 0.066 | 0.049 | 0.013 | 0.061 | 0.013 | 0.074 | 0.074 | 0.001 | nan | nan | nan |

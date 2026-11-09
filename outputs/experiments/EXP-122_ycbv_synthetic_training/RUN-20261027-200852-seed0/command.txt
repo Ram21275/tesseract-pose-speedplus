@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/exp064_eval.py --dataset ycbv --exp EXP-122 --exp-name ycbv_synthetic_training --runs-dir EXP-122_ycbv_synthetic_training --tag B

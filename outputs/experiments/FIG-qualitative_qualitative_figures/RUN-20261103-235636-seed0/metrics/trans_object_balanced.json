@@ -1,0 +1,56 @@
+[
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "box_only",
+    "E_T_mean": 0.9584130839423104,
+    "E_T_median": 0.9828407801492336,
+    "e_t_norm_mean": 0.10542662547066153,
+    "E_T_mean_std": NaN
+  },
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "greedy",
+    "E_T_mean": 0.08278399679811174,
+    "E_T_median": 0.07301311947023,
+    "e_t_norm_mean": 0.009069423104642982,
+    "E_T_mean_std": NaN
+  },
+  {
+    "split": "test",
+    "variant": "DINO",
+    "trans_mode": "orbit_mean",
+    "E_T_mean": 0.061489979429324285,
+    "E_T_median": 0.05607394701380268,
+    "e_t_norm_mean": 0.006729880142736869,
+    "E_T_mean_std": NaN
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "box_only",
+    "E_T_mean": 0.9578864744396348,
+    "E_T_median": 0.9802882363045597,
+    "e_t_norm_mean": 0.10539270987429679,
+    "E_T_mean_std": NaN
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "greedy",
+    "E_T_mean": 0.08170178711627822,
+    "E_T_median": 0.07263030150708179,
+    "e_t_norm_mean": 0.008954439603851587,
+    "E_T_mean_std": NaN
+  },
+  {
+    "split": "validation",
+    "variant": "DINO",
+    "trans_mode": "orbit_mean",
+    "E_T_mean": 0.06129351974344795,
+    "E_T_median": 0.056371016210701216,
+    "e_t_norm_mean": 0.006709699308365569,
+    "E_T_mean_std": NaN
+  }
+]

@@ -1,0 +1,6 @@
+file,source_run,rows,seeds,variants
+tless_per_image.csv.gz,outputs/experiments/EXP-130_literature_matched_metrics/RUN-20261104-143610-seed0,98250,"[0, 1, 2]","['DINO', 'PoE']"
+symsolt_per_image.csv.gz,outputs/experiments/FIG-qualitative_qualitative_figures/RUN-20261103-235636-seed0,35000,[0],['DINO']
+speedplus_gt_per_image.csv.gz,outputs/experiments/FIG-qualitative_qualitative_figures/RUN-20261104-000830-seed0,21525,[0],['S1_distilledPoE+DINO_t']
+speedplus_det_per_image.csv.gz,outputs/experiments/FIG-qualitative_qualitative_figures/RUN-20261104-001739-seed0,21525,[0],['S1_distilledPoE+DINO_t']
+ycbv_per_image.csv.gz,outputs/experiments/EXP-130_literature_matched_metrics/RUN-20261104-142656-seed0,37650,"[0, 1, 2]","['DINO', 'PoE']"

@@ -1,0 +1,8 @@
+exp: EXP-128_downstream_deployment_quantization
+families: tree:EXP-117_orbit_distillation:exp109_train_aug1+exp109_train_aug2:teacher_variant=DINO
+modes: greedy,orbit_product
+variants: DINO
+seeds: 0,1,2
+save_preds: false
+precision: int8w
+seed: 0

@@ -1,0 +1,14 @@
+dataset: symsolt
+seeds: 0,1,2
+modes: greedy,orbit_product,orbit_vote32
+exp: EXP-119
+exp_name: xobj_orbit_distillation
+runs_dir: EXP-119_xobj_orbit_distillation
+filter: teacher_variant=DINO
+variants: DINO
+tag: student_DINO
+precision: bf16
+pose_t: gt
+pose_t_variant: same
+stage: eval
+seed: 0

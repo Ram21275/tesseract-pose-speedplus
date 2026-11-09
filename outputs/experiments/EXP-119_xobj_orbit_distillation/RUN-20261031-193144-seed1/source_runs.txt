@@ -1,0 +1,1 @@
+teacher outputs/experiments/EXP-119_xobj_orbit_distillation/teacher_tless_1_DINO_seed1.npz

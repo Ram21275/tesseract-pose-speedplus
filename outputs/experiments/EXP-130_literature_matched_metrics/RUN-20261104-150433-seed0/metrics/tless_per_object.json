@@ -1,0 +1,198 @@
+[
+  {
+    "variant": "DINO",
+    "mode": "greedy",
+    "obj": 1,
+    "AR_MSSD": 0.29883370955605715,
+    "AR_MSPD": 0.831339352896915
+  },
+  {
+    "variant": "DINO",
+    "mode": "greedy",
+    "obj": 4,
+    "AR_MSSD": 0.45005159958720337,
+    "AR_MSPD": 0.8808049535603715
+  },
+  {
+    "variant": "DINO",
+    "mode": "greedy",
+    "obj": 5,
+    "AR_MSSD": 0.6112280701754386,
+    "AR_MSPD": 0.8929824561403509
+  },
+  {
+    "variant": "DINO",
+    "mode": "greedy",
+    "obj": 11,
+    "AR_MSSD": 0.4967213114754099,
+    "AR_MSPD": 0.8825136612021858
+  },
+  {
+    "variant": "DINO",
+    "mode": "greedy",
+    "obj": 18,
+    "AR_MSSD": 0.5810502283105023,
+    "AR_MSPD": 0.7550228310502284
+  },
+  {
+    "variant": "DINO",
+    "mode": "greedy",
+    "obj": 21,
+    "AR_MSSD": 0.39511784511784515,
+    "AR_MSPD": 0.6806397306397306
+  },
+  {
+    "variant": "DINO",
+    "mode": "greedy",
+    "obj": 27,
+    "AR_MSSD": 0.7083333333333334,
+    "AR_MSPD": 0.8277777777777778
+  },
+  {
+    "variant": "DINO",
+    "mode": "orbit_product",
+    "obj": 1,
+    "AR_MSSD": 0.3018058690744921,
+    "AR_MSPD": 0.8329194883370956
+  },
+  {
+    "variant": "DINO",
+    "mode": "orbit_product",
+    "obj": 4,
+    "AR_MSSD": 0.4536119711042312,
+    "AR_MSPD": 0.8859649122807017
+  },
+  {
+    "variant": "DINO",
+    "mode": "orbit_product",
+    "obj": 5,
+    "AR_MSSD": 0.6171929824561403,
+    "AR_MSPD": 0.91
+  },
+  {
+    "variant": "DINO",
+    "mode": "orbit_product",
+    "obj": 11,
+    "AR_MSSD": 0.5012750455373406,
+    "AR_MSPD": 0.889071038251366
+  },
+  {
+    "variant": "DINO",
+    "mode": "orbit_product",
+    "obj": 18,
+    "AR_MSSD": 0.5837899543378996,
+    "AR_MSPD": 0.7659817351598174
+  },
+  {
+    "variant": "DINO",
+    "mode": "orbit_product",
+    "obj": 21,
+    "AR_MSSD": 0.40286195286195287,
+    "AR_MSPD": 0.689057239057239
+  },
+  {
+    "variant": "DINO",
+    "mode": "orbit_product",
+    "obj": 27,
+    "AR_MSSD": 0.7138888888888889,
+    "AR_MSPD": 0.8451388888888888
+  },
+  {
+    "variant": "PoE",
+    "mode": "greedy",
+    "obj": 1,
+    "AR_MSSD": 0.3037622272385252,
+    "AR_MSPD": 0.8381113619262605
+  },
+  {
+    "variant": "PoE",
+    "mode": "greedy",
+    "obj": 4,
+    "AR_MSSD": 0.4557275541795666,
+    "AR_MSPD": 0.8943240454076368
+  },
+  {
+    "variant": "PoE",
+    "mode": "greedy",
+    "obj": 5,
+    "AR_MSSD": 0.6140350877192983,
+    "AR_MSPD": 0.8975438596491229
+  },
+  {
+    "variant": "PoE",
+    "mode": "greedy",
+    "obj": 11,
+    "AR_MSSD": 0.5025500910746813,
+    "AR_MSPD": 0.8918032786885246
+  },
+  {
+    "variant": "PoE",
+    "mode": "greedy",
+    "obj": 18,
+    "AR_MSSD": 0.5805936073059361,
+    "AR_MSPD": 0.7641552511415526
+  },
+  {
+    "variant": "PoE",
+    "mode": "greedy",
+    "obj": 21,
+    "AR_MSSD": 0.40185185185185185,
+    "AR_MSPD": 0.687037037037037
+  },
+  {
+    "variant": "PoE",
+    "mode": "greedy",
+    "obj": 27,
+    "AR_MSSD": 0.7149305555555555,
+    "AR_MSPD": 0.8444444444444444
+  },
+  {
+    "variant": "PoE",
+    "mode": "orbit_product",
+    "obj": 1,
+    "AR_MSSD": 0.30613243039879606,
+    "AR_MSPD": 0.8395410082769
+  },
+  {
+    "variant": "PoE",
+    "mode": "orbit_product",
+    "obj": 4,
+    "AR_MSSD": 0.4602167182662538,
+    "AR_MSPD": 0.899484004127967
+  },
+  {
+    "variant": "PoE",
+    "mode": "orbit_product",
+    "obj": 5,
+    "AR_MSSD": 0.623157894736842,
+    "AR_MSPD": 0.9201754385964912
+  },
+  {
+    "variant": "PoE",
+    "mode": "orbit_product",
+    "obj": 11,
+    "AR_MSSD": 0.5085610200364299,
+    "AR_MSPD": 0.9063752276867031
+  },
+  {
+    "variant": "PoE",
+    "mode": "orbit_product",
+    "obj": 18,
+    "AR_MSSD": 0.5961187214611873,
+    "AR_MSPD": 0.7865296803652968
+  },
+  {
+    "variant": "PoE",
+    "mode": "orbit_product",
+    "obj": 21,
+    "AR_MSSD": 0.40959595959595957,
+    "AR_MSPD": 0.7080808080808082
+  },
+  {
+    "variant": "PoE",
+    "mode": "orbit_product",
+    "obj": 27,
+    "AR_MSSD": 0.7236111111111111,
+    "AR_MSPD": 0.8649305555555555
+  }
+]

@@ -1,0 +1,10 @@
+| domain | family | train_aug | variant | mode | mean_deg | median_deg | acc@5 | acc@10 | acc@20 | frac_gt90 | frac_gt150 | n_greedy_gt150 | frac_gt150_to_lt20 | n_greedy_lt20 | frac_lt20_to_gt150 | view_consistency@10 | mean_deg_std |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| lightbox | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 21.634 | 7.899 | 0.233 | 0.641 | 0.855 | 0.079 | 0.058 | 393.667 | 0.000 | 5763.000 | 0.000 | 0.456 | 0.825 |
+| lightbox | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 16.434 | 6.489 | 0.335 | 0.743 | 0.909 | 0.056 | 0.045 | 393.667 | 0.358 | 5763.000 | 0.007 | 0.456 | 0.756 |
+| sunlamp | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 20.500 | 9.551 | 0.165 | 0.531 | 0.823 | 0.061 | 0.031 | 86.000 | 0.000 | 2297.333 | 0.000 | 0.357 | 0.964 |
+| sunlamp | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 13.602 | 7.564 | 0.257 | 0.671 | 0.905 | 0.029 | 0.016 | 86.000 | 0.540 | 2297.333 | 0.004 | 0.357 | 0.584 |
+| synthetic_val | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 4.574 | 4.221 | 0.650 | 0.983 | 0.999 | 0.001 | 0.000 | 3.667 | 0.000 | 11980.667 | 0.000 | 0.770 | 0.051 |
+| synthetic_val | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 3.904 | 3.497 | 0.771 | 0.984 | 0.999 | 0.000 | 0.000 | 3.667 | 0.417 | 11980.667 | 0.000 | 0.770 | 0.029 |
+| synthetic_val_aug | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | greedy | 9.336 | 5.815 | 0.394 | 0.843 | 0.961 | 0.017 | 0.009 | 103.333 | 0.000 | 11524.000 | 0.000 | 0.619 | 0.168 |
+| synthetic_val_aug | tree:teacher_variant=DINO | exp109_train_aug1,exp109_train_aug2 | DINO | orbit_product | 5.743 | 3.877 | 0.684 | 0.939 | 0.983 | 0.007 | 0.004 | 103.333 | 0.594 | 11524.000 | 0.000 | 0.619 | 0.147 |

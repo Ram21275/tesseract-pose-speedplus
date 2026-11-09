@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_xobj.py --dataset symsolt --obj cyl --features moge2_vitl:normals16~and --token-shape 256x4 --seed 2 --sd-floor 1e-2 --trans frozen --init-from EXP-106_tless_multipath_tree/RUN-20261028-084517-seed2 --exp EXP-126 --exp-name translation_xobj

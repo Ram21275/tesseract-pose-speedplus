@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/train_xobj.py --dataset ycbv --obj 037_scissors --features dinov3_vitl16:tokens8 --token-shape 64x1024 --seed 2 --extra-train ycbvsyn --trans frozen --init-from EXP-122_ycbv_synthetic_training/RUN-20261027-195721-seed2 --exp EXP-126 --exp-name translation_xobj

@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/exp064_eval.py --dataset ycbv --exp EXP-129 --exp-name rotation_with_predicted_translation --runs-dir EXP-126_translation_xobj --filter trans=frozen --tag pose_t_orbit_mean --pose-t orbit_mean --pose-t-variant DINO

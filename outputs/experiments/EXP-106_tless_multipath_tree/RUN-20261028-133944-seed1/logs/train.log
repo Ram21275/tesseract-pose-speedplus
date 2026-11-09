@@ -1,0 +1,4 @@
+ep 5 loss 11.5826 val_sym_mean 97.756
+ep 10 loss 10.1703 val_sym_mean 62.834
+ep 15 loss 9.4507 val_sym_mean 52.210
+ep 20 loss 9.0204 val_sym_mean 43.715
