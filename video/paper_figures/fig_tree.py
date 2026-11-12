@@ -26,14 +26,15 @@ class FigTree(PaperScene):
         # ---------------------------------------------------------------- (a) tree Transformer
         grid = VGroup(*[Square(0.19).set_fill(FROZEN_FILL, 1).set_stroke(FROZEN, 1.2) for _ in range(64)]).arrange_in_grid(8, 8, buff=0.02)
         gl = tt(r"frozen tokens\\ $8{\times}8{\times}1024$", 20, MUTED).next_to(grid, DOWN, buff=0.15)
-        enc = block("encoder", [r"LN, linear $\to 256$", "2-D positions, 1 layer"], DINO, DINO_FILL, lsize=19, tsize=22)
+        gl = VGroup(snowflake(0.3), gl).arrange(RIGHT, buff=0.08).next_to(grid, DOWN, buff=0.15)
+        enc = block("encoder", [r"LN, linear $\to 256$", "2-D positions, 1 layer"], DINO, DINO_FILL, lsize=19, tsize=22, icon="fire")
         enc.next_to(grid, RIGHT, buff=0.55)
         mem = VGroup(*[Square(0.16).set_fill(DINO_FILL, 1).set_stroke(DINO, 1.2) for _ in range(8)]).arrange(RIGHT, buff=0.03)
         meml = tt("memory (64 tokens)", 19, DINO)
         seq = [token(r"\mathrm{ROOT}", DINO, PAPER)] + [token(rf"\mathrm{{cell}}_{l}", LV[l - 1] if l > 1 else CH4[2], PAPER) for l in range(1, 6)]
         seq = VGroup(*seq).arrange(RIGHT, buff=0.32)
         dec = box(seq.get_width() + 0.5, 1.45, DINO, DINO_FILL)
-        decg = VGroup(dec, seq.move_to(dec).shift(DOWN * 0.15))
+        decg = VGroup(dec, seq.move_to(dec).shift(DOWN * 0.15), badge(dec, flame()))
         decg.next_to(enc, RIGHT, buff=0.75).align_to(enc, UP).shift(UP * 0.1)
         dect = tt(r"causal decoder, 2 layers (4 heads, FFN 512)", 18, DINO).move_to(dec).align_to(dec, UP).shift(DOWN * 0.1)
         heads = VGroup(); outs = VGroup()

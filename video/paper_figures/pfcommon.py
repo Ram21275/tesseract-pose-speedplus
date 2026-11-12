@@ -32,6 +32,43 @@ def tt(s, size=26, color=INK, bold=False, **k):
     return TexText(r"\textbf{" + s + "}" if bold else s, font_size=size * FS, **k).set_color(color)
 
 
+ICE = "#3B9AD9"; FIRE = "#F26B1D"; FIRE_IN = "#FFC93C"
+TRAIN = "#D97706"                                                              # training-only flow (amber); test-time flow uses ORBIT
+
+
+def snowflake(size=0.34, color=ICE, sw=2.6):
+    """Frozen-module icon (the usual snowflake): 6 arms with two side branches each."""
+    g = VGroup(); L = size / 2
+    for k in range(6):
+        a = k * PI / 3; u = np.array([np.cos(a), np.sin(a), 0])
+        g.add(Line(ORIGIN, L * u, stroke_width=sw))
+        for s in (1, -1):
+            b = a + s * PI / 4; v = np.array([np.cos(b), np.sin(b), 0])
+            g.add(Line(0.55 * L * u, 0.55 * L * u + 0.38 * L * v, stroke_width=sw * 0.8))
+    return g.set_color(color)
+
+
+def _drop(h, w):
+    s = np.linspace(0, 1, 60)                                   # height fraction; tip leans slightly right
+    hw = w / 2 * np.sin(np.pi * s) ** 0.9 * (1 - s) ** 0.25
+    x0 = 0.06 * w * s ** 2
+    pts = [np.array([x0[i] + hw[i], h * s[i] - h / 2, 0]) for i in range(60)] + \
+          [np.array([x0[i] - hw[i], h * s[i] - h / 2, 0]) for i in range(59, -1, -1)]
+    return Polygon(*pts)
+
+
+def flame(size=0.36):
+    """Trained-module icon (the usual flame)."""
+    o = _drop(size, size * 0.72).set_fill(FIRE, 1).set_stroke(width=0)
+    i = _drop(size * 0.55, size * 0.4).set_fill(FIRE_IN, 1).set_stroke(width=0).move_to(o.get_bottom(), aligned_edge=DOWN).shift(UP * size * 0.04)
+    return VGroup(o, i)
+
+
+def badge(mob, icon, corner=UR, buff=0.08):
+    """Put an icon inside the top-right corner of a box/block."""
+    return icon.move_to(mob.get_corner(corner) + (-corner[0] * (icon.get_width() / 2 + buff)) * RIGHT + (-corner[1] * (icon.get_height() / 2 + buff)) * UP)
+
+
 def box(w, h, color, fill, frozen=False, r=0.12, sw=3):
     bg = RoundedRectangle(width=w, height=h, corner_radius=r).set_fill(fill, 1).set_stroke(width=0)
     ol = RoundedRectangle(width=w, height=h, corner_radius=r).set_fill(opacity=0).set_stroke(color, sw)
@@ -40,11 +77,17 @@ def box(w, h, color, fill, frozen=False, r=0.12, sw=3):
     return VGroup(bg, ol)
 
 
-def block(title, lines=(), color=DINO, fill=DINO_FILL, w=None, h=None, frozen=False, tsize=26, lsize=21, buff=0.1):
+def block(title, lines=(), color=DINO, fill=DINO_FILL, w=None, h=None, frozen=False, tsize=26, lsize=21, buff=0.1, icon=None):
+    """icon: None (default: snowflake on frozen blocks), "ice", "fire" or False."""
     content = VGroup(tt(title, tsize, bold=True), *[tt(l, lsize) for l in lines]).arrange(DOWN, buff=buff)
-    W = w if w is not None else content.get_width() + 0.45; H = h if h is not None else content.get_height() + 0.4
+    icon = ("ice" if frozen else False) if icon is None else icon
+    extra = 0.5 if icon else 0.0                                   # room for the corner icon
+    W = w if w is not None else content.get_width() + 0.45 + extra; H = h if h is not None else content.get_height() + 0.4
     b = box(W, H, color, fill, frozen)
-    return VGroup(b, content.move_to(b))
+    g = VGroup(b, content.move_to(b).shift(LEFT * extra / 2 if w is None else ORIGIN))
+    if icon:
+        g.add(badge(b, snowflake() if icon == "ice" else flame()))
+    return g
 
 
 def arrow(a, b, color=INK, buff=0.08, sw=3, arc=0.0):

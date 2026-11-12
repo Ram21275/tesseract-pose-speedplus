@@ -172,5 +172,16 @@
     1
    ]
   ]
+ },
+ "arch": {
+  "train_key": "train_pbr/000000/rgb/000013.jpg#5#6",
+  "train_row": 4,
+  "aug": {
+   "1": -67.74067727622524,
+   "2": 36.03618934763543
+  },
+  "test_key": "test_primesense/000004/rgb/000058.png#5#0",
+  "test_row": 98219,
+  "mask_frac": 0.4289627465303141
  }
 }

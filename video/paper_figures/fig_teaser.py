@@ -32,7 +32,7 @@ class FigTeaser(PaperScene):
             heads.add(box(1.25, 0.5, DINO, DINO_FILL, r=0.07, sw=2.2))
         heads.arrange(DOWN, buff=0.12).next_to(fz, RIGHT, buff=0.55)
         hl = VGroup(*[tt(r"2.7\,M", 17).move_to(h) for h in heads])
-        hlab = tt(r"trained heads,\\ one per object", 18, DINO, bold=True).next_to(heads, UP, buff=0.12)
+        hlab = VGroup(flame(0.32), tt(r"trained heads,\\ one per object", 18, DINO, bold=True)).arrange(RIGHT, buff=0.08).next_to(heads, UP, buff=0.12)
         aa = VGroup(arrow(ex.get_right(), fz.get_left(), INK), *[arrow(fz.get_right(), h.get_left(), DINO, sw=1.6, buff=0.05) for h in heads])
         A = Group(ex, fz, heads, hl, hlab, aa)
         ta = tt("frozen backbones, small heads", 26, bold=True)
