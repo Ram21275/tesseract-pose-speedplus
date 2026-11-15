@@ -1,6 +1,7 @@
 """Shared style for the manim paper figures (static, white background). Colours match the paper's other figures:
 ground truth green, prediction magenta (scripts/fig_qualitative.py); frozen modules grey and dashed, trained modules coloured
 (paper/figures/pipeline.pdf). Geometry comes from src/tfpose via ../common.py."""
+import os
 import sys
 from pathlib import Path
 
@@ -118,6 +119,32 @@ def fit(scene, mobs, pad=0.25):
     g = Group(*mobs); fr = scene.frame; aspect = fr.get_width() / fr.get_height()
     w, h = g.get_width() + 2 * pad, g.get_height() + 2 * pad
     fr.move_to(g.get_center()); fr.set_height(max(h, w / aspect))
+    if os.environ.get("PF_VEC"):
+        dump_vector(scene, mobs, os.environ["PF_VEC"], pad)
+
+
+def dump_vector(scene, mobs, out, pad):
+    """Vector export: dump every drawn primitive in render order (quadratic Bezier subpaths with fill/stroke, and
+    raster images with their placement) for vec2pdf.py, which redraws them as a PDF with vector text, lines and arrows.
+    Stroke width in scene units = 0.01 * stroke_width * frame_scale (manimgl stroke vertex shader)."""
+    import pickle
+    fs = scene.frame.get_scale(); prims = []
+    for top in scene.mobjects:
+        for m in top.get_family():
+            if isinstance(m, ImageMobject):
+                prims.append(dict(kind="image", path=str(m.image_path), ul=m.get_corner(UL)[:2].tolist(), dr=m.get_corner(DR)[:2].tolist(),
+                                  opacity=float(m.data["opacity"][0, 0])))
+            elif isinstance(m, VMobject) and m.has_points():
+                subs = [sp[:, :2].astype(float) for sp in m.get_subpaths() if len(sp) >= 3]
+                if not subs:
+                    continue
+                prims.append(dict(kind="path", subs=subs, fill=m.data["fill_rgba"][0].astype(float).tolist(),
+                                  stroke=m.data["stroke_rgba"][0].astype(float).tolist(),
+                                  sw=float(0.01 * float(np.mean(m.data["stroke_width"])) * fs), behind=bool(m.stroke_behind)))
+    g = Group(*mobs)
+    box = [float(g.get_left()[0] - pad), float(g.get_bottom()[1] - pad), float(g.get_right()[0] + pad), float(g.get_top()[1] + pad)]
+    with open(out, "wb") as f:
+        pickle.dump(dict(prims=prims, box=box), f)
 
 
 def iso(p, az=-35, el=24, s=1.0, o=ORIGIN):

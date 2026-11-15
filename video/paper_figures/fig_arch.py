@@ -38,7 +38,7 @@ class FigArch(PaperScene):
         trv = Group(labelled("arch_train_clean", 1.22, r"clean", border=TRAIN),
                     labelled("arch_train_aug1", 1.22, rf"$\theta={a1:.0f}^\circ$", border=TRAIN),
                     labelled("arch_train_aug2", 1.22, rf"$\theta={a2:.0f}^\circ$", border=TRAIN)).arrange(RIGHT, buff=0.12)
-        trt = tt(r"\textbf{training:} synthetic crop\\ $+$ 2 augmented copies", 22, TRAIN).next_to(trv, UP, buff=0.12)
+        trt = tt(r"\textbf{training:} training crop\\ $+$ two augmented views", 22, TRAIN).next_to(trv, UP, buff=0.12)
         trl = tx(r"q'=\mathrm{Exp}(-\theta d)\otimes q,\;\; t'=R(d,-\theta)\,t", 23, TRAIN).next_to(trv, DOWN, buff=0.12)
         TR = Group(trt, trv, trl).move_to([-0.9, 1.95, 0])
         tev = Group(*[labelled(f"arch_view{k}", 0.98, rf"${90 * k}^\circ$", 20, border=ORBIT) for k in range(4)]).arrange(RIGHT, buff=0.1)
@@ -61,40 +61,40 @@ class FigArch(PaperScene):
         def tree(name, col, fill, npar):
             b = box(4.45, 1.55, col, fill, r=0.1, sw=3.4)
             t = tt(rf"\textbf{{tree Transformer}} ({name})", 22, col)
-            s = path_strip(); n = tt(rf"$\mathrm{{path}}=(c;k_1..k_5)$, {npar}\,M", 18, MUTED)
+            s = path_strip(); n = tt(rf"$\mathrm{{path}}=(c;k_1..k_5)$, {npar}\,M", 20, MUTED)
             VGroup(t, s, n).arrange(DOWN, buff=0.1).move_to(b).shift(LEFT * 0.17)
             return VGroup(b, t, s, n, badge(b, flame()))
         tm = tree("MoGe-2", MOGE, MOGE_FILL, "2.1"); td = tree("DINOv3", DINO, DINO_FILL, "2.4")
         X_T = feat_d.get_right()[0] + 0.5 + 2.22
         tm.move_to([X_T, moge.get_y(), 0]); td.move_to([X_T, dino.get_y(), 0])
-        trn = block(r"translation block", [r"query $\to$ tree tokens, MLP $\to u\to t$"], TRANS, TRANS_FILL, tsize=21, lsize=18, w=4.45, icon="fire")
+        trn = block(r"translation block", [r"query $\to$ tree tokens, MLP $\to u\to t$"], TRANS, TRANS_FILL, tsize=21, lsize=20, w=4.45, icon="fire")
         trn.next_to(td, DOWN, buff=0.42)
         mem = DashedLine(td.get_bottom() + LEFT * 0.9, trn.get_top() + LEFT * 0.9, dash_length=0.06, stroke_width=1.6).set_color(TRANS)
         hg = VGroup(tm, td, trn); hd = box(hg.get_width() + 0.32, hg.get_height() + 0.75, FIRE, "#FFF8F2", frozen=True, sw=1.8).move_to(hg).shift(UP * 0.2)
         hdl = VGroup(flame(0.3), tt(r"\textbf{trained per object} (4.85\,M with both branches)", 21, FIRE)).arrange(RIGHT, buff=0.1).next_to(hd, DOWN, buff=0.1)
-        opt = tt(r"(MoGe-2 branch optional, chosen on validation)", 17, MUTED).next_to(tm, UP, buff=0.07)
+        opt = tt(r"(MoGe-2 branch optional, chosen on validation)", 19, MUTED).next_to(tm, UP, buff=0.07)
 
         # ------------------------------------------------------------------ training objective (top right)
         loss = block(r"training loss",
                      [r"multi-path soft targets $\mathcal{L}_{\mathrm{sym}}$ per level",
-                      r"$+\,\|u-u^*\|^2$; optional distillation"], TRAIN, "#FDF1E0", tsize=20, lsize=17, buff=0.08, icon=False)
+                      r"$+\,\|u-u^*\|^2$; optional distillation"], TRAIN, "#FDF1E0", tsize=20, lsize=19, buff=0.08, icon=False)
         loss.next_to(hd, UP, buff=0.45)
 
         # ------------------------------------------------------------------ test time: PoE beam search, orbit voting, output
         poe = VGroup(Circle(radius=0.31).set_fill(PAPER, 1).set_stroke(ORBIT, 3), tx(r"+", 33, ORBIT))
         poe.move_to([hd.get_right()[0] + 0.75, (tm.get_y() + td.get_y()) / 2, 0])
         poel = tt(r"per-level PoE:\\ $\log p_D+\log p_M$", 19, ORBIT)
-        beam = block(r"beam search", [r"8 leaves per view"], ORBIT, ORBIT_FILL, tsize=21, lsize=18, icon=False)
+        beam = block(r"beam search", [r"8 leaves per view"], ORBIT, ORBIT_FILL, tsize=21, lsize=20, icon=False)
         beam.next_to(poe, RIGHT, buff=0.38)
         orb = block(r"orbit voting", [r"32 candidates, scored", r"in all 4 views"],
-                    ORBIT, ORBIT_FILL, tsize=20, lsize=17, buff=0.08, icon=False)
+                    ORBIT, ORBIT_FILL, tsize=20, lsize=19, buff=0.08, icon=False)
         orb.next_to(beam, RIGHT, buff=0.38)
         poel.next_to(VGroup(poe, beam), DOWN, buff=0.2).align_to(poe, LEFT).shift(LEFT * 0.2)
         out = labelled("teaser_tless", 2.15, rf"$\hat q,\hat t$: $E_R={TE['err']:.1f}^\circ$", 21, INK, border=ORBIT)
         out.next_to(orb, RIGHT, buff=0.42)
-        tl = tt(r"$\hat t$: per view, rolled\\ back, averaged", 17, MUTED).next_to(out, DOWN, buff=0.08)
-        leg_o = VGroup(VGroup(Line(ORIGIN, RIGHT * 0.35, stroke_width=4).set_color(OV_GT), tt("GT", 18)).arrange(RIGHT, buff=0.06),
-                       VGroup(Line(ORIGIN, RIGHT * 0.35, stroke_width=4).set_color(OV_PRED), tt("prediction", 18)).arrange(RIGHT, buff=0.06)).arrange(RIGHT, buff=0.2)
+        tl = tt(r"$\hat t$: per view, rolled\\ back, averaged", 19, MUTED).next_to(out, DOWN, buff=0.08)
+        leg_o = VGroup(VGroup(Line(ORIGIN, RIGHT * 0.35, stroke_width=4).set_color(OV_GT), tt("GT", 20)).arrange(RIGHT, buff=0.06),
+                       VGroup(Line(ORIGIN, RIGHT * 0.35, stroke_width=4).set_color(OV_PRED), tt("prediction", 20)).arrange(RIGHT, buff=0.06)).arrange(RIGHT, buff=0.2)
         leg_o.next_to(tl, DOWN, buff=0.08)
 
         # ------------------------------------------------------------------ arrows

@@ -3,7 +3,7 @@
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\linewidth]{figures/method/architecture.png}
+  \includegraphics[width=\linewidth]{figures/method/architecture.pdf}
   \caption{\textbf{Architecture} (shown for T-LESS object~5; identical for every object and benchmark). Frozen backbones (\emph{snowflake}) are shared by all objects; their token grids are extracted once and cached. Per object, only small heads are trained (\emph{flame}): one tesseract tree Transformer per backbone branch, which decodes the rotation as a root-to-leaf path (\cref{sec:tree}), and a translation block that reads the tree's encoded tokens (\cref{sec:sixdof_method}). \emph{Training} (amber): each synthetic crop is used clean and as two augmented copies, rolled by $\theta$ with exactly transformed labels (\cref{eq:roll}), and supervised with multi-path soft targets over all symmetry-equivalent labels (\cref{eq:symloss}), optionally distilled from an orbit teacher (\cref{sec:distill}). \emph{Test time} (green): the crop is rolled into four views; in each, the branches are fused per level (PoE) and beam search returns 8 leaves; orbit voting maps the 32 candidates back and selects the one most likely in all views (\cref{sec:orbit}). The MoGe-2 branch and orbit voting are chosen per application on validation data. Images are the real crops of the running example (training: the two cached augmented copies; test: homography-rolled views) and its cached features (DINOv3 tokens as a PCA image, MoGe-2 normals under the consensus mask); the output overlay is the final T-LESS system's prediction.}
   \label{fig:pipeline}
 \end{figure*}
@@ -28,7 +28,7 @@ The result is a shared architecture with per-object heads, not a single universa
 \label{sec:tree}
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\linewidth]{figures/method/tesseract_partition.png}
+  \includegraphics[width=\linewidth]{figures/method/tesseract_partition.pdf}
   \caption{\textbf{Tesseract partition of $SO(3)$.} (a)~A unit quaternion is assigned to the chart of its largest coordinate and sign-normalised; its three other coordinates, divided by the largest, give a point $u$ in the cube $[-1,1]^3$. (b)~Each level halves the cube along all three axes, so a cell has 8 children; levels 1--3 are drawn in place and levels 4--5 in the magnified level-3 cell. (c)~The rotation is the path $(\text{chart};k_1,\dots,k_5)$; the error of the cell centre at each level for this rotation, and the mean over random rotations, which halves per level to $2.51^\circ$ at the $131{,}072$ leaves. All cells, digits and errors are computed with our encoder for one example rotation.}
   \label{fig:tesseract}
 \end{figure*}
@@ -37,7 +37,7 @@ We use \emph{cell centres} (lifted back to the unit sphere) as representatives. 
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\linewidth]{figures/method/tree_decoder_multipath.png}
+  \includegraphics[width=\linewidth]{figures/method/tree_decoder_multipath.pdf}
   \caption{\textbf{Tree head, decoding and symmetric targets.} (a)~The tree Transformer reads the frozen tokens through one encoder layer and decodes the path with a causal decoder: the root position predicts the chart (4 logits), each later position one of 8 children, and every decision is embedded as the next token. Digits shown are the path of the label in (c). (b)~Beam search keeps the 8 most likely partial paths at each level (schematic: which nodes are kept is illustrative). (c)~For a T-LESS object with a 2-fold symmetry, the two equivalent labels of one training image lie in different charts with no shared prefix. A single label therefore gives contradictory targets for identical-looking views; multi-path targets (\cref{eq:symloss}) supervise both paths.}
   \label{fig:tree}
 \end{figure*}
@@ -76,7 +76,7 @@ We derived this convention from the camera geometry rather than fitting it to a 
 \label{sec:orbit}
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\linewidth]{figures/method/orbit_voting.png}
+  \includegraphics[width=\linewidth]{figures/method/orbit_voting.pdf}
   \caption{\textbf{Orbit voting} on a real SPEED+ lightbox image (fixed selection rule: among test images where the single view is wrong by more than $150^\circ$ and orbit voting is within $10^\circ$, the median of that group). (a)~Four views rolled by $\theta_k$; below each, its most likely beam hypothesis mapped back to the original view. Two views propose a near-$180^\circ$ flip, two the correct mode. (b)~All 32 mapped-back candidates (8 per view), scored by \cref{eq:orbit}, relative to the best. Every candidate proposed by the original view is a flip and is penalised by 27--58 nats, because it is unlikely in the other views. (c)~The selected candidate ($4.4^\circ$) and greedy decoding of the original view alone ($159^\circ$). Final SPEED+ system, ground-truth crop.}
   \label{fig:orbit}
 \end{figure*}

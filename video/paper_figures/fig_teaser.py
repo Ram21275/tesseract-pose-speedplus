@@ -30,9 +30,9 @@ class FigTeaser(PaperScene):
         fz.next_to(ex, RIGHT, buff=0.55)
         heads = VGroup()
         for i in range(4):
-            heads.add(box(1.25, 0.5, DINO, DINO_FILL, r=0.07, sw=2.2))
+            heads.add(box(1.75, 0.5, DINO, DINO_FILL, r=0.07, sw=2.2))
         heads.arrange(DOWN, buff=0.12).next_to(fz, RIGHT, buff=0.55)
-        hl = VGroup(*[tt(r"2.7\,M", 17).move_to(h) for h in heads])
+        hl = VGroup(*[tt(r"2.7--4.85\,M", 17).move_to(h) for h in heads])
         hlab = VGroup(flame(0.32), tt(r"trained heads,\\ one per object", 18, DINO, bold=True)).arrange(RIGHT, buff=0.08).next_to(heads, UP, buff=0.12)
         aa = VGroup(arrow(ex.get_right(), fz.get_left(), INK), *[arrow(fz.get_right(), h.get_left(), DINO, sw=1.6, buff=0.05) for h in heads])
         A = Group(ex, fz, heads, hl, hlab, aa)
@@ -65,7 +65,7 @@ class FigTeaser(PaperScene):
         g2 = img("orbit_final", 1.8, border=ORBIT); g2l = tt(rf"orbit voting: {O['err_final']:.1f}$^\circ$", 19, ORBIT, bold=True).next_to(g2, DOWN, buff=0.08)
         C = Group(Group(g1, g1l), Group(views, vl), Group(g2, g2l)).arrange(RIGHT, buff=0.45)
         ca = VGroup(arrow(g1.get_right(), views.get_left(), MUTED, sw=2), arrow(views.get_right(), g2.get_left(), ORBIT, sw=2.4))
-        cap = tt(r"a look-alike that wins in one view must win in all four", 19, MUTED).next_to(C, DOWN, buff=0.25)
+        cap = tt(r"one example image; candidates are scored across all four views", 19, MUTED).next_to(C, DOWN, buff=0.25)
         C = Group(C, ca, cap)
         tc = tt("orbit voting selects the consistent mode", 26, bold=True)
 

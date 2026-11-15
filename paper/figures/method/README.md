@@ -7,7 +7,7 @@ These are the explanatory figures in the paper. They are drawn with manimgl from
 | `architecture` | Fig. 2, start of Sec. 3 (`fig:pipeline`; replaces the matplotlib `figures/pipeline.pdf`) | the general method for any known object: shared frozen backbones, cached token maps, per-object trained trees and translation block; training flow (3 views with exact roll labels, multi-path loss, optional distillation) and test flow (4 rolled views, per-level PoE, beam search, orbit voting) | GDRNPP, FoundPose and SurfEmb overview figures; snowflake/flame marks for frozen/trained modules |
 | `teaser` | Fig. 1, under the title (`sec/teaser.tex`) | (a) frozen shared backbones feeding small per-object heads, with median-error test predictions on all four benchmarks; (b) rotation as a coarse-to-fine path; (c) orbit voting repairing a 159° flip | ZebraPose, CheckerPose and SpyroPose teasers: one concrete visual of the core idea |
 | `tesseract_partition` | Sec. 3.3 (`fig:tesseract`) | (a) chart choice; (b) nested cells of levels 1–5 in the projected cube, with a magnified inset; (c) the path digits, cell counts and per-level error | CheckerPose Fig. 3 and ZebraPose Fig. 2: level index written under each level |
-| `tree_decoder_multipath` | Sec. 3.3 (`fig:tree`) | (a) the tree Transformer as implemented; (b) beam search with beam 8 (which nodes are kept is schematic); (c) multi-path targets for a real T-LESS label | GDRNPP and CheckerPose block diagrams; HiPose colour-coded paths |
+| `tree_decoder_multipath` | Sec. 3.3 (`fig:tree`) | (a) the tree Transformer as implemented; (b) beam search with beam 8, labelled schematic (which nodes are kept is illustrative); (c) multi-path targets for a real T-LESS label | GDRNPP and CheckerPose block diagrams; HiPose colour-coded paths |
 | `orbit_voting` | Sec. 3.6 (`fig:orbit`) | the 4 rolled views, each view's top hypothesis mapped back, the orbit score of all 32 candidates, and the result | CheckerPose (a)/(b)/(c) panelled flow (no direct precedent for orbit voting) |
 
 ## Where the content comes from
@@ -29,4 +29,4 @@ Nothing in these figures is illustrative except the kept nodes in `tree_decoder_
 .venv/bin/python video/paper_figures/prep_arch.py        # architecture-figure assets (reads the T-LESS images and feature caches)
 bash video/paper_figures/render_all.sh                    # conda env manim311; writes PNG and PDF here, trimmed
 ```
-The output is raster (PNG, about 3,600 px wide, printed at full text width), because manimgl renders through OpenGL. A PDF copy of each PNG is written alongside it.
+The paper uses the PDFs, which are vector: `render_all.sh` dumps every drawn primitive during the manim render (`PF_VEC`, `pfcommon.dump_vector`) and `vec2pdf.py` redraws them with matplotlib. Text and equations (LaTeX glyph outlines), boxes, lines and arrows are vector paths; only photographs and feature maps are embedded rasters at their source resolution. The PNGs are previews.

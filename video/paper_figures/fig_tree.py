@@ -41,7 +41,7 @@ class FigTree(PaperScene):
         heads = VGroup(); outs = VGroup()
         for i, t in enumerate(seq):
             lab = r"4 \text{ charts}" if i == 0 else r"8 \text{ children}"
-            hb = token(lab, INK, PAPER, w=1.12, h=0.44, size=14).next_to(dec, UP, buff=0.42).set_x(t.get_x())
+            hb = token(lab, INK, PAPER, w=1.14, h=0.46, size=15).next_to(dec, UP, buff=0.42).set_x(t.get_x())
             heads.add(hb); outs.add(arrow(dec.get_top() * [0, 1, 0] + [t.get_x(), 0, 0], hb.get_bottom(), INK, buff=0.04, sw=2.2))
         ex = MP["path"][0]
         picks = VGroup(*[tx(d, 24, LV[i] if i else CH4[MP["chart"][0]]).next_to(heads[i], UP, buff=0.1)
@@ -57,7 +57,7 @@ class FigTree(PaperScene):
                         for t in seq])
         xl = tt("cross-attention", 18, DINO).next_to(mem, RIGHT, buff=0.35)
         a1 = arrow(grid.get_right(), enc.get_left(), INK); a2 = arrow(enc.get_bottom(), mem.get_left() + LEFT * 0.05, INK, arc=0.6)
-        size_l = tt(r"2.4\,M trained parameters per branch", 20, bold=True).next_to(meml, DOWN, buff=0.3).align_to(decg, RIGHT)
+        size_l = tt(r"trained: 2.39\,M (DINOv3 tree), 2.13\,M (MoGe-2 tree)", 20, bold=True).next_to(meml, DOWN, buff=0.3).align_to(decg, RIGHT)
         A = VGroup(grid, gl, enc, mem, meml, a1, a2, decg, dect, heads, outs, picks, fb, fbl, xatt, xl, size_l)
         ta = tt("tree Transformer: autoregressive path decoding", 26, bold=True).next_to(A, UP, buff=0.35).align_to(grid, LEFT)
 
@@ -94,7 +94,7 @@ class FigTree(PaperScene):
         bl = tt(r"keep the 8 most likely partial paths\\ per level (beam 8): 8 leaves per view", 19, MUTED)
         B.add(lx, nl, nlab)
         bl.next_to(B, DOWN, buff=0.25)
-        tb = tt("beam search", 26, bold=True).next_to(B, UP, buff=0.3).align_to(B, LEFT)
+        tb = tt("beam search (schematic)", 26, bold=True).next_to(B, UP, buff=0.3).align_to(B, LEFT)
         kk = VGroup(VGroup(Dot(radius=0.06).set_fill(LV[3], 1), tt("kept", 18)).arrange(RIGHT, buff=0.08),
                     VGroup(Dot(radius=0.06).set_fill("#CDD2DA", 1), tt("pruned", 18)).arrange(RIGHT, buff=0.08)).arrange(RIGHT, buff=0.3).next_to(tb, RIGHT, buff=0.4)
         B.add(bl)
@@ -122,7 +122,7 @@ class FigTree(PaperScene):
         y = max(ta.get_y(), tb.get_y(), tc.get_y())
         for t_ in (ta, tb, tc):
             t_.set_y(y)
-        kk.arrange(RIGHT, buff=0.3).next_to(B, UP, buff=0.1).align_to(B, RIGHT).shift(UP * 0.35)
+        kk.arrange(RIGHT, buff=0.3).next_to(bl, DOWN, buff=0.15)
         la, lb, lc = [letter(s).next_to(t_, LEFT, buff=0.12) for s, t_ in zip("abc", (ta, tb, tc))]
         A.add(dect)
         allm = [A, ta, la, B, tb, lb, kk, C, tc, lc]
