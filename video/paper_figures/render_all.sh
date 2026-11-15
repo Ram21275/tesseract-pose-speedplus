@@ -5,7 +5,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"; cd "$ROOT/video"
 OUT="$ROOT/paper/figures/method"; RAW="${TMPDIR:-/tmp}/paper_figs_raw"; mkdir -p "$OUT" "$RAW"
 PY="$HOME/miniconda3/envs/manim311/bin/python"
-declare -A RES=([FigArch]=4200x1700 [FigTeaser]=4000x1500 [FigTesseract]=3600x1350 [FigTree]=3600x1400 [FigOrbit]=3600x1400)
+declare -A RES=([FigArch]=4200x1700 [FigTeaser]=3600x2000 [FigTesseract]=3600x1350 [FigTree]=3600x2600 [FigOrbit]=3600x1400)
 declare -A SRC=([FigArch]=fig_arch.py [FigTeaser]=fig_teaser.py [FigTesseract]=fig_tesseract.py [FigTree]=fig_tree.py [FigOrbit]=fig_orbit.py)
 declare -A NAME=([FigArch]=architecture [FigTeaser]=teaser [FigTesseract]=tesseract_partition [FigTree]=tree_decoder_multipath [FigOrbit]=orbit_voting)
 FIGS=("$@"); [ ${#FIGS[@]} -eq 0 ] && FIGS=(FigArch FigTeaser FigTesseract FigTree FigOrbit)

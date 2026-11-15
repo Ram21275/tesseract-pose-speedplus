@@ -58,26 +58,30 @@ class FigTeaser(PaperScene):
         tb = tt("rotation as a coarse-to-fine path", 26, bold=True)
 
         # ---------------------------------------------------------------- (c) orbit voting
-        views = Group(*[img(f"orbit_view{k}", 0.95, border=["#4361EE", "#7209B7", "#F77F00", "#0F9D8A"][k]) for k in range(4)]).arrange_in_grid(2, 2, buff=0.08)
-        vl = tt(r"4 rolled views", 18, MUTED).next_to(views, DOWN, buff=0.08)
-        g1 = img("orbit_greedy", 1.6, border=FLIP); g1l = tt(rf"1 view: {O['err_greedy']:.0f}$^\circ$ (flip)", 19, FLIP).next_to(g1, DOWN, buff=0.08)
-        g2 = img("orbit_final", 1.6, border=ORBIT); g2l = tt(rf"orbit voting: {O['err_final']:.1f}$^\circ$", 19, ORBIT, bold=True).next_to(g2, DOWN, buff=0.08)
-        C = Group(Group(g1, g1l), Group(views, vl), Group(g2, g2l)).arrange(RIGHT, buff=0.45)
+        views = Group(*[img(f"orbit_view{k}", 1.45, border=["#4361EE", "#7209B7", "#F77F00", "#0F9D8A"][k]) for k in range(4)]).arrange(RIGHT, buff=0.1)
+        vl = tt(r"4 rolled views ($0^\circ, 90^\circ, 180^\circ, 270^\circ$), each decoded by the tree", 19, MUTED).next_to(views, DOWN, buff=0.08)
+        g1 = img("orbit_greedy", 1.9, border=FLIP); g1l = tt(rf"1 view: {O['err_greedy']:.0f}$^\circ$ (flip)", 19, FLIP).next_to(g1, DOWN, buff=0.08)
+        g2 = img("orbit_final", 1.9, border=ORBIT); g2l = tt(rf"orbit voting: {O['err_final']:.1f}$^\circ$", 19, ORBIT, bold=True).next_to(g2, DOWN, buff=0.08)
+        C = Group(Group(g1, g1l), Group(views, vl), Group(g2, g2l)).arrange(RIGHT, buff=0.7)
         ca = VGroup(arrow(g1.get_right(), views.get_left(), MUTED, sw=2), arrow(views.get_right(), g2.get_left(), ORBIT, sw=2.4))
         cap = tt(r"a look-alike that wins in one view must win in all four", 19, MUTED).next_to(C, DOWN, buff=0.25)
         C = Group(C, ca, cap)
         tc = tt("orbit voting selects the consistent mode", 26, bold=True)
 
-        row = Group(A, B, C).arrange(RIGHT, buff=0.9, aligned_edge=DOWN)
+        # 2-1 layout: (a) and (b) on top, (c) below and enlarged
+        top = Group(A, B).arrange(RIGHT, buff=1.1, aligned_edge=DOWN)
         B.align_to(A, DOWN).shift(UP * 0.35)
-        ys = row.get_top()[1] + 0.45
-        for t_, p_ in ((ta, A), (tb, B), (tc, C)):
+        C.next_to(top, DOWN, buff=1.0).set_x(top.get_x())
+        row = Group(top, C)
+        ys = top.get_top()[1] + 0.45
+        for t_, p_ in ((ta, A), (tb, B)):
             t_.move_to([0, ys, 0]).align_to(p_, LEFT)
+        tc.next_to(C, UP, buff=0.35).align_to(A, LEFT).shift(RIGHT * 0.45)
         L = [letter(c).next_to(t_, LEFT, buff=0.12) for c, t_ in zip("abc", (ta, tb, tc))]
         leg = VGroup(VGroup(Line(ORIGIN, RIGHT * 0.4, stroke_width=4).set_color(OV_GT), tt("GT", 18)).arrange(RIGHT, buff=0.08),
                      VGroup(Line(ORIGIN, RIGHT * 0.4, stroke_width=4).set_color(OV_PRED), tt(r"prediction (rotation and translation)", 18)).arrange(RIGHT, buff=0.08),
                      tt(r"$E_R$: median-error test image (SPEED+: the example of (c))", 18, MUTED)).arrange(RIGHT, buff=0.35)
-        leg.next_to(row, DOWN, buff=0.35).align_to(A, LEFT)
+        leg.next_to(row, DOWN, buff=0.35).set_x(row.get_x())
         allm = [row, ta, tb, tc, *L, leg]
         self.add(*allm)
         fit(self, allm, pad=0.3)
