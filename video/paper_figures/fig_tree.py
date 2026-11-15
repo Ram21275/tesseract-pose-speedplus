@@ -64,7 +64,7 @@ class FigTree(PaperScene):
         rng = np.random.default_rng(3)                             # fixed layout only (which nodes are kept is schematic)
         cols = VGroup(); kept_cols = []; X0 = A.get_right()[0] + 1.6; dy = 0.088
         n_prev = 4; kept = list(range(4))
-        lev_x = [X0 + 1.5 * l for l in range(6)]
+        lev_x = [X0 + 1.0 * l for l in range(6)]
         nodes = []
         for l in range(6):
             n = 4 if l == 0 else 8 * len(kept)
@@ -85,7 +85,7 @@ class FigTree(PaperScene):
                 on = j in ck
                 edges.add(Line(pc[par].get_center(), cc[j].get_center(), stroke_width=1.6 if on else 0.4).set_color(LV[l] if on else "#DADDE3"))
         B = VGroup(edges, cols)
-        B.move_to([X0 + 2.0, A.get_y() - 0.1, 0]); B.set_height(A.get_height() * 0.62)
+        B.move_to([X0 + 2.0, A.get_y() - 0.1, 0]); B.set_height(A.get_height() * 0.92)
         lx = VGroup(*[tx(str(l), 22, MUTED).next_to(B, DOWN, buff=0.15).set_x(cols[l].get_x()) for l in range(6)])
         lx.add(tx(r"\text{level } \ell:", 22, MUTED).next_to(lx, LEFT, buff=0.2))
         nl = VGroup(*[tt(t, 20, MUTED).next_to(B, UP, buff=0.15).set_x(cols[l].get_x()) for l, t in enumerate(["4", "32", "64", "64", "64", "64"])])
@@ -118,17 +118,12 @@ class FigTree(PaperScene):
         C.next_to(B, RIGHT, buff=0.9).align_to(A, DOWN).shift(UP * 0.1)
         tc = tt("symmetric objects: all equivalent labels", 26, bold=True).next_to(C, UP, buff=0.3).align_to(C, LEFT)
 
+        y = max(ta.get_y(), tb.get_y(), tc.get_y())
+        for t_ in (ta, tb, tc):
+            t_.set_y(y)
         kk.arrange(RIGHT, buff=0.3).next_to(B, UP, buff=0.1).align_to(B, RIGHT).shift(UP * 0.35)
         la, lb, lc = [letter(s).next_to(t_, LEFT, buff=0.12) for s, t_ in zip("abc", (ta, tb, tc))]
         A.add(dect)
-        # 1-2 layout: (a) on top, (b) and (c) below (the beam is drawn larger than in a single row)
-        PA = Group(A, ta, la); PB = Group(B, tb, lb, kk); PC = Group(C, tc, lc)
-        tc.align_to(C, LEFT); lc.next_to(tc, LEFT, buff=0.12)
-        bot = Group(PB, PC).arrange(RIGHT, buff=1.4, aligned_edge=UP)
-        yb = max(tb.get_y(), tc.get_y()); tc.set_y(yb); lc.next_to(tc, LEFT, buff=0.12)
-        if bot.get_width() < PA.get_width():
-            bot.set_width(min(PA.get_width(), bot.get_width() * 1.2))
-        bot.next_to(PA, DOWN, buff=0.7).set_x(PA.get_x())
-        allm = [PA, PB, PC]
+        allm = [A, ta, la, B, tb, lb, kk, C, tc, lc]
         self.add(*allm)
         fit(self, allm, pad=0.3)

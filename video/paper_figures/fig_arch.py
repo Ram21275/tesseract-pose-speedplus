@@ -74,10 +74,9 @@ class FigArch(PaperScene):
         opt = tt(r"(MoGe-2 branch optional, chosen on validation)", 14, MUTED).next_to(tm, UP, buff=0.07)
 
         # ------------------------------------------------------------------ training objective (top right)
-        loss = block(r"training loss (per level $\ell$)",
-                     [r"multi-path soft targets: $\mathcal{L}_{\mathrm{sym}}=\frac{1}{|\mathcal{S}'|}\sum_{s}\mathcal{L}_{\mathrm{GT}}(q\,s)$",
-                      r"$+\;\|u-u^*\|^2$ (translation)",
-                      r"optional: orbit-teacher distillation"], TRAIN, "#FDF1E0", tsize=19, lsize=16, buff=0.08, icon=False)
+        loss = block(r"training loss",
+                     [r"multi-path soft targets $\mathcal{L}_{\mathrm{sym}}$ per level",
+                      r"$+\,\|u-u^*\|^2$; optional distillation"], TRAIN, "#FDF1E0", tsize=17, lsize=14, buff=0.08, icon=False)
         loss.next_to(hd, UP, buff=0.45)
 
         # ------------------------------------------------------------------ test time: PoE beam search, orbit voting, output
@@ -86,8 +85,8 @@ class FigArch(PaperScene):
         poel = tt(r"per-level PoE:\\ $\log p_D+\log p_M$", 16, ORBIT)
         beam = block(r"beam search", [r"8 leaves per view"], ORBIT, ORBIT_FILL, tsize=18, lsize=15, icon=False)
         beam.next_to(poe, RIGHT, buff=0.45)
-        orb = block(r"orbit voting", [r"map back: 32 candidates", r"$s(c)=\sum_k\log p_k(\mathrm{path}(\cdot))$", r"$\hat q=\arg\max_c s(c)$"],
-                    ORBIT, ORBIT_FILL, tsize=19, lsize=15, buff=0.08, icon=False)
+        orb = block(r"orbit voting", [r"32 candidates, scored", r"in all 4 views"],
+                    ORBIT, ORBIT_FILL, tsize=17, lsize=14, buff=0.08, icon=False)
         orb.next_to(beam, RIGHT, buff=0.45)
         poel.next_to(VGroup(poe, beam), DOWN, buff=0.2).align_to(poe, LEFT).shift(LEFT * 0.2)
         out = labelled("teaser_tless", 1.7, rf"$\hat q,\hat t$: $E_R={TE['err']:.1f}^\circ$", 18, INK, border=ORBIT)
