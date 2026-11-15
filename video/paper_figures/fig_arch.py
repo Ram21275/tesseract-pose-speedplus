@@ -72,7 +72,7 @@ class FigArch(PaperScene):
         mem = DashedLine(td.get_bottom() + LEFT * 0.9, trn.get_top() + LEFT * 0.9, dash_length=0.06, stroke_width=1.6).set_color(TRANS)
         hg = VGroup(tm, td, trn); hd = box(hg.get_width() + 0.32, hg.get_height() + 0.75, FIRE, "#FFF8F2", frozen=True, sw=1.8).move_to(hg).shift(UP * 0.2)
         hdl = VGroup(flame(0.3), tt(r"\textbf{trained per object} (4.85\,M with both branches)", 21, FIRE)).arrange(RIGHT, buff=0.1).next_to(hd, DOWN, buff=0.1)
-        opt = tt(r"(MoGe-2 branch optional, chosen on validation)", 19, MUTED).next_to(tm, UP, buff=0.07)
+        opt = tt(r"(MoGe-2 branch optional)", 19, MUTED).next_to(tm, UP, buff=0.07)
 
         # ------------------------------------------------------------------ training objective (top right)
         loss = block(r"training loss",
