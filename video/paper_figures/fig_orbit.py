@@ -9,6 +9,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pfcommon import *  # noqa: F401,F403,E402
+set_text_scale(1.45)                           # larger print text (same figure footprint)
 
 O = json.loads((ASSET / "assets.json").read_text())["orbit"]
 VIEW = ["#4361EE", "#7209B7", "#F77F00", "#0F9D8A"]
@@ -34,7 +35,7 @@ class FigOrbit(PaperScene):
         mid = tt(r"beam search (8) in each view, mapped back: $c=\mathrm{Exp}(+\theta_k d)\otimes c_k$", 20, INK)
         bg = BackgroundRectangle(mid, fill_color=PAPER, fill_opacity=1, buff=0.06)
         midg = VGroup(bg, mid).move_to((cols[0][1].get_bottom() + cols[3][2].get_top()) / 2 * [0, 1, 0] + [cols.get_x(), 0, 0])
-        ta = tt("rolled views and each view's best hypothesis", 26, bold=True).next_to(cols, UP, buff=0.3).align_to(cols, LEFT)
+        ta = tt("rolled views, best hypothesis of each", 26, bold=True).next_to(cols, UP, buff=0.3).align_to(cols, LEFT)
         A = Group(cols, arrs, midg)
 
         # ---------------------------------------------------------------- (c) orbit score of all 32 candidates
@@ -63,7 +64,7 @@ class FigOrbit(PaperScene):
         eq.next_to(C, UP, buff=0.25).align_to(C, LEFT)
         C.add(eq)
         C.next_to(A, RIGHT, buff=0.8).align_to(A, DOWN).shift(UP * 0.35)
-        tc = tt("each candidate is scored in all four views", 26, bold=True).next_to(C, UP, buff=0.3).align_to(C, LEFT)
+        tc = tt("all 32 candidates, scored in 4 views", 26, bold=True).next_to(C, UP, buff=0.3).align_to(C, LEFT)
 
         # ---------------------------------------------------------------- (d) result
         fin = img("orbit_final", 2.1, border=GT)

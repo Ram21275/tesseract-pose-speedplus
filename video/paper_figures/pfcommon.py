@@ -9,7 +9,7 @@ sys.path.insert(0, str(PF_DIR.parent))
 from common import *  # noqa: F401,F403,E402  (manimlib, tesseract math, encode/decode helpers)
 
 ASSET = PF_DIR / "assets"
-INK = "#1A1A1A"; MUTED = "#6B7280"; PAPER = "#FFFFFF"
+INK = "#1A1A1A"; MUTED = "#3F4652"; PAPER = "#FFFFFF"        # MUTED darkened for print legibility
 GT = "#1FAE3C"; PRED = "#E0189F"; FLIP = "#D62828"
 OV_GT = "#22DD44"; OV_PRED = "#FF2BD6"                                    # overlay colours of scripts/fig_qualitative.py
 FROZEN = "#8A94A6"; FROZEN_FILL = "#EEF1F5"
@@ -20,6 +20,13 @@ CH4 = ["#3A86FF", "#FF006E", "#2A9D8F", "#FB8500"]                              
 
 
 FS = 1.3                                       # global text scale: full-width figures print at ~7 in, keep labels >= ~6 pt
+
+
+def set_text_scale(x):
+    """Per-figure text scale (call at import time of a figure module, before building mobjects)."""
+    global FS
+    FS = x
+
 
 
 def tx(s, size=30, color=INK, **k):

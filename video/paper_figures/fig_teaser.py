@@ -9,6 +9,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pfcommon import *  # noqa: F401,F403,E402
+set_text_scale(1.45)                           # larger print text (same figure footprint)
 
 AS = json.loads((ASSET / "assets.json").read_text()); TE = AS["teaser"]; O = AS["orbit"]
 Q = quat([0.62, -0.35, 0.70], 2.25); CH, PATH = encode(Q, 5); NAMES = ["w", "x", "y", "z"]

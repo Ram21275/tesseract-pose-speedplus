@@ -7,6 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pfcommon import *  # noqa: F401,F403,E402
+set_text_scale(1.45)                           # larger print text (same figure footprint)
 
 Q = quat([0.62, -0.35, 0.70], 2.25)            # the example rotation of the explainer video (fixed)
 CH, QS, U = free_coords(Q)
@@ -104,7 +105,7 @@ class FigTesseract(PaperScene):
         rule = VGroup(Line(LEFT * 0.05, RIGHT * (sum(W) + 0.05), stroke_width=1.6).set_color(INK).move_to(tab, UP).shift(DOWN * 0.3))
         rule.set_x(tab.get_x())
         path_t = tx(r"\mathrm{path}(q)=(" + NAMES[CH] + r";\," + ",".join(str(k) for k in PATH) + ")", 30)
-        tc = tt("one rotation = one root-to-leaf path", 26, bold=True)
+        tc = tt("one rotation = one path", 26, bold=True)
         foot = tt(r"$4\cdot 8^5=131{,}072$ leaves; mean error halves per level", 21, MUTED)
         C = VGroup(tc, path_t, VGroup(tab, rule), foot).arrange(DOWN, buff=0.32, aligned_edge=LEFT)
         C.move_to(RIGHT * 17.0 + UP * 0.15)

@@ -12,6 +12,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pfcommon import *  # noqa: F401,F403,E402
+set_text_scale(1.45)                           # larger print text (same figure footprint)
 
 AS = json.loads((ASSET / "assets.json").read_text())
 MP = AS["multipath"]; NAMES = ["w", "x", "y", "z"]
