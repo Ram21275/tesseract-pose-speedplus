@@ -1,0 +1,362 @@
+{
+ "all_pass": true,
+ "objects": {
+  "002_master_chef_can": {
+   "bop_id": 1,
+   "offset_mm": [
+    -1.452,
+    0.494,
+    -3.574
+   ],
+   "shift_fit_mm": 0.25,
+   "sampling_floor_mm": 0.411,
+   "icp_residual_rot_deg": 0.043,
+   "n_sym_labels": 2,
+   "n_sym_metric": 2,
+   "worst_sym_nn_mm": 0.282,
+   "diameter_mm": 172.063,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "003_cracker_box": {
+   "bop_id": 2,
+   "offset_mm": [
+    -0.577,
+    -1.701,
+    -4.817
+   ],
+   "shift_fit_mm": 0.3,
+   "sampling_floor_mm": 0.56,
+   "icp_residual_rot_deg": 0.012,
+   "n_sym_labels": 1,
+   "n_sym_metric": 1,
+   "worst_sym_nn_mm": 0.0,
+   "diameter_mm": 269.573,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "004_sugar_box": {
+   "bop_id": 3,
+   "offset_mm": [
+    0.845,
+    -1.416,
+    -4.368
+   ],
+   "shift_fit_mm": 0.223,
+   "sampling_floor_mm": 0.369,
+   "icp_residual_rot_deg": 0.008,
+   "n_sym_labels": 1,
+   "n_sym_metric": 1,
+   "worst_sym_nn_mm": 0.0,
+   "diameter_mm": 198.377,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "005_tomato_soup_can": {
+   "bop_id": 4,
+   "offset_mm": [
+    -0.285,
+    1.548,
+    -8.313
+   ],
+   "shift_fit_mm": 0.152,
+   "sampling_floor_mm": 0.296,
+   "icp_residual_rot_deg": 0.068,
+   "n_sym_labels": 1,
+   "n_sym_metric": 1,
+   "worst_sym_nn_mm": 0.0,
+   "diameter_mm": 120.543,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "006_mustard_bottle": {
+   "bop_id": 5,
+   "offset_mm": [
+    -1.24,
+    -2.461,
+    11.856
+   ],
+   "shift_fit_mm": 0.2,
+   "sampling_floor_mm": 0.362,
+   "icp_residual_rot_deg": 0.014,
+   "n_sym_labels": 1,
+   "n_sym_metric": 1,
+   "worst_sym_nn_mm": 0.0,
+   "diameter_mm": 196.463,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "007_tuna_fish_can": {
+   "bop_id": 6,
+   "offset_mm": [
+    0.05,
+    -0.167,
+    -4.097
+   ],
+   "shift_fit_mm": 0.145,
+   "sampling_floor_mm": 0.238,
+   "icp_residual_rot_deg": 0.131,
+   "n_sym_labels": 1,
+   "n_sym_metric": 1,
+   "worst_sym_nn_mm": 0.0,
+   "diameter_mm": 89.797,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "008_pudding_box": {
+   "bop_id": 7,
+   "offset_mm": [
+    -1.321,
+    3.872,
+    -3.073
+   ],
+   "shift_fit_mm": 0.185,
+   "sampling_floor_mm": 0.289,
+   "icp_residual_rot_deg": 0.029,
+   "n_sym_labels": 1,
+   "n_sym_metric": 1,
+   "worst_sym_nn_mm": 0.0,
+   "diameter_mm": 142.543,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "009_gelatin_box": {
+   "bop_id": 8,
+   "offset_mm": [
+    -1.454,
+    0.483,
+    -3.558
+   ],
+   "shift_fit_mm": 0.141,
+   "sampling_floor_mm": 0.233,
+   "icp_residual_rot_deg": 0.03,
+   "n_sym_labels": 1,
+   "n_sym_metric": 1,
+   "worst_sym_nn_mm": 0.0,
+   "diameter_mm": 114.053,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "010_potted_meat_can": {
+   "bop_id": 9,
+   "offset_mm": [
+    -2.351,
+    -0.749,
+    -7.933
+   ],
+   "shift_fit_mm": 0.155,
+   "sampling_floor_mm": 0.314,
+   "icp_residual_rot_deg": 0.029,
+   "n_sym_labels": 1,
+   "n_sym_metric": 1,
+   "worst_sym_nn_mm": 0.0,
+   "diameter_mm": 129.54,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "011_banana": {
+   "bop_id": 10,
+   "offset_mm": [
+    18.677,
+    -12.242,
+    1.434
+   ],
+   "shift_fit_mm": 0.118,
+   "sampling_floor_mm": 0.27,
+   "icp_residual_rot_deg": 0.016,
+   "n_sym_labels": 1,
+   "n_sym_metric": 1,
+   "worst_sym_nn_mm": 0.0,
+   "diameter_mm": 197.796,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "019_pitcher_base": {
+   "bop_id": 11,
+   "offset_mm": [
+    -5.245,
+    -6.189,
+    -25.697
+   ],
+   "shift_fit_mm": 0.344,
+   "sampling_floor_mm": 0.592,
+   "icp_residual_rot_deg": 0.005,
+   "n_sym_labels": 1,
+   "n_sym_metric": 1,
+   "worst_sym_nn_mm": 0.0,
+   "diameter_mm": 259.534,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "021_bleach_cleanser": {
+   "bop_id": 12,
+   "offset_mm": [
+    -4.985,
+    2.447,
+    13.302
+   ],
+   "shift_fit_mm": 0.231,
+   "sampling_floor_mm": 0.437,
+   "icp_residual_rot_deg": 0.029,
+   "n_sym_labels": 1,
+   "n_sym_metric": 1,
+   "worst_sym_nn_mm": 0.0,
+   "diameter_mm": 259.566,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "024_bowl": {
+   "bop_id": 13,
+   "offset_mm": [
+    0.236,
+    -1.082,
+    3.01
+   ],
+   "shift_fit_mm": 0.227,
+   "sampling_floor_mm": 0.459,
+   "icp_residual_rot_deg": 0.021,
+   "n_sym_labels": 36,
+   "n_sym_metric": 315,
+   "worst_sym_nn_mm": 0.417,
+   "diameter_mm": 161.922,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "025_mug": {
+   "bop_id": 14,
+   "offset_mm": [
+    8.266,
+    0.597,
+    1.669
+   ],
+   "shift_fit_mm": 0.288,
+   "sampling_floor_mm": 0.395,
+   "icp_residual_rot_deg": 0.036,
+   "n_sym_labels": 1,
+   "n_sym_metric": 1,
+   "worst_sym_nn_mm": 0.0,
+   "diameter_mm": 124.99,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "035_power_drill": {
+   "bop_id": 15,
+   "offset_mm": [
+    -9.034,
+    -20.999,
+    2.087
+   ],
+   "shift_fit_mm": 0.213,
+   "sampling_floor_mm": 0.422,
+   "icp_residual_rot_deg": 0.01,
+   "n_sym_labels": 1,
+   "n_sym_metric": 1,
+   "worst_sym_nn_mm": 0.0,
+   "diameter_mm": 226.17,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "036_wood_block": {
+   "bop_id": 16,
+   "offset_mm": [
+    -1.417,
+    2.515,
+    -17.158
+   ],
+   "shift_fit_mm": 0.277,
+   "sampling_floor_mm": 0.48,
+   "icp_residual_rot_deg": 0.007,
+   "n_sym_labels": 8,
+   "n_sym_metric": 8,
+   "worst_sym_nn_mm": 0.692,
+   "diameter_mm": 237.299,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "037_scissors": {
+   "bop_id": 17,
+   "offset_mm": [
+    -7.061,
+    28.225,
+    0.081
+   ],
+   "shift_fit_mm": 0.107,
+   "sampling_floor_mm": 0.236,
+   "icp_residual_rot_deg": 0.004,
+   "n_sym_labels": 1,
+   "n_sym_metric": 1,
+   "worst_sym_nn_mm": 0.0,
+   "diameter_mm": 203.973,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "040_large_marker": {
+   "bop_id": 18,
+   "offset_mm": [
+    -0.057,
+    2.135,
+    -0.346
+   ],
+   "shift_fit_mm": 0.119,
+   "sampling_floor_mm": 0.131,
+   "icp_residual_rot_deg": 0.047,
+   "n_sym_labels": 36,
+   "n_sym_metric": 315,
+   "worst_sym_nn_mm": 0.799,
+   "diameter_mm": 121.365,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "051_large_clamp": {
+   "bop_id": 19,
+   "offset_mm": [
+    -10.433,
+    1.768,
+    0.434
+   ],
+   "shift_fit_mm": 0.202,
+   "sampling_floor_mm": 0.344,
+   "icp_residual_rot_deg": 0.026,
+   "n_sym_labels": 2,
+   "n_sym_metric": 2,
+   "worst_sym_nn_mm": 0.414,
+   "diameter_mm": 174.746,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "052_extra_large_clamp": {
+   "bop_id": 20,
+   "offset_mm": [
+    0.39,
+    10.426,
+    -0.214
+   ],
+   "shift_fit_mm": 0.226,
+   "sampling_floor_mm": 0.402,
+   "icp_residual_rot_deg": 0.005,
+   "n_sym_labels": 2,
+   "n_sym_metric": 2,
+   "worst_sym_nn_mm": 0.42,
+   "diameter_mm": 217.094,
+   "gate_shift": true,
+   "gate_sym": true
+  },
+  "061_foam_brick": {
+   "bop_id": 21,
+   "offset_mm": [
+    0.254,
+    -0.059,
+    8.355
+   ],
+   "shift_fit_mm": 0.15,
+   "sampling_floor_mm": 0.237,
+   "icp_residual_rot_deg": 0.02,
+   "n_sym_labels": 2,
+   "n_sym_metric": 2,
+   "worst_sym_nn_mm": 0.445,
+   "diameter_mm": 102.903,
+   "gate_shift": true,
+   "gate_sym": true
+  }
+ }
+}

@@ -14,3 +14,6 @@ cache_root: /media/kavinder/hdd2/RAM/shared_cache
 compact_cache_root: /media/kavinder/hdd2/RAM/compact
 # EXP-122: YCB-V data_syn renders composited onto real train-frame backgrounds (derived, written by scripts/exp122_ycbv_syn.py).
 ycbvsyn_root: /media/kavinder/hdd2/RAM/ycbv_syn_composite
+# EXP-131 (all T-LESS / YCB-V objects): new derived data on the 8 TB hdd3 drive (hdd2 is full); compact caches via --cache-root.
+compact_cache_root_exp131: /media/kavinder/hdd3/RAM/compact
+ycbvsynall_root: /media/kavinder/hdd3/RAM/ycbv_syn_composite_all

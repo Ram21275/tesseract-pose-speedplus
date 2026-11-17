@@ -24,10 +24,16 @@ from tfpose import data as D  # noqa: E402
 
 ROOT = Path(yaml.safe_load(open(REPO / "configs/paths.yaml"))["ycbv_root"])
 CLASSES = (ROOT / "image_sets/classes.txt").read_text().split()
-OBJ = ["003_cracker_box", "006_mustard_bottle", "011_banana", "025_mug", "035_power_drill", "037_scissors"]
+import argparse  # noqa: E402
+ap = argparse.ArgumentParser()
+ap.add_argument("--objects", default="003_cracker_box,006_mustard_bottle,011_banana,025_mug,035_power_drill,037_scissors",
+                help="comma list, or 'all' (EXP-131: the 21 YCB-V objects)")
+ap.add_argument("--out", default="outputs/data_manifests/ycbv_exp064")
+args = ap.parse_args()
+OBJ = CLASSES if args.objects == "all" else args.objects.split(",")
 CID = {CLASSES.index(o) + 1: o for o in OBJ}
 PTS = {o: np.loadtxt(ROOT / "models" / o / "points.xyz") for o in OBJ}
-OUT = REPO / "outputs/data_manifests/ycbv_exp064"
+OUT = REPO / args.out
 STRIDE, MIN_PIX, CAP = 3, 1000, 12000
 from tfpose.allo import mat_to_quat, ray_rot  # noqa: E402
 
@@ -65,7 +71,7 @@ for f, split in frames:
             ious.append(inter / ((a[2:] - a[:2]).prod() + (b[2:] - b[:2]).prod() - inter))
         cx, cy, side = D.gt_square_box(uv, None, margin=0.15, min_size=32)
         qe, qa = mat_to_quat(R[None])[0], mat_to_quat(Ra[None])[0]
-        rows.append({"image_relpath": f"data/{f}-color.png", "split": split, "domain": "ycbv", "obj": o, "obj_cls": int(c),
+        rows.append({"image_relpath": f"data/{f}-color.jpg", "split": split, "domain": "ycbv", "obj": o, "obj_cls": int(c),
                      "seq": f.split("/")[0], "frame": f.split("/")[1], "inst_id": k, "visible_px": npx,
                      **{f"q_ego_{a_}": v for a_, v in zip("wxyz", qe)}, **{f"q_allo_{a_}": v for a_, v in zip("wxyz", qa)},
                      **{f"t_{a_}": v for a_, v in zip("xyz", t)}, "cam_fx": K[0, 0], "cam_fy": K[1, 1], "cam_cx": K[0, 2], "cam_cy": K[1, 2],

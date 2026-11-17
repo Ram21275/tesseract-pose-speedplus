@@ -1,0 +1,8 @@
+dataset: ycbv
+src_exp: EXP-130_literature_matched_metrics
+variant: DINO
+mode: greedy
+workers: 5
+no_vsd: false
+stage: ar
+seed: 0

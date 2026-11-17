@@ -23,10 +23,17 @@ sys.path.insert(0, str(REPO / "src"))
 from tfpose import data as D  # noqa: E402
 from tfpose.allo import mat_to_quat, ray_rot  # noqa: E402
 
+import argparse  # noqa: E402
+ap = argparse.ArgumentParser()
+ap.add_argument("--objects", default="003_cracker_box,006_mustard_bottle,011_banana,025_mug,035_power_drill,037_scissors", help="comma list or 'all' (EXP-131)")
+ap.add_argument("--root-key", default="ycbvsyn_root", help="paths.yaml key of the composite output root (EXP-131: ycbvsynall_root, hdd3)")
+ap.add_argument("--real", default="exp064_ycbv", help="real manifest prefix: backgrounds come from its train rows")
+ap.add_argument("--out", default="exp064_ycbvsyn", help="manifest prefix written to outputs/data_manifests")
+args, _ = ap.parse_known_args()
 PATHS = yaml.safe_load(open(REPO / "configs/paths.yaml"))
-ROOT = Path(PATHS["ycbv_root"]); OUT_ROOT = Path(PATHS["ycbvsyn_root"])
+ROOT = Path(PATHS["ycbv_root"]); OUT_ROOT = Path(PATHS[args.root_key])
 CLASSES = (ROOT / "image_sets/classes.txt").read_text().split()
-OBJ = ["003_cracker_box", "006_mustard_bottle", "011_banana", "025_mug", "035_power_drill", "037_scissors"]
+OBJ = CLASSES if args.objects == "all" else args.objects.split(",")
 CID = {CLASSES.index(o) + 1: o for o in OBJ}
 PTS = {o: np.loadtxt(ROOT / "models" / o / "points.xyz") for o in OBJ}
 MIN_PIX, CAP = 1000, 12000
@@ -76,7 +83,7 @@ if __name__ == "__main__":
         keep += list(rng.choice(ii, CAP, replace=False) if len(ii) > CAP else ii)
     df = df.iloc[np.sort(keep)].reset_index(drop=True)
     print("reprojection max px", f"{df._reproj.max():.2e}"); df = df.drop(columns="_reproj")
-    real = pd.read_csv(REPO / "outputs/data_manifests/exp064_ycbv_all.csv")
+    real = pd.read_csv(REPO / f"outputs/data_manifests/{args.real}_all.csv")
     bgs = np.array(sorted(set(real.loc[real.split == "train", "image_relpath"])))          # real train frames only
     assert not set(real.loc[real.split != "train", "seq"].astype(str).str.zfill(4)) & {p.split("/")[1] for p in bgs}
     frames = sorted(set(df.frame.astype(int))); brng = np.random.default_rng(0); pick = brng.choice(len(bgs), len(frames))
@@ -84,7 +91,7 @@ if __name__ == "__main__":
     pd.DataFrame({"frame": frames, "background": bgs[pick]}).to_csv(OUT_ROOT / "backgrounds.csv", index=False)
     with Pool(6) as pool:
         pool.map(composite, list(zip(frames, bgs[pick])), chunksize=64)
-    out = REPO / "outputs/data_manifests/exp064_ycbvsyn"
+    out = REPO / f"outputs/data_manifests/{args.out}"
     for s in ("all", "train"):
         df.to_csv(f"{out}_{s}.csv", index=False, float_format="%.9g")
     Path(f"{out}.sha256.txt").write_text(D.manifest_hash((df.image_relpath + "#" + df.obj).tolist()) + "\n")

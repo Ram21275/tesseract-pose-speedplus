@@ -1,0 +1,1 @@
+/home/kavinder/RAM/pose-estimation/.venv/bin/python scripts/exp131_ar.py --dataset tless --src-exp EXP-130_literature_matched_metrics --variant PoE --mode orbit_product --workers 5

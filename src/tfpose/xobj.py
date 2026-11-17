@@ -34,7 +34,23 @@ DATASETS = {
                     obj_col="obj", label="allo", sym=None, img_wh=(640, 480), t_to_cm=100.0),   # EXP-122: data_syn composites (train only)
     "symsolt": dict(manifest="outputs/data_manifests/symsolt_exp064.csv", root_key="symsolt_root", key_cols="",
                     obj_col="shape", label="ego", sym="outputs/data_manifests/symsolt_exp064_symmetries.npz", img_wh=(224, 224), t_to_cm=None),
+    # EXP-131: all objects (T-LESS 30, YCB-V 21), separate manifests / caches / symmetry files; the 7- and 6-object sets above are unchanged.
+    "tlessall": dict(manifest="outputs/data_manifests/tless_exp131.csv", root_key="tless_root", key_cols="obj_id,inst_id", base="tless",
+                     obj_col="obj_id", label="allo", sym="outputs/data_manifests/tless_exp131_symmetries.npz", img_wh=(720, 540), t_to_cm=0.1),
+    "ycbvall": dict(manifest="outputs/data_manifests/ycbv_exp131.csv", root_key="ycbv_root", key_cols="obj,inst_id", base="ycbv",
+                    obj_col="obj", label="allo", sym="outputs/data_manifests/ycbv_exp131_symmetries.npz", img_wh=(640, 480), t_to_cm=100.0),
+    "ycbvsynall": dict(manifest="outputs/data_manifests/exp064_ycbvsynall_all.csv", root_key="ycbvsynall_root", key_cols="obj,inst_id", base="ycbv",
+                       obj_col="obj", label="allo", sym="outputs/data_manifests/ycbv_exp131_symmetries.npz", img_wh=(640, 480), t_to_cm=100.0),
 }
+
+if __import__("os").environ.get("TFPOSE_SMOKE"):                       # EXP-131 smoke test: tiny copies of the all-object sets
+    for _k in ("tlessall", "ycbvall", "ycbvsynall"):
+        DATASETS[_k + "smoke"] = dict(DATASETS[_k], manifest=f"outputs/data_manifests/exp064_{_k}smoke_all.csv")
+
+
+def base(ds: str) -> str:
+    """Dataset family (tless / ycbv / symsolt): selects the symmetry-key format, model files and camera model."""
+    return DATASETS[ds].get("base", "ycbv" if ds == "ycbvsyn" else ds)
 
 
 def manifest(ds: str) -> pd.DataFrame:
@@ -109,7 +125,7 @@ def symmetry_set(ds: str, obj) -> np.ndarray:
     if p is None:
         return np.eye(3)[None]
     z = np.load(REPO / p)
-    key = f"obj{int(obj)}" if ds == "tless" else str(obj)
+    key = f"obj{int(obj)}" if base(ds) == "tless" else str(obj)
     S = z[key]
     if S.ndim == 2 and S.shape[1] == 4:                  # SYMSOL-T groups stored as quaternions (wxyz)
         S = quat_to_matrix(S)
@@ -142,10 +158,10 @@ def _ply_vertices(path: Path) -> np.ndarray:
 
 def model_points(ds: str, obj, df_row=None, max_points: int = 2000) -> np.ndarray:
     root = Path(PATHS[DATASETS[ds]["root_key"]])
-    if ds == "tless":
+    if base(ds) == "tless":
         P = _ply_vertices(root / f"models_cad/obj_{int(obj):06d}.ply")
-    elif ds == "ycbv":
-        P = np.loadtxt(root / "models" / str(obj) / "points.xyz")
+    elif base(ds) == "ycbv":
+        P = np.loadtxt(Path(PATHS["ycbv_root"]) / "models" / str(obj) / "points.xyz")
     else:
         split_dir = df_row.image_relpath.split("/")[0]
         P = _ply_vertices(root / split_dir / str(obj) / "points.ply")

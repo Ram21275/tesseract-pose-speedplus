@@ -115,7 +115,7 @@ if args.backbone == "consensus":
         names = fd["image_relpath"][:]
         assert (names == fm["image_relpath"][:]).all() and [s.decode() for s in names] == keys
         fo.create_dataset("image_relpath", data=names)
-        ds = fo.create_dataset("and_mask", shape=(len(names), M.RES, M.RES), dtype=np.uint8, chunks=(256, M.RES, M.RES))
+        ds = fo.create_dataset("and_mask", shape=(len(names), M.RES, M.RES), dtype=np.uint8, chunks=(max(1, min(256, len(names))), M.RES, M.RES))
         for s0 in range(0, len(names), 4096):
             ds[s0:s0 + 4096] = ((fm["mask"][s0:s0 + 4096][..., 0] > 0.5) & (fd["dino_fg"][s0:s0 + 4096] > 0)).astype(np.uint8)
     (out / "manifest.json").write_text(json.dumps({"rule": "MoGe-2 mask>0.5 AND DINOv3-L PCA-1 Otsu (compact)", "dino_cache": dp.name,

@@ -287,3 +287,10 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 - **Decided by:** the user: "compare with sota and literature and add tables".
 - **Reason:** YCB-V and most T-LESS literature report ADD(-S) / AUC / BOP AR, which we had not computed, so no matched comparison was possible.
 - **Scope:** evaluation only, EXP-129 configurations, 3 seeds, test sets. Pre-registered in `outputs/reports/EXP-130_literature_matched_metrics.md`. AR_VSD not computed.
+
+## DEC-030 — EXP-131: all objects of T-LESS (30) and YCB-V (21), full BOP AR and log-likelihood, for the supplement (2026-11-17)
+- **Decided by:** the user: "I want to run full runs to mention in the supplement for tless and ycb use hdd3 RAM directory to store caches", "queue them after that" (after the other project's SymSol training) and "do not rerun on symsol just queue the tless and ycb".
+- **Scope:** the locked recipe (DEC-018) and the EXP-129/130 configurations, unchanged, on every object; fresh all-object manifests (new dataset keys `tlessall`, `ycbvall`, `ycbvsynall`; the EXP-064 files and caches are untouched); caches and composites on hdd3; 3 seeds, seed-major with the DEC-012 cut order; GT crops.
+- **Added metrics:** full BOP AR with VSD (point-splat depth, gated on GT poses against the real depth), YCB-V also on the BOP19 target subset, and the tree log-likelihood (IPDF protocol). Pre-registered in `outputs/reports/EXP-131_all_objects.md`.
+- **Defaults stated without a user answer:** 3 seeds (not seed 0 only), GT crops (no detection arm). Both can be changed before the GPU stages start.
+- **Queue:** `scripts/run_queue21.sh`, waits for the other project's training process to exit. SYMSOL-T is not rerun (its 20k-per-shape training cap stays as recorded in EXP-064).
