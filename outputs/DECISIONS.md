@@ -294,3 +294,11 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 - **Added metrics:** full BOP AR with VSD (point-splat depth, gated on GT poses against the real depth), YCB-V also on the BOP19 target subset, and the tree log-likelihood (IPDF protocol). Pre-registered in `outputs/reports/EXP-131_all_objects.md`.
 - **Defaults stated without a user answer:** 3 seeds (not seed 0 only), GT crops (no detection arm). Both can be changed before the GPU stages start.
 - **Queue:** `scripts/run_queue21.sh`, waits for the other project's training process to exit. SYMSOL-T is not rerun (its 20k-per-shape training cap stays as recorded in EXP-064).
+
+## DEC-031 — EXP-131 amended before any training: DINOv3 branch only, T-LESS and YCB-V in parallel (2026-11-17)
+- **Decided by:** the user: "what if i run ycb in parallel then the overall time reduces right?", then "you can remove our unwanted files from hdd2 to free up space and then start the run in parallel", then "do not run moge for these runs, just report with dino that would also save time."
+- **Change:** no MoGe-2 extraction, consensus masks, trees or translation blocks. Every reported number uses the DINOv3 branch (tree + DINOv3 translation block). T-LESS primary configuration becomes **DINO + orbit_product** (the EXP-129 T-LESS configuration without the MoGe-2 product); DINO greedy is secondary. YCB-V is unchanged (DINO greedy). LL uses the DINO tree on both.
+- **Consequence for reading the results:** the T-LESS all-object numbers are not the paper's T-LESS configuration (A2 PoE + orbit). The check on the original 7 objects is therefore against the paper's DINO-only rows, not its PoE rows.
+- **Timing:** amended at 22:30, while only the DINOv3 clean-view extractions had run; no tree trained, no result seen.
+- **Parallel:** T-LESS and YCB-V queues run at the same time on GPU0 (user's request; a one-off exception to the one-GPU-job rule for this experiment).
+- **Queue:** `scripts/run_queue22.sh` (supersedes `run_queue21.sh`), tmux windows `tesseract:q22-tless` and `tesseract:q22-ycbv`.

@@ -4,6 +4,8 @@
 **Pre-registered 2026-11-17, before any feature extraction, training or evaluation on the new object sets** (DEC-030).
 User request: "I want to run full runs to mention in the supplement for tless and ycb use hdd3 RAM directory to store caches", then "queue them after that" (after the other project's SymSol training job) and "do not rerun on symsol just queue the tless and ycb".
 
+**Amendment (DEC-031, 2026-11-17 22:30, before any tree was trained):** the user asked to drop MoGe-2 ("do not run moge for these runs, just report with dino that would also save time") and to run T-LESS and YCB-V in parallel. Only the DINOv3 branch is extracted, trained and evaluated. **T-LESS primary configuration: DINO + orbit_product** (translation: DINOv3 block, orbit mean); DINO greedy secondary. YCB-V unchanged (DINO greedy). LL from the DINO tree. The original-7-object check on T-LESS is against the paper's DINO-only rows. Sections below that mention MoGe-2, PoE or consensus masks describe the original plan and are superseded by this paragraph. Queue: `scripts/run_queue22.sh`.
+
 Code gates run before this pre-registration was committed (metric code only, on the existing EXP-130 predictions; no new model):
 the YCB-V symmetry-frame gate (below) and the regression of `scripts/exp131_ar.py` against EXP-130.
 
@@ -61,6 +63,9 @@ Descriptive; there is no pass criterion. Every value is reported whatever it is.
 
 ## Cost estimate (before running)
 GPU (RTX 6000 Ada, after the other project's job ends): extraction about 25 h (T-LESS) and 24 h (YCB-V); training 180 + 126 trees plus translation blocks, about 23 h and 16 h; evaluation about 5 h and 4 h. CPU: manifests, composites, AR. Caches about 470 GB on hdd3.
+
+## Cost estimate after DEC-031 (DINOv3 only, both datasets in parallel)
+Per object and seed: T-LESS 11.1 + 6.6 min (A2 tree + translation block), YCB-V about 7.4 + 9.3 min (medians of EXP-106 / EXP-122 / EXP-126). Serial: T-LESS about 13 h extraction + 27 h training + 3 h evaluation, YCB-V about 12 + 18 + 2 h; in parallel each runs roughly 1.2–1.4× slower. The earlier estimate above used plain-label tree times for T-LESS and was too low.
 
 ## Commands
 `scripts/run_queue21.sh` (tmux window `tesseract:exp131`). It waits for the other project's training process to exit, then runs T-LESS, then YCB-V. Finished runs are skipped on resume (`scripts/run_done.py`).
