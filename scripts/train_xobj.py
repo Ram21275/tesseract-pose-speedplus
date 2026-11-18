@@ -54,10 +54,11 @@ ap.add_argument("--teacher", default=None)
 ap.add_argument("--teacher-variant", default=None, choices=[None, "PoE", "DINO"])
 ap.add_argument("--beta", type=float, default=1.0)
 ap.add_argument("--trans", default="none", choices=["none", "frozen"])
+ap.add_argument("--depth", type=int, default=5, help="EXP-132: Tesseract depth L (all earlier runs: 5)")
 ap.add_argument("--init-from", default=None, help="EXP-126: tree run folder (relative to outputs/experiments) to freeze")
 args = ap.parse_args()
 run = Run(args.exp, args.exp_name, {**vars(args), "stage": "train"}, seed=args.seed)
-L = 5
+L = args.depth
 try:
     torch.manual_seed(args.seed); np.random.seed(args.seed); dev = torch.device("cuda"); ds = args.dataset
     ALL = pd.read_csv(REPO / f"outputs/data_manifests/exp064_{ds}_all.csv"); TRN = pd.read_csv(REPO / f"outputs/data_manifests/exp064_{ds}_train.csv")

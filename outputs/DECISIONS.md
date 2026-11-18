@@ -302,3 +302,10 @@ Architecture, scope and split decisions that change the plan in `TESSERACT_FUSIO
 - **Timing:** amended at 22:30, while only the DINOv3 clean-view extractions had run; no tree trained, no result seen.
 - **Parallel:** T-LESS and YCB-V queues run at the same time on GPU0 (user's request; a one-off exception to the one-GPU-job rule for this experiment).
 - **Queue:** `scripts/run_queue22.sh` (supersedes `run_queue21.sh`), tmux windows `tesseract:q22-tless` and `tesseract:q22-ycbv`.
+
+## DEC-032 — EXP-132: Tesseract depth sweep L = 5 / 6 / 7 on T-LESS, YCB-V and SYMSOL-T, after EXP-131 (2026-11-18)
+- **Decided by:** the user: "after this finishes queue experiment for testing till depth 7 on both datasets like we know 5 after that 6 and 7 do this also for symsol-T."
+- **Scope:** DINOv3 branch, A2 labels, rotation and LL only (no translation blocks, no AR); T-LESS / YCB-V on the EXP-131 all-object data, SYMSOL-T on the paper's data; depth-5 trees reused (EXP-131, EXP-106 A2) and re-evaluated with the same command.
+- **Defaults stated without a user answer:** 3 seeds (as EXP-131); seed-major order; GT translation for frame conversion at every depth (EXP-129: negligible effect); L6 / L7 soft-target temperatures = the EXP-002 cell-error definition (1.25° / 0.63°).
+- **Code:** `train_xobj.py`, `exp064_eval.py`, `exp131_ll.py` take `--depth` (default 5); `find_run.py` / `run_done.py` match depth (default 5); `phase3.TAU_DEG` gains levels 6 and 7. Depth-5 behaviour unchanged.
+- **Queue:** `scripts/run_queue23.sh`. Pre-registered in `outputs/reports/EXP-132_depth_sweep.md`.

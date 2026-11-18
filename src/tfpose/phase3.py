@@ -17,7 +17,7 @@ from . import tesseract as T
 from .predictor import decode_torch, fourier
 
 # EXP-002 mean own-cell error per level (deg); level 0 = chart choice (L1 cell size used)
-TAU_DEG = {0: 39.27, 1: 39.27, 2: 19.95, 3: 10.01, 4: 5.01, 5: 2.51}
+TAU_DEG = {0: 39.27, 1: 39.27, 2: 19.95, 3: 10.01, 4: 5.01, 5: 2.51, 6: 1.25, 7: 0.63}   # 6, 7: EXP-132, same measurement (2M Haar rotations, seed 0)
 
 
 # ---------------- quaternion helpers (scalar-first, torch) ----------------

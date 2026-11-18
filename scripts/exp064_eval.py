@@ -37,12 +37,13 @@ ap.add_argument("--pose-t", default="gt", choices=["gt", "greedy", "orbit_mean"]
                      "reported in the egocentric frame (ego_*), and joint success (rotation <= a deg and E_T <= b cm) when a block exists.")
 ap.add_argument("--pose-t-variant", default="same", choices=["same", "DINO"],
                 help="EXP-129: translation branch(es) for --pose-t (same = the rotation variant's branches; DINO = the DINOv3 block only)")
+ap.add_argument("--depth", type=int, default=5, help="EXP-132: tree depth L; only train runs of this depth are used (runs without the key are depth 5)")
 ap.add_argument("--save-preds", action="store_true",
                 help="figures: also save per-image poses, translations and the 32 orbit candidates with scores (predictions/*.npz); metrics unchanged")
 args = ap.parse_args()
 ds = args.dataset
 run = Run(args.exp, args.exp_name, {**vars(args), "stage": "eval"}, seed=0)
-FILT = dict(kv.split("=", 1) for kv in args.filter.split(",") if kv); DEFAULTS = {"label": "raw", "extra_train": "None", "teacher_variant": "None", "trans": "none"}
+FILT = dict(kv.split("=", 1) for kv in args.filter.split(",") if kv); DEFAULTS = {"label": "raw", "extra_train": "None", "teacher_variant": "None", "trans": "none", "depth": "5"}; FILT.setdefault("depth", str(args.depth))
 SD, SM = "dinov3_vitl16:tokens8", "moge2_vitl:normals16~and"; SHAPE = {SD: (64, 1024), SM: (256, 4)}
 VIEWS = (0, 90, 180, 270); MODES = args.modes.split(",")
 try:
@@ -62,7 +63,7 @@ try:
 
     def tree_lp(ms, xs, cand):
         B, C, _ = cand.shape
-        c, p = T.encode(cand.reshape(-1, 4), 5); c, p = torch.as_tensor(c, device=dev), torch.as_tensor(p, device=dev)
+        c, p = T.encode(cand.reshape(-1, 4), args.depth); c, p = torch.as_tensor(c, device=dev), torch.as_tensor(p, device=dev)
         outs = [m.logits_tf(m.encode(x).repeat_interleave(C, 0), c, p) for m, x in zip(ms, xs)]
         root = F.log_softmax(sum(F.log_softmax(o[0].float(), -1) for o in outs), -1)
         child = F.log_softmax(sum(F.log_softmax(o[1].float(), -1) for o in outs), -1)
@@ -92,7 +93,7 @@ try:
             MS, FX, HD = {}, {}, {}
             for sp in NEED:
                 ck = torch.load(runs[(obj, seed, sp)] / "checkpoints/best.pt", map_location=dev, weights_only=False)
-                m = P.HierTransformer(SHAPE[sp], 5).to(dev); m.load_state_dict(ck["model"]); m.eval(); MS[sp] = PR.prepare(m, args.precision)
+                m = P.HierTransformer(SHAPE[sp], args.depth).to(dev); m.load_state_dict(ck["model"]); m.eval(); MS[sp] = PR.prepare(m, args.precision)
                 if "trans" in ck:                                                    # EXP-126 translation block
                     h_ = TR.TransHead(m.root_tok.shape[-1]).to(dev); h_.load_state_dict(ck["trans"]); h_.eval(); HD[sp] = (h_, ck)
                 st = (ck["mu"], ck["sd"])
@@ -135,7 +136,7 @@ try:
                             xs = [FX[(kk, k)][torch.as_tensor(r)].to(dev).float() for kk in keys]; views.append((k, xs))
                             with PR.ctx(args.precision):
                                 c8, p8, sc, _ = fused_beam(ms, xs, "poe", 8, return_all=True)
-                            qk = T.decode(c8.cpu().numpy().reshape(-1), p8.cpu().numpy().reshape(-1, 5)).reshape(B, 8, 4)
+                            qk = T.decode(c8.cpu().numpy().reshape(-1), p8.cpu().numpy().reshape(-1, args.depth)).reshape(B, 8, 4)
                             cz = qk if k == 0 else XO.roll_target(ds, XO.from_target(ds, qk.reshape(-1, 4), np.repeat(TVm[k][r], 8, 0)),
                                                                   np.repeat(TVm[k][r], 8, 0), -float(k), np.repeat(dray[r], 8, 0)).reshape(B, 8, 4)
                             cands.append(cz); confs.append(sc.float().cpu().numpy())

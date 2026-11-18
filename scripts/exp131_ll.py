@@ -28,13 +28,15 @@ ap.add_argument("--runs-dir", required=True)
 ap.add_argument("--filter", default="", help="k=v,... on the train-run config")
 ap.add_argument("--variant", default="PoE", choices=["PoE", "DINO"])
 ap.add_argument("--seeds", default="0,1,2")
+ap.add_argument("--depth", type=int, default=5, help="EXP-132: tree depth L (runs without the key are depth 5)")
+ap.add_argument("--out", default="EXP-131:all_objects_ll", help="<EXP>:<name> of the output run")
 ap.add_argument("--max-copies", type=int, default=60)
 args = ap.parse_args()
 ds = args.dataset; SD, SM = "dinov3_vitl16:tokens8", "moge2_vitl:normals16~and"; SHAPE = {SD: (64, 1024), SM: (256, 4)}
-KEYS = (SD, SM) if args.variant == "PoE" else (SD,); L = 5
-DEFAULTS = {"label": "raw", "extra_train": "None", "teacher_variant": "None", "trans": "none"}
-FILT = dict(kv.split("=", 1) for kv in args.filter.split(",") if kv)
-run = Run("EXP-131", "all_objects_ll", vars(args) | {"stage": "ll"}, seed=0)
+KEYS = (SD, SM) if args.variant == "PoE" else (SD,); L = args.depth
+DEFAULTS = {"label": "raw", "extra_train": "None", "teacher_variant": "None", "trans": "none", "depth": "5"}
+FILT = dict(kv.split("=", 1) for kv in args.filter.split(",") if kv); FILT.setdefault("depth", str(L))
+run = Run(*args.out.split(":", 1), vars(args) | {"stage": "ll"}, seed=0)
 
 
 def leaf_logvol(chart, path):

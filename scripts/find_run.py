@@ -6,8 +6,8 @@ from pathlib import Path
 import yaml
 
 REPO = Path(__file__).resolve().parents[1]
-D = {"label": "raw", "extra_train": "None", "teacher_variant": "None", "trans": "none", "stage": "train"}
-want = dict(a.split("=", 1) for a in sys.argv[2:] if a); want.setdefault("stage", "train"); hit = None
+D = {"label": "raw", "extra_train": "None", "teacher_variant": "None", "trans": "none", "stage": "train", "depth": "5"}
+want = dict(a.split("=", 1) for a in sys.argv[2:] if a); want.setdefault("stage", "train"); want.setdefault("depth", "5"); hit = None
 for d in sorted((REPO / "outputs/experiments" / sys.argv[1]).glob("RUN-*")):
     if (d / "checkpoints/best.pt").exists():
         c = yaml.safe_load((d / "config.yaml").read_text())
