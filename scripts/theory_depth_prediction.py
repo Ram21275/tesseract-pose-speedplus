@@ -75,11 +75,15 @@ files = sorted(glob.glob(os.path.join(args.pred_dir, f"{args.dataset}_*_seed*_DI
 objs = sorted({os.path.basename(f)[len(args.dataset) + 1:].rsplit("_seed", 1)[0] for f in files})
 rows = []
 for o in objs:
-    E, Q, S = [], None, None
+    E, Q, S, G = [], None, None, []
     for f in sorted(glob.glob(os.path.join(args.pred_dir, f"{args.dataset}_{o}_seed*_DINO.npz"))):
         z = np.load(f, allow_pickle=True); m = z["split"] == args.split
-        E.append(z[f"err_{args.mode}"][m]); Q = z["q_tgt_gt"][m]; S = z["sym"]
+        E.append(z[f"err_{args.mode}"][m]); Q = z["q_tgt_gt"][m]; S = z["sym"]; G.append(z["q_greedy"][m])
     e = np.concatenate(E); sq = normalize(np.stack([matrix_to_quat(s) for s in S]))
+    # truncation test (greedy only): the level-L prefix of the depth-5 greedy leaf is exactly the greedy depth-L decision
+    if args.mode == "greedy":
+        cg, pg = T.encode(np.concatenate(G), 5); QQ = np.tile(Q, (len(G), 1))
+        trunc = {L: sym_err(T.decode(cg, pg[:, :L]), QQ, sq) for L in DEPTHS if L <= 5}
     Femp = np.array([(e <= x).mean() for x in XG])
     best = None
     for sg in SIG:
@@ -99,6 +103,10 @@ for o in objs:
         for t in TAUS:
             r[f"pred_R@{t:g}_L{L}"] = r[f"L5_R@{t:g}"] + pi * float((ein[L] <= t).mean() - (ein[5] <= t).mean())
         r[f"pred_dLL_L{L}"] = pi * (dens[L] - dens[5])
+        if args.mode == "greedy" and L <= 5:
+            r[f"meas_trunc_mean_L{L}"] = float(trunc[L].mean())
+            for t in TAUS:
+                r[f"meas_trunc_R@{t:g}_L{L}"] = float((trunc[L] <= t).mean())
     rows.append(r); print({k: (round(v, 3) if isinstance(v, float) else v) for k, v in r.items() if "Ein" not in k}, flush=True)
 
 agg = {k: float(np.mean([r[k] for r in rows])) for k in rows[0] if k not in ("obj",)}
@@ -110,4 +118,9 @@ print("| L | mean | R@2 | R@5 | R@10 | dLL vs L5 |\n|---|---|---|---|---|---|")
 for L in DEPTHS:
     print(f"| {L} | {agg[f'pred_mean_L{L}']:.2f} | {100*agg[f'pred_R@2_L{L}']:.1f} | {100*agg[f'pred_R@5_L{L}']:.1f} | "
           f"{100*agg[f'pred_R@10_L{L}']:.1f} | {agg[f'pred_dLL_L{L}']:+.2f} |")
+if any(k.startswith("meas_trunc") for k in agg):
+    print("truncation test (measured):")
+    for L in DEPTHS:
+        if f"meas_trunc_mean_L{L}" in agg:
+            print(f"| {L} | {agg[f'meas_trunc_mean_L{L}']:.2f} | " + " | ".join(f"{100*agg[f'meas_trunc_R@{t:g}_L{L}']:.1f}" for t in TAUS) + " |")
 print(f"object-balanced sigma {agg['sigma']:.2f} deg, pi {agg['pi']:.3f}")

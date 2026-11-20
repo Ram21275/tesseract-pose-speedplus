@@ -76,7 +76,17 @@ Added after the queue had started training (EXP-131 done; EXP-132 at T-LESS seed
 - The EXP-132 L5 rows use `--pose-t gt` and the trans=none runs (same trees); the L5 rows above come from EXP-131 with predicted
   translation for the frame conversion, a difference EXP-129 measured as <= 0.01 deg.
 - **SYMSOL-T is not predicted:** its depth-5 evaluation did not save per-image errors.
-- **Comparison rule:** all predicted values are reported next to the measured ones whatever they are; no criterion.
+- **Comparison rule:** all predicted values are reported next to the measured ones whatever they are; no criterion. The primary
+  comparison is the predicted *change* from L5 (L6 - L5, L7 - L5) applied to EXP-132's own L5 row, since that row is a separate
+  evaluation (`--pose-t gt`, trans=none runs) of the same trees.
+- **Same trees checked:** EXP-131 has no NaN-rule retrain; one T-LESS key (obj 12, seed 1) has a second, failed run without a
+  checkpoint, which the evaluator skips (it requires `checkpoints/best.pt`), so the L5 rows evaluate exactly the fitted trees.
+- **LL caveat (stated before the results):** the L6 / L7 soft targets (1.25 / 0.63 deg) are narrower than the fitted sigma
+  (2.75 deg), so the deeper trees may be over-confident; LL can then come in below the calibrated prediction, or fall, while the
+  rotation error improves.
+- **Model check that needs no new trees** (greedy truncation of the depth-5 trees, `outputs/theory/truncation_test_*.json`):
+  depth-4 predicted vs measured mean 12.81 vs 12.62 (T-LESS), 12.40 vs 12.38 (YCB-V); R@10 72.1 vs 73.5, 77.6 vs 78.1; R@2 is
+  over-predicted at coarse depths (YCB-V depth 4: 4.0 vs 2.4). This tests the model's shape, not depth-invariance of the in-mode error.
 
 ## Results
 _Not run yet._

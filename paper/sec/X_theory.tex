@@ -44,7 +44,7 @@ $r_L$ (exact, over all cell corners) & 81.79 & 46.83 & 24.43 & 12.36 & 6.20 & 3.
 \bottomrule
 \end{tabular}}
 \end{center}
-Both halve per level from level 2 on, to within 1\% [measured].
+Per level, $\bar m_L$ halves to within 2\% from level 2 on and $r_L$ to within 1.2\% from level 4 on [measured].
 
 % -----------------------------------------------------------------------------------------------------------------------------
 \subsection{Central Result: Selection and Resolution}
@@ -69,10 +69,6 @@ and $R_L(\tau)\ge\pi\,\Pr(e_\infty\le\tau-r_L)+(1-\pi)P_{\mathrm{sel}}(e\le\tau)
 and $R_L(\tau)\le\pi\,\Pr(e_\infty\le\tau+r_L)+(1-\pi)P_{\mathrm{sel}}(e\le\tau)$.
 \item[(iii)] \emph{Selection errors are invariant to depth.} No choice of $L$ changes the fraction $1-\pi$ of images or their errors;
 in particular, depth cannot remove flips.
-\item[(iv)] \emph{Saturation.} If $w$ is isotropic Gaussian with per-axis standard deviation $\sigma$ and the quantisation offset is
-independent of $w$ with $\mathbb E\|u\|^2\propto\bar m_L^2$, then $\mathbb E[e_L\mid\text{in mode}]-\mathbb E[e_\infty]=O(\bar m_L^2/\sigma)$
-once $\bar m_L\ll\sigma$: the gain of a further level falls by a factor of about four per level. Depth stops paying at
-$L^\ast\approx\log_2(78.5^\circ/\sigma)$, where $\bar m_L=\sigma$.
 \end{itemize}
 \end{theorem}
 
@@ -80,11 +76,16 @@ $L^\ast\approx\log_2(78.5^\circ/\sigma)$, where $\bar m_L=\sigma$.
 point $q\Exp(w)$ lie in one cell, so $d(c,q\Exp(w))\le r_L$. For every $s$, the triangle inequality gives
 $d(c,qs)\le d(q\Exp(w),qs)+r_L$ and $d(q\Exp(w),qs)\le d(c,qs)+r_L$; minimising over $s$ gives $|e_L-e_\infty|\le r_L$. Taking
 expectations over in-mode images gives the bounds on $E_L$, and the recall bounds follow from
-$\{e_\infty\le\tau-r_L\}\subseteq\{e_L\le\tau\}\subseteq\{e_\infty\le\tau+r_L\}$. (iii) is Assumption M. (iv) Write
-$e_L=\|w+u\|$ to first order, with $u$ the quantisation offset in the tangent space; expanding $\mathbb E\|w+u\|$ around
-$\mathbb E\|w\|$ for $\|u\|\ll\|w\|$, the linear term vanishes because $u$ has zero mean given $w$ (approximately, by the
-symmetry of the cell about its centre) and the quadratic term is $O(\mathbb E\|u\|^2/\sigma)$, with $\mathbb E\|u\|^2\propto\bar m_L^2$, which falls
-by four per level. \hfill$\square$
+$\{e_\infty\le\tau-r_L\}\subseteq\{e_L\le\tau\}\subseteq\{e_\infty\le\tau+r_L\}$. (iii) is Assumption M. \hfill$\square$
+
+\paragraph{Remark 1 (saturation) [heuristic].}
+Write $e_L\approx\|w+u\|$ with $u$ the quantisation offset in the tangent space. The offset is a deterministic function of
+$q\Exp(w)$, not independent noise, but if it behaves like zero-mean noise of mean square $\propto\bar m_L^2$, then for
+$\bar m_L\ll\mathbb E\|w\|$ the linear term of $\mathbb E\|w+u\|$ vanishes and the in-mode mean error exceeds $\mathbb E\|w\|$ by
+$O(\bar m_L^2/\sigma)$: the gain in the \emph{mean} of a further level falls by about four per level. Depth stops paying for
+the mean at $L^\ast$ where $\bar m_L=\mathbb E\|w\|$, $L^\ast=\log_2(78.5^\circ/\mathbb E\|w\|)$, with $\mathbb E\|w\|=1.60\,\sigma$ for
+Gaussian $w$ of per-axis deviation $\sigma$. This argument does not apply to recall at thresholds comparable to $r_L$,
+which a finer grid moves directly.
 
 \paragraph{Reading.}
 The theorem separates what depth can and cannot do. Depth moves in-mode errors by at most $r_L$ ($6.20^\circ$ at $L=5$,
@@ -93,13 +94,15 @@ method acts on $\pi$, which is why the paper is organised around selection. Fitt
 depth-5 test errors of all 30 T-LESS and 21 YCB-V objects (EXP-131, DINOv3, per object, least squares on the empirical
 distribution function below $12^\circ$) gives $\sigma=2.75^\circ$ per axis and $\pi=0.863$ (T-LESS, orbit) and
 $\sigma=2.75^\circ$, $\pi=0.868$ (YCB-V, greedy), object-balanced [measured]. The fit reproduces the depth-5 recalls exactly
-by construction; it is the depth sweep that tests it. With $\sigma=2.75^\circ$, $L^\ast\approx4.8$: our trees sit at the
-saturation depth.
+by construction; it is the depth sweep that tests it. With $\sigma=2.75^\circ$, $\mathbb E\|w\|=4.4^\circ$ and $L^\ast\approx4.2$: for
+the mean error and for R@10, our depth-5 trees are past the saturation depth; for R@2 and R@5, whose thresholds are comparable to
+$r_5=6.20^\circ$, they are not (\cref{sec:supp_theory_scaling}).
 
-\paragraph{Remark 1 (SPEED+ per level).}
+\paragraph{Remark 2 (SPEED+ per level).}
 EXP-050 truncated one SPEED+ tree at levels 3, 4 and 5. Its synthetic validation errors were $11.5^\circ$, $7.27^\circ$ and
 $5.54^\circ$, against grid means of $10.0^\circ$, $5.0^\circ$ and $2.5^\circ$. In quadrature,
-$\sqrt{E_L^2-\bar m_L^2}=5.7^\circ,5.3^\circ,4.9^\circ$: a nearly depth-independent in-mode term, as Assumption M states.
+$\sqrt{E_L^2-\bar m_L^2}=5.7^\circ,5.3^\circ,4.9^\circ$. This uses the total mean, flips included, and drifts by 15\% over two levels
+while the grid term falls by four, which is roughly what Assumption M states.
 On real lightbox images the error barely changed from level 4 to 5 ($27.8^\circ\to26.9^\circ$). By \cref{thm:decomp}(iii) this
 is what a selection-dominated error does: the real-domain error of that tree was mostly flips (\cref{sec:spp}).
 
@@ -114,14 +117,16 @@ by level 2, and one above $2r_3=48.9^\circ$ by level 3.
 \noindent\emph{Proof.} Two rotations in one depth-$\ell$ cell are both within $r_\ell$ of its centre, hence within $2r_\ell$ of
 each other. \hfill$\square$
 
-\noindent The proposition is a necessary condition; how early the trees actually leave the correct path is measured. For
-the test predictions with error above $30^\circ$ (T-LESS orbit, 1619 image--seed pairs; YCB-V greedy, 969), the first level at
-which the predicted path differs from the path of the nearest equivalent ground truth is the chart in 60.5\% and 76.2\%, level 1
-in 27.7\% and 16.6\%, level 2 in 10.2\% and 7.0\%, level 3 in 1.7\% and 0.2\%, and never level 4 or 5 [measured]. Selection is
-therefore a decision among at most $4\cdot8^2=256$ cells, trained on every image, whereas a flat classifier over the same
-$131{,}072$ leaves has to make it among all leaves at once. This is our explanation of EXP-127, where a flat classifier on the
-identical leaves reaches $5.34^\circ$ against the tree's $3.87^\circ$ under the same recipe [heuristic]: per class, the level-$\ell$
-decision sees $n/(4\cdot8^{\ell})$ training images, about $8^{5-\ell}$ times as many as a flat leaf.
+\noindent For the test predictions with error above $30^\circ$ (T-LESS orbit, 1619 image--seed pairs; YCB-V greedy, 969), the
+first level at which the predicted path leaves the path of the nearest equivalent ground truth is the chart in 60.5\% and 76.2\%,
+level 1 in 27.7\% and 16.6\%, level 2 in 10.2\% and 7.0\%, level 3 in 1.7\% and 0.2\%, and never a deeper level [measured]. A
+geometric null, the ground truth rotated by the same angle about a random axis, gives almost the same distribution (58.2, 28.5,
+10.9, 2.3\% and 77.1, 18.8, 3.6, 0.5\%). The early divergence is therefore a consequence of the size of the errors, not evidence
+about the tree. What the proposition does establish is that for 98--99.8\% of these errors the wrong decision is one among at
+most $4\cdot8^2=256$ cells. A tree trains each such decision on every image, and a flat classifier over the same 131{,}072
+leaves has to make it among all leaves at once. We suggest this as the reason for EXP-127, where a flat classifier on the
+identical leaves reaches $5.34^\circ$ against the tree's $3.87^\circ$ under the same recipe [heuristic]: a level-$\ell$ cell receives
+on average $n/(4\cdot8^{\ell})$ training images, about $8^{5-\ell}$ times as many as a flat leaf.
 
 \begin{proposition}[Multi-path targets]\label{prop:multipath}
 Let $T(q)$ be the soft target of \cref{sec:tree} at $q$, $T_{\mathrm{multi}}(q)=\frac{1}{|\mathcal S|}\sum_sT(qs)$ the
@@ -155,9 +160,10 @@ $10.71^\circ$ against $9.25^\circ$ for single labels).
 Let $I_k$ be the crop rolled by $\theta_k$, $z_k=\varphi(I_k)$, and $p_k$ the tree's distribution in view $k$, mapped back to the
 original frame.
 \begin{itemize}
-\item[(a)] \emph{Information.} Each $I_k$ is a function of $I$, but $z_k$ is not a function of $z_0$, because the frozen backbone and the
-pooling are not roll-equivariant. Hence the Bayes risk given $(z_0,\dots,z_{K-1})$ can be lower than that given $z_0$: orbit
-voting is the only component of the method that changes what the frozen backbone delivers. A single-view student
+\item[(a)] \emph{Information.} Let $z_k$ collect the features of all branches in use. Each $I_k$ is a function of $I$, but $z_k$ is
+not a function of $z_0$, because the frozen backbones and the pooling are not roll-equivariant. Hence the Bayes risk given
+$(z_0,\dots,z_{K-1})$ can be lower than that given $z_0$: for a fixed set of backbones, orbit voting is the only component of the
+method that changes what they deliver. A single-view student
 (\cref{sec:distill}) sees only $z_0$, so it can recover the part of the orbit gain that is estimation error, but not the part that
 is information, even with unlimited data.
 \item[(b)] \emph{Pooling bound.} For the normalised geometric pool $\bar p\propto\prod_kp_k^{1/K}$ and every pose $y$,
@@ -204,27 +210,27 @@ $d\big(R_{\mathrm{ray}}(\hat t),R_{\mathrm{ray}}(t)\big)$, for every image and e
 apply the triangle inequality to the error against each equivalent ground truth and minimise over $\mathcal S$. \hfill$\square$
 
 \noindent With the predicted translations of EXP-131, $d(R_{\mathrm{ray}}(\hat t),R_{\mathrm{ray}}(t))$ has mean $0.07^\circ$
-(95th percentile $0.16^\circ$, maximum $0.56^\circ$) on T-LESS and $0.10^\circ$ ($0.26^\circ$, $1.12^\circ$) on YCB-V [measured].
+(95th percentile $0.16^\circ$, maximum $0.56^\circ$) on T-LESS and $0.10^\circ$ ($0.24^\circ$, $0.58^\circ$) on YCB-V (seed 0) [measured].
 The bound explains why EXP-129 found that predicted translation changes the mean rotation error by at most $0.01^\circ$: the
 largest possible per-image change is a fraction of a degree, and its sign varies between images.
 
 % -----------------------------------------------------------------------------------------------------------------------------
 \subsection{Remarks}
 
-\paragraph{Remark 2 (frozen features bound what the heads can reach).}
+\paragraph{Remark 3 (frozen features bound what the heads can reach).}
 Every head conditions on $z=\varphi(I)$, so the gap to fine-tuned methods has two parts: the information that $\varphi$ discards,
 which only training the backbone recovers, and the heads' estimation error, which our components reduce. On the same frozen
 DINOv3 features the heads close 30--58\% of the gap between a frozen baseline and LoRA fine-tuning (\cref{sec:ft}); in this
-reading that is the estimation part. Orbit voting is the exception of \cref{prop:orbit}(a): it changes $z$ without training $\varphi$
-[heuristic].
+reading that is the estimation part. Orbit voting is the exception of \cref{prop:orbit}(a): it changes $z$ without training $\varphi$, as does adding a second
+backbone [heuristic].
 
-\paragraph{Remark 3 (product of experts).}
+\paragraph{Remark 4 (product of experts).}
 The per-level PoE adds the log-probabilities of the two branches. It is the posterior given both features if the features are
 conditionally independent given the path prefix, and it then counts the prior twice, by the algebra of \cref{prop:orbit}(c).
 Fusion can only help selection if the branches' errors fall on different modes. We have not measured how often they do, and this
 remark does not explain why fusion helps on SPEED+ and T-LESS but not on SYMSOL-T and YCB-V.
 
-\paragraph{Remark 4 (distillation and orbit voting).}
+\paragraph{Remark 5 (distillation and orbit voting).}
 By \cref{prop:orbit}(a), a single-view student cannot retain the information part of the orbit gain, which is consistent with
 the measured retention of 13--43\% on SPEED+. A student trained towards the orbit teacher also makes the four views agree more,
 which leaves the vote less to correct; this is consistent with the slightly worse SYMSOL-T orbit system after distillation
@@ -246,6 +252,15 @@ For the log-likelihood at the ground truth (EXP-131 protocol) we additionally as
 same $\sigma$ around its estimate; the in-mode change is then $\pi\,\big(\mathbb E\log P(\text{GT leaf})-\mathbb E\log\mathrm{vol}(\text{GT leaf})\big)\big|^{L}_{5}$.
 The leaf volume falls by 8 per level, so a tree whose in-mode mass stays in one leaf gains $\ln8=2.08$ nats per level; once
 cells are smaller than $\sigma$, the mass spreads over several leaves and the gain vanishes.
+
+\paragraph{A test that needs no new trees [measured].}
+Greedy decoding is sequential, so the depth-$\ell$ prefix of a depth-5 greedy leaf is exactly the tree's greedy depth-$\ell$
+decision. Fitting $(\pi,\sigma)$ on the depth-5 greedy test errors and predicting the truncated trees with the formula above gives,
+object-balanced, at depth 4: T-LESS mean $12.81^\circ$ against $12.62^\circ$ measured, R@5 25.0 against 28.1, R@10 72.1 against 73.5;
+YCB-V $12.40^\circ$ against $12.38^\circ$, 27.9 against 28.7, 77.6 against 78.1. At depth 3 the means are $16.27^\circ$ against
+$15.79^\circ$ and $16.00^\circ$ against $16.30^\circ$. The model over-predicts R@2 at coarse depths (YCB-V depth 4: 4.0 against 2.4).
+This tests the shape of the model and the simulation, not the assumption that separately trained deeper trees keep the
+same $W$; only the depth sweep tests that.
 
 \paragraph{Prediction for EXP-132 [predicted].}
 Fitted on the EXP-131 depth-5 test errors of the same trees that EXP-132 re-evaluates at depth 5, and stated before any depth-6 or
@@ -269,7 +284,9 @@ YCB-V, 21 (greedy)  & 5 (measured) & $11.05^\circ$ & 7.9 & 49.8 & 83.6 & 0\\
 The law predicts most of the gain at depth 6, at the tight thresholds (R@2, R@5), almost none at R@10 and in the share of gross
 errors, and a log-likelihood gain far below $\ln8$ per level. If the depth-6 and depth-7 trees learn a smaller in-mode error than
 the depth-5 trees, the measured gains will exceed these; if their deeper levels learn worse, as they see fewer images per
-cell, the gains will fall short. Either outcome is reported against this table. SYMSOL-T is not predicted: the depth-5
+cell, the gains will fall short. The log-likelihood prediction is the least secure: the depth-6 and depth-7 soft targets are
+$1.25^\circ$ and $0.63^\circ$ wide, narrower than $\sigma$, so the deeper trees may be over-confident, and their log-likelihood can
+then fall short of the calibrated prediction, or fall, while their rotation error improves. Either outcome is reported against this table. SYMSOL-T is not predicted: the depth-5
 evaluation of its trees did not save per-image errors.
 
 \paragraph{Views [heuristic].}
@@ -282,7 +299,7 @@ should capture most of the gain. Evaluating $K=2,4,8$ on existing trees would te
 \subsection{Scope and Observations That Do Not Fit}
 \begin{itemize}
 \item \emph{Assumption M is a model.} It is fitted ($\sigma,\pi$ per object) and tested only by the depth sweep. Gaussian $w$ is
-used only for (iv) and for the prediction; (i)--(iii) do not need it. The log-likelihood prediction also needs calibration.
+used only for Remark 1 and for the prediction; \cref{thm:decomp} does not need it. The log-likelihood prediction also needs calibration.
 \item \emph{Proposition 1 is a necessary condition.} That wrong predictions leave the correct path at the chart in most cases is
 measured, not implied.
 \item \emph{Tree against flat.} The sample-count argument after \cref{prop:toplevels} is a heuristic. A data-scaling experiment
@@ -290,6 +307,6 @@ measured, not implied.
 \item \emph{Orbit voting.} \Cref{prop:orbit}(b) concerns the normalised pool, not the arg-max we report, and the cause of the
 worse rolled views on YCB-V is not tested. On T-LESS test the rolled views are also somewhat worse than view 0 (R@10 about 4
 points lower), yet voting helps; the condition is necessary for harm, not sufficient.
-\item \emph{Unexplained.} Why geometry fusion helps only on two benchmarks (Remark 3), and why the information and estimation parts of the
-orbit gain have the sizes they have (Remark 4).
+\item \emph{Unexplained.} Why geometry fusion helps only on two benchmarks (Remark 4), and why the information and estimation parts of the
+orbit gain have the sizes they have (Remark 5).
 \end{itemize}
