@@ -1,0 +1,295 @@
+% ===== Supplement (DRAFT, not \input yet): a theory of mode selection for hierarchical heads on frozen features =====
+% Numbers: outputs/theory/{theory_checks.json, exp132_prediction_*.json}; scripts/theory_checks.py, scripts/theory_depth_prediction.py.
+% Cell radii: exact, over all cell corners (script inline in the 2026-11-20 session; reproduced by tfpose.tesseract.cell_corners).
+% Tags: [proved] exact statement with proof; [measured] number from our runs; [predicted] stated before the data exist; [heuristic].
+\makeatletter
+\@ifundefined{theorem}{\newtheorem{theorem}{Theorem}}{}
+\@ifundefined{proposition}{\newtheorem{proposition}{Proposition}}{}
+\@ifundefined{corollary}{\newtheorem{corollary}{Corollary}}{}
+\makeatother
+
+\section{Why Selection Dominates: A Theory of the Design}
+\label{sec:supp_theory}
+
+The title of the paper is a claim: with frozen features and small heads, the error of a rotation estimate is mostly the error
+of \emph{selecting a mode}, not of locating the pose within the right mode. This section makes that claim precise and derives
+the design from it. \Cref{thm:decomp}, the central result, splits the error of a tesseract tree into a \emph{selection}
+term and a \emph{resolution} term and gives the exact effect of the tree depth on each. The propositions then place every
+component of the method on one of the two terms: the hierarchy decides selection in its first levels
+(\cref{prop:toplevels}), multi-path targets are the only targets of the three we use that are both symmetry-invariant and
+consistent with the roll (\cref{prop:multipath}), orbit voting changes the information the frozen backbone delivers and has
+a measurable failure condition (\cref{prop:orbit}), and the allocentric conversion is insensitive to translation error
+(\cref{prop:allo}). \Cref{sec:supp_theory_scaling} turns \cref{thm:decomp} into a scaling law in the depth, which we state as a
+prediction for the depth sweep (EXP-132) before any depth-6 or depth-7 tree was evaluated. Each statement is tagged
+\emph{proved}, \emph{measured}, \emph{predicted} or \emph{heuristic}, and each is followed by the number that tests it.
+
+\paragraph{Setting.}
+A crop $I$ shows an object with rotation $q\in SO(3)$ (allocentric where \cref{sec:method} uses it) and right-acting symmetry
+group $\mathcal S$ (continuous symmetries discretised), so $q$ and $qs$, $s\in\mathcal S$, produce the same image. The error
+is $e(\hat q,q)=\min_{s\in\mathcal S} d(\hat q,qs)$ with $d$ the geodesic angle. The frozen backbone delivers $z=\varphi(I)$;
+every head is a function of $z$ only, so its risk is at least the Bayes risk given $z$, which is at least that given $I$
+(data processing). A depth-$L$ tree returns the centre of a cell of the depth-$L$ tesseract partition. We write
+$\bar m_L$ for the mean own-cell error over Haar rotations and $r_L$ for the largest distance from a cell centre to a point of
+its cell. The angle to a fixed quaternion is quasi-convex on each cell (the cell lifts to a convex polytope in $\mathbb R^4$
+and $\{v:\angle(v,a)\le\theta\}$ is a convex cone for $\theta<90^\circ$), so $r_L$ is attained at a cell corner and we
+computed it exactly over all corners:
+
+\begin{center}\scriptsize\setlength{\tabcolsep}{4pt}\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lccccccc@{}}
+\toprule
+level $L$ & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
+\midrule
+$\bar m_L$ (mean, $2\!\times\!10^6$ Haar samples) & 39.27 & 19.95 & 10.01 & 5.01 & 2.51 & 1.25 & 0.63\\
+$r_L$ (exact, over all cell corners) & 81.79 & 46.83 & 24.43 & 12.36 & 6.20 & 3.10 & 1.55\\
+\bottomrule
+\end{tabular}}
+\end{center}
+Both halve per level from level 2 on, to within 1\% [measured].
+
+% -----------------------------------------------------------------------------------------------------------------------------
+\subsection{Central Result: Selection and Resolution}
+
+\paragraph{Assumption M (two-term model).}
+For a fixed object, crop distribution and trained tree, with probability $\pi$ the image is \emph{in mode}: the returned leaf
+is the depth-$L$ cell that contains $q\,\Exp(w)$, where $w\in\mathbb R^3$ is a learned error with a law $W$ that does not depend
+on $L$. Otherwise the tree makes a \emph{selection error}, whose error law $P_{\mathrm{sel}}$ does not depend on $L$ either.
+The model makes one substantive claim, that depth changes only the quantisation of an otherwise fixed in-mode estimate. Its
+parameters are fitted, not derived, and the depth sweep tests it (\cref{sec:supp_theory_scaling}).
+
+\begin{theorem}[Selection--resolution decomposition]\label{thm:decomp}
+Under Assumption M, let $E_L$ be the mean error and $R_L(\tau)$ the recall at $\tau$ of the depth-$L$ tree, and let $e_\infty=e(q\Exp(w),q)\le\|w\|$
+be the in-mode error without quantisation.
+\begin{itemize}
+\item[(i)] \emph{Decomposition.} $E_L=\pi\,\mathbb E[e_L\mid\text{in mode}]+(1-\pi)\,\mathbb E_{P_{\mathrm{sel}}}[e]$, and only the first term depends on $L$.
+\item[(ii)] \emph{Depth acts only on resolution, by at most $\pi r_L$.} For every $L$, $|e_L-e_\infty|\le r_L$ for in-mode images, so
+\[
+|E_L-E_\infty|\le\pi\,r_L,\qquad |E_{L+1}-E_L|\le\pi\,(r_L+r_{L+1}),
+\]
+and $R_L(\tau)\ge\pi\,\Pr(e_\infty\le\tau-r_L)+(1-\pi)P_{\mathrm{sel}}(e\le\tau)$
+and $R_L(\tau)\le\pi\,\Pr(e_\infty\le\tau+r_L)+(1-\pi)P_{\mathrm{sel}}(e\le\tau)$.
+\item[(iii)] \emph{Selection errors are invariant to depth.} No choice of $L$ changes the fraction $1-\pi$ of images or their errors;
+in particular, depth cannot remove flips.
+\item[(iv)] \emph{Saturation.} If $w$ is isotropic Gaussian with per-axis standard deviation $\sigma$ and the quantisation offset is
+independent of $w$ with $\mathbb E\|u\|^2\propto\bar m_L^2$, then $\mathbb E[e_L\mid\text{in mode}]-\mathbb E[e_\infty]=O(\bar m_L^2/\sigma)$
+once $\bar m_L\ll\sigma$: the gain of a further level falls by a factor of about four per level. Depth stops paying at
+$L^\ast\approx\log_2(78.5^\circ/\sigma)$, where $\bar m_L=\sigma$.
+\end{itemize}
+\end{theorem}
+
+\noindent\emph{Proof.} (i) is the law of total expectation with Assumption M. (ii) In mode, the returned centre $c$ and the
+point $q\Exp(w)$ lie in one cell, so $d(c,q\Exp(w))\le r_L$. For every $s$, the triangle inequality gives
+$d(c,qs)\le d(q\Exp(w),qs)+r_L$ and $d(q\Exp(w),qs)\le d(c,qs)+r_L$; minimising over $s$ gives $|e_L-e_\infty|\le r_L$. Taking
+expectations over in-mode images gives the bounds on $E_L$, and the recall bounds follow from
+$\{e_\infty\le\tau-r_L\}\subseteq\{e_L\le\tau\}\subseteq\{e_\infty\le\tau+r_L\}$. (iii) is Assumption M. (iv) Write
+$e_L=\|w+u\|$ to first order, with $u$ the quantisation offset in the tangent space; expanding $\mathbb E\|w+u\|$ around
+$\mathbb E\|w\|$ for $\|u\|\ll\|w\|$, the linear term vanishes because $u$ has zero mean given $w$ (approximately, by the
+symmetry of the cell about its centre) and the quadratic term is $O(\mathbb E\|u\|^2/\sigma)$, with $\mathbb E\|u\|^2\propto\bar m_L^2$, which falls
+by four per level. \hfill$\square$
+
+\paragraph{Reading.}
+The theorem separates what depth can and cannot do. Depth moves in-mode errors by at most $r_L$ ($6.20^\circ$ at $L=5$,
+$3.10^\circ$ at $L=6$); it cannot repair a flip, because a flip is an error of the other term. Every other component of the
+method acts on $\pi$, which is why the paper is organised around selection. Fitting Assumption M with Gaussian $w$ to the
+depth-5 test errors of all 30 T-LESS and 21 YCB-V objects (EXP-131, DINOv3, per object, least squares on the empirical
+distribution function below $12^\circ$) gives $\sigma=2.75^\circ$ per axis and $\pi=0.863$ (T-LESS, orbit) and
+$\sigma=2.75^\circ$, $\pi=0.868$ (YCB-V, greedy), object-balanced [measured]. The fit reproduces the depth-5 recalls exactly
+by construction; it is the depth sweep that tests it. With $\sigma=2.75^\circ$, $L^\ast\approx4.8$: our trees sit at the
+saturation depth.
+
+\paragraph{Remark 1 (SPEED+ per level).}
+EXP-050 truncated one SPEED+ tree at levels 3, 4 and 5. Its synthetic validation errors were $11.5^\circ$, $7.27^\circ$ and
+$5.54^\circ$, against grid means of $10.0^\circ$, $5.0^\circ$ and $2.5^\circ$. In quadrature,
+$\sqrt{E_L^2-\bar m_L^2}=5.7^\circ,5.3^\circ,4.9^\circ$: a nearly depth-independent in-mode term, as Assumption M states.
+On real lightbox images the error barely changed from level 4 to 5 ($27.8^\circ\to26.9^\circ$). By \cref{thm:decomp}(iii) this
+is what a selection-dominated error does: the real-domain error of that tree was mostly flips (\cref{sec:spp}).
+
+% -----------------------------------------------------------------------------------------------------------------------------
+\subsection{Propositions: Where Each Component Acts}
+
+\begin{proposition}[Selection is decided at the top of the tree]\label{prop:toplevels}
+If $e(\hat q,q)>2r_\ell$, the depth-$\ell$ prefix of $\hat q$ differs from that of every equivalent pose $qs$.
+In particular, an error above $2r_1=163.6^\circ$ is decided at the root (the chart) or level 1, one above $2r_2=93.7^\circ$
+by level 2, and one above $2r_3=48.9^\circ$ by level 3.
+\end{proposition}
+\noindent\emph{Proof.} Two rotations in one depth-$\ell$ cell are both within $r_\ell$ of its centre, hence within $2r_\ell$ of
+each other. \hfill$\square$
+
+\noindent The proposition is a necessary condition; how early the trees actually leave the correct path is measured. For
+the test predictions with error above $30^\circ$ (T-LESS orbit, 1619 image--seed pairs; YCB-V greedy, 969), the first level at
+which the predicted path differs from the path of the nearest equivalent ground truth is the chart in 60.5\% and 76.2\%, level 1
+in 27.7\% and 16.6\%, level 2 in 10.2\% and 7.0\%, level 3 in 1.7\% and 0.2\%, and never level 4 or 5 [measured]. Selection is
+therefore a decision among at most $4\cdot8^2=256$ cells, trained on every image, whereas a flat classifier over the same
+$131{,}072$ leaves has to make it among all leaves at once. This is our explanation of EXP-127, where a flat classifier on the
+identical leaves reaches $5.34^\circ$ against the tree's $3.87^\circ$ under the same recipe [heuristic]: per class, the level-$\ell$
+decision sees $n/(4\cdot8^{\ell})$ training images, about $8^{5-\ell}$ times as many as a flat leaf.
+
+\begin{proposition}[Multi-path targets]\label{prop:multipath}
+Let $T(q)$ be the soft target of \cref{sec:tree} at $q$, $T_{\mathrm{multi}}(q)=\frac{1}{|\mathcal S|}\sum_sT(qs)$ the
+multi-path target of \cref{eq:symloss}, and $T_{\mathrm{can}}(q)=T(\kappa(q))$ the canonical target, with $\kappa(q)$ the
+member of $\{qs\}$ closest to the identity. For a roll $\rho=\Exp(-\theta d)$ acting on the left (\cref{eq:roll}):
+\begin{itemize}
+\item[(a)] $T_{\mathrm{multi}}(qs')=T_{\mathrm{multi}}(q)$ for every $s'\in\mathcal S$ (invariance), and $T_{\mathrm{multi}}(\rho q)=\rho_\ast T_{\mathrm{multi}}(q)$
+(equivariance), exactly, because $(\rho q)s=\rho(qs)$.
+\item[(b)] $T_{\mathrm{can}}$ is invariant but not equivariant: $\kappa(\rho q)\ne\rho\,\kappa(q)$ whenever the roll moves the closest-to-identity member
+to another member, which for a nontrivial $\mathcal S$ happens on a set of positive measure. For Haar-random poses and a $90^\circ$ roll, $\kappa(\rho q)\ne\rho\,\kappa(q)$ for 49\% of poses with a 2-fold and 91\% with a 4-fold symmetry axis ($2\times10^5$ samples) [measured].
+\item[(c)] The multi-path loss is the single-label loss averaged over the annotated member, $\mathcal L_{\mathrm{sym}}(q)=\mathbb E_{s\sim U(\mathcal S)}\mathcal L_{\mathrm{GT}}(qs)$.
+If the annotated member is uniform on $\mathcal S$ given the image, both losses have the same expectation and the same minimiser, and the
+multi-path loss is its Rao--Blackwellised, lower-variance version. If it is not, as with a fixed object frame and a non-uniform
+pose distribution, the single-label minimiser is the posterior of the dataset's annotation convention, which no image determines.
+\end{itemize}
+\end{proposition}
+\noindent\emph{Proof.} (a) Associativity of the quaternion product, and invariance of the average over a group under
+right multiplication by a group element. (b) $\kappa$ depends on the distance of each member to the identity, which the left
+roll changes; for a nontrivial $\mathcal S$ the region where two members are equally close to the identity is a hypersurface,
+and a roll by $\theta\ne0$ carries a set of positive measure across it. (c) Linearity of expectation; the variance statement is
+the Rao--Blackwell inequality applied to the gradient. \hfill$\square$
+
+\noindent Orbit voting maps a candidate from view $k$ back with $\rho^{-1}$ and scores it in every view
+(\cref{eq:orbit}). With a canonical tree, the mapped-back candidate is in general a non-canonical member, to which the
+other views assign almost no mass; by (a), a multi-path tree assigns it the same mass as the member it came from. This is the
+mechanism we propose for the measured interaction of EXP-106 [measured, mechanism heuristic]: canonical labels help a single view
+but break orbit voting (SYMSOL-T orbit $9.73^\circ$ against $2.07^\circ$ for multi-path targets; T-LESS validation orbit
+$10.71^\circ$ against $9.25^\circ$ for single labels).
+
+\begin{proposition}[Orbit voting]\label{prop:orbit}
+Let $I_k$ be the crop rolled by $\theta_k$, $z_k=\varphi(I_k)$, and $p_k$ the tree's distribution in view $k$, mapped back to the
+original frame.
+\begin{itemize}
+\item[(a)] \emph{Information.} Each $I_k$ is a function of $I$, but $z_k$ is not a function of $z_0$, because the frozen backbone and the
+pooling are not roll-equivariant. Hence the Bayes risk given $(z_0,\dots,z_{K-1})$ can be lower than that given $z_0$: orbit
+voting is the only component of the method that changes what the frozen backbone delivers. A single-view student
+(\cref{sec:distill}) sees only $z_0$, so it can recover the part of the orbit gain that is estimation error, but not the part that
+is information, even with unlimited data.
+\item[(b)] \emph{Pooling bound.} For the normalised geometric pool $\bar p\propto\prod_kp_k^{1/K}$ and every pose $y$,
+$-\log\bar p(y)\le\frac1K\sum_k-\log p_k(y)$, with equality if and only if all $p_k$ are equal. The pool is never worse in log-loss
+than the \emph{average} view, but it can be worse than view 0 when the rolled views are worse than view 0.
+\item[(c)] \emph{Prior.} If $p_k(c)\propto\ell_k(c)\,p(c)$ with a common prior, the score $s(c)=\sum_k\log p_k(c)$ counts the prior $K$ times.
+\end{itemize}
+\end{proposition}
+\noindent\emph{Proof.} (a) As stated; the Bayes risk can only decrease when conditioning on more variables. (b) By the
+inequality of arithmetic and geometric means, $Z=\sum_y\prod_kp_k(y)^{1/K}\le\sum_y\frac1K\sum_kp_k(y)=1$, so
+$-\log\bar p(y)=\frac1K\sum_k-\log p_k(y)+\log Z\le\frac1K\sum_k-\log p_k(y)$. (c) Algebra. \hfill$\square$
+
+\noindent The statements concern the normalised pool and the score, not the arg-max over 32 candidates that we report, and
+not the weighted vote. They give a measurable condition for when voting can hurt: the rolled views must be worse than the
+unrolled one. We measured each view's best beam candidate, mapped back, on the EXP-131 depth-5 trees [measured]:
+
+\begin{center}\scriptsize\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}llcccc@{}}
+\toprule
+& & \multicolumn{2}{c}{view 0} & \multicolumn{2}{c}{views 1--3}\\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}
+Dataset & split & mean & R@10 & mean & R@10\\
+\midrule
+T-LESS (30) & val & $8.67^\circ$ & 79.5 & $8.74$--$8.86^\circ$ & 79.2--79.4\\
+            & test & $13.56^\circ$ & 77.3 & $14.64$--$14.78^\circ$ & 72.9--74.3\\
+YCB-V (21)  & val & $8.00^\circ$ & 84.0 & $11.79$--$12.18^\circ$ & 62.7--64.2\\
+            & test & $9.06^\circ$ & 83.6 & $11.45$--$12.39^\circ$ & 64.2--67.9\\
+\bottomrule
+\end{tabular}
+\end{center}
+On T-LESS validation the four views are equally good and voting lowers the error ($8.54^\circ\to6.84^\circ$). On YCB-V the
+rolled views lose about 20 points of R@10, and voting raises the validation error ($7.58^\circ\to8.71^\circ$), as on the paper's
+six objects (EXP-122). On the YCB-V test set the mean nonetheless falls ($11.05^\circ\to9.54^\circ$), because voting removes some
+gross errors (above $90^\circ$: 2.9\% $\to$ 1.9\%) while it loses fine accuracy (R@5 49.8\% $\to$ 45.1\%). Why rolled YCB-V
+views are worse we have not tested; household objects filmed upright give the tree an orientation prior that rolling breaks,
+and (c) shows that the score then counts a misplaced prior four times [heuristic].
+
+\begin{proposition}[Allocentric conversion]\label{prop:allo}
+Let the egocentric estimate be $R_{\mathrm{ray}}(t)\hat A$, with $\hat A$ the allocentric estimate and $R_{\mathrm{ray}}$ the minimal
+rotation taking the optical axis to the ray of $t$. Replacing $t$ by $\hat t$ changes the egocentric error by at most
+$d\big(R_{\mathrm{ray}}(\hat t),R_{\mathrm{ray}}(t)\big)$, for every image and every symmetry set.
+\end{proposition}
+\noindent\emph{Proof.} The geodesic distance is bi-invariant, so $d(R_{\mathrm{ray}}(\hat t)\hat A,R_{\mathrm{ray}}(t)\hat A)=d(R_{\mathrm{ray}}(\hat t),R_{\mathrm{ray}}(t))$;
+apply the triangle inequality to the error against each equivalent ground truth and minimise over $\mathcal S$. \hfill$\square$
+
+\noindent With the predicted translations of EXP-131, $d(R_{\mathrm{ray}}(\hat t),R_{\mathrm{ray}}(t))$ has mean $0.07^\circ$
+(95th percentile $0.16^\circ$, maximum $0.56^\circ$) on T-LESS and $0.10^\circ$ ($0.26^\circ$, $1.12^\circ$) on YCB-V [measured].
+The bound explains why EXP-129 found that predicted translation changes the mean rotation error by at most $0.01^\circ$: the
+largest possible per-image change is a fraction of a degree, and its sign varies between images.
+
+% -----------------------------------------------------------------------------------------------------------------------------
+\subsection{Remarks}
+
+\paragraph{Remark 2 (frozen features bound what the heads can reach).}
+Every head conditions on $z=\varphi(I)$, so the gap to fine-tuned methods has two parts: the information that $\varphi$ discards,
+which only training the backbone recovers, and the heads' estimation error, which our components reduce. On the same frozen
+DINOv3 features the heads close 30--58\% of the gap between a frozen baseline and LoRA fine-tuning (\cref{sec:ft}); in this
+reading that is the estimation part. Orbit voting is the exception of \cref{prop:orbit}(a): it changes $z$ without training $\varphi$
+[heuristic].
+
+\paragraph{Remark 3 (product of experts).}
+The per-level PoE adds the log-probabilities of the two branches. It is the posterior given both features if the features are
+conditionally independent given the path prefix, and it then counts the prior twice, by the algebra of \cref{prop:orbit}(c).
+Fusion can only help selection if the branches' errors fall on different modes. We have not measured how often they do, and this
+remark does not explain why fusion helps on SPEED+ and T-LESS but not on SYMSOL-T and YCB-V.
+
+\paragraph{Remark 4 (distillation and orbit voting).}
+By \cref{prop:orbit}(a), a single-view student cannot retain the information part of the orbit gain, which is consistent with
+the measured retention of 13--43\% on SPEED+. A student trained towards the orbit teacher also makes the four views agree more,
+which leaves the vote less to correct; this is consistent with the slightly worse SYMSOL-T orbit system after distillation
+[heuristic; view agreement before and after distillation is not yet measured].
+
+% -----------------------------------------------------------------------------------------------------------------------------
+\subsection{Scaling Laws}
+\label{sec:supp_theory_scaling}
+
+\paragraph{Depth.}
+Under Assumption M with Gaussian $w$, the depth-$L$ error follows from the depth-5 error and the fitted $(\pi,\sigma)$, exactly
+within the model:
+\[
+E_L=E_5+\pi\big(\mathbb E[e_L]-\mathbb E[e_5]\big)_{\text{in mode}},\qquad
+R_L(\tau)=R_5(\tau)+\pi\big(\Pr(e_L\le\tau)-\Pr(e_5\le\tau)\big)_{\text{in mode}},
+\]
+with the in-mode terms simulated with the exact tesseract encoder, per object, at that object's test poses and symmetry set.
+For the log-likelihood at the ground truth (EXP-131 protocol) we additionally assume that the tree's in-mode density is calibrated, a Gaussian of the
+same $\sigma$ around its estimate; the in-mode change is then $\pi\,\big(\mathbb E\log P(\text{GT leaf})-\mathbb E\log\mathrm{vol}(\text{GT leaf})\big)\big|^{L}_{5}$.
+The leaf volume falls by 8 per level, so a tree whose in-mode mass stays in one leaf gains $\ln8=2.08$ nats per level; once
+cells are smaller than $\sigma$, the mass spreads over several leaves and the gain vanishes.
+
+\paragraph{Prediction for EXP-132 [predicted].}
+Fitted on the EXP-131 depth-5 test errors of the same trees that EXP-132 re-evaluates at depth 5, and stated before any depth-6 or
+depth-7 tree was evaluated (object-balanced, DINOv3; test split):
+
+\begin{center}\scriptsize\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}llccccc@{}}
+\toprule
+Dataset (mode) & $L$ & mean & R@2 & R@5 & R@10 & $\Delta$LL vs.\ $L5$\\
+\midrule
+T-LESS, 30 (orbit)  & 5 (measured) & $10.90^\circ$ & 6.1 & 48.7 & 83.8 & 0\\
+                    & 6 & $10.47^\circ$ & 8.5 & 57.1 & 84.7 & $+0.27$\\
+                    & 7 & $10.34^\circ$ & 9.4 & 59.6 & 84.9 & $+0.42$\\
+\midrule
+YCB-V, 21 (greedy)  & 5 (measured) & $11.05^\circ$ & 7.9 & 49.8 & 83.6 & 0\\
+                    & 6 & $10.62^\circ$ & 10.9 & 57.8 & 84.4 & $+0.31$\\
+                    & 7 & $10.51^\circ$ & 11.9 & 59.7 & 84.6 & $+0.44$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The law predicts most of the gain at depth 6, at the tight thresholds (R@2, R@5), almost none at R@10 and in the share of gross
+errors, and a log-likelihood gain far below $\ln8$ per level. If the depth-6 and depth-7 trees learn a smaller in-mode error than
+the depth-5 trees, the measured gains will exceed these; if their deeper levels learn worse, as they see fewer images per
+cell, the gains will fall short. Either outcome is reported against this table. SYMSOL-T is not predicted: the depth-5
+evaluation of its trees did not save per-image errors.
+
+\paragraph{Views [heuristic].}
+If the per-view log-likelihood margins between the true mode and a flip had mean $\mu>0$, variance $v$ and pairwise correlation
+$\rho$, the probability that the flip wins the sum over $K$ views would fall as $\exp\!\big(-K_{\mathrm{eff}}\mu^2/2v\big)$ with
+$K_{\mathrm{eff}}=K/(1+(K-1)\rho)$, which saturates at $1/\rho$. Rolled views of one crop are strongly correlated, so few views
+should capture most of the gain. Evaluating $K=2,4,8$ on existing trees would test this; we have not done so.
+
+% -----------------------------------------------------------------------------------------------------------------------------
+\subsection{Scope and Observations That Do Not Fit}
+\begin{itemize}
+\item \emph{Assumption M is a model.} It is fitted ($\sigma,\pi$ per object) and tested only by the depth sweep. Gaussian $w$ is
+used only for (iv) and for the prediction; (i)--(iii) do not need it. The log-likelihood prediction also needs calibration.
+\item \emph{Proposition 1 is a necessary condition.} That wrong predictions leave the correct path at the chart in most cases is
+measured, not implied.
+\item \emph{Tree against flat.} The sample-count argument after \cref{prop:toplevels} is a heuristic. A data-scaling experiment
+(training on subsets) would test it; we have not run one.
+\item \emph{Orbit voting.} \Cref{prop:orbit}(b) concerns the normalised pool, not the arg-max we report, and the cause of the
+worse rolled views on YCB-V is not tested. On T-LESS test the rolled views are also somewhat worse than view 0 (R@10 about 4
+points lower), yet voting helps; the condition is necessary for harm, not sufficient.
+\item \emph{Unexplained.} Why geometry fusion helps only on two benchmarks (Remark 3), and why the information and estimation parts of the
+orbit gain have the sizes they have (Remark 4).
+\end{itemize}

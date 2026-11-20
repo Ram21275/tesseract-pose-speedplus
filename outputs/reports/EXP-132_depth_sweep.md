@@ -49,5 +49,34 @@ The training itself is ~2 min per tree; a faster cache layout would cut this to 
 ## Commands
 `scripts/run_queue23.sh`: T-LESS queue waits for the EXP-131 T-LESS queue; YCB-V then SYMSOL-T waits for the EXP-131 YCB-V queue.
 
+## Amendment 2026-11-20 (before any depth-6 or depth-7 evaluation): model prediction
+Added after the queue had started training (EXP-131 done; EXP-132 at T-LESS seed 0, object 25), before any `depth_sweep_eval` or
+`depth_sweep_ll` output existed. It changes nothing in the protocol; it adds a prediction to compare the results against.
+- **Model** (Assumption M of the theory draft `paper/sec/X_theory.tex`): per object, a fraction pi of test images is in mode, with
+  leaf = the depth-L cell containing q_gt Exp(w), w ~ N(0, sigma^2 I) per axis, and the rest are selection errors whose law does not
+  depend on L. (pi, sigma) are fitted per object on the depth-5 test errors (least squares on the empirical CDF, 0.5-12 deg);
+  depth L then changes the mean / recall by pi x (simulated in-mode change, exact tesseract encoder, the object's test poses and
+  symmetry set), and LL by pi x the in-mode change of log P(GT leaf) - log vol(GT leaf) under a calibrated Gaussian density.
+- **Inputs:** EXP-131 eval predictions of the same depth-5 trees (`RUN-20261119-200618-seed0` T-LESS orbit_product,
+  `RUN-20261119-221129-seed0` YCB-V greedy). Code `scripts/theory_depth_prediction.py`; outputs
+  `outputs/theory/exp132_prediction_{tlessall_orbit,ycbvall_greedy}.json` (MC seed 0).
+- **Fit:** T-LESS sigma 2.75 deg, pi 0.863; YCB-V sigma 2.75 deg, pi 0.868 (object-balanced).
+- **Prediction** (test, object-balanced, DINOv3; L5 row = measured):
+
+| dataset (mode) | L | mean | R@2 | R@5 | R@10 | dLL vs L5 |
+|---|---|---|---|---|---|---|
+| T-LESS (orbit) | 5 | 10.90 | 6.1 | 48.7 | 83.8 | 0 |
+| | 6 | 10.47 | 8.5 | 57.1 | 84.7 | +0.27 |
+| | 7 | 10.34 | 9.4 | 59.6 | 84.9 | +0.42 |
+| YCB-V (greedy) | 5 | 11.05 | 7.9 | 49.8 | 83.6 | 0 |
+| | 6 | 10.62 | 10.9 | 57.8 | 84.4 | +0.31 |
+| | 7 | 10.51 | 11.9 | 59.7 | 84.6 | +0.44 |
+
+- Monte Carlo spread between two runs of the script: up to 0.2 points in recall and 0.04 nats in LL.
+- The EXP-132 L5 rows use `--pose-t gt` and the trans=none runs (same trees); the L5 rows above come from EXP-131 with predicted
+  translation for the frame conversion, a difference EXP-129 measured as <= 0.01 deg.
+- **SYMSOL-T is not predicted:** its depth-5 evaluation did not save per-image errors.
+- **Comparison rule:** all predicted values are reported next to the measured ones whatever they are; no criterion.
+
 ## Results
 _Not run yet._
